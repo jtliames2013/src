@@ -1,0 +1,160 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <string>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <unordered_set>
+#include <map>
+
+using namespace std;
+
+/**
+ * Definition for binary tree
+ */
+struct TreeNode {
+     int val;
+     TreeNode *left;
+     TreeNode *right;
+     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ };
+
+/**
+ * Definition for singly-linked list.
+ */
+struct ListNode {
+     int val;
+     ListNode *next;
+     ListNode(int x) : val(x), next(NULL) {}
+ };
+
+/**
+ * Definition for undirected graph.
+ * */
+struct UndirectedGraphNode {
+    int label;
+    vector<UndirectedGraphNode *> neighbors;
+    UndirectedGraphNode(int x) : label(x) {};
+};
+
+/**
+ * Definition for binary tree with next pointer.
+ */
+struct TreeLinkNode {
+  int val;
+  TreeLinkNode *left, *right, *next;
+  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+};
+
+1. At each node level, process its children
+
+class Solution {
+public:
+	TreeNode* traversal(TreeNode* node)
+	{
+		TreeNode* last=NULL;
+		if (node==NULL) return last;
+		if (node->left==NULL && node->right==NULL) return node;
+		else if (node->left==NULL)
+		{
+			return traversal(node->right);
+		}
+		else if (node->right==NULL)
+		{
+			node->right = node->left;
+			node->left=NULL;
+			return traversal(node->right);
+		}
+		else
+		{
+			TreeNode* l=traversal(node->left);
+			TreeNode* r=traversal(node->right);
+			l->right=node->right;
+			node->right=node->left;
+			node->left=NULL;
+			return r;
+		}
+	}
+
+    void flatten(TreeNode *root) {
+    	if (root==NULL) return;
+
+    	traversal(root);
+    }
+};
+
+2. At each node level, pass a parent down so that no need to handle children
+/**
+
+ * Definition for a binary tree node.
+
+ * struct TreeNode {
+
+ *     int val;
+
+ *     TreeNode *left;
+
+ *     TreeNode *right;
+
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+
+ * };
+
+ */
+
+class Solution {
+
+public:
+
+    void getFlat(TreeNode* node, TreeNode* prev, TreeNode** last) {
+
+        if (node==NULL) return;
+
+        if (prev) prev->right=node;
+
+        *last=node;
+
+        TreeNode *l=node->left;
+
+        TreeNode *r=node->right;
+
+        
+
+        if (l) {
+
+            getFlat(l, node, last);
+
+            node->left=NULL;
+
+        }
+
+        
+
+        if (r) {
+
+            getFlat(r, *last, last);
+
+        }
+
+    }
+
+    
+
+    void flatten(TreeNode* root) {
+
+        TreeNode* tmp;
+
+        TreeNode** last=&tmp;
+
+        getFlat(root, NULL, last);
+
+    }
+
+};
+
+int main()
+{
+	return 0;
+}
+

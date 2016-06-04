@@ -1,0 +1,130 @@
+记忆化搜索。
+
+设dis[i][j]为当前点出发最大上升路径的值。初始设置为0，表示该点未知，需要更新。
+
+再次碰到的时候只需要返回该值即可。
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <string>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <list>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <algorithm>
+#include <limits.h>
+#include <math.h>
+#include <iostream>
+
+using namespace std;
+
+/**
+ * Definition for binary tree
+ */
+struct TreeNode {
+     int val;
+     TreeNode *left;
+     TreeNode *right;
+     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ };
+
+/**
+ * Definition for singly-linked list.
+ */
+struct ListNode {
+     int val;
+     ListNode *next;
+     ListNode(int x) : val(x), next(NULL) {}
+ };
+
+/**
+ * Definition for undirected graph.
+ * */
+struct UndirectedGraphNode {
+    int label;
+    vector<UndirectedGraphNode *> neighbors;
+    UndirectedGraphNode(int x) : label(x) {};
+};
+
+/**
+ * Definition for binary tree with next pointer.
+ */
+struct TreeLinkNode {
+  int val;
+  TreeLinkNode *left, *right, *next;
+  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+};
+
+/**
+ * Definition for an interval.
+*/
+ struct Interval {
+      int start;
+      int end;
+      Interval() : start(0), end(0) {}
+      Interval(int s, int e) : start(s), end(e) {}
+ };
+
+  // Definition for a point.
+  struct Point {
+       int x;
+       int y;
+       Point() : x(0), y(0) {}
+       Point(int a, int b) : x(a), y(b) {}
+  };
+
+  class Solution {
+  public:
+	  int findPath(vector<vector<int> >& matrix, vector<vector<int> >& dp, int rIdx, int cIdx) {
+		  if (dp[rIdx][cIdx]) return dp[rIdx][cIdx];
+
+		  int row=matrix.size();
+		  int col=matrix[0].size();
+
+		  if (rIdx>0 && matrix[rIdx-1][cIdx]>matrix[rIdx][cIdx]) {
+			  dp[rIdx][cIdx]=max(dp[rIdx][cIdx], findPath(matrix, dp, rIdx-1, cIdx));
+		  }
+
+		  if (cIdx>0 && matrix[rIdx][cIdx-1]>matrix[rIdx][cIdx]) {
+			  dp[rIdx][cIdx]=max(dp[rIdx][cIdx], findPath(matrix, dp, rIdx, cIdx-1));
+		  }
+
+		  if (rIdx<row-1 && matrix[rIdx+1][cIdx]>matrix[rIdx][cIdx]) {
+			  dp[rIdx][cIdx]=max(dp[rIdx][cIdx], findPath(matrix, dp, rIdx+1, cIdx));
+		  }
+
+		  if (cIdx<col-1 && matrix[rIdx][cIdx+1]>matrix[rIdx][cIdx]) {
+			  dp[rIdx][cIdx]=max(dp[rIdx][cIdx], findPath(matrix, dp, rIdx, cIdx+1));
+		  }
+
+		  return ++dp[rIdx][cIdx];
+	  }
+
+      int longestIncreasingPath(vector<vector<int>>& matrix) {
+    	  int maxPath=0;
+    	  int row=matrix.size();
+    	  if (row==0) return 0;
+    	  int col=matrix[0].size();
+    	  if (col==0) return 0;
+		  vector<vector<int> > dp(row, vector<int>(col, 0));
+
+    	  for (int i=0; i<row; i++) {
+    		  for (int j=0; j<col; j++) {
+    			  int localmax=findPath(matrix, dp, i, j);
+    			  maxPath=max(localmax, maxPath);
+    		  }
+    	  }
+
+    	  return maxPath;
+      }
+  };
+
+int main()
+{
+	return 0;
+}
+
