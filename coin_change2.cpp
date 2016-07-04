@@ -1,3 +1,23 @@
+322. Coin Change 
+You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+
+Example 1:
+coins = [1, 2, 5], amount = 11
+return 3 (11 = 5 + 5 + 1)
+
+Example 2:
+coins = [2], amount = 3
+return -1.
+
+Note:
+You may assume that you have an infinite number of each kind of coin.
+
+解法II：广度优先搜索（BFS）
+
+参考：https://leetcode.com/discuss/76432/fast-python-bfs-solution
+
+将问题转化为求X轴0点到坐标点amount的最短距离（每次向前行进的合法距离为coin的面值）
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

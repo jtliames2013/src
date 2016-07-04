@@ -1,0 +1,122 @@
+220. Contains Duplicate III 
+Given an array of integers, find out whether there are two distinct indices i and j in the array such that the difference between nums[i] and nums[j] is at most t and the difference between i and j is at most k.
+
+Hide Company Tags Palantir Airbnb
+Hide Tags Binary Search Tree
+Hide Similar Problems (E) Contains Duplicate (E) Contains Duplicate II
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <string>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <unordered_set>
+#include <map>
+#include <algorithm>
+#include <limits.h>
+#include <math.h>
+
+using namespace std;
+
+/**
+ * Definition for binary tree
+ */
+struct TreeNode {
+     int val;
+     TreeNode *left;
+     TreeNode *right;
+     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ };
+
+/**
+ * Definition for singly-linked list.
+ */
+struct ListNode {
+     int val;
+     ListNode *next;
+     ListNode(int x) : val(x), next(NULL) {}
+ };
+
+/**
+ * Definition for undirected graph.
+ * */
+struct UndirectedGraphNode {
+    int label;
+    vector<UndirectedGraphNode *> neighbors;
+    UndirectedGraphNode(int x) : label(x) {};
+};
+
+/**
+ * Definition for binary tree with next pointer.
+ */
+struct TreeLinkNode {
+  int val;
+  TreeLinkNode *left, *right, *next;
+  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+};
+
+class Solution {
+public:
+	long long abs(long long a, long long b) {
+		return a>b? a-b : b-a;
+	}
+
+    bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
+    	map<int, int> m;
+    	for (int i=0; i<nums.size(); i++) {
+    		if (t==0) {
+    			auto res=m.find(nums[i]);
+    			if (res!=m.end()) {
+    				if (i-(*res).second<=k) return true;
+    			}
+    			m[nums[i]]=i;
+    		} else {
+    			auto res=m.find(nums[i]/t);
+    			if (res!=m.end()) {
+					if (abs(nums[i], nums[(*res).second])<=t && i-(*res).second<=k) return true;
+				}
+
+    			res=m.find(nums[i]/t-1);
+    			if (res!=m.end()) {
+    				if (abs(nums[i], nums[(*res).second])<=t && i-(*res).second<=k) return true;
+    			}
+
+    			res=m.find(nums[i]/t+1);
+    			if (res!=m.end()) {
+    				if (abs(nums[i], nums[(*res).second])<=t && i-(*res).second<=k) return true;
+    			}
+
+    			m[nums[i]/t]=i;
+    		}
+    	}
+
+    	return false;
+    }
+};
+
+2.
+这道题跟之前两道Contains Duplicate 包含重复值和Contains Duplicate II 包含重复值之二的关联并不是很大，前两道起码跟重复值有关，这道题的焦点不是在重复值上面，反而是关注与不同的值之间的关系，这里有两个限制条件，两个数字的坐标差不能大于k，值差不能大于t。这道题如果用brute force会超时，所以我们只能另辟蹊径。这里我们使用map数据结构来解,用来记录数字和其下标之间的映射。 这里需要两个指针i和j，刚开始i和j都指向0，然后i开始向右走遍历数组，如果i和j之差大于k，且m中有nums[j]，则删除并j加一。这样保证了m中所有的数的下标之差都不大于k，然后我们用map数据结构的lower_bound()函数来找一个特定范围，就是大于或等于nums[i] - t的地方，所有小于这个阈值的数和nums[i]的差的绝对值会大于t (可自行带数检验)。然后检测后面的所有的数字，如果数的差的绝对值小于等于t，则返回true。最后遍历完整个数组返回false。代码如下：
+
+class Solution {
+public:
+    bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
+        set<int> st;
+        
+        for (int i=0; i<nums.size(); i++) {
+            auto l=st.lower_bound(nums[i]-t);
+            if (l!=st.end() && abs(*l-nums[i])<=t) return true;
+            st.insert(nums[i]);
+            if (st.size()>k) st.erase(nums[i-k]);
+        }
+        
+        return false;
+    }
+};
+
+int main()
+{
+	return 0;
+}
+

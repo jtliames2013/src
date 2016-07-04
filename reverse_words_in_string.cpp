@@ -111,6 +111,106 @@ public:
     }
 };
 
+2.
+class Solution {
+
+public:
+
+    void reverse(string &s, int start, int end) {
+
+        while (start<end) {
+
+            char tmp=s[start];
+
+            s[start]=s[end];
+
+            s[end]=tmp;
+
+            start++;
+
+            end--;
+
+        }
+
+    }
+
+    void reverseWords(string &s) {
+
+        int size=s.size();
+
+        reverse(s, 0, size-1);
+
+        
+
+        bool started=false;
+
+        int startIdx=0;
+
+        for (int i=0; i<size; i++) {
+
+            if (s[i]==' ') {
+
+                if (started) {
+
+                    reverse(s, startIdx, i-1);
+
+                    started=false;
+
+                }
+
+            } else {
+
+                if (!started) {
+
+                    started=true;
+
+                    startIdx=i;
+
+                }
+
+            }
+
+        }
+
+        
+
+        if (started) {
+
+            reverse(s, startIdx, size-1);
+
+        }
+
+        
+
+        while (*s.begin()==' ') s.erase(s.begin());
+
+        while (s.back()==' ') s.pop_back();
+
+        
+
+        int end=0;
+
+        for (int i=0; i<s.size(); i++) {
+
+            if (s[i]!=' ' || s[i-1]!=' ') {
+
+                s[end]=s[i];
+
+                end++;
+
+            }
+
+        }
+
+        
+
+        s.resize(end);
+
+    }
+
+};
+
+
 int main()
 {
 	return 0;

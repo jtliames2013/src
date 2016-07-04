@@ -1,5 +1,10 @@
 1D DP. DP size n+1. allocate matrix to cache isPalindrome result. 
 
+整体的思路是一维DP。DP[i]表示长度为i的prefix：s[0: i-1]的min cut数量。
+DP[i] = min (DP[j] + 1) ，对所有 0<=j<i，且s[j: i-1]为palindrome。
+和I同样的技巧，用DP先计算存储一个palindrome判断矩阵isPal[i][j]，便于后面一维DP计算中能迅速判断s[j: i-1]是否为palindrome。
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

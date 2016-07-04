@@ -110,6 +110,100 @@ public:
     }
 };
 
+2.
+class Solution {
+
+public:
+
+    void bfs(vector<vector<char>>& grid, vector<vector<bool>>& visited, int i, int j, int m, int n) {
+
+        int delta[4][2]={{1,0}, {-1,0}, {0,1}, {0,-1}};    
+
+        queue<pair<int,int>> q;
+
+        q.push(make_pair(i, j));
+
+        visited[i][j]=true;
+
+        
+
+        while (!q.empty()) {
+
+            pair<int,int> f=q.front();
+
+            q.pop();
+
+            
+
+            for (int k=0; k<4; k++) {
+
+                int x=f.first+delta[k][0];
+
+                int y=f.second+delta[k][1];
+
+                
+
+                if (x>=0 && x<m && y>=0 && y<n && visited[x][y]==false) {
+
+                    if (grid[x][y]=='1') {
+
+                        q.push(make_pair(x,y));
+
+                        visited[x][y]=true;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    
+
+    int numIslands(vector<vector<char>>& grid) {
+
+        int m=grid.size();
+
+        if (m==0) return 0;
+
+        int n=grid[0].size();
+
+        if (n==0) return 0;
+
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
+
+        int num=0;
+
+        
+
+        for (int i=0; i<m; i++) {
+
+            for (int j=0; j<n; j++) {
+
+                if (grid[i][j]=='1' && visited[i][j]==false) {
+
+                    bfs(grid, visited, i, j, m, n);
+
+                    num++;
+
+                }
+
+            }
+
+        }
+
+        
+
+        return num;
+
+    }
+
+};
+
+
 int main()
 {
 	return 0;

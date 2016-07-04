@@ -143,6 +143,86 @@ struct TreeLinkNode {
    * while (i.hasNext()) cout << i.next();
    */
 
+2. Use stack
+
+class NestedIterator {
+
+public:
+
+    void tryAdvance() {
+
+        while (!stk.empty()) {
+
+            NestedInteger n=stk.top();
+
+            if (n.isInteger()) break;
+
+            else {
+
+                stk.pop();
+
+                vector<NestedInteger> v=n.getList();
+
+                int size=v.size();
+
+                for (int i=size-1; i>=0; i--) {
+
+                    stk.push(v[i]);
+
+                }
+
+            }
+
+        }
+
+    }
+
+    
+
+    NestedIterator(vector<NestedInteger> &nestedList) {
+
+        int size=nestedList.size();
+
+        for (int i=size-1; i>=0; i--) {
+
+            stk.push(nestedList[i]);
+
+        }
+
+        tryAdvance();
+
+    }
+
+
+
+    int next() {
+
+        int res=stk.top().getInteger();
+
+        stk.pop();
+
+        tryAdvance();
+
+        return res;
+
+    }
+
+
+
+    bool hasNext() {
+
+        return stk.size()>0;
+
+    }
+
+private:
+
+    stack<NestedInteger> stk;
+
+};
+
+
+
 int main()
 {
 	return 0;

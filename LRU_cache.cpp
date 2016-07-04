@@ -1,3 +1,12 @@
+146. LRU Cache 
+Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and set.
+
+get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+set(key, value) - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
+
+Hide Company Tags Google Uber Facebook Twitter Zenefits Amazon Microsoft Snapchat Yahoo Bloomberg Palantir
+Hide Tags Design
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -61,57 +70,59 @@ struct TreeLinkNode {
       Interval(int s, int e) : start(s), end(e) {}
  };
 
- class LRUCache{
- public:
-	 struct CacheEntry {
-		 int key;
-		 int value;
-		 CacheEntry(int k, int v) : key(k), value(v) {}
-	 };
-
-	 map<int, list<CacheEntry>::iterator> m_hashtable;
-	 list<CacheEntry> m_list;
-	 int m_size;
-
+class LRUCache{
+public:
+    class CacheEntry {
+    public:    
+        int key;
+        int val;
+        CacheEntry(int k, int v): key(k), val(v) {}
+    };
+    
      LRUCache(int capacity) {
-    	 m_size=capacity;
+    	 size=capacity;
      }
 
      int get(int key) {
-    	 auto iter=m_hashtable.find(key);
-    	 if (iter!=m_hashtable.end()) {
-    		 if (iter->second!=m_list.begin()) {
-    			 m_list.erase(iter->second);
-    			 m_list.push_front(*iter->second);
-    			 m_hashtable[key]=m_list.begin();
-    		 }
-    		 return m_hashtable[key]->value;
-    	 } else {
-    		 return -1;
-    	 }
+         auto iter=table.find(key);
+         if (iter!=table.end()) {
+             if (iter->second!=data.begin()) {
+                 data.erase(iter->second);
+                 data.push_front(*(iter->second));
+                 table[key]=data.begin();
+             }
+             return data.begin()->val;
+         } else {
+             return -1;
+         }
      }
 
      void set(int key, int value) {
-    	 auto iter=m_hashtable.find(key);
-		 if (iter!=m_hashtable.end()) {
-			 if (iter->second!=m_list.begin()) {
-				 m_list.erase(iter->second);
-				 m_list.push_front(*iter->second);
-				 m_hashtable[key]=m_list.begin();
-			 }
-			 m_list.begin()->value=value;
-		 } else {
-			 if (m_list.size()==m_size) {
-				 CacheEntry entry=m_list.back();
-				 m_hashtable.erase(entry.key);
-				 m_list.pop_back();
-			 }
-			 CacheEntry newentry(key, value);
-			 m_list.push_front(newentry);
-			 m_hashtable[key]=m_list.begin();
-		 }
+         auto iter=table.find(key);
+         if (iter!=table.end()) {
+             if (iter->second!=data.begin()) {
+                 data.erase(iter->second);
+                 data.push_front(*(iter->second));
+                 table[key]=data.begin();
+             } 
+             data.begin()->val=value;
+         } else {
+             if (table.size()==size) {
+                int k=data.back().key;
+                table.erase(k);
+                data.pop_back();
+             }
+             CacheEntry elem(key, value);
+             data.push_front(elem);
+             table[key]=data.begin();
+         }
      }
- };
+     
+private:
+    int size;
+    list<CacheEntry> data;
+    map<int, list<CacheEntry>::iterator> table;
+};
 
 int main()
 {

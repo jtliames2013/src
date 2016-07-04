@@ -1,3 +1,16 @@
+273. Integer to English Words 
+Convert a non-negative integer to its english words representation. Given input is guaranteed to be less than 231 - 1.
+
+For example,
+123 -> "One Hundred Twenty Three"
+12345 -> "Twelve Thousand Three Hundred Forty Five"
+1234567 -> "One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven"
+Hint:
+
+Did you see a pattern in dividing the number into chunk of words? For example, 123 and 123000.
+Group the number by thousands (3 digits). You can write a helper function that takes a number less than 1000 and convert just that chunk to words.
+There are many edge cases. What are some good test cases? Does your code work with input such as 0? Or 1000010? (middle chunk is zero and should not be printed out)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -185,6 +198,142 @@ public:
     	}
 
     	return res;
+    }
+};
+
+2.
+
+class Solution {
+public:
+	string getOne(int num) {
+		switch (num) {
+		case 1:
+			return "One";
+		case 2:
+			return "Two";
+		case 3:
+			return "Three";
+		case 4:
+			return "Four";
+		case 5:
+			return "Five";
+		case 6:
+			return "Six";
+		case 7:
+			return "Seven";
+		case 8:
+			return "Eight";
+		case 9:
+			return "Nine";
+		default:
+		    return "";
+		}
+	}
+
+	string getTen(int num) {
+		switch (num) {
+		case 2:
+			return "Twenty";
+		case 3:
+			return "Thirty";
+		case 4:
+			return "Forty";
+		case 5:
+			return "Fifty";
+		case 6:
+			return "Sixty";
+		case 7:
+			return "Seventy";
+		case 8:
+			return "Eighty";
+		case 9:
+			return "Ninety";
+		default:
+		    return "";
+		}
+	}
+
+	string getOneTen(int num) {
+		switch (num) {
+		case 10:
+			return "Ten";
+		case 11:
+			return "Eleven";
+		case 12:
+			return "Twelve";
+		case 13:
+			return "Thirteen";
+		case 14:
+			return "Fourteen";
+		case 15:
+			return "Fifteen";
+		case 16:
+			return "Sixteen";
+		case 17:
+			return "Seventeen";
+		case 18:
+			return "Eighteen";
+		case 19:
+			return "Nineteen";
+		default:
+		    return "";
+		}
+	}
+
+    string getScale(int scale) {
+        if (scale==1000000000) return "Billion";
+        else if (scale==1000000) return "Million";
+        else if (scale==1000) return "Thousand";
+        else return "";
+    }
+    
+    string convertThreeDigit(int part) {
+        string res;
+        int digit=part/100;
+        if (digit>0) {
+            res+=getOne(digit)+" Hundred";
+        }
+        part%=100;
+        digit=part/10;
+        if (digit>0) {
+            if (res.size()>0) res+=" ";
+            if (digit==1) {
+                res+=getOneTen(part);
+                return res;
+            } else {
+                res+=getTen(digit);
+            }
+        }
+        
+        part%=10;
+        if (part>0) {
+            if (res.size()>0) res+=" ";
+            res+=getOne(part);
+        }
+        
+        return res;
+    }
+    
+    string numberToWords(int num) {
+        int scale=1000000000;
+        int part;
+        string res;
+        
+        while (scale>0) {
+            int part=num/scale;
+            if (part>0) {
+                if (res.size()>0) res+=" ";
+                res+=convertThreeDigit(part);
+                if (scale>1) res+=" " + getScale(scale);
+            }
+            
+            num%=scale;
+            scale/=1000;
+        }
+        
+        if (num==0 && res.size()==0) res+="Zero";
+        
+        return res;
     }
 };
 

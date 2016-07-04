@@ -96,6 +96,80 @@ public:
     }
 };
 
+2. 
+
+class Solution {
+
+public:
+
+    bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+
+        // [0, 1] 1 is prerequisite of 0 so 1-->0
+
+        if (numCourses==0) return true;
+
+        vector<unordered_set<int>> outgoingGraph(numCourses);
+
+        vector<int> incomingCount(numCourses, 0);
+
+        
+
+        for (auto p:prerequisites) {
+
+	    // NOTE: pair could be duplicate so check here to avoid incorectly increment count
+            if (outgoingGraph[p.second].find(p.first)==outgoingGraph[p.second].end()) {
+                
+                outgoingGraph[p.second].insert(p.first);
+
+                incomingCount[p.first]++;
+            }
+
+        }
+
+        
+
+        unordered_set<int> st;
+
+        for (int i=0; i<incomingCount.size(); i++) {
+
+            if (incomingCount[i]==0) st.insert(i);
+
+        }
+
+        
+
+        while (!st.empty()) {
+
+            int n=*st.begin();
+
+            st.erase(st.begin());
+
+            for (auto neighbor:outgoingGraph[n]) {
+
+                incomingCount[neighbor]--;
+
+                if (incomingCount[neighbor]==0) st.insert(neighbor);
+
+            }
+
+            outgoingGraph[n].clear();
+
+        }
+
+        
+
+        for (int i=0; i<incomingCount.size(); i++) {
+
+            if (incomingCount[i]>0) return false;
+
+        }
+
+        return true;
+
+  }
+
+};
+
 int main()
 {
 	return 0;

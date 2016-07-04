@@ -1,4 +1,17 @@
-nclude <stdio.h>
+227. Basic Calculator II 
+Implement a basic calculator to evaluate a simple expression string.
+
+The expression string contains only non-negative integers, +, -, *, / operators and empty spaces . The integer division should truncate toward zero.
+
+You may assume that the given expression is always valid.
+
+Some examples:
+"3+2*2" = 7
+" 3/2 " = 1
+" 3+5 / 2 " = 5
+Note: Do not use the eval built-in library function.
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <string>
@@ -50,136 +63,83 @@ struct TreeLinkNode {
   TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
 };
 
-/*
-中缀表达式转为后缀表达式的要点：
-开始扫描；
-
-数字时，加入后缀表达式；
-
-运算符：
-
-a. 若为 '('，入栈；
-
-b. 若为 ')'，则依次把栈中的的运算符加入后缀表达式中，直到出现'('，从栈中删除'(' ；
-
-c. 若为 除括号外的其他运算符， 当其优先级高于除'('以外的栈顶运算符时，直接入栈。否则从栈顶开始，依次弹出比当前处理的运算符优先级高和优先级相等的运算符，直到一个比它优先级低的或者遇到了一个左括号为止。
-·当扫描的中缀表达式结束时，栈中的的所有运算符出栈；
-
-后缀表达式求值的过程简述：
-
-建立一个栈S
-
-从左到右读表达式，如果读到操作数就将它压入栈S中
-
-如果读到n元运算符(即需要参数个数为n的运算符)则取出由栈顶向下的n项按操作符运算，再将运算的结果代替原栈顶的n项，压入栈S中
-
-如果后缀表达式未读完，则重复上面过程，最后输出栈顶的数值则为结束。
-*/
+1. 由于存在运算优先级，我们采取的措施是使用一个栈保存数字，如果该数字之前的符号是加或减，那么把当前数字压入栈中，注意如果是减号，则加入当前数字的相反数，因为减法相当于加上一个相反数。如果之前的符号是乘或除，那么从栈顶取出一个数字和当前数字进行乘或除的运算，再把结果压入栈中，那么完成一遍遍历后，所有的乘或除都运算完了，再把栈中所有的数字都加起来就是最终结果了.
 
 class Solution {
 public:
-	bool isoperator(char c) {
-		return (c=='+' || c=='-' || c=='*' || c=='/');
-	}
-
-	bool isoperator(string s) {
-		return (s.compare("+")==0 || s.compare("-")==0 ||
-				s.compare("*")==0 || s.compare("/")==0);
-	}
-
-	int getPriority(string op) {
-		if (op.compare("+")==0 || op.compare("-")==0) return 0;
-		else if (op.compare("*")==0 || op.compare("/")==0) return 1;
-	}
-
-	bool isparenthesis(char c) {
-		return (c=='(' || c==')');
-	}
-
-	string getNext(string s, int index, int& newIndex) {
-		string next="";
-		int i=index;
-		if (isdigit(s[index])) {
-			while (i<s.size() && isdigit(s[i])) i++;
-			next=s.substr(index,i-index);
-		} else if (isoperator(s[index]) || isparenthesis(s[index])) {
-			i++;
-			next=s.substr(index, i-index);
-		}
-
-		while (i<s.size() && s[i]==' ') i++;
-		newIndex=i;
-
-		return next;
-	}
-
-	vector<string> convertToRPN(string s) {
-		vector<string> res;
-		stack<string> op;
-		int index=0, newIndex=0;
-
-		while (newIndex<s.size()) {
-			string token = getNext(s, index, newIndex);
-
-			if (isdigit(token[0])) {
-				res.push_back(token);
-			} else if (token.compare("(")==0) {
-				op.push(token);
-			} else if (token.compare(")")==0) {
-				while (!op.empty() && op.top().compare("(")!=0) {
-					res.push_back(op.top());
-					op.pop();
-				}
-				op.pop();
-			} else if (isoperator(token)) {
-				while (!op.empty() && op.top().compare("(")!=0 &&
-						getPriority(op.top()) >= getPriority(token)) {
-					res.push_back(op.top());
-					op.pop();
-				}
-				op.push(token);
-			}
-
-			index=newIndex;
-		}
-
-		while (!op.empty()) {
-			res.push_back(op.top());
-			op.pop();
-		}
-
-		return res;
-	}
-
-	int calculate(int n1, int n2, string op) {
-		if (op.compare("+")==0) return n1+n2;
-		else if (op.compare("-")==0) return n1-n2;
-		else if (op.compare("*")==0) return n1*n2;
-		else if (op.compare("/")==0) return n1/n2;
-		else return 0;
-	}
-
-	int evalRPN(vector<string> tokens) {
-		stack<int> stk;
-		for (int i=0; i<tokens.size(); i++) {
-			if (isdigit(tokens[i][0])) {
-				stk.push(atoi(tokens[i].c_str()));
-			} else if (isoperator(tokens[i])) {
-				int num2=stk.top();
-				stk.pop();
-				int num1=stk.top();
-				stk.pop();
-				int res=calculate(num1, num2, tokens[i]);
-				stk.push(res);
-			}
-		}
-
-		return stk.top();
-	}
-
+    bool isDigit(char c) {
+        return (c>='0' && c<='9');
+    }
+    bool isOp(char c) {
+        return (c=='+' || c=='-' || c== '*' || c=='/');
+    }
+    void process(char op, int num, stack<int>& nums) {
+        if (op=='+') {
+            nums.push(num);
+        } else if (op=='-') {
+            nums.push(-num);
+        } else if (op=='*' || op=='/') {
+            int t=nums.top();
+            nums.pop();
+            int sum=(op=='*'?t*num:t/num);
+            nums.push(sum);
+        }
+    }
     int calculate(string s) {
-    	vector<string> tokens = convertToRPN(s);
-    	return evalRPN(tokens);
+        stack<int> nums;
+        int num=0;
+        char op='+';
+        for (int i=0; i<s.size(); i++) {
+            if (isDigit(s[i])) {
+                num=num*10+s[i]-'0';
+            } else if (isOp(s[i])) {
+				// apply previous operator
+                process(op, num, nums);
+                num=0;
+                op=s[i];
+            }
+        }
+        
+        process(op, num, nums);
+
+        int res=0;
+        while (!nums.empty()) {
+            res+=nums.top();
+            nums.pop();
+        }
+        
+        return res;
+    }
+};
+
+2. Use num to remember current number. If operator is * or /, then get next number and apply operator.
+Otherwise, current number can be added or substracted with previous number. (it cannot add or minus next
+number. e.g., 1+2*3)
+class Solution {
+public:
+    int calculate(string s) {
+        int res=0;
+        int num;
+        char op;
+        int sign=1;
+        istringstream iss(s+"+");
+        iss>>num;
+        
+        while (iss>>op) {
+            if (op=='+' || op=='-') {
+                res+=sign*num;
+				// save sign for next time
+                sign=(op=='+'?1:-1);
+                iss>>num;
+            } else {
+                int n;
+                iss>>n;
+                if (op=='*') num*=n;
+                else num/=n;
+            }
+        }
+        
+        return res;
     }
 };
 

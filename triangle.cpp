@@ -38,6 +38,8 @@ struct UndirectedGraphNode {
     UndirectedGraphNode(int x) : label(x) {};
 };
 
+Note: DP, bottom up, one array for the row.
+
 class Solution {
 public:
     int minimumTotal(vector<vector<int> > &triangle) {
@@ -59,6 +61,38 @@ public:
 
     	return min[0];
     }
+};
+
+2.
+
+class Solution {
+
+public:
+
+    int minimumTotal(vector<vector<int>>& triangle) {
+
+        int rows=triangle.size();
+
+        vector<int> minsum(rows+1, 0);
+
+        
+
+        for (int i=rows-1; i>=0; i--) {
+
+            for (int j=0; j<=i; j++) {
+
+                minsum[j]=triangle[i][j]+min(minsum[j],minsum[j+1]);
+
+            }
+
+        }
+
+        
+
+        return minsum[0];
+
+    }
+
 };
 
 int main()

@@ -1,3 +1,26 @@
+269. Alien Dictionary
+There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of words from the dictionary, wherewords are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.
+For example,
+Given the following words in dictionary,
+[
+  "wrt",
+  "wrf",
+  "er",
+  "ett",
+  "rftt"
+]
+The correct order is: "wertf".
+Note:
+1. You may assume all letters are in lowercase.
+2. If the order is invalid, return an empty string.
+3. There may be multiple valid order of letters, return any one of them is fine.
+Hide Company Tags
+ Google Airbnb Facebook Twitter Snapchat Pocket Gems
+Hide Tags
+ Graph Topological Sort
+Hide Similar Problems
+ (M) Course Schedule II
+
 ﻿// ConsoleApplication3.cpp : Defines the entry point for the console application.
 //
 

@@ -38,6 +38,8 @@ struct UndirectedGraphNode {
     UndirectedGraphNode(int x) : label(x) {};
 };
 
+Note: start from and mark the regions that is not surrounded first. Then rest of surrounded region is flipped.
+
 class Solution {
 public:
     void solve(vector<vector<char>> &board) {
@@ -79,6 +81,88 @@ public:
     		}
     	}
     }
+};
+
+2.
+
+class Solution {
+
+public:
+
+    void solve(vector<vector<char>>& board) {
+
+        int m=board.size();
+
+        if (m==0) return;
+
+        int n=board[0].size();
+
+        if (n==0) return;
+
+        
+
+        queue<pair<int,int>> notSurrounded;
+
+        for (int i=0; i<m; i++) {
+
+            if (board[i][0]=='O') { notSurrounded.push(make_pair(i,0)); board[i][0]='Y'; }
+
+            if (board[i][n-1]=='O') { notSurrounded.push(make_pair(i,n-1)); board[i][n-1]='Y'; }
+
+        }
+
+        for (int i=1; i<n-1; i++) {
+
+            if (board[0][i]=='O') { notSurrounded.push(make_pair(0,i)); board[0][i]='Y'; }
+
+            if (board[m-1][i]=='O') { notSurrounded.push(make_pair(m-1,i)); board[m-1][i]='Y'; }
+
+        }
+
+        
+
+        int neighbor[4][2]={{1,0},{-1,0},{0,1},{0,-1}};
+
+        while (!notSurrounded.empty()) {
+
+            pair<int,int> f=notSurrounded.front();
+
+            notSurrounded.pop();
+
+            for (int k=0; k<4; k++) {
+
+                int x=f.first+neighbor[k][0];
+
+                int y=f.second+neighbor[k][1];
+
+                if (x>=0 && x<m && y>=0 && y<n && board[x][y]=='O') {
+
+                    notSurrounded.push(make_pair(x,y));
+
+                    board[x][y]='Y';
+
+                }
+
+            }
+
+        }
+
+        
+
+        for (int i=0; i<m; i++) {
+
+            for (int j=0; j<n; j++) {
+
+                if (board[i][j]=='Y') board[i][j]='O';
+
+                else if (board[i][j]=='O') board[i][j]='X';
+
+            }
+
+        }
+
+    }
+
 };
 
 int main()

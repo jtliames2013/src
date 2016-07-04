@@ -1,0 +1,26 @@
+361. Bomb Enemy 
+Given a 2D grid, each cell is either a wall 'W', an enemy 'E' or empty '0' (the number zero), return the maximum enemies you can kill using one bomb.
+The bomb kills all the enemies in the same row and column from the planted point until it hits the wall since the wall is too strong to be destroyed.
+Note that you can only put the bomb at an empty cell.
+
+Example:
+For the given grid
+
+0 E 0 0
+E 0 W E
+0 E 0 0
+
+return 3. (Placing a bomb at (1,1) kills 3 enemies)
+Credits:
+Special thanks to @memoryless for adding this problem and creating all test cases.
+
+Hide Company Tags Google
+Hide Tags Dynamic Programming
+
+Create a 2D array count, where count[i][j] indicates how many enemies can be bombed if placing a bomb here. For each row/column, use head to keep track of how many enemies can be bombed from the beginning to current position, use tail to record how many enemies can be bombed from the end to current position. Then update count[i][j].
+
+For head, If grid[i][j] == ‘W’, set it to 0; else if grid[i][j] == ‘E’, add 1 to it. Same for tail.
+
+We can combine the updating of head and tail into one loop so that each row/column will only be traversed once.
+
+

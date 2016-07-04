@@ -95,6 +95,88 @@ public:
     }
 };
 
+2.
+
+ class Solution {
+ public:
+	 bool isPalindrome(string& s, int start, int end) {
+		 while (start<end) {
+			 if (s[start]!=s[end]) return false;
+			 start++;
+			 end--;
+		 }
+
+		 return true;
+	 }
+
+	 void findPartition(string& s, vector<vector<string> >& res, vector<string>& part, int start) {
+		 if (start==s.size()) {
+			 res.push_back(part);
+			 return;
+		 }
+
+		 for (int i=start; i<s.size(); i++) {
+			 if (isPalindrome(s, start, i)) {
+				 part.push_back(s.substr(start, i-start+1));
+				 findPartition(s, res, part, i+1);
+				 part.pop_back();
+			 }
+		 }
+	 }
+
+     vector<vector<string>> partition(string s) {
+    	 vector<vector<string> > res;
+    	 vector<string> part;
+
+    	 findPartition(s, res, part, 0);
+
+    	 return res;
+     }
+ };
+
+3. Cache isPalindrome results
+
+class Solution {
+public:
+    void buildIsPalin(string& s, vector<vector<bool>>& isPalin) {
+        for (int i=0; i<s.size(); i++) {
+            for (int j=i; j>=0; j--) {
+                if (i==j) isPalin[j][i]=true;
+                else if (j==i-1 && s[i]==s[j]) isPalin[j][i]=true;
+                else if (j<i-1 && isPalin[j+1][i-1]==true && s[i]==s[j]) isPalin[j][i]=true;
+            }
+        }
+    }
+    
+    void getPartition(vector<vector<string>>& res, vector<string>& part, vector<vector<bool>>& isPalin, string& s, int start) {
+            if (start>=s.size()) {
+                res.push_back(part);
+                return;
+            }
+            
+            for (int i=start; i<s.size(); i++) {
+                if (isPalin[start][i]==true) {
+                    part.push_back(s.substr(start, i-start+1));
+                    getPartition(res, part, isPalin, s, i+1);
+                    part.pop_back();
+                }
+            }
+    }
+    
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> res;
+        vector<string> part;
+        int size=s.size();
+        if (size==0) return res;
+        vector<vector<bool>> isPalin(size, vector<bool>(size, false));
+        buildIsPalin(s, isPalin);
+        
+        getPartition(res, part, isPalin, s, 0);    
+        
+        return res;
+    }
+};
+
 int main()
 {
 	return 0;

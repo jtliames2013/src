@@ -112,6 +112,84 @@ struct TreeLinkNode {
       }
   };
 
+2.
+
+class Solution {
+
+public:
+
+    ListNode* oddEvenList(ListNode* head) {
+
+        ListNode *oddhead=NULL, *oddtail=NULL, *evenhead=NULL, *eventail=NULL;
+
+        ListNode *one=head, *two=head;
+
+        
+
+        while (one!=NULL) {
+
+            if (oddhead==NULL) {
+
+                oddhead=oddtail=one;
+
+            } else {
+
+                oddtail->next=one;
+
+                oddtail=one;
+
+            }
+
+            two=one->next;
+
+            
+
+            if (two!=NULL) {
+
+                if (evenhead==NULL) {
+
+                    evenhead=eventail=two;
+
+                } else {
+
+                    eventail->next=two;
+
+                    eventail=two;
+
+                }
+
+                
+
+                one=two->next;
+
+            } else {
+
+                one=NULL;
+
+            }
+
+        }
+
+        
+
+        if (oddtail!=NULL) {
+
+            oddtail->next=evenhead;
+
+            if (eventail!=NULL) eventail->next=NULL;
+
+            return oddhead;
+
+        } else {
+
+            return evenhead;
+
+        }
+
+    }
+
+};
+
 int main()
 {
 	return 0;

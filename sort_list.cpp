@@ -90,6 +90,106 @@ public:
     }
 };
 
+2.
+
+class Solution {
+
+public:
+
+    ListNode* mergesort(ListNode *head) {
+
+        if (head==NULL) return NULL;
+
+        if (head->next==NULL) return head;
+
+        
+
+        ListNode *one=head, *two=head, *prev=NULL;
+
+        while (two!=NULL) {
+
+            prev=one;
+
+            one=one->next;
+
+            two=two->next;
+
+            if (two!=NULL) two=two->next;
+
+        }
+
+        if (prev!=NULL) prev->next=NULL;
+
+        
+
+        ListNode *l1=mergesort(head);
+
+        ListNode *l2=mergesort(one);
+
+        ListNode *newhead=NULL, *tail=NULL;
+
+        while (l1!=NULL && l2!=NULL) {
+
+            if (l1->val<l2->val) {
+
+                if (newhead==NULL) {
+
+                    newhead=l1;
+
+                    tail=l1;
+
+                } else {
+
+                    tail->next=l1;
+
+                    tail=l1;
+
+                }
+
+                l1=l1->next;
+
+            } else {
+
+                if (newhead==NULL) {
+
+                    newhead=l2;
+
+                    tail=l2;
+
+                } else {
+
+                    tail->next=l2;
+
+                    tail=l2;
+
+                }
+
+                l2=l2->next;
+
+            }
+
+        }
+
+        
+
+        if (l1==NULL) tail->next=l2;
+
+        else tail->next=l1;
+
+        return newhead;
+
+    }
+
+
+
+    ListNode* sortList(ListNode* head) {
+
+        return mergesort(head);
+
+    }
+
+};
+
 int main()
 {
 	return 0;

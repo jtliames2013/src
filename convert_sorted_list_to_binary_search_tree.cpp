@@ -75,6 +75,58 @@ public:
     }
 };
 
+2.
+class Solution {
+
+public:
+
+    TreeNode* sortedListToBST(ListNode* head) {
+
+        if (head==NULL) return NULL;
+
+        ListNode *l1=head, *l2=head, *prev=NULL;
+
+        while (l2!=NULL&&l2->next!=NULL) {
+
+            prev=l1;
+
+            l1=l1->next;
+
+            l2=l2->next->next;
+
+        }
+
+        
+
+        TreeNode *res=new TreeNode(l1->val);
+
+        if (l1==head) head=NULL;
+
+        else prev->next=NULL;
+
+        ListNode *next=l1->next;
+
+        l1->next=NULL;
+
+        TreeNode *l=sortedListToBST(head);
+
+        TreeNode *r=sortedListToBST(next);
+
+        res->left=l;
+
+        res->right=r;
+
+        
+
+        return res;
+
+        
+
+    }
+
+};
+
+
 int main()
 {
 	return 0;

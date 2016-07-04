@@ -82,6 +82,74 @@ public:
     }
 };
 
+2.
+
+class Solution {
+
+public:
+
+    ListNode* swapPairs(ListNode* head) {
+
+        ListNode *one=head, *two, *next;
+
+        ListNode *newhead=NULL, *tail=NULL;
+
+        
+
+        while (one!=NULL) {
+
+            two=one->next;
+
+            if (two!=NULL) {
+
+                next=two->next;
+
+                if (newhead==NULL) {
+
+                    newhead=two;
+
+                } else {
+
+                    tail->next=two;
+
+                }
+
+                two->next=one;
+
+                tail=one;
+
+            } else {
+
+                next=NULL;
+
+                if (newhead==NULL) {
+
+                    newhead=one;
+
+                } else {
+
+                    tail->next=one;
+
+                }
+
+                tail=one;
+
+            }
+
+            one=next;
+
+        }
+
+        if (tail) tail->next=NULL;
+
+        
+
+        return newhead;
+
+    }
+
+};
+
 int main()
 {
 	return 0;

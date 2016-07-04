@@ -38,7 +38,7 @@ NOTE: check if the word is in dictionary. If so, they can have the same abbrevia
 		  abbr.push_back(s[0]);
 		  if (count>0) abbr.append(to_string(count));
 		  if (size>1) abbr.push_back(s[size-1]);
-		  return abbr;
+		  return abbr; 
 	  }
 
       ValidWordAbbr(vector<string> &dictionary) {

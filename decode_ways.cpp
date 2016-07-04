@@ -89,6 +89,49 @@ public:
     }
 };
 
+2.
+class Solution {
+
+public:
+
+    int numDecodings(string s) {
+
+        int size=s.size();
+
+        if (size==0) return 0;
+
+        vector<int> res(size+1, 1);
+
+        if (s[size-1]=='0') res[size-1]=0;
+
+        for (int i=size-2; i>=0; i--) {
+
+            if ((s[i]=='1') || 
+
+                (s[i]=='2' && s[i+1]<='6')) {
+
+                res[i]=res[i+1]+res[i+2];
+
+            } else if (s[i]=='0') {
+
+                res[i]=0;
+
+            } else {
+
+                res[i]=res[i+1];
+
+            }
+
+        }
+
+        
+
+        return res[0];
+
+    }
+
+};
+
 int main()
 {
 	return 0;

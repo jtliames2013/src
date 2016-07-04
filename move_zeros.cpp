@@ -91,6 +91,72 @@ struct TreeLinkNode {
      }
  };
 
+2. Find the first occurrance of 0, it should be exchanged with numbers after it. 
+   Find the the first occurance of nonzero after it. 
+   Exchange zero and nonzero.
+   zero pointer only moves one step because it either exchange with nonzero next after it or number next after it is also zero.
+   nonzero pointer moves to the next nonzero number.
+
+class Solution {
+
+public:
+
+    void swap(vector<int>& nums, int s, int e) {
+
+        int tmp=nums[s];
+
+        nums[s]=nums[e];
+
+        nums[e]=tmp;
+
+    }
+
+    void moveZeroes(vector<int>& nums) {
+
+        int size=nums.size();
+
+        int zero=0, nonzero=0;
+
+        
+
+        while (zero<size) {
+
+            if (nums[zero]==0) break;
+
+            zero++;
+
+        }    
+
+        nonzero=zero+1;
+
+        while (nonzero<size) {
+
+            if (nums[nonzero]!=0) break;
+
+            nonzero++;
+
+        }
+
+        
+
+        if (zero<size) {
+
+            while (nonzero<size) {
+
+                swap(nums, zero, nonzero);
+
+                zero++;
+
+                while (nonzero<size && nums[nonzero]==0) nonzero++;
+
+            }
+
+        }
+
+    }
+
+};
+
 int main()
 {
 	return 0;

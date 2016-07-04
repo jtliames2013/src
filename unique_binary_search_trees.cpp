@@ -64,6 +64,36 @@ public:
     }
 };
 
+2. non-recursive
+
+class Solution {
+
+public:
+
+    int numTrees(int n) {
+
+        if (n==0 || n==1) return 1;
+
+        vector<int> count(n+1, 0);
+
+        count[0]=count[1]=1;
+
+        for(int i=2; i<=n; i++) {
+
+            for (int j=0; j<i; j++) {
+
+                count[i]+=count[j]*count[i-1-j];
+
+            }
+
+        }
+
+        return count[n];
+
+    }
+
+};
+
 int main()
 {
 	return 0;

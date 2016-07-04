@@ -122,6 +122,78 @@ public:
     }
 };
 
+2. Don't return vector of string
+
+class Solution {
+
+public:
+
+    void getIp(vector<string>& res, string& ip, string& s, int index, int numAddr) {
+
+        if (numAddr==4) {
+
+            if (index==s.size()) {
+
+                res.push_back(ip);
+
+                return;
+
+            } else {
+
+                return;
+
+            }
+
+        }
+
+        
+
+        for (int i=index; i<=index+2 && i<s.size(); i++) {
+
+            string str=s.substr(index, i-index+1);
+
+            int num=atoi(str.c_str());
+
+            if (num>=0 && num<=255 && (i==index || s[index]!='0')){
+
+                int len=ip.size();
+
+                if (len>0) {
+
+                    ip.push_back('.');
+
+                }
+
+                ip+=str;
+
+                getIp(res, ip, s, i+1, numAddr+1);
+
+                ip.erase(len, ip.size()-len);
+
+            }
+
+        }
+
+    }
+
+    
+
+    vector<string> restoreIpAddresses(string s) {
+
+        vector<string> res;
+
+        string ip;
+
+        getIp(res, ip, s, 0, 0);
+
+        
+
+        return res;
+
+    }
+
+};
+
 int main()
 {
 	return 0;

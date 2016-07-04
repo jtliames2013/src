@@ -69,6 +69,64 @@ struct TreeLinkNode {
        RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
   };
 
+1. Use mapping between node 
+
+class Solution {
+
+public:
+
+    RandomListNode *copyRandomList(RandomListNode *head) {
+
+        unordered_map<RandomListNode*, RandomListNode*> copyToOrig;
+
+        unordered_map<RandomListNode*, RandomListNode*> origToCopy;
+
+        
+
+        RandomListNode *curr=head;
+
+        RandomListNode *newhead=NULL, *prev=NULL;
+
+        while (curr!=NULL) {
+
+            RandomListNode *n=new RandomListNode(curr->label);
+
+            if (newhead==NULL) newhead=n;
+
+            if (prev!=NULL) prev->next=n;
+
+            prev=n;
+
+            copyToOrig[n]=curr;
+
+            origToCopy[curr]=n;
+
+            curr=curr->next;
+
+        }
+
+        
+
+        curr=newhead;
+
+        while (curr!=NULL) {
+
+            curr->random=copyToOrig[curr]->random==NULL?NULL:origToCopy[copyToOrig[curr]->random];
+
+            curr=curr->next;
+
+        }
+
+        
+
+        return newhead;
+
+    }
+
+};
+
+2. Use no extra space
+
  class Solution {
  public:
      RandomListNode *copyRandomList(RandomListNode *head) {

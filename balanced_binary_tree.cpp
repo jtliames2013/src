@@ -58,6 +58,39 @@ public:
     }
 };
 
+2. Use depth in return value
+class Solution {
+public:
+    struct Element {
+        bool balanced;
+        int depth;
+    };
+    
+    Element checkBalanced(TreeNode *root) {
+        Element res;
+        if (root==NULL) {
+            res.balanced=true;
+            res.depth=0;
+            return res;
+        }
+        
+        Element l=checkBalanced(root->left);
+        Element r=checkBalanced(root->right);
+        
+        res.balanced=false;
+        if (l.balanced && r.balanced && abs(l.depth-r.depth)<=1) {
+            res.balanced=true;
+        }
+        res.depth=max(l.depth, r.depth)+1;
+        
+        return res;
+    }
+    
+    bool isBalanced(TreeNode* root) {
+        Element res=checkBalanced(root);
+        return res.balanced;
+    }
+};
 
 int main()
 {

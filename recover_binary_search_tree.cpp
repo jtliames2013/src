@@ -61,6 +61,9 @@ struct TreeLinkNode {
       Interval(int s, int e) : start(s), end(e) {}
  };
 
+Morris traversal of binary tree without stack.
+http://www.cnblogs.com/AnnieKim/archive/2013/06/15/MorrisTraversal.html
+
  class Solution {
  public:
      void recoverTree(TreeNode* root) {
@@ -125,6 +128,111 @@ struct TreeLinkNode {
                 swap(f1->val, f2->val);
      }
  };
+
+2. inorder traversal with stack, O(logn)
+
+/**
+
+ * Definition for a binary tree node.
+
+ * struct TreeNode {
+
+ *     int val;
+
+ *     TreeNode *left;
+
+ *     TreeNode *right;
+
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+
+ * };
+
+ */
+
+class Solution {
+
+public:
+
+    void recoverTree(TreeNode* root) {
+
+        TreeNode *prev=NULL, *first=NULL, *second=NULL;
+
+        if (root==NULL) return;
+
+        stack<TreeNode*> stk;
+
+        
+
+        TreeNode *n=root;
+
+        while (n!=NULL) {
+
+            stk.push(n);
+
+            n=n->left;
+
+        }
+
+        
+
+        while (!stk.empty()) {
+
+            TreeNode *t=stk.top();
+
+            stk.pop();
+
+            if (prev!=NULL) {
+
+                if (t->val<prev->val) {
+
+                    if (first==NULL) {
+
+                        first=prev;
+
+                        second=t;
+
+                    } else {
+
+                        second=t;
+
+                    }
+
+                }
+
+            }
+
+            prev=t;
+
+            
+
+            n=t->right;
+
+            while (n!=NULL) {
+
+                stk.push(n);
+
+                n=n->left;
+
+            }
+
+        }
+
+        
+
+        if (first && second) {
+
+            int tmp=first->val;
+
+            first->val=second->val;
+
+            second->val=tmp;
+
+        }
+
+    }
+
+};
+
 
 int main()
 {

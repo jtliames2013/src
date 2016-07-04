@@ -89,6 +89,29 @@ struct TreeLinkNode {
     	 else if (small.size()>large.size()) return small.top();
     	 else return large.top();
      }
+
+    double findMean() {
+
+        int sum=0;
+
+        int count=0;
+
+        for (int i=0; i<1001; i++) {
+
+            if (data[i]!=0) {
+
+                count+=data[i];
+
+                sum+=count*i;
+
+            }
+
+        }
+
+        return ((double)sum)/count;
+
+    }
+
  };
 
  // Your MedianFinder object will be instantiated and called as such:

@@ -33,6 +33,7 @@ public:
     	if (head == NULL) return;
 
     	// cut list into half
+	// if there is 2n+1 nodes, one is (n+2)th, the node past the middle
     	ListNode *first = head, *second = head, *prev = NULL;
     	while (second != NULL)
     	{
@@ -56,6 +57,7 @@ public:
     	}
 
     	// interleave prev list into head
+	// l2 is equal to or one less than l1
     	ListNode *l1 = head, *l2 = prev, *l1next, *l2next;
     	while (l2 != NULL)
     	{

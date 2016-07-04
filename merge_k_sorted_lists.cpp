@@ -1,3 +1,6 @@
+23. Merge k Sorted Lists 
+Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -61,7 +64,7 @@ public:
 
     ListNode* mergeKLists(vector<ListNode*>& lists) {
     	priority_queue<ListNode*, vector<ListNode*>,  Compare> pq;
-    	ListNode *head=NULL,*curr=NULL;
+    	ListNode *head=NULL,*tail=NULL;
     	for (int i=0; i<lists.size(); i++) {
     		if (lists[i]!=NULL) pq.push(lists[i]);
     	}
@@ -69,11 +72,10 @@ public:
     	while (!pq.empty()) {
     		ListNode* t=pq.top();
     		if (head==NULL) {
-    			head=t;
-    			curr=t;
+    			head=tail=t;
     		} else {
-    			curr->next=t;
-    			curr=curr->next;
+    			tail->next=t;
+    			tail=t;
     		}
 
     		if (t->next!=NULL) {

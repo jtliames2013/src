@@ -111,6 +111,68 @@ struct TreeLinkNode {
       }
   };
 
+2.
+
+class Solution {
+
+public:
+
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+
+        ListNode *currA, *currB, *n;
+
+        int alen=0, blen=0;
+
+        n=headA;
+
+        while (n!=NULL) { alen++; n=n->next; }
+
+        n=headB;
+
+        while (n!=NULL) { blen++; n=n->next; }
+
+        
+
+        int delta;
+
+        currA=headA;
+
+        currB=headB;
+
+        if (alen>blen) {
+
+            delta=alen-blen;
+
+            while (delta>0) { delta--; currA=currA->next; }
+
+        } else {
+
+            delta=blen-alen;
+
+            while (delta>0) { delta--; currB=currB->next; }
+
+        }
+
+        
+
+        while (currA!=NULL && currB!=NULL) {
+
+            if (currA==currB) return currA;
+
+            currA=currA->next;
+
+            currB=currB->next;
+
+        }
+
+        
+
+        return NULL;
+
+    }
+
+};
+
 int main()
 {
 	return 0;
