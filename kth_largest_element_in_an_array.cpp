@@ -95,6 +95,38 @@ public:
     }
 };
 
+2. in-place
+class Solution {
+public:
+    int partition(vector<int>& nums, int left, int right, int pivotIndex) {
+        int pivotValue=nums[pivotIndex];
+        swap(nums[pivotIndex], nums[right]);
+        int index=left;
+        for (int i=left; i<right; i++) {
+            if (nums[i]>pivotValue) {
+                swap(nums[index], nums[i]);
+                index++;
+            }
+        }
+        swap(nums[right], nums[index]);
+        return index;
+    }
+    
+    int findKthLargest(vector<int>& nums, int k) {
+        int size=nums.size();
+        if (size==0) return 0;
+        int left=0, right=size-1;
+        while (1) {
+            if (left==right) return nums[left];
+            int pivotIndex=rand()%(right-left+1)+left;
+            pivotIndex=partition(nums, left, right, pivotIndex);
+            if (k-1==pivotIndex) return nums[k-1];
+            else if (k-1<pivotIndex) right=pivotIndex-1;
+            else left=pivotIndex+1;
+        }
+    }
+};
+
 int main()
 {
 	return 0;

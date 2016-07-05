@@ -1,3 +1,14 @@
+43. Multiply Strings 
+Given two numbers represented as strings, return multiplication of the numbers as a string.
+
+Note:
+The numbers can be arbitrarily large and are non-negative.
+Converting the input string to integer is NOT allowed.
+You should NOT use internal library such as BigInteger.
+Hide Company Tags Facebook Twitter
+Hide Tags Math String
+Hide Similar Problems (M) Add Two Numbers (E) Plus One (E) Add Binary
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -79,6 +90,8 @@ public:
 
     	if (carry>0) res.push_back('0'+carry);
     	reverse(res.begin(),res.end());
+
+		// while (res.size()>1 && *res.begin()=='0') res.erase(res.begin());
     	int count=0;
     	for (int i=0; i<res.size()-1; i++) {
     		if (res[i]!='0') break;
