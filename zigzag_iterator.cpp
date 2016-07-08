@@ -1,3 +1,4 @@
+281. Zigzag Iterator 
  Given two 1d vectors, implement an iterator to return their elements alternately.
 
 For example, given two 1d vectors:
@@ -126,13 +127,6 @@ struct TreeLinkNode {
       }
   };
 
-  /**
-   * Your ZigzagIterator object will be instantiated and called as such:
-   * ZigzagIterator i(v1, v2);
-   * while (i.hasNext()) cout << i.next();
-   */
-
-
 2. k lists
 
 class ZigzagIterator {
@@ -176,6 +170,61 @@ private:
     int row;
     int size;
 };
+
+3. Implement remove() that remove the previous next
+class ZigzagIterator {
+public:
+    void tryAdvance() {
+        int currRow=row;
+        while (1) {
+            if (idx[row]<lists[row].size()) break;
+            row=(row+1)%size;
+            if (row==currRow) break;
+        }
+    }
+    
+    ZigzagIterator(vector<int>& v1, vector<int>& v2) {
+        lists.push_back(v1);
+        lists.push_back(v2);
+        idx.resize(2, 0);
+        row=0;
+        size=2;
+        tryAdvance();
+    }
+
+    int next() {
+        if (hasNext()) {
+            int res=lists[row][idx[row]];
+            toRemove.push_back({row, idx[row]});
+            idx[row]++;
+            row=(row+1)%size;
+            tryAdvance();
+            return res;
+        } else {
+            return -1;
+        }
+    }
+
+    bool hasNext() {
+        if (idx[row]<lists[row].size()) return true;
+        else return false;
+    }
+    
+    void remove() {
+        if (toRemove.size()==0) return;
+        int i=toRemove.back().first;
+        int j=toRemove.back().second;
+        toRemove.pop_back();
+        lists[i].erase(lists[i].begin()+j);
+    }
+private:
+    vector<vector<int>> lists;
+    vector<int> idx;
+    vector<pair<int,int>> toRemove;
+    int row;
+    int size;
+};
+
 
 /**
  * Your ZigzagIterator object will be instantiated and called as such:

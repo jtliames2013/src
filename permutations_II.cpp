@@ -1,3 +1,17 @@
+47. Permutations II  
+Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+
+For example,
+[1,1,2] have the following unique permutations:
+[
+  [1,1,2],
+  [1,2,1],
+  [2,1,1]
+]
+Hide Company Tags LinkedIn Microsoft
+Hide Tags Backtracking
+Hide Similar Problems (M) Next Permutation (M) Permutations (M) Palindrome Permutation II
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,6 +63,7 @@ struct TreeLinkNode {
   TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
 };
 
+NOTE: [0,1,0,0,9]
 class Solution {
 public:
 	void getPermuteUnique(vector<vector<int> >& res, vector<int>& nums, vector<int>& solution, vector<bool>& selected) {

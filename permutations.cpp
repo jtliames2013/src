@@ -1,3 +1,20 @@
+46. Permutations  
+Given a collection of distinct numbers, return all possible permutations.
+
+For example,
+[1,2,3] have the following permutations:
+[
+  [1,2,3],
+  [1,3,2],
+  [2,1,3],
+  [2,3,1],
+  [3,1,2],
+  [3,2,1]
+]
+Hide Company Tags LinkedIn Microsoft
+Hide Tags Backtracking
+Hide Similar Problems (M) Next Permutation (M) Permutations II (M) Permutation Sequence (M) Combinations
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,6 +66,7 @@ struct TreeLinkNode {
   TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
 };
 
+1. swap and move one number at a time
 class Solution {
 public:
 	void swap(vector<int>& nums, int i, int j)

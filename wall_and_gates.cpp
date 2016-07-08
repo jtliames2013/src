@@ -1,3 +1,4 @@
+286. Walls and Gates
  You are given a m x n 2D grid initialized with these three possible values.
 
     -1 - A wall or an obstacle.
@@ -84,4 +85,41 @@ NOTE: Use BFS. update when level is less. check 4 neighbors (not else if)
     	  }
       }
   };
+
+2. DFS
+class Solution {
+public:
+    void dfs(vector<vector<int>>& rooms, int row, int col, int m, int n, int level) {
+        int delta[4][2]={{-1,0},{1,0},{0,-1},{0,1}};
+        for (int i=0; i<4; i++) {
+            int nx=row+delta[i][0];
+            int ny=col+delta[i][1];
+            
+            if (nx>=0 && nx<m && ny>=0 && ny<n && rooms[nx][ny]!=-1 && rooms[nx][ny]!=0) {
+                level++;
+                if (rooms[nx][ny]>level) {
+                    rooms[nx][ny]=level;
+                    dfs(rooms, nx, ny, m, n, level);
+                }
+                level--;
+            }
+        }
+    }
+    
+    void wallsAndGates(vector<vector<int>>& rooms) {
+        int m=rooms.size();
+        if (m==0) return;
+        int n=rooms[0].size();
+        if (n==0) return;
+        
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if (rooms[i][j]==0) {
+                    dfs(rooms, i, j, m, n, 0);
+                }
+            }
+        }
+    }
+};
+
 

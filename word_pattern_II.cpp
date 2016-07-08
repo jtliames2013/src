@@ -1,5 +1,18 @@
-﻿// ConsoleApplication3.cpp : Defines the entry point for the console application.
-//
+291. Word Pattern II  
+Given a pattern and a string str, find if str follows the same pattern.
+
+Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty substring in str.
+
+Examples:
+pattern = "abab", str = "redblueredblue" should return true.
+pattern = "aaaa", str = "asdasdasdasd" should return true.
+pattern = "aabb", str = "xyzabcxzyabc" should return false.
+Notes:
+You may assume both pattern and str contains only lowercase letters.
+
+Hide Company Tags Dropbox Uber
+Hide Tags Backtracking
+Hide Similar Problems (E) Word Pattern
 
 #include "stdafx.h"
 #include <vector>

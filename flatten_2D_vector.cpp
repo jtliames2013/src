@@ -71,12 +71,6 @@ private:
     vector<int>::iterator colIter;
 };
 
-/**
- * Your Vector2D object will be instantiated and called as such:
- * Vector2D i(vec2d);
- * while (i.hasNext()) cout << i.next();
- */
-
 2. Use index
 
 class Vector2D {
@@ -117,6 +111,58 @@ private:
     int size;
     int row;
     int idx;
+};
+
+3. Implement remove() that remove the previous next
+class Vector2D {
+public:
+    void tryAdvance() {
+        while (row<size) {
+            if (col<vec2d[row].size()) break;
+            else {
+                row++;
+                col=0;
+            }
+        }    
+    }
+    
+    Vector2D(vector<vector<int>>& vec2d) {
+        this->vec2d=vec2d;
+        row=col=0;
+        size=vec2d.size();
+        tryAdvance();
+    }
+
+    int next() {
+        if (hasNext()) {
+            int res=vec2d[row][col];
+            toRemove.push_back({row, col});
+            col++;
+            tryAdvance();
+            return res;
+        } else {
+            return -1;
+        }
+    }
+
+    bool hasNext() {
+        if (row<size) return true;
+        else return false;
+    }
+    
+    void remove() {
+        if (toRemove.size()==0) return;
+        int i=toRemove.back().first;
+        int j=toRemove.back().second;
+        toRemove.pop_back();
+        vec2d[i].erase(vec2d[i].begin()+j);
+    }
+private:
+    vector<vector<int>> vec2d;
+    int row;
+    int col;
+    vector<pair<int,int>> toRemove;
+    int size;
 };
 
 /**

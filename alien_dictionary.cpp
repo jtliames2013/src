@@ -92,6 +92,58 @@ public:
     }
 };
 
+2. Incoming uses count
+class Solution {
+public:
+    string alienOrder(vector<string>& words) {
+        map<char, set<char>> outgoingGraph;
+        map<char, int> incomingCnt;
+        set<char> st;
+        string res;
+        
+        for (auto w:words) {
+            for (auto l:w) {
+                outgoingGraph[l];
+                incomingCnt[l];
+            }
+        }
+        
+        for (int i=1; i<words.size(); i++) {
+            for (int j=0; j<words[i].size() && j<words[i-1].size(); j++) {
+                if (words[i][j]!=words[i-1][j]) {
+                    if (outgoingGraph[words[i-1][j]].find(words[i][j])==outgoingGraph[words[i-1][j]].end()) {
+                        outgoingGraph[words[i-1][j]].insert(words[i][j]);
+                        incomingCnt[words[i][j]]++;
+                    }
+                    break;
+                }
+            }
+        }
+        
+        // topological sort
+        for (auto v:incomingCnt) {
+            if (v.second==0) st.insert(v.first);
+        }
+        
+        while (!st.empty()) {
+            char letter=*st.begin();
+            res.push_back(letter);
+            st.erase(st.begin());
+            
+            for (auto neighbor:outgoingGraph[letter]) {
+                incomingCnt[neighbor]--;
+                if (incomingCnt[neighbor]==0) st.insert(neighbor);
+            }
+            outgoingGraph[letter].clear();
+        }
+        
+        for (auto v:outgoingGraph) {
+            if (!v.second.empty()) return "";
+        }
+        return res;
+    }
+};
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	return 0;
