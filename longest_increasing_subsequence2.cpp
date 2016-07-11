@@ -1,4 +1,5 @@
- Given an unsorted array of integers, find the length of longest increasing subsequence.
+300. Longest Increasing Subsequence 
+Given an unsorted array of integers, find the length of longest increasing subsequence.
 
 For example,
 Given [10, 9, 2, 5, 3, 7, 101, 18],
@@ -88,7 +89,7 @@ public:
 
     		while (l<=r) {
 				// if a number is less than num[i], need to keep it and find in the right.
-				// if a nubmer is great than or equal to nums[i], need to search in the left 
+				// if a number is great than or equal to nums[i], need to search in the left 
 				// and possibly replace it.
     			mid=(l+r)/2;
     			if (sorted[mid]<nums[i]) l=mid+1;

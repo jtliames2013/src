@@ -119,6 +119,78 @@ struct TreeLinkNode {
      }
  };
 
+2. No need to set map element to 1. just ++ is fine.
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        unordered_map<char, int> count;
+        for (int i=0; i<t.size(); i++) {
+            count[t[i]]++;
+        }
+        int total=0, start, end, minLen=INT_MAX;
+        
+        for (int l=0, r=0; r<s.size(); r++) {
+            if (count.find(s[r])!=count.end()) {
+                if (count[s[r]]>0) total++;
+                count[s[r]]--;
+            }
+            
+            while (total==t.size()) {
+                if (minLen>r-l+1) {
+                    start=l;
+                    end=r;
+                    minLen=r-l+1;
+                }
+                
+                if (count.find(s[l])!=count.end()) {
+                    count[s[l]]++;
+                    if (count[s[l]]>0) total--;
+                }
+                l++;
+            }
+        }
+        
+        if (minLen==INT_MAX) return "";
+        else return s.substr(start, end-start+1);
+    }
+};
+
+3. Simplified version. Use set of char as input
+  class Solution {
+  public:
+      string minWindow(string s, set<char> st) {
+    	  map<char, int> count;
+    	  for (auto c:st) count[c]++;
+    	  int total;
+    	  int maxLen=INT_MIN;
+    	  int start, end;
+
+    	  for (int l=0, r=0; r<s.size(); r++) {
+    		  if (count.find(s[r])!=count.end()) {
+    			  if (count[s[r]]>0) total++;
+    			  count[s[r]]--;
+
+    			  while (total==st.size()) {
+    				  if (r-l+1>maxLen) {
+    					  maxLen=r-l+1;
+    					  start=l;
+    					  end=r;
+    				  }
+
+    				  if (count.find(s[l])!=count.end()) {
+    					  count[s[l]]++;
+    					  if (count[s[l]]>0) total--;
+    				  }
+    				  l++;
+    			  }
+    		  }
+    	  }
+
+    	  if (maxLen==INT_MIN) return "";
+    	  else return s.substr(start, end-start+1);
+      }
+  };
+
 int main()
 {
 	return 0;

@@ -1,3 +1,23 @@
+257. Binary Tree Paths 
+Given a binary tree, return all root-to-leaf paths.
+
+For example, given the following binary tree:
+
+   1
+ /   \
+2     3
+ \
+  5
+All root-to-leaf paths are:
+
+["1->2->5", "1->3"]
+Credits:
+Special thanks to @jianchao.li.fighter for adding this problem and creating all test cases.
+
+Hide Company Tags Google Apple Facebook
+Hide Tags Tree Depth-first Search
+Hide Similar Problems (M) Path Sum II
+
 ending condition: no left and no right. assueme root is not NULL. 
 
 #include <stdio.h>
@@ -119,6 +139,44 @@ struct TreeLinkNode {
       }
   };
 
+2. use int vector
+class Solution {
+public:
+    string convert(vector<int>& path) {
+        string str;
+        for (int i=0; i<path.size(); i++) {
+            if (i>0) {
+                str+="->";
+            }
+            str+=to_string(path[i]);
+        }
+        return str;
+    }
+    
+    void findPaths(TreeNode* root, vector<string>& res, vector<int>& path) {
+        if (root==NULL) return;
+        
+        if (root->left==NULL && root->right==NULL) {
+            path.push_back(root->val);
+            res.push_back(convert(path));
+            path.pop_back();
+            return;
+        }
+        
+        path.push_back(root->val);    
+        if (root->left) findPaths(root->left, res, path);
+        if (root->right) findPaths(root->right, res, path);
+        path.pop_back();
+    }
+    
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> res;
+        vector<int> path;
+        findPaths(root, res, path);
+        
+        return res;
+    }
+};
 int main()
 {
 	return 0;

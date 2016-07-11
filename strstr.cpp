@@ -1,3 +1,12 @@
+28. Implement strStr()  
+Implement strStr().
+
+Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+Hide Company Tags Pocket Gems Microsoft Apple Facebook
+Hide Tags Two Pointers String
+Hide Similar Problems (H) Shortest Palindrome
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -1,3 +1,35 @@
+114. Flatten Binary Tree to Linked List  
+Given a binary tree, flatten it to a linked list in-place.
+
+For example,
+Given
+
+         1
+        / \
+       2   5
+      / \   \
+     3   4   6
+The flattened tree should look like:
+
+   1
+    \
+     2
+      \
+       3
+        \
+         4
+          \
+           5
+            \
+             6
+click to show hints.
+
+Hints:
+If you notice carefully in the flattened tree, each node's right child points to the next node of a pre-order traversal.
+
+Hide Company Tags Microsoft
+Hide Tags Tree Depth-first Search
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -85,72 +117,30 @@ public:
 };
 
 2. At each node level, pass a parent down so that no need to handle children
-/**
-
- * Definition for a binary tree node.
-
- * struct TreeNode {
-
- *     int val;
-
- *     TreeNode *left;
-
- *     TreeNode *right;
-
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-
- * };
-
- */
 
 class Solution {
-
 public:
-
     void getFlat(TreeNode* node, TreeNode* prev, TreeNode** last) {
-
         if (node==NULL) return;
-
         if (prev) prev->right=node;
-
         *last=node;
-
         TreeNode *l=node->left;
-
-        TreeNode *r=node->right;
-
-        
+        TreeNode *r=node->right;        
 
         if (l) {
-
             getFlat(l, node, last);
-
             node->left=NULL;
-
         }
-
-        
-
+       
         if (r) {
-
             getFlat(r, *last, last);
-
         }
-
     }
-
-    
-
+   
     void flatten(TreeNode* root) {
-
-        TreeNode* tmp;
-
-        TreeNode** last=&tmp;
-
+        TreeNode** last=&root;
         getFlat(root, NULL, last);
-
     }
-
 };
 
 int main()

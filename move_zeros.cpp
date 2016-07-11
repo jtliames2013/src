@@ -1,3 +1,18 @@
+283. Move Zeroes  
+Given an array nums, write a function to move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+For example, given nums = [0, 1, 0, 3, 12], after calling your function, nums should be [1, 3, 12, 0, 0].
+
+Note:
+You must do this in-place without making a copy of the array.
+Minimize the total number of operations.
+Credits:
+Special thanks to @jianchao.li.fighter for adding this problem and creating all test cases.
+
+Hide Company Tags Bloomberg Facebook
+Hide Tags Array Two Pointers
+Hide Similar Problems (E) Remove Element
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -98,63 +113,36 @@ struct TreeLinkNode {
    nonzero pointer moves to the next nonzero number.
 
 class Solution {
-
 public:
-
     void swap(vector<int>& nums, int s, int e) {
-
         int tmp=nums[s];
-
         nums[s]=nums[e];
-
         nums[e]=tmp;
-
     }
 
     void moveZeroes(vector<int>& nums) {
-
         int size=nums.size();
-
         int zero=0, nonzero=0;
-
         
-
         while (zero<size) {
-
             if (nums[zero]==0) break;
-
             zero++;
-
         }    
-
         nonzero=zero+1;
 
         while (nonzero<size) {
-
             if (nums[nonzero]!=0) break;
-
             nonzero++;
-
         }
-
         
-
         if (zero<size) {
-
             while (nonzero<size) {
-
                 swap(nums, zero, nonzero);
-
                 zero++;
-
                 while (nonzero<size && nums[nonzero]==0) nonzero++;
-
             }
-
         }
-
     }
-
 };
 
 int main()

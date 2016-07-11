@@ -1,3 +1,18 @@
+31. Next Permutation  
+Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
+
+If such arrangement is not possible, it must rearrange it as the lowest possible order (ie, sorted in ascending order).
+
+The replacement must be in-place, do not allocate extra memory.
+
+Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand column.
+1,2,3 → 1,3,2
+3,2,1 → 1,2,3
+1,1,5 → 1,5,1
+Hide Company Tags Google
+Hide Tags Array
+Hide Similar Problems (M) Permutations (M) Permutations II (M) Permutation Sequence (M) Palindrome Permutation II
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -82,6 +97,30 @@ public:
     		nums[k]=temp;
     		reverse(nums, index, nums.size()-1);
     	}
+    }
+};
+
+2. use std swap and reverse
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        if (nums.size()<=1) return;
+        int index=0;
+        for (index=nums.size()-1; index>=0; index--) {
+            if (nums[index-1]<nums[index]) break;
+        }
+        
+        if (index==0) {
+            reverse(nums.begin(), nums.end());
+        } else {
+            int k=index-1;
+            int j;
+            for (j=nums.size()-1; j>=index; j--) {
+                if (nums[j]>nums[k]) break;
+            }
+            swap(nums[k],nums[j]);
+            reverse(nums.begin()+index, nums.end());
+        }
     }
 };
 

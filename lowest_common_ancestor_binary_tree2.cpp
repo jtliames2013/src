@@ -93,6 +93,47 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    bool findPath(TreeNode *root, TreeNode *node, vector<TreeNode*>& path) {
+        if (root==NULL) return false;
+        if (root==node) {
+            path.push_back(node);
+            return true;
+        }
+        
+        path.push_back(root);
+        if (root->left) {
+            if (findPath(root->left, node, path)) return true;
+        }
+        
+        if (root->right) {
+            if (findPath(root->right, node, path)) return true;
+        }
+        
+        path.pop_back();
+        
+        return false;
+    }
+
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        vector<TreeNode*> path1;
+        findPath(root, p, path1);
+        vector<TreeNode*> path2;
+        findPath(root, q, path2);
+        
+        int i;
+        TreeNode *prev=NULL;
+        for (i=0; i<path1.size() && i<path2.size(); i++) {
+            if (path1[i]!=path2[i]) break;
+            prev=path1[i];
+        }
+        
+        return prev;
+    }
+};
+
 int main()
 {
 	return 0;

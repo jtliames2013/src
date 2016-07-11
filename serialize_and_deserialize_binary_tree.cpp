@@ -137,118 +137,51 @@ public:
 
 2. use istringstream
 
-/**
-
- * Definition for a binary tree node.
-
- * struct TreeNode {
-
- *     int val;
-
- *     TreeNode *left;
-
- *     TreeNode *right;
-
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-
- * };
-
- */
-
 class Codec {
-
 public:
-
     void serialize(TreeNode *root, string& res) {
-
         string str;
-
         if (root==NULL) {
-
             str="#";
-
         } else {
-
             str=to_string(root->val);
-
         }
 
         if (!res.empty()) {
-
             res += ",";
-
         }
-
         res += str;
 
-
-
         if (root!=NULL) {
-
             serialize(root->left, res);
-
             serialize(root->right, res);
-
         }
-
     }
-
-    
-
+   
     // Encodes a tree to a single string.
-
     string serialize(TreeNode* root) {
-
         string res;
-
         serialize(root, res);
-
         
-
         return res;
-
     }
-
-
 
     TreeNode* deserialize(istringstream& iss) {
-
         string val;
-
         if (!getline(iss, val, ',')) return NULL;
-
-        if (val=="#") return NULL;
-
-        
+        if (val=="#") return NULL;        
 
         TreeNode *n=new TreeNode(stoi(val, nullptr));
-
-        TreeNode *l=deserialize(iss);
-
-        TreeNode *r=deserialize(iss);
-
-        n->left=l;
-
-        n->right=r;
-
+        n->left=deserialize(iss);
+        n->right=deserialize(iss);
         return n;
-
     }
-
     
-
     // Decodes your encoded data to tree.
-
     TreeNode* deserialize(string data) {
-
-        istringstream iss(data);
-
-        
-
+        istringstream iss(data);        
         return deserialize(iss);
-
     }
-
 };
 
 

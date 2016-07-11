@@ -88,103 +88,46 @@ public:
 
 
 2. return min and max from bottom up
-
-/**
-
- * Definition for a binary tree node.
-
- * struct TreeNode {
-
- *     int val;
-
- *     TreeNode *left;
-
- *     TreeNode *right;
-
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-
- * };
-
- */
-
  
-
 class Solution {
-
 public:
-
     struct Element {
-
         bool res;
-
         int minVal;
-
         int maxVal;
-
     };
 
-
-
     Element isValid(TreeNode *root) {
-
         Element elem;
-
         elem.minVal=root->val;
-
         elem.maxVal=root->val;
-
         if (root->left) {
-
             Element e=isValid(root->left);
-
             if (e.res==false || root->val<=e.maxVal) {
-
                 elem.res=false;
-
                 return elem;
-
             }
-
             elem.minVal=e.minVal;
-
         }
 
         if (root->right) {
-
             Element e=isValid(root->right);
-
             if (e.res==false || root->val>=e.minVal) {
-
                 elem.res=false;
-
                  return elem;
-
             }
-
             elem.maxVal=e.maxVal;
-
-        }
-
-        
+        }        
 
         elem.res=true;
-
         return elem;
-
     }
-
-
 
     bool isValidBST(TreeNode* root) {
-
         if (root==NULL) return true;
-
         Element e=isValid(root);
-
         return e.res;
-
     }
-
 };
 
 int main()

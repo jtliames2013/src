@@ -63,7 +63,7 @@ struct TreeLinkNode {
   TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
 };
 
-NOTE: [0,1,0,0,9]
+NOTE: [0,1,0,0,9], can't use swap as in I because the order will be changed.
 class Solution {
 public:
 	void getPermuteUnique(vector<vector<int> >& res, vector<int>& nums, vector<int>& solution, vector<bool>& selected) {

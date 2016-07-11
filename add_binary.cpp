@@ -1,4 +1,16 @@
-nclude <stdio.h>
+67. Add Binary  
+Given two binary strings, return their sum (also a binary string).
+
+For example,
+a = "11"
+b = "1"
+Return "100".
+
+Hide Company Tags Facebook
+Hide Tags Math String
+Hide Similar Problems (M) Add Two Numbers (M) Multiply Strings (E) Plus One
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <string>
 #include <vector>
