@@ -1,3 +1,5 @@
+334. Increasing Triplet Subsequence
+
  Given an unsorted array return whether an increasing subsequence of length 3 exists or not in the array.
 
 Formally the function should:
@@ -13,6 +15,12 @@ return true.
 
 Given [5, 4, 3, 2, 1],
 return false. 
+
+Credits:
+Special thanks to @DjangoUnchained for adding this problem and creating all test cases.
+
+Hide Company Tags Facebook
+Hide Similar Problems (M) Longest Increasing Subsequence
 
 维护变量a, b，用来记录数组中大小递增的前2个元素。
 

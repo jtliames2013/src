@@ -1,3 +1,24 @@
+324. Wiggle Sort II  
+Given an unsorted array nums, reorder it such that nums[0] < nums[1] > nums[2] < nums[3]....
+
+Example:
+(1) Given nums = [1, 5, 1, 1, 6, 4], one possible answer is [1, 4, 1, 5, 1, 6]. 
+(2) Given nums = [1, 3, 2, 2, 3, 1], one possible answer is [2, 3, 1, 3, 1, 2].
+
+Note:
+You may assume all input has valid answer.
+
+Follow Up:
+Can you do it in O(n) time and/or in-place with O(1) extra space?
+
+Credits:
+Special thanks to @dietpepsi for adding this problem and creating all test cases.
+
+Hide Company Tags Google
+Hide Tags Sort
+Hide Similar Problems (M) Sort Colors (M) Kth Largest Element in an Array (M) Wiggle Sort
+
+
 解法I O(nlogn)时间排序+O(n)空间辅助数组解法：
 
 1. 对原数组排序，得到排序后的辅助数组snums
@@ -58,6 +79,9 @@ struct TreeLinkNode {
   TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
 };
 
+// 1 2 3 4 5 6
+// separate middle to two end in case of the same number
+// 3 6 2 5 1 4
 class Solution {
 public:
     void wiggleSort(vector<int>& nums) {

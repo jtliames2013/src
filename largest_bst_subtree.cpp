@@ -31,7 +31,7 @@ using namespace std;
 // NOTE: a subtree can be BST but the parent tree doesn't need to be. So need to use INT_MAX and INT_MIN from any node 
 // but return max and min to determine if parent is BST.
 
-  struct TreeNode {
+Largest BST Subtree  struct TreeNode {
       int val;
       TreeNode *left;
       TreeNode *right;
@@ -60,6 +60,7 @@ public:
         }
         if (res.isBST==true) {
             res.count=left.count+right.count+1;
+			// for NULL node case, use min() and max();
             res.minVal=min(left.minVal, root->val);
             res.maxVal=max(right.maxVal, root->val);
         } else {

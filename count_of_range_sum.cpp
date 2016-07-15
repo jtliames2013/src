@@ -1,3 +1,23 @@
+327. Count of Range Sum  
+Given an integer array nums, return the number of range sums that lie in [lower, upper] inclusive.
+Range sum S(i, j) is defined as the sum of the elements in nums between indices i and j (i ≤ j), inclusive.
+
+Note:
+A naive algorithm of O(n2) is trivial. You MUST do better than that.
+
+Example:
+Given nums = [-2, 5, -1], lower = -2, upper = 2,
+Return 3.
+The three ranges are : [0, 0], [2, 2], [0, 2] and their respective sums are: -2, -1, 2.
+
+Credits:
+Special thanks to @dietpepsi for adding this problem and creating all test cases.
+
+Hide Company Tags Google
+Hide Tags Divide and Conquer Binary Search Tree
+Hide Similar Problems (H) Count of Smaller Numbers After Self
+
+
 这题也差不多，需要找满足条件 lower ≤ sum[j] – sum[i – 1] ≤ upper ，也就是lower + sum[i – 1] ≤ sum[j] ≤ upper + sum[i – 1]
 
 我们同样的求出和，然后离散化，接着从右向左扫描，对每个i 查询满足在[ lower + sum[i – 1], upper + sum[i – 1] ]范围内的个数（用线段树或者Fenwick Tree）

@@ -1,3 +1,18 @@
+287. Find the Duplicate Number
+Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
+
+Note:
+You must not modify the array (assume the array is read only).
+You must use only constant, O(1) extra space.
+Your runtime complexity should be less than O(n2).
+There is only one duplicate number in the array, but it could be repeated more than once.
+Credits:
+Special thanks to @jianchao.li.fighter for adding this problem and creating all test cases.
+
+Hide Company Tags Bloomberg
+Hide Tags Binary Search Array Two Pointers
+Hide Similar Problems (H) First Missing Positive (M) Single Number (M) Linked List Cycle II (M) Missing Number
+
 这道题（据说）花费了计算机科学界的传奇人物Don Knuth 24小时才解出来。并且我只见过一个人（Keith Amling）用更短时间解出此题。
 
 问题的第一部分 - 证明至少存在一个重复元素 - 是鸽笼原理的直接应用。如果元素的范围是[1, n]，那么只存在n种不同的值。如果有n+1个元素，其中一个必然重复。

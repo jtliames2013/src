@@ -1,3 +1,4 @@
+266. Palindrome Permutation
 Given a string, determine if a permutation of the string could form a palindrome.
 
 For example,
@@ -5,9 +6,12 @@ For example,
 
 Hint:
 
-    Consider the palindromes of odd vs even length. What difference do you notice?
-    Count the frequency of each character.
-    If each character occurs even number of times, then it must be a palindrome. How about character which occurs odd number of times?
+Consider the palindromes of odd vs even length. What difference do you notice?
+Count the frequency of each character.
+If each character occurs even number of times, then it must be a palindrome. How about character which occurs odd number of times?
+Hide Company Tags Google Uber
+Hide Tags Hash Table
+Hide Similar Problems (M) Longest Palindromic Substring (E) Valid Anagram (M) Palindrome Permutation II
 
 
 #include <stdio.h>

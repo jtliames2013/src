@@ -1,3 +1,4 @@
+318. Maximum Product of Word Lengths 
  Given a string array words, find the maximum value of length(word[i]) * length(word[j]) where the two words do not share common letters. You may assume that each word will contain only lower case letters. If no such two words exist, return 0.
 
 Example 1:
