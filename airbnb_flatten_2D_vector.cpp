@@ -115,64 +115,90 @@ private:
 
 3. Implement remove() that remove the previous next
 class Vector2D {
-public:
-    void tryAdvance() {
-        while (row<size) {
-            if (col<vec2d[row].size()) break;
-            else {
-                row++;
-                col=0;
-            }
-        }    
-    }
-    
-    Vector2D(vector<vector<int>>& vec2d) {
-        this->vec2d=vec2d;
-        row=col=0;
-        size=vec2d.size();
-        tryAdvance();
-    }
+  public:
+	  void tryAdvance() {
+		  while (row<vec2d.size()) {
+			  if (col<vec2d[row].size()) break;
+			  row++;
+			  col=0;
+		  }
+	  }
+      Vector2D(vector<vector<int>>& vec2d) {
+    	  this->vec2d=vec2d;
+    	  row=0;
+    	  col=0;
+    	  removeRow=-1;
+    	  removeCol=-1;
+    	  tryAdvance();
+      }
 
-    int next() {
-        if (hasNext()) {
-            int res=vec2d[row][col];
-            toRemove.push_back({row, col});
-            col++;
-            tryAdvance();
-            return res;
-        } else {
-            return -1;
-        }
-    }
+      int next() {
+    	  if (hasNext()) {
+    		  int res=vec2d[row][col];
+    		  removeRow=row;
+    		  removeCol=col;
+    		  col++;
+    		  tryAdvance();
+    		  return res;
+    	  } else {
+    		  return -1;
+    	  }
+      }
 
-    bool hasNext() {
-        if (row<size) return true;
-        else return false;
-    }
-    
-    void remove() {
-        if (toRemove.size()==0) return;
-        int i=toRemove.back().first;
-        int j=toRemove.back().second;
-        toRemove.pop_back();
-        vec2d[i].erase(vec2d[i].begin()+j);
-    }
-private:
-    vector<vector<int>> vec2d;
-    int row;
-    int col;
-    vector<pair<int,int>> toRemove;
-    int size;
-};
+      bool hasNext() {
+    	  if (row>=vec2d.size()) return false;
+    	  else return true;
+      }
 
-/**
- * Your Vector2D object will be instantiated and called as such:
- * Vector2D i(vec2d);
- * while (i.hasNext()) cout << i.next();
- */
+      void remove() {
+    	  if (removeRow==-1) return;
+    	  if (removeRow==row) {
+    		  vec2d[removeRow].erase(vec2d[removeRow].begin()+removeCol);
+    		  col--;
+    	  } else {
+    		  vec2d[removeRow].erase(vec2d[removeRow].begin()+removeCol);
+    		  if (vec2d[removeRow].size()==0) {
+    			  vec2d.erase(vec2d.begin()+removeRow);
+    			  row--;
+    		  }
+    	  }
+    	  removeRow=removeCol=-1;
+      }
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	return 0;
-}
+      void printV2D() {
+     	 for (int i=0; i<vec2d.size(); i++) {
+     		 for (int j=0; j<vec2d[i].size(); j++) {
+     			 cout << vec2d[i][j] << " ";
+     		 }
+     		 cout << endl;
+     	 }
+      }
+  private:
+      int row;
+      int col;
+      int removeRow;
+      int removeCol;
+      vector<vector<int> > vec2d;
+  };
+
+ void printV(vector<vector<int> > v2d) {
+	 for (int i=0; i<v2d.size(); i++) {
+		 for (int j=0; j<v2d[i].size(); j++) {
+			 cout << v2d[i][j] << " ";
+		 }
+		 cout << endl;
+	 }
+
+ }
+
+  int main() {
+	  vector<vector<int> > v2d={{1},{2,3},{},{4,5,6}};
+	  Vector2D s(v2d);
+	  while (s.hasNext()) {
+		  cout << s.next() << endl;
+		  s.remove();
+		  s.printV2D();
+	  }
+	  return 0;
+  }
 

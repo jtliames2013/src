@@ -113,7 +113,7 @@ private:
     int idx;
 };
 
-3. Implement remove() that remove the previous next
+3. hasNext advance
 class Vector2D {
 public:
     void tryAdvance() {
@@ -130,15 +130,12 @@ public:
         this->vec2d=vec2d;
         row=col=0;
         size=vec2d.size();
-        tryAdvance();
     }
 
     int next() {
         if (hasNext()) {
             int res=vec2d[row][col];
-            toRemove.push_back({row, col});
             col++;
-            tryAdvance();
             return res;
         } else {
             return -1;
@@ -146,33 +143,15 @@ public:
     }
 
     bool hasNext() {
+        tryAdvance();
         if (row<size) return true;
         else return false;
     }
     
-    void remove() {
-        if (toRemove.size()==0) return;
-        int i=toRemove.back().first;
-        int j=toRemove.back().second;
-        toRemove.pop_back();
-        vec2d[i].erase(vec2d[i].begin()+j);
-    }
 private:
     vector<vector<int>> vec2d;
     int row;
     int col;
-    vector<pair<int,int>> toRemove;
     int size;
 };
-
-/**
- * Your Vector2D object will be instantiated and called as such:
- * Vector2D i(vec2d);
- * while (i.hasNext()) cout << i.next();
- */
-
-int _tmain(int argc, _TCHAR* argv[])
-{
-	return 0;
-}
 
