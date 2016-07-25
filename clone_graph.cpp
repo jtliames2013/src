@@ -175,6 +175,7 @@ public:
                     UndirectedGraphNode *n=new UndirectedGraphNode(neighbor->label);
                     m[neighbor]=n;
                 }
+				// must be out of if condition because a node can have itself as neighbor
                 parent->neighbors.push_back(m[neighbor]);
             }
         }

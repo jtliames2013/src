@@ -1,3 +1,24 @@
+130. Surrounded Regions  QuestionEditorial Solution  My Submissions
+Total Accepted: 57838 Total Submissions: 349839 Difficulty: Medium
+Given a 2D board containing 'X' and 'O' (the letter O), capture all regions surrounded by 'X'.
+
+A region is captured by flipping all 'O's into 'X's in that surrounded region.
+
+For example,
+X X X X
+X O O X
+X X O X
+X O X X
+
+After running your function, the board should be:
+
+X X X X
+X X X X
+X X X X
+X O X X
+Hide Tags Breadth-first Search Union Find
+Hide Similar Problems (M) Number of Islands (M) Walls and Gates
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

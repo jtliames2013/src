@@ -56,6 +56,98 @@ public:
 
 2.
 题目可以通过降维转化为求解子问题：和不大于k的最大子数组，解法参考：https://www.quora.com/Given-an-array-of-integers-A-and-an-integer-k-find-a-subarray-that-contains-the-largest-sum-subject-to-a-constraint-that-the-sum-is-less-than-k
+First thing to note is that sum of subarray  
+(
+i
+,
+j
+]
+(i,j]  is just the sum of the first  
+j
+j  elements less the sum of the first  
+i
+i  elements. Store these cumulative sums in the array cum. Then the problem reduces to finding   
+i
+,
+j
+i,j  such that  
+i
+<
+j
+i<j  and  
+c
+u
+m
+[
+j
+]
+−
+c
+u
+m
+[
+i
+]
+cum[j]−cum[i]  is as close to  
+k
+k  but lower than it.
+
+To solve this, scan from left to right. Put the  
+c
+u
+m
+[
+i
+]
+cum[i]  values that you have encountered till now into a set. When you are processing  
+c
+u
+m
+[
+j
+]
+cum[j]  what you need to retrieve from the set is the smallest number in the set such which is bigger than  
+c
+u
+m
+[
+j
+]
+−
+k
+cum[j]−k . This lookup can be done in  
+O
+(
+log
+n
+)
+O(log⁡n)  using upper_bound. Hence the overall complexity is  
+O
+(
+n
+log
+(
+n
+)
+)
+O(nlog⁡(n)) .
+
+Here is a c++ function that does the job, assuming that K>0 and that the empty interval with sum zero is a valid answer. The code can be tweaked easily to take care of more general cases and to return the interval itself.
+
+int best_cumulative_sum(int ar[],int N,int K)
+{
+    set<int> cumset;
+    cumset.insert(0);
+    int best=0,cum=0;
+    for(int i=0;i<N;i++)
+    {
+        cum+=ar[i];
+        set<int>::iterator sit=cumset.upper_bound(cum-K);
+        if(sit!=cumset.end())best=max(best,cum-*sit);
+        cumset.insert(cum);
+    }
+    return best;
+}
 
 首先枚举列的起止范围x, y，子矩阵matrix[][x..y]可以通过部分和数组sums进行表示：
 

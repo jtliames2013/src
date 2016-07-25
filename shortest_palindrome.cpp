@@ -1,3 +1,21 @@
+214. Shortest Palindrome  QuestionEditorial Solution  My Submissions
+Total Accepted: 22759 Total Submissions: 109977 Difficulty: Hard
+Given a string S, you are allowed to convert it to a palindrome by adding characters in front of it. Find and return the shortest palindrome you can find by performing this transformation.
+
+For example:
+
+Given "aacecaaa", return "aaacecaaa".
+
+Given "abcd", return "dcbabcd".
+
+Credits:
+Special thanks to @ifanchu for adding this problem and creating all test cases. Thanks to @Freezen for additional test cases.
+
+Hide Company Tags Pocket Gems Google
+Hide Tags String
+Hide Similar Problems (M) Longest Palindromic Substring (E) Implement strStr() (H) Palindrome Pairs
+
+
 其实思路也很简单：
 
 求字符串s的翻转s_rev

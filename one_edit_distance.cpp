@@ -13,28 +13,29 @@ Hide Similar Problems (H) Edit Distance
 #include <string>
 using namespace std;
 
-// NOTE: scan from start and scan from end. note the case when two strings are the same
-
 class Solution {
 public:
     bool isOneEditDistance(string s, string t) {
-        int sStart=0, tStart=0;
-        int sEnd=s.size()-1, tEnd=t.size()-1;
-
-        while (sStart < s.size() && tStart < t.size()) {
-            if (s[sStart]!=t[tStart]) break;
-            sStart++;
-            tStart++;
+        if (s.size()<t.size()) swap(s, t);
+        int m=s.size();
+        int n=t.size();
+        int delta=m-n;
+        
+        if (delta>=2) return false;
+        else if (delta==1) {
+            for (int i=0; i<n; i++) {
+                if (s[i]!=t[i]) {
+                    return s.substr(i+1)==t.substr(i);
+                }
+            }
+            return true;
+        } else {
+            int count=0;
+            for (int i=0; i<m; i++) {
+                if (s[i]!=t[i]) count++;
+            }
+            return count==1;
         }
-
-        while (sEnd>=0 && tEnd>=0) {
-            if (s[sEnd]!=t[tEnd]) break;
-            sEnd--;
-            tEnd--;
-        }
-
-        if (sEnd-sStart > 0 || tEnd-tStart> 0 || (sEnd-sStart<=-1 && tEnd-tStart<=-1)) return false;
-        else return true;
     }
 };
 

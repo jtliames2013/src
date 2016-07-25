@@ -86,6 +86,94 @@ NOTE: Use BFS. update when level is less. check 4 neighbors (not else if)
       }
   };
 
+1.2 Use delta array
+class Solution {
+public:
+    struct Element {
+        int row;
+        int col;
+        int level;
+        Element(int r, int c, int l):row(r),col(c),level(l) {}
+    };
+    void bfs(vector<vector<int>>& rooms, int row, int col) {
+        int delta[4][2]={{-1,0},{1,0},{0,-1},{0,1}};
+        int m=rooms.size();
+        int n=rooms[0].size();
+        queue<Element> q;
+        q.push(Element(row, col, 0));
+        
+        while (!q.empty()) {
+            Element f=q.front();
+            q.pop();
+            
+            for (int k=0; k<4; k++) {
+                int nx=f.row+delta[k][0];
+                int ny=f.col+delta[k][1];
+                if (nx>=0 && nx<m && ny>=0 && ny<n && rooms[nx][ny]!=-1 && rooms[nx][ny]>f.level+1) {
+                    rooms[nx][ny]=f.level+1;
+                    q.push(Element(nx, ny, f.level+1));
+                }
+            }
+        }
+    }
+    
+    void wallsAndGates(vector<vector<int>>& rooms) {
+        int m=rooms.size();
+        if (m==0) return;
+        int n=rooms[0].size();
+        if (n==0) return;
+        
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if(rooms[i][j]==0) {
+                    bfs(rooms, i, j);
+                }
+            }
+        }
+    }
+};
+
+1.3 Use rooms value as level instead of addtional level
+class Solution {
+public:
+    void bfs(vector<vector<int>>& rooms, int row, int col) {
+        int delta[4][2]={{-1,0},{1,0},{0,-1},{0,1}};
+        int m=rooms.size();
+        int n=rooms[0].size();
+        queue<pair<int,int>> q;
+        q.push({row, col});
+        
+        while (!q.empty()) {
+            pair<int,int> f=q.front();
+            q.pop();
+            
+            for (int k=0; k<4; k++) {
+                int nx=f.first+delta[k][0];
+                int ny=f.second+delta[k][1];
+                if (nx>=0 && nx<m && ny>=0 && ny<n && rooms[nx][ny]!=-1 && rooms[nx][ny]>rooms[f.first][f.second]+1) {
+                    rooms[nx][ny]=rooms[f.first][f.second]+1;
+                    q.push({nx, ny});
+                }
+            }
+        }
+    }
+    
+    void wallsAndGates(vector<vector<int>>& rooms) {
+        int m=rooms.size();
+        if (m==0) return;
+        int n=rooms[0].size();
+        if (n==0) return;
+        
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if(rooms[i][j]==0) {
+                    bfs(rooms, i, j);
+                }
+            }
+        }
+    }
+};
+
 2. DFS
 class Solution {
 public:
@@ -122,4 +210,38 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    void dfs(vector<vector<int>>& rooms, int row, int col, int level) {
+        int delta[4][2]={{-1,0},{1,0},{0,-1},{0,1}};
+        int m=rooms.size();
+        int n=rooms[0].size();
+        
+        for (int k=0; k<4; k++) {
+            int nx=row+delta[k][0];
+            int ny=col+delta[k][1];
+            
+            if (nx>=0&&nx<m&&ny>=0&&ny<n&&rooms[nx][ny]!=-1&&rooms[nx][ny]>level+1) {
+                rooms[nx][ny]=level+1;
+                dfs(rooms, nx, ny, level+1);
+            }
+        }
+    }
+
+    void wallsAndGates(vector<vector<int>>& rooms) {
+        int m=rooms.size();
+        if (m==0) return;
+        int n=rooms[0].size();
+        if (n==0) return;
+        
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if(rooms[i][j]==0) {
+                    dfs(rooms, i, j, 0);
+                }
+            }
+        }
+    }
+};
 

@@ -155,6 +155,43 @@ struct TreeLinkNode {
       }
   };
 
+2.
+class Solution {
+public:
+    int findPath(vector<vector<int>>& matrix, vector<vector<int>>& dp, int i, int j, int m, int n) {
+        if (dp[i][j]!=0) return dp[i][j];
+        
+        int neighbor[4][2]={{0,1},{0,-1},{1,0},{-1,0}};
+        for (int k=0; k<4; k++) {
+            int x=i+neighbor[k][0];
+            int y=j+neighbor[k][1];
+            
+            if (x>=0 && x<m && y>=0 && y<n) {
+                if (matrix[x][y]>matrix[i][j]) {
+                    dp[i][j]=max(dp[i][j], findPath(matrix, dp, x, y, m, n));
+                }
+            }
+        }
+        return ++dp[i][j];
+    }
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        int maxpath=0;
+        int m=matrix.size();
+        if (m==0) return 0;
+        int n=matrix[0].size();
+        if (n==0) return 0;
+        vector<vector<int>> dp(m, vector<int>(n,0));
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                int localmax=findPath(matrix, dp, i, j, m, n);
+                maxpath=max(maxpath, localmax);
+            }
+        }
+        
+        return maxpath;
+    }
+};
+
 int main()
 {
 	return 0;

@@ -112,6 +112,52 @@ public:
     }
 };
 
+class Solution {
+public:
+    void process(vector<int>& nums, int num, char op) {
+        if (op=='+') nums.push_back(num);
+        else if (op=='-') nums.push_back(-num);
+        else {
+            int n=nums.back();
+            nums.pop_back();
+            nums.push_back(op=='*'?n*num:n/num);
+        }
+    }
+    bool isOp(char c) {
+        return c=='+' || c=='-' || c=='*' || c=='/';
+    }
+    
+    int calculate(string s) {
+        int res;
+        vector<int> nums;
+        int num=0;
+        char op='+';
+        
+        for (int i=0; i<s.size();) {
+            if (isdigit(s[i])) {
+                num=0;
+                while (isdigit(s[i])) {
+                    num=num*10+s[i]-'0';
+                    i++;
+                }
+            } else if (isOp(s[i])) {
+                process(nums, num, op);
+                op=s[i];
+                i++;
+            } else {
+                i++;
+            }
+        }
+        
+        process(nums, num, op);
+        res=0;
+        for (int i=0; i<nums.size();i++) {
+            res+=nums[i];
+        }
+        return res;
+    }
+};
+
 2. Use num to remember current number. If operator is * or /, then get next number and apply operator.
 Otherwise, current number can be added or substracted with previous number. (it cannot add or minus next
 number. e.g., 1+2*3)

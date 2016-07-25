@@ -1,5 +1,13 @@
-﻿// ConsoleApplication3.cpp : Defines the entry point for the console application.
-//
+159. Longest Substring with At Most Two Distinct Characters  
+Given a string, find the length of the longest substring T that contains at most 2 distinct characters.
+
+For example, Given s = “eceba”,
+
+T is "ece" which its length is 3.
+
+Hide Company Tags Google
+Hide Tags Hash Table Two Pointers String
+Hide Similar Problems (M) Longest Substring Without Repeating Characters (H) Sliding Window Maximum (H) Longest Substring with At Most K Distinct Characters
 
 //这题的线性解法是维护一个sliding window，里面的子字符串只含最多两个不同字符。当要添加一个新字符时，需要完全去掉之前的某一个字符的所有出现。这里有两个问题需要考虑：
 //

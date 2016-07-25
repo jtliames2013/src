@@ -1,3 +1,12 @@
+138. Copy List with Random Pointer
+A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.
+
+Return a deep copy of the list.
+
+Hide Company Tags Amazon Microsoft Bloomberg Uber
+Hide Tags Hash Table Linked List
+Hide Similar Problems (M) Clone Graph
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -72,57 +81,30 @@ struct TreeLinkNode {
 1. Use mapping between node 
 
 class Solution {
-
 public:
-
     RandomListNode *copyRandomList(RandomListNode *head) {
-
         unordered_map<RandomListNode*, RandomListNode*> copyToOrig;
-
-        unordered_map<RandomListNode*, RandomListNode*> origToCopy;
-
-        
-
+        unordered_map<RandomListNode*, RandomListNode*> origToCopy;        
         RandomListNode *curr=head;
-
         RandomListNode *newhead=NULL, *prev=NULL;
-
         while (curr!=NULL) {
-
             RandomListNode *n=new RandomListNode(curr->label);
-
             if (newhead==NULL) newhead=n;
-
             if (prev!=NULL) prev->next=n;
-
             prev=n;
-
             copyToOrig[n]=curr;
-
             origToCopy[curr]=n;
-
             curr=curr->next;
-
         }
-
         
-
         curr=newhead;
-
         while (curr!=NULL) {
-
             curr->random=copyToOrig[curr]->random==NULL?NULL:origToCopy[copyToOrig[curr]->random];
-
             curr=curr->next;
-
-        }
-
-        
+        }        
 
         return newhead;
-
     }
-
 };
 
 2. Use no extra space

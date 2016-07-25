@@ -1,3 +1,12 @@
+85. Maximal Rectangle  QuestionEditorial Solution  My Submissions
+Total Accepted: 45588 Total Submissions: 189955 Difficulty: Hard
+Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing all ones and return its area.
+
+Hide Company Tags Facebook
+Hide Tags Array Hash Table Stack Dynamic Programming
+Hide Similar Problems (H) Largest Rectangle in Histogram (M) Maximal Square
+
+
 优化就是先预处理成保存成，当前点向上都是1的最高的高度，就变成每一行都是一个直方图，
 之后用O（n）的直方图求最大面积去算，之前一篇文章 http://blog.csdn.net/havenoidea/article/details/11854723 介绍过这个步骤，就不细说。
 

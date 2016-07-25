@@ -155,13 +155,13 @@ public:
                 int pos=expr.size();
                 expr+="+"+curr;
                 dfs(res, num, i+1, expr, target-currNum, currNum);
-                expr.erase(pos, expr.size()-pos);
+                expr.erase(pos);
                 expr+="-"+curr;
                 dfs(res, num, i+1, expr, target-(-currNum), -currNum);
-                expr.erase(pos, expr.size()-pos);
+                expr.erase(pos);
                 expr+="*"+curr;
                 dfs(res, num, i+1, expr, target+last-last*currNum, last*currNum);
-                expr.erase(pos, expr.size()-pos);
+                expr.erase(pos);
             }
         }
     }

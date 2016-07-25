@@ -111,6 +111,30 @@ struct TreeLinkNode {
       }
   };
 
+2. different binary search condition and right bound
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        vector<int> res;
+        vector<int> sorted;
+        int size=nums.size();
+        for (int i=size-1; i>=0; i--) {
+            int l=0, r=sorted.size()-1;
+            int mid;
+            while (l<=r) {
+                mid=(l+r)/2;
+                if (sorted[mid]<nums[i]) l=mid+1;
+                else if (sorted[mid]>=nums[i]) r=mid-1;
+            }
+            res.insert(res.begin(), l);
+            if (l>sorted.size()) sorted.push_back(nums[i]);
+            else sorted.insert(sorted.begin()+l, nums[i]);
+        }
+        
+        return res;
+    }
+};
+
 int main()
 {
 	return 0;

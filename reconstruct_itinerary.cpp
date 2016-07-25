@@ -93,6 +93,8 @@ struct TreeLinkNode {
        Point(int a, int b) : x(a), y(b) {}
   };
 
+[["JFK","KUL"],["JFK","NRT"],["NRT","JFK"]]
+
   class Solution {
   public:
 	  void dfs(map<string, multiset<string> > &m, string city,  vector<string> &res) {

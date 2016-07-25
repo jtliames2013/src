@@ -1,3 +1,12 @@
+52. N-Queens II
+Follow up for N-Queens problem.
+
+Now, instead outputting board configurations, return the total number of distinct solutions.
+
+Hide Company Tags Zenefits
+Hide Tags Backtracking
+Hide Similar Problems (H) N-Queens
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

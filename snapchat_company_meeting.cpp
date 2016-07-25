@@ -1,5 +1,9 @@
 题目是你要举办一个party，给你一些人和他们的上下级关系，如果你邀请了一个人就不能邀请他的直接上级或者直接下级，问怎样邀请能使邀请的所有人的级别加起来和最高（比如CEO是10级然后VP9级这样，类似每个人有一个分数）
 
+class Node {
+	int val;
+	vector<Node*> children;
+};
   class Solution {
 public:
 	  pair<int, int> getMaximum(Node* node) {
