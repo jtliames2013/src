@@ -124,14 +124,12 @@ public:
         if (node==NULL) return;
         if (prev) prev->right=node;
         *last=node;
-        TreeNode *l=node->left;
-        TreeNode *r=node->right;        
-
-        if (l) {
-            getFlat(l, node, last);
+        TreeNode *r=node->right;
+        if (node->left) {
+            getFlat(node->left, node, last);
             node->left=NULL;
         }
-       
+        
         if (r) {
             getFlat(r, *last, last);
         }

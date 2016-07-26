@@ -48,6 +48,37 @@ public:
     }
 };
 
+3. Use std::reverse
+
+class Solution {
+public:
+    void reverseWords(string &s) {
+        int size=s.size();
+        bool started;
+        int sIdx=0;
+        
+        reverse(s.begin(), s.end());
+        
+        for (int i=0; i<size; i++) {
+            if (started) {
+                if (s[i]==' ') {
+                    reverse(s.begin()+sIdx, s.begin()+i);
+                    started=false;
+                }
+            } else {
+                if (s[i]!=' ') {
+                    started=true;
+                    sIdx=i;
+                }
+            }   
+        }
+        
+        if (started) {
+            reverse(s.begin()+sIdx, s.end());
+        }
+    }
+};
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	return 0;

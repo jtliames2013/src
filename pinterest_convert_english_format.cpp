@@ -41,7 +41,11 @@ public:
 			}
 			if (i==0) res+=names[i];
 			else {
-				res+=", " + names[i];
+				if (i==size-1) {
+					res+=" and " + names[i];
+				} else {
+					res+=", " + names[i];
+				}
 			}
 		}
 
@@ -55,7 +59,7 @@ int main() {
 	vector<string> names={"alice","", "bob","","","", "john", "neil", "", "tom"};
 	Solution s;
 	string res=s.getEnglistFormat(names);
-	string resk=s.getEnglistFormatFirstK(names, 2);
+	string resk=s.getEnglistFormatFirstK(names, 4);
 	cout << res << endl;
 	cout << resk << endl;
 	return 0;

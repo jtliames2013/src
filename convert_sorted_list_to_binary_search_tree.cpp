@@ -1,3 +1,11 @@
+109. Convert Sorted List to Binary Search Tree  QuestionEditorial Solution  My Submissions
+Total Accepted: 76583 Total Submissions: 244580 Difficulty: Medium
+Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST.
+
+Hide Company Tags Zenefits
+Hide Tags Depth-first Search Linked List
+Hide Similar Problems (M) Convert Sorted Array to Binary Search Tree
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -79,51 +87,27 @@ public:
 class Solution {
 
 public:
-
     TreeNode* sortedListToBST(ListNode* head) {
-
         if (head==NULL) return NULL;
-
         ListNode *l1=head, *l2=head, *prev=NULL;
-
         while (l2!=NULL&&l2->next!=NULL) {
-
             prev=l1;
-
             l1=l1->next;
-
             l2=l2->next->next;
-
         }
-
         
-
         TreeNode *res=new TreeNode(l1->val);
-
         if (l1==head) head=NULL;
-
         else prev->next=NULL;
-
         ListNode *next=l1->next;
-
         l1->next=NULL;
-
         TreeNode *l=sortedListToBST(head);
-
         TreeNode *r=sortedListToBST(next);
-
         res->left=l;
-
         res->right=r;
 
-        
-
-        return res;
-
-        
-
+        return res;       
     }
-
 };
 
 
