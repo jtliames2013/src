@@ -1,6 +1,16 @@
 Airbnb: Rectangle
 You have a plain with lots of rectangles on it, find out how many of them intersect.
 
+  struct Point {
+       int x;
+       int y;
+  };
+
+  struct Rect {
+	  Point lb;
+	  Point rt;
+  };
+
 class Solution {
 public:
 	  bool isOverlap(Point lb1, Point rt1, Point lb2, Point rt2) {

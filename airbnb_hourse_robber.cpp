@@ -151,47 +151,45 @@ int main()
 }
 
 4. get list of house, use vector to remember previous house.
-  class Solution {
-  public:
-      int rob(vector<int>& nums) {
-          int n=nums.size();
-          if (n==0) return 0;
-          vector<int> dp(n+1, 0);
-          vector<int> pos(n+1, 0);
-          dp[1]=nums[0];
-          pos[1]=1;
-          for (int i=2; i<=n; i++) {
-              dp[i]=max(dp[i-1], dp[i-2]+nums[i-1]);
-              if (dp[i-1]>dp[i-2]+nums[i-1]) {
-            	  pos[i]=i-1;
-              } else {
-            	  pos[i]=i-2;
-              }
-          }
+class Solution {
+public:
+    vector<int> rob(vector<int>& nums) {
+    	vector<int> res;
+    	int n=nums.size();
+        if (n==0) return res;
+        vector<int> dp(n+1, 0);
+        vector<int> pos(n+1, 0);
+        dp[1]=nums[0];
 
-          vector<int> res;
-          for (int i=n; i>0; ) {
-        	  if (i==1) {
-        		  res.insert(res.begin(), i);
-        		  i--;
-        	  } else if (pos[i]==i-2) {
-        		  res.insert(res.begin(), i);
-        		  i-=2;
-        	  } else if (pos[i]==i-1) {
-        		  i--;
-        	  }
-          }
+        for (int i=2; i<=n; i++) {
+            if (dp[i-2]+nums[i-1]>dp[i-1]) {
+                dp[i]=dp[i-2]+nums[i-1];
+                pos[i]=i-2;
+            } else {
+                dp[i]=dp[i-1];
+                pos[i]=i-1;
+            }
+        }
 
-          return dp[n];
-      }
-  };
+        int i;
+        for (i=n; i>=2;) {
+        	if (i-2==pos[i]) {
+        		res.insert(res.begin(), i-1);
+        	}
+            i=pos[i];
+        }
+        if (i==1) res.insert(res.begin(), i-1);
 
-  int main()
-  {
-	vector<int> nums={1,2,3};
+        return res;
+    }
+};
+
+int main() {
+	//vector<int> nums={1,2,3};
+	vector<int> nums={9,1,1,3};
 	Solution s;
-	s.rob(nums);
-  	return 0;
-  }
+	vector<int> res=s.rob(nums);
 
+	return 0;
+}
 

@@ -131,15 +131,7 @@ public:
 		pair<int,int> curr=getStatus();
 		if (curr.second>speed) {
 			cout << "curr=" << curr.second << " speed=" << speed << endl;
-			// make sure we have enough speed
-			setStatus(upperForce);
-			usleep(interval*1000000);
-			setStatus(0);
-			pair<float,float> begin=getStatus();
-			usleep(interval*1000000);
-			pair<float,float> end=getStatus();
-			deaccel=(end.second-begin.second)/interval;
-			cout << "end=" << end.second << " begin=" << begin.second << " deaccel=" << deaccel << endl;
+			deaccel=maxAccel*(force)/(upperFroce-force);
 			float time=(speed-curr.second)/deaccel;
 			cout << "time=" << time << endl;
 			setStatus(0);

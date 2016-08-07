@@ -39,6 +39,32 @@ public:
     }
 };
 
+class Solution {
+public:
+    bool isOneEditDistance(string s, string t) {
+        int m=s.size();
+        int n=t.size();
+        
+        if (abs(m-n)>=2) return false;
+        else if (abs(m-n)==1) {
+            int len=min(m,n);
+            for (int i=0; i<len; i++) {
+                if (s[i]!=t[i]) {
+                    return (m>n?(s.substr(i+1)==t.substr(i)):(s.substr(i)==t.substr(i+1)));
+                }
+            }
+            return true;
+        } else {
+            int count=0;
+            for (int i=0; i<m; i++) {
+                if (s[i]!=t[i]) count++;
+            }
+            return count==1;
+        }
+    }
+};
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	return 0;

@@ -1,4 +1,22 @@
-nclude <stdio.h>
+103. Binary Tree Zigzag Level Order Traversal  QuestionEditorial Solution  My Submissions
+Total Accepted: 67955 Total Submissions: 226918 Difficulty: Medium
+Given a binary tree, return the zigzag level order traversal of its nodes' values. (ie, from left to right, then right to left for the next level and alternate between).
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its zigzag level order traversal as:
+[
+  [3],
+  [20,9],
+  [15,7]
+]
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <string>
@@ -84,6 +102,44 @@ public:
     	}
 
     	return res;
+    }
+};
+
+2. two stack
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        if (root==NULL) return res;
+        stack<TreeNode*> stk1, stk2;
+        vector<int> level;
+        stk1.push(root);
+        
+        while (1) {
+            if (stk1.empty() && stk2.empty()) break;
+            
+            while (!stk1.empty()) {
+                TreeNode *t=stk1.top();
+                stk1.pop();
+                level.push_back(t->val);
+                if (t->left) stk2.push(t->left);
+                if (t->right) stk2.push(t->right);
+            }
+            if (!level.empty()) res.push_back(level);
+            level.clear();
+            
+            while (!stk2.empty()) {
+                TreeNode *t=stk2.top();
+                stk2.pop();
+                level.push_back(t->val);
+                if (t->right) stk1.push(t->right);
+                if (t->left) stk1.push(t->left);
+            }
+            if (!level.empty()) res.push_back(level);
+            level.clear();
+        }
+        
+        return res;
     }
 };
 
