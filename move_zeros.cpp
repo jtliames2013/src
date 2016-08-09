@@ -145,6 +145,30 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int zero=0, nonzero=0;
+        for (; zero<nums.size(); zero++) {
+            if (nums[zero]==0) break;
+        }
+        
+        for (nonzero=zero+1;nonzero<nums.size(); nonzero++) {
+            if (nums[nonzero]!=0) break;
+        }
+        
+        while (nonzero<nums.size()) {
+            swap(nums[zero], nums[nonzero]);
+            zero++;
+            while (nonzero<nums.size()) {
+                if (nums[nonzero]!=0) break;
+                nonzero++;
+            }
+        }
+    }
+};
+
 int main()
 {
 	return 0;

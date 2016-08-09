@@ -51,6 +51,7 @@ public:
     }
 };
 
+2. Max Heap
 class PriorityQueue {
 public:
 	void heapify(int i) {
@@ -103,6 +104,80 @@ public:
 private:
 	vector<int> data;
 };
+
+3. Min Heap
+class PriorityQueue {
+public:
+	void heapify(int i) {
+		int l=2*i;
+		int r=2*i+1;
+		int smallest=i;
+		if (l<=data.size() && data[l-1]<data[i-1]) {
+			smallest=l;
+		}
+		if (r<=data.size() && data[r-1]<data[smallest-1]) {
+			smallest=r;
+		}
+
+		if (smallest!=i) {
+			swap(data[i-1],data[smallest-1]);
+			heapify(smallest);
+		}
+	}
+
+	void push(int val) {
+		data.push_back(val);
+		int i=data.size();
+		while (i>1) {
+			if (data[i/2-1]>data[i-1]) {
+				swap(data[i-1], data[i/2-1]);
+				i/=2;
+			} else {
+				break;
+			}
+		}
+	}
+
+	int pop() {
+		if (!data.empty()) {
+			int res=data[0];
+			data[0]=data[data.size()-1];
+			data.pop_back();
+			heapify(1);
+			return res;
+		} else {
+			return -1;
+		}
+	}
+
+	bool empty() {
+		return data.size()==0;
+	}
+
+	void print() {
+		for (int i=0; i<data.size(); i++) {
+			cout << data[i] << " ";
+		}
+		cout << endl;
+	}
+private:
+	vector<int> data;
+};
+
+int main() {
+	PriorityQueue pq;
+	for (int i=10; i>=1; i--) {
+		pq.push(i);
+		pq.print();
+	}
+	while(!pq.empty()) {
+		pq.pop();
+		pq.print();
+	}
+
+	return 0;
+}
+
 
 int main() {
 	PriorityQueue pq;

@@ -90,6 +90,31 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        map<char, int> pos;
+        int len=0;
+        int start=0;
+        for (int i=0; i<s.size(); i++) {
+            auto iter=pos.find(s[i]);
+            if (iter!=pos.end()) {
+                len=max(len, i-start);
+                for (int j=start; j<=iter->second; j++) {
+                    pos.erase(s[j]);
+                }
+                start=iter->second+1;
+            }
+            
+            pos[s[i]]=i;
+        }
+        len=max(len, (int)s.size()-start);
+        
+        return len;
+    }
+};
+
 int main()
 {
 	return 0;

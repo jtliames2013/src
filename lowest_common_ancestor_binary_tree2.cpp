@@ -134,6 +134,43 @@ public:
     }
 };
 
+3. find path iteratively
+class Solution {
+public:
+    vector<TreeNode*> findPath(TreeNode *root, TreeNode *node) {
+        vector<TreeNode*> res;
+        unordered_set<TreeNode*> visited;
+        res.push_back(root);
+        
+        while (1) {
+            if (res.back()==node) break;
+            if (res.back()->left && visited.find(res.back()->left)==visited.end()) {
+                res.push_back(res.back()->left);
+            } else if (res.back()->right && visited.find(res.back()->right)==visited.end()) {
+                res.push_back(res.back()->right);
+            } else {
+                visited.insert(res.back());
+                res.pop_back();
+            }
+        }
+        
+        return res;
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        vector<TreeNode*> path1, path2;
+        path1=findPath(root, p);
+        path2=findPath(root, q);
+        
+        TreeNode *prev=NULL;
+        for (int i=0; i<path1.size() && i<path2.size(); i++) {
+            if (path1[i]!=path2[i]) break;
+            prev=path1[i];
+        }
+        
+        return prev;
+    }
+};
+
 int main()
 {
 	return 0;

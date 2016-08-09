@@ -204,6 +204,47 @@ public:
     }
 };
 
+2. Use recursion
+
+class Solution {
+public:
+    vector<char> getChar(char digit) {
+        switch (digit) {
+            case '2': return {'a', 'b', 'c'}; 
+            case '3': return {'d', 'e', 'f'}; 
+            case '4': return {'g', 'h', 'i'}; 
+            case '5': return {'j', 'k', 'l'}; 
+            case '6': return {'m', 'n', 'o'}; 
+            case '7': return {'p', 'q', 'r', 's'}; 
+            case '8': return {'t', 'u', 'v'}; 
+            case '9': return {'w', 'x', 'y', 'z'}; 
+            default: return {};
+        }
+    }
+    
+    void getComb(vector<string>& res, string& digits, string& expr, int start) {
+        if (start==digits.size()) {
+            if (!expr.empty()) res.push_back(expr);
+            return;
+        }    
+        
+        vector<char> letters=getChar(digits[start]);
+        for (int i=0; i<letters.size(); i++) {
+            expr.push_back(letters[i]);
+            getComb(res, digits, expr, start+1);
+            expr.pop_back();
+        }
+    }
+    
+    vector<string> letterCombinations(string digits) {
+        vector<string> res;
+        string expr;
+        getComb(res, digits, expr, 0);
+        
+        return res;
+    }
+};
+
 int main()
 {
 	return 0;
