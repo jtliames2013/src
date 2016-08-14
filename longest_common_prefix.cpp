@@ -1,3 +1,10 @@
+14. Longest Common Prefix  QuestionEditorial Solution  My Submissions
+Total Accepted: 114633 Total Submissions: 391271 Difficulty: Easy
+Write a function to find the longest common prefix string amongst an array of strings.
+
+Hide Company Tags Yelp
+Hide Tags String
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -1,3 +1,11 @@
+5. Longest Palindromic Substring  QuestionEditorial Solution  My Submissions
+Total Accepted: 123340 Total Submissions: 520502 Difficulty: Medium
+Given a string S, find the longest palindromic substring in S. You may assume that the maximum length of S is 1000, and there exists one unique longest palindromic substring.
+
+Hide Company Tags Amazon Microsoft Bloomberg
+Hide Tags String
+Hide Similar Problems (H) Shortest Palindrome (E) Palindrome Permutation (H) Palindrome Pairs
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

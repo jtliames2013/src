@@ -67,6 +67,39 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    int lengthOfLongestSubstringKDistinct(string s, int k) {
+        map<char,int> pos;
+        int len=0;
+        int start=0;
+        int i;
+        for (i=0; i<s.size(); i++) {
+            if (pos.size()==k && pos.find(s[i])==pos.end()) {
+				// update len only when start is going to change
+                len=max(len, i-start);
+                int leftMost=INT_MAX;
+                char letter;
+                for (auto p:pos) {
+                    if (leftMost>p.second) {
+                        leftMost=p.second;
+                        letter=p.first;
+                    }
+                }
+                start=leftMost+1;
+                pos.erase(letter);
+            } 
+            
+            pos[s[i]]=i;
+        }
+        
+        len=max(len, i-start);
+        
+        return len;
+    }
+};
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	return 0;

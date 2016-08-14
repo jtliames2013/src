@@ -94,6 +94,28 @@ public:
     }
 };
 
+2. No need to sort
+class Solution {
+public:
+    void getSet(vector<vector<int>>& res, vector<int>& output, vector<int>& nums, int start) {
+        res.push_back(output);
+        
+        for (int i=start; i<nums.size(); i++) {
+            output.push_back(nums[i]);
+            getSet(res, output, nums, i+1);
+            output.pop_back();
+        }
+    }
+    
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> output;
+        getSet(res, output, nums, 0);
+        
+        return res;
+    }
+};
+
 int main()
 {
 	return 0;

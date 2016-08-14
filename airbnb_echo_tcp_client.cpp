@@ -34,7 +34,7 @@ public:
 		portno=50000;
 		sockfd = socket(AF_INET, SOCK_STREAM, 0);
 		if (sockfd<0) cerr << "error open socket" << endl;
-		server = gethostbyname("jiangtian-ThinkPad-T410");
+		server = gethostbyname("localhost");
 		if (server==NULL) cerr << "no such host" << endl;
 		bzero((char *) &serv_addr, sizeof(serv_addr));
 		serv_addr.sin_family = AF_INET;

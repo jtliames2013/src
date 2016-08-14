@@ -127,65 +127,34 @@ struct TreeLinkNode {
 2.
 
 class Solution {
-
 public:
-
     int longestConsecutive(vector<int>& nums) {
-
         int longest=0;
-
         unordered_set<int> st;
-
         for (auto n:nums) st.insert(n);
-
-        
-
+       
         for (auto n:nums) {
-
             if (st.find(n)!=st.end()) {
-
                 int left=n, right=n;
-
                 while (1) {
-
                     right++;
-
                     if (st.find(right)==st.end()) break;
-
                     st.erase(right);
-
-                }
-
-                
+                }                
 
                 while (1) {
-
                     left--;
-
                     if (st.find(left)==st.end()) break;
-
                     st.erase(left);
+                }                
 
-                }
-
-                
-
-                longest=max(longest, right-left-1);
-
-                
-
+                longest=max(longest, right-left-1);                
                 st.erase(n);
-
             }    
-
         }
-
-        
-
+       
         return longest;
-
     }
-
 };
 
 int main()

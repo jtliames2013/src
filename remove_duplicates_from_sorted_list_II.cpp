@@ -1,3 +1,11 @@
+82. Remove Duplicates from Sorted List II  QuestionEditorial Solution  My Submissions
+Total Accepted: 80840 Total Submissions: 291915 Difficulty: Medium
+Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
+
+For example,
+Given 1->2->3->3->4->4->5, return 1->2->5.
+Given 1->1->1->2->3, return 2->3.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -94,6 +102,38 @@ public:
     	}
 
     	return newhead;
+    }
+};
+
+2.
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode *newhead=NULL, *tail=NULL, *curr=head;
+        while (curr!=NULL) {
+            ListNode *n=curr->next;
+            bool isDup=false;
+            while (n!=NULL && n->val==curr->val) {
+                isDup=true;
+                n=n->next;
+            }
+            if (!isDup) {
+                if (newhead==NULL) {
+                    newhead=tail=curr;
+                } else {
+                    tail->next=curr;
+                    tail=curr;
+                }
+            } else {
+                for (ListNode *tmp=curr; tmp!=n; tmp=tmp->next) {
+                    delete tmp;
+                }
+            }
+            curr=n;
+        }
+        
+        if (tail) tail->next=NULL;
+        return newhead;
     }
 };
 
