@@ -1,3 +1,16 @@
+150. Evaluate Reverse Polish Notation  QuestionEditorial Solution  My Submissions
+Total Accepted: 71093 Total Submissions: 288951 Difficulty: Medium
+Evaluate the value of an arithmetic expression in Reverse Polish Notation.
+
+Valid operators are +, -, *, /. Each operand may be an integer or another expression.
+
+Some examples:
+  ["2", "1", "+", "3", "*"] -> ((2 + 1) * 3) -> 9
+  ["4", "13", "5", "/", "+"] -> (4 + (13 / 5)) -> 6
+Hide Company Tags LinkedIn
+Hide Tags Stack
+Hide Similar Problems (H) Basic Calculator (H) Expression Add Operators
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

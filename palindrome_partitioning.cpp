@@ -1,3 +1,20 @@
+131. Palindrome Partitioning  QuestionEditorial Solution  My Submissions
+Total Accepted: 71833 Total Submissions: 249685 Difficulty: Medium
+Given a string s, partition s such that every substring of the partition is a palindrome.
+
+Return all possible palindrome partitioning of s.
+
+For example, given s = "aab",
+Return
+
+[
+  ["aa","b"],
+  ["a","a","b"]
+]
+Hide Company Tags Bloomberg
+Hide Tags Backtracking
+Hide Similar Problems (H) Palindrome Partitioning II
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -1,3 +1,21 @@
+49. Group Anagrams  QuestionEditorial Solution  My Submissions
+Total Accepted: 86398 Total Submissions: 295781 Difficulty: Medium
+Given an array of strings, group anagrams together.
+
+For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"], 
+Return:
+
+[
+  ["ate", "eat","tea"],
+  ["nat","tan"],
+  ["bat"]
+]
+Note: All inputs will be in lower-case.
+
+Hide Company Tags Amazon Bloomberg Uber Facebook Yelp
+Hide Tags Hash Table String
+Hide Similar Problems (E) Valid Anagram (E) Group Shifted Strings
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

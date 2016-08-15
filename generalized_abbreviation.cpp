@@ -122,7 +122,7 @@ struct TreeLinkNode {
       }
   };
 
-2. One letter at a time. Other there will be duplicate, e.g., a,bc ab,c
+2. One letter at a time. Otherwise there will be duplicate, e.g., a,bc ab,c
 class Solution {
 public:
     void generate(vector<string>& res, string& output, string& word, int start, bool isPrevNum) {

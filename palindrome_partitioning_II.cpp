@@ -1,3 +1,15 @@
+132. Palindrome Partitioning II  QuestionEditorial Solution  My Submissions
+Total Accepted: 55383 Total Submissions: 245684 Difficulty: Hard
+Given a string s, partition s such that every substring of the partition is a palindrome.
+
+Return the minimum cuts needed for a palindrome partitioning of s.
+
+For example, given s = "aab",
+Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut.
+
+Hide Tags Dynamic Programming
+Hide Similar Problems (M) Palindrome Partitioning
+
 1D DP. DP size n+1. allocate matrix to cache isPalindrome result. 
 
 整体的思路是一维DP。DP[i]表示长度为i的prefix：s[0: i-1]的min cut数量。

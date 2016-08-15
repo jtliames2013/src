@@ -1,3 +1,21 @@
+242. Valid Anagram  QuestionEditorial Solution  My Submissions
+Total Accepted: 101332 Total Submissions: 233643 Difficulty: Easy
+Given two strings s and t, write a function to determine if t is an anagram of s.
+
+For example,
+s = "anagram", t = "nagaram", return true.
+s = "rat", t = "car", return false.
+
+Note:
+You may assume the string contains only lowercase alphabets.
+
+Follow up:
+What if the inputs contain unicode characters? How would you adapt your solution to such case?
+
+Hide Company Tags Amazon Uber Yelp
+Hide Tags Hash Table Sort
+Hide Similar Problems (M) Group Anagrams (E) Palindrome Permutation
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

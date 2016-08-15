@@ -1,3 +1,20 @@
+151. Reverse Words in a String  QuestionEditorial Solution  My Submissions
+Total Accepted: 112874 Total Submissions: 715351 Difficulty: Medium
+Given an input string, reverse the string word by word.
+
+For example,
+Given s = "the sky is blue",
+return "blue is sky the".
+
+Update (2015-02-12):
+For C programmers: Try to solve it in-place in O(1) space.
+
+click to show clarification.
+
+Hide Company Tags Microsoft Snapchat Apple Bloomberg Yelp
+Hide Tags String
+Hide Similar Problems (M) Reverse Words in a String II
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
