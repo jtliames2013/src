@@ -1,3 +1,15 @@
+135. Candy  QuestionEditorial Solution  My Submissions
+Total Accepted: 56304 Total Submissions: 243377 Difficulty: Hard
+There are N children standing in a line. Each child is assigned a rating value.
+
+You are giving candies to these children subjected to the following requirements:
+
+Each child must have at least one candy.
+Children with a higher rating get more candies than their neighbors.
+What is the minimum candies you must give?
+
+Hide Tags Greedy
+
 解题思路：
 贪心算法（Greedy Algorithm）
 

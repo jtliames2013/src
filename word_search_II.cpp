@@ -309,11 +309,10 @@ public:
             auto iter=node->children.find(board[row][col]);
             if (iter==node->children.end()) return;
             
+            prefix.push_back(iter->first);
             if (iter->second->isWord) {
-                prefix.push_back(iter->first);
                 res.push_back(prefix);
                 prefixTree.deleteWord(prefix);
-                prefix.pop_back();
             }
             
             visited[row][col]=true;
@@ -323,12 +322,11 @@ public:
                 int ny=col+delta[i][1];
                 
                 if (nx>=0 && nx<m && ny>=0 && ny<n && visited[nx][ny]==false) {
-                    prefix.push_back(iter->first);
                     findInBoard(board, prefixTree, iter->second, visited, res, prefix, nx, ny, m, n);
-                    prefix.pop_back();
                 }
             }
             visited[row][col]=false;
+            prefix.pop_back();
     }
     
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {

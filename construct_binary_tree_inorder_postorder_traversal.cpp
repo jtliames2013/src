@@ -1,3 +1,15 @@
+106. Construct Binary Tree from Inorder and Postorder Traversal QuestionEditorial Solution  My Submissions
+Total Accepted: 62571 Total Submissions: 208998 Difficulty: Medium
+Given inorder and postorder traversal of a tree, construct the binary tree.
+
+Note:
+You may assume that duplicates do not exist in the tree.
+
+Subscribe to see which companies asked this question
+
+Hide Tags Tree Array Depth-first Search
+Hide Similar Problems (M) Construct Binary Tree from Preorder and Inorder Traversal
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

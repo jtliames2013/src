@@ -1,3 +1,15 @@
+48. Rotate Image  QuestionEditorial Solution  My Submissions
+Total Accepted: 76768 Total Submissions: 214657 Difficulty: Medium
+You are given an n x n 2D matrix representing an image.
+
+Rotate the image by 90 degrees (clockwise).
+
+Follow up:
+Could you do this in-place?
+
+Hide Company Tags Amazon Microsoft Apple
+Hide Tags Array
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
