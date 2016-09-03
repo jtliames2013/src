@@ -1,9 +1,0 @@
-sort_colors
-  * swap the end half during one-pass
-minimum_path_sum
-  * operator precedence ? over +, use parenthsis
-spiral_matirx_II
-  * even and odd case different
-container_with_most_water
-  * http://rafal.io/posts/leetcode-11-container-with-most-water.html
-
