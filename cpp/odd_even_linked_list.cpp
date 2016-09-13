@@ -116,79 +116,40 @@ struct TreeLinkNode {
 2.
 
 class Solution {
-
 public:
-
     ListNode* oddEvenList(ListNode* head) {
-
-        ListNode *oddhead=NULL, *oddtail=NULL, *evenhead=NULL, *eventail=NULL;
-
-        ListNode *one=head, *two=head;
-
+        ListNode *oddHead=NULL, *evenHead=NULL, *oddTail=NULL, *evenTail=NULL;
+        ListNode *curr=head, *next=NULL, *nextnext=NULL;
         
-
-        while (one!=NULL) {
-
-            if (oddhead==NULL) {
-
-                oddhead=oddtail=one;
-
+        while (curr!=NULL) {
+            next=curr->next;
+            if (next!=NULL) {
+                nextnext=next->next;
             } else {
-
-                oddtail->next=one;
-
-                oddtail=one;
-
+                nextnext=NULL;
             }
-
-            two=one->next;
-
             
-
-            if (two!=NULL) {
-
-                if (evenhead==NULL) {
-
-                    evenhead=eventail=two;
-
-                } else {
-
-                    eventail->next=two;
-
-                    eventail=two;
-
-                }
-
-                
-
-                one=two->next;
-
+            if (oddHead==NULL) {
+                oddHead=oddTail=curr;
             } else {
-
-                one=NULL;
-
+                oddTail->next=curr;
+                oddTail=curr;
             }
-
+            
+            if (evenHead==NULL) {
+                evenHead=evenTail=next;
+            } else {
+                evenTail->next=next;
+                evenTail=next;
+            }
+            
+            curr=nextnext;
         }
-
         
-
-        if (oddtail!=NULL) {
-
-            oddtail->next=evenhead;
-
-            if (eventail!=NULL) eventail->next=NULL;
-
-            return oddhead;
-
-        } else {
-
-            return evenhead;
-
-        }
-
+        if (oddTail!=NULL) oddTail->next=evenHead;
+         
+        return oddHead;
     }
-
 };
 
 int main()

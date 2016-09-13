@@ -1,3 +1,18 @@
+179. Largest Number  QuestionEditorial Solution  My Submissions
+Total Accepted: 54991 Total Submissions: 268383 Difficulty: Medium
+Given a list of non negative integers, arrange them such that they form the largest number.
+
+For example, given [3, 30, 34, 5, 9], the largest formed number is 9534330.
+
+Note: The result may be very large, so you need to return a string instead of an integer.
+
+Credits:
+Special thanks to @ts for adding this problem and creating all test cases.
+
+Subscribe to see which companies asked this question
+
+Hide Tags Sort
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

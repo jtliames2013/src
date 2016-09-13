@@ -72,45 +72,25 @@ public:
 2.
 
 class Solution {
-
 public:
-
     ListNode *detectCycle(ListNode *head) {
-
         ListNode *one=head, *two=head;
-
         
-
         while (1) {
-
             if (one!=NULL) one=one->next;
-
             if (two!=NULL && two->next!=NULL) two=two->next->next;
-
-            else return NULL;
-
-            
-
+            else return NULL;            
             if (one==two) break;
 
-        }
-
-        
+        }        
 
         one=head;
-
         while (one!=two) {
-
             one=one->next;
-
             two=two->next;
-
-        }
-
-        
+        }        
 
         return one;
-
     }
 
 };

@@ -51,3 +51,25 @@ public:
     }
 
 };
+
+2.
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> res;
+        unordered_set<int> st1;
+        set<int> resset;
+        for (auto i:nums1) {
+            st1.insert(i);
+        }
+        
+        for (auto i:nums2) {
+            if (st1.find(i)!=st1.end()) {
+                resset.insert(i);
+            }
+        }
+        
+        for (auto i:resset) res.push_back(i);
+        return res;
+    }
+};

@@ -91,6 +91,7 @@ public:
             else r=mid-1;
         }
         return n-l;
+		// return n-1-r;
     }
 };
 
