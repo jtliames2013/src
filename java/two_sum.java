@@ -38,3 +38,24 @@ public class HelloWorld {
 	}
 }
 
+2. HashMap
+public class Solution {
+	public int[] twoSum(int[] nums, int target) {              
+        Map<Integer, Integer> map=new HashMap<>();
+        int[] res={0,0};
+        for (int i=0; i<nums.length; i++) {
+            map.put(nums[i], i);
+        }
+        
+        for (int i=0; i<nums.length; i++) {
+            if (map.containsKey(target-nums[i]) && map.get(target-nums[i])!=i) {
+                res[0]=i;
+                res[1]=map.get(target-nums[i]);
+                break;
+            }
+        }
+        
+        return res;
+    }
+}
+

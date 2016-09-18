@@ -94,6 +94,30 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        int n=nums.size();
+        if (n==0) return 0;
+        int minlen=INT_MAX;
+        int sum=0;
+        int l, r;
+        for (l=0, r=0; r<n; r++) {
+            sum+=nums[r];
+            
+            while (sum>=s) {
+                minlen=min(minlen, r-l+1);
+                sum-=nums[l];
+                l++;
+            }
+        }
+        
+        if (minlen==INT_MAX) return 0;
+        else return minlen;
+    }
+};
+
 int main()
 {
 	return 0;
