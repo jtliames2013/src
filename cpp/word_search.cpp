@@ -147,6 +147,7 @@ public:
 class Solution {
 public:
     bool existInBoard(vector<vector<char>>& board, string& word, vector<vector<bool>>& visited, int start, int row, int col, int m, int n) {
+		// Need to compare first. A board with only one character ['a'] has no neighbor
         if (word[start]!=board[row][col]) return false;
         start++;
         if (start==word.size()) return true;
