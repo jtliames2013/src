@@ -86,8 +86,8 @@ struct TreeLinkNode {
       Interval(int s, int e) : start(s), end(e) {}
  };
 
- class Solution {
- public:
+class Solution {
+public:
 	 bool isPalindrome(string& s, int index) {
 		 int l=0, r=index;
 		 while (l<r) {
@@ -99,35 +99,19 @@ struct TreeLinkNode {
 		 return true;
 	 }
 
-	 void revertString(string& s) {
-		 int l=0, r=s.size()-1;
-		 while (l<r) {
-			 char temp=s[l];
-			 s[l]=s[r];
-			 s[r]=temp;
-			 l++;
-			 r--;
-		 }
-	 }
-
      string shortestPalindrome(string s) {
     	 string res;
-    	 if (s.size()==0) return res;
-    	 for (int i=0; i<s.size(); i++) {
-    		 if (!isPalindrome(s, i)) {
-    			 res=s.substr(i, s.size()-i);
+    	 int n=s.size();
+    	 if (n==0) return s;
+    	 for (int i=n-1; i>=0; i--) {
+    		 if (isPalindrome(s, i)) {
+    			 res=s.substr(i+1);
     			 break;
     		 }
     	 }
 
-    	 revertString(res);
-    	 res.append(s);
+    	 reverse(res.begin(), res.end());
+    	 res+=s;
     	 return res;
      }
- };
-
-int main()
-{
-	return 0;
-}
-
+};

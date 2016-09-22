@@ -94,6 +94,36 @@ public:
 	}
 };
 
+2. Use hash table instead of find index
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, int preStart, int preEnd, vector<int>& inorder, int inStart, int inEnd) {
+        if (preStart>preEnd) return NULL;
+        TreeNode* node=new TreeNode(preorder[preStart]);
+        int index=pos[preorder[preStart]];
+        node->left=buildTree(preorder, preStart+1, preStart+(index-inStart), inorder, inStart, index-1);
+        node->right=buildTree(preorder, preStart+(index-inStart)+1, preEnd, inorder, index+1, inEnd);
+        return node;
+    }
+    
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        if (preorder.size()==0) return NULL;
+        for (int i=0; i<inorder.size(); i++) pos[inorder[i]]=i;
+        return buildTree(preorder, 0, preorder.size()-1, inorder, 0, inorder.size()-1);
+    }
+private:
+    map<int,int> pos;
+};
+
 int main()
 {
 	return 0;
