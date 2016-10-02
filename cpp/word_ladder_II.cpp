@@ -88,3 +88,50 @@ private void getPaths(String cur, String end, ArrayList<String> list, int level,
    }  
 }  
 
+2.
+class Solution {
+public:
+    vector<vector<string>> findLadders(string beginWord, string endWord, unordered_set<string> &wordList) {
+        vector<vector<string>> res;
+        queue<vector<string>> q;
+        unordered_set<string> visited;
+        wordList.insert(endWord);
+        q.push({beginWord});
+        int level=1;
+        int minlevel=INT_MAX;
+        
+        while (!q.empty()) {
+            vector<string> path=q.front();
+            q.pop();
+            if (path.size()>level) {
+                for (auto w:visited) wordList.erase(w);
+                visited.clear();
+                if (path.size()>minlevel) break;
+                else level=path.size();
+            }
+            
+            string last=path.back();
+            for (int i=0; i<last.size(); i++) {
+                string next=last;
+                for (char c='a'; c<='z'; c++) {
+                    next[i]=c;
+                    if (wordList.find(next)!=wordList.end()) {
+                        vector<string> newpath=path;
+                        newpath.push_back(next);
+                        visited.insert(next);
+                        if (next==endWord) {
+                            minlevel=level;
+                            res.push_back(newpath);
+                        } else {
+                            q.push(newpath);
+                        }
+                    }
+                }
+            }
+        }
+        
+        return res;
+    }
+};
+
+

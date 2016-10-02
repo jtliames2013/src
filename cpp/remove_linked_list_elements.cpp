@@ -98,6 +98,28 @@ struct TreeLinkNode {
       }
   };
 
+2.
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        if (head==NULL) return NULL;
+        ListNode *prev=NULL, *curr=head, *next=NULL, *newHead=NULL;
+        while (curr!=NULL) {
+            next=curr->next;
+            if (curr->val==val) {
+                if (prev!=NULL) prev->next=next;
+                delete curr;
+            } else {
+                if (newHead==NULL) newHead=curr;
+                prev=curr;
+            }
+            curr=next;
+        }
+        
+        return newHead;
+    }
+};
+
 int main()
 {
 	return 0;

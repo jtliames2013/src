@@ -92,6 +92,26 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> res;
+        map<string, vector<string>> m;
+        for (auto str:strs) {
+            string key=str;
+            sort(key.begin(), key.end());
+            m[key].push_back(str);
+        }
+        
+        for (auto iter:m) {
+            res.push_back(iter.second);    
+        }
+        
+        return res;
+    }
+};
+
 int main()
 {
 	return 0;

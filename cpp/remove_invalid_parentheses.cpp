@@ -30,60 +30,6 @@ Examples:
 
 using namespace std;
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-  // Definition for a point.
-  struct Point {
-       int x;
-       int y;
-       Point() : x(0), y(0) {}
-       Point(int a, int b) : x(a), y(b) {}
-  };
 
   class Solution {
   public:
@@ -132,6 +78,127 @@ struct TreeLinkNode {
     	  return res;
       }
   };
+
+2.
+class Solution {
+public:
+    bool isValid(string s) {
+        int count=0;
+        for (int i=0; i<s.size(); i++) {
+            if (s[i]=='(') count++;
+            else if (s[i]==')') {
+                count--;
+                if (count<0) return false;
+            }
+        }
+        return count==0;
+    }
+    
+    vector<string> removeInvalidParentheses(string s) {
+        vector<string> res;
+        deque<string> q;
+        set<string> visited;
+        q.push_back(s);
+        visited.insert(s);
+        int currLevel=1, nextLevel=0;
+        
+        bool found=false;
+        while (!q.empty()) {
+            string f=q.front();
+            q.pop_front();
+            if (isValid(f)) {
+                found=true;
+                res.push_back(f);
+            }
+            currLevel--;
+            
+            if (!found) {
+                for (int i=0; i<f.size(); i++) {
+                    if (f[i]=='(' || f[i]==')') {
+                        string next=f.substr(0,i)+f.substr(i+1);
+                        if (visited.find(next)==visited.end()) {
+                            q.push_back(next);
+                            visited.insert(next);
+                        }
+                    }
+                }
+            }
+            
+            if (currLevel==0) {
+                currLevel=nextLevel;
+                nextLevel=0;
+                if (found) q.clear();
+            }
+        }
+        
+        return res;
+    }
+};
+
+3. DFS
+class Solution {
+public:
+    void dfs(vector<string>& res, string& s, int start, string& path, int open, int close, int count) {
+        if (count<0) return;
+        if (start==s.size()) {
+            if (open==0&&close==0) {
+                res.push_back(path);
+            }
+            return;
+        }
+        
+        if (s[start]!='(' && s[start]!=')') {
+            path.push_back(s[start]);
+            dfs(res, s, start+1, path, open, close, count);
+            path.pop_back();
+        } else if (s[start]=='(') {
+            int i=1;
+            while (start+i<s.size() && s[start+i]=='(') i++;
+            int len=path.size();
+            path.append(i, s[start]);
+            dfs(res, s, start+i, path, open, close, count+i);
+            path.erase(len);
+            
+            if (open>0) {
+                dfs(res, s, start+1, path, open-1, close, count);
+            }
+        } else {
+            int i=1;
+            while (start+i<s.size() && s[start+i]==')') i++;
+            int len=path.size();
+            path.append(i, s[start]);
+            dfs(res, s, start+i, path, open, close, count-i);
+            path.erase(len);
+            
+            if (close>0) {
+                dfs(res, s, start+1, path, open, close-1, count);
+            }
+        }
+    }
+    
+    vector<string> removeInvalidParentheses(string s) {
+        vector<string> res;
+        int count=0, open=0, close=0;
+        for (int i=0; i<s.size(); i++) {
+            if (s[i]=='(') count++;
+            else if (s[i]==')') {
+                if (count==0) close++;
+                else count--;
+            }
+        }
+        open=count;
+        if (open==0 && close==0) {
+            res.push_back(s);
+            return res;
+        }
+        
+        string path;
+        dfs(res, s, 0, path, open, close, 0);
+        
+        return res;
+    }
+};
+
 
 int main()
 {

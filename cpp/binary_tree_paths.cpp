@@ -177,6 +177,56 @@ public:
         return res;
     }
 };
+
+3. iteratively
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    string getString(vector<TreeNode*> v) {
+        string res;
+        for (int i=0; i<v.size(); i++) {
+            if (i>0) {
+                res+="->";
+            }
+            res+=to_string(v[i]->val);
+        }    
+        return res;
+    }
+    
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<TreeNode*> path;
+        set<TreeNode*> visited;
+        vector<string> res;
+        if (root==NULL) return res;
+        path.push_back(root);
+        visited.insert(root);
+        while (!path.empty()) {
+            if (path.back()->left && visited.find(path.back()->left)==visited.end()) {
+                visited.insert(path.back()->left);
+                path.push_back(path.back()->left);
+            } else if (path.back()->right && visited.find(path.back()->right)==visited.end()) {
+                visited.insert(path.back()->right);
+                path.push_back(path.back()->right);
+            } else {
+                if (path.back()->left==NULL && path.back()->right==NULL) {
+                    res.push_back(getString(path));
+                }
+                path.pop_back();
+            }
+        }
+        
+        return res;
+    }
+};
+
 int main()
 {
 	return 0;

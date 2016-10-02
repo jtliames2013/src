@@ -91,83 +91,31 @@ public:
 2.
 
 class Solution {
-
 public:
-
-    bool isOp(string s) {
-
-        return (s=="+" || s=="-" || s=="*" || s=="/");
-
+    bool isop(string s) {
+        return s=="+" || s=="-" || s=="*" || s=="/";
     }
-
     
-
-    string calc(string &l, string &r, string &op) {
-
-        int res;
-
-        int lhs=atoi(l.c_str());
-
-        int rhs=atoi(r.c_str());
-
-        if (op=="+") res=lhs+rhs;
-
-        else if (op=="-") res=lhs-rhs;
-
-        else if (op=="*") res=lhs*rhs;
-
-        else res=lhs/rhs;
-
-        
-
-        return to_string(res);
-
-    }
-
-    
-
     int evalRPN(vector<string>& tokens) {
-
-        int res;
-
-        stack<string> stk;
-
-        
-
+        stack<int> stk;
         for (int i=0; i<tokens.size(); i++) {
-
-            if (isOp(tokens[i])) {
-
-                string r=stk.top();
-
+            if (isop(tokens[i])) {
+                int num2=stk.top();
                 stk.pop();
-
-                string l=stk.top();
-
+                int num1=stk.top();
                 stk.pop();
-
-                string val=calc(l, r, tokens[i]);
-
-                stk.push(val);
-
+                if (tokens[i]=="+") stk.push(num1+num2);
+                else if (tokens[i]=="-") stk.push(num1-num2);
+                else if (tokens[i]=="*") stk.push(num1*num2);
+                else if (tokens[i]=="/") stk.push(num1/num2);
             } else {
-
-                stk.push(tokens[i]);
-
+                stk.push(stoi(tokens[i]));
             }
-
         }
-
         
-
-        res=atoi(stk.top().c_str());
-
-        return res;
-
+        return stk.top();
     }
-
 };
-
 
 int main()
 {

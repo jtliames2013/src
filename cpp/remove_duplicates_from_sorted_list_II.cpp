@@ -20,42 +20,6 @@ Given 1->1->1->2->3, return 2->3.
 
 using namespace std;
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
 
 class Solution {
 public:
@@ -134,6 +98,31 @@ public:
         
         if (tail) tail->next=NULL;
         return newhead;
+    }
+};
+
+3.
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if (head==NULL) return NULL;
+        ListNode *prev=NULL, *curr=head, *next=NULL;
+        ListNode *newHead=NULL;
+        while (curr!=NULL) {
+            next=curr->next;
+            if (next==NULL || next->val!=curr->val) {
+                if (newHead==NULL) newHead=curr;
+                prev=curr;
+                curr=next;
+            } else {
+                while (next!=NULL && next->val==curr->val) next=next->next;
+                if (prev!=NULL) {
+                    prev->next=next;
+                }
+                curr=next;
+            }
+        }
+        return newHead;
     }
 };
 

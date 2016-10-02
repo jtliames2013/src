@@ -103,6 +103,27 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int n=nums.size();
+        int i=0, start=0, end=n-1;
+        
+        while (i<=end) {
+            if (nums[i]==0) {
+                if (nums[start]!=0) swap(nums[start], nums[i]);
+                start++;
+                i++;
+            } else if (nums[i]==2) {
+                if (nums[end]!=2) swap(nums[i], nums[end]);
+                end--;
+            } else {
+                i++;
+            }
+        } 
+    }
+};
 int main()
 {
 	return 0;
