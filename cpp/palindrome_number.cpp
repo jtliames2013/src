@@ -55,6 +55,29 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x==0) return true;
+        if (x<0) return false;
+        long long n=1;
+        while (n<=x) n*=10;
+        n/=10;
+        
+        while (x>0) {
+            int l=x/n;
+            int r=x%10;
+            if (l!=r) return false;
+            x%=n;
+            x/=10;
+            n/=100;
+        }
+        
+        return true;
+    }
+};
+
 int main()
 {
 	Solution s;

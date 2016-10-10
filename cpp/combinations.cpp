@@ -93,6 +93,31 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    void getComb(vector<vector<int>>& res, vector<int>& output, int n, int k, int start) {
+        if (output.size()==k) {
+            res.push_back(output);
+            return;
+        }
+        for (int i=start; i<=n; i++) {
+            if (output.size()+n-i+1>=k) {
+                output.push_back(i);
+                getComb(res, output, n, k, i+1);
+                output.pop_back();
+            }
+        }
+    }
+    
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> res;
+        vector<int> output;
+        getComb(res, output, n, k, 1);
+        return res;
+    }
+};
+
 int main()
 {
 	return 0;

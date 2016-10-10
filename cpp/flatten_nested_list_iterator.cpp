@@ -184,6 +184,50 @@ private:
     stack<NestedInteger> stk;
 };
 
+3.
+class NestedIterator {
+public:
+    void tryAdvance() {
+        while (!begins.empty()) {
+            if (begins.top()==ends.top()) {
+                begins.pop();
+                ends.pop();
+            } else {
+                if (begins.top()->isInteger()) break;
+                else {
+                    auto t=begins.top();
+                    begins.top()++;
+                    begins.push(t->getList().begin());
+                    ends.push(t->getList().end());
+                }
+            }
+        }
+    }
+    
+    NestedIterator(vector<NestedInteger> &nestedList) {
+        begins.push(nestedList.begin());
+        ends.push(nestedList.end());
+        tryAdvance();
+    }
+
+    int next() {
+        if (hasNext()) {
+            int res=begins.top()->getInteger();
+            begins.top()++;
+            tryAdvance();
+            return res;
+        } else {
+            return -1;
+        }
+    }
+
+    bool hasNext() {
+        return begins.size()>0;
+    }
+private:
+    stack<vector<NestedInteger>::iterator> begins, ends;
+};
+
 int main()
 {
 	return 0;

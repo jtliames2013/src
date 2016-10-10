@@ -69,97 +69,56 @@ struct TreeLinkNode {
 1. swap and move one number at a time
 class Solution {
 public:
-	void swap(vector<int>& nums, int i, int j)
-	{
-		int temp=nums[i];
-		nums[i]=nums[j];
-		nums[j]=temp;
-	}
-
-	void getPermute(vector<vector<int>>& res, vector<int>& nums, int index)
-	{
-		if (index==0) {
-			res.push_back(nums);
-			return;
-		}
-
-		for (int i=0; i<=index; i++)
-		{
-			swap(nums, i, index);
-			getPermute(res, nums, index-1);
-			swap(nums, i, index);
-		}
-	}
-
-	vector<vector<int>> permute(vector<int>& nums) {
-		vector<vector<int> > res;
-		if (nums.size()==0) return res;
-
-		getPermute(res, nums, nums.size()-1);
-
-		return res;
+    void getPerm(vector<vector<int>>& res, vector<int>& nums, int start) {
+        if (start==nums.size()) {
+            res.push_back(nums);
+            return;
+        }
+        for (int i=start; i<nums.size(); i++) {
+            swap(nums[start], nums[i]);
+            getPerm(res, nums, start+1);
+            swap(nums[start], nums[i]);
+        }
+    }
+    
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res;
+        int n=nums.size();
+        if (n==0) return res;
+        getPerm(res, nums, 0);
+        
+        return res;
     }
 };
 
 2. Use additional array to record the number selected.
 class Solution {
-
 public:
-
 	void getPermute(vector<vector<int> >& res, vector<int>& nums, vector<int>& solution, vector<bool>& selected) {
-
 		if (solution.size()==nums.size()) {
-
 			res.push_back(solution);
-
 			return;
-
 		}
-
-
 
 		for (int i=0; i<nums.size(); i++) {
-
 			if (selected[i]==false) {
-
 				solution.push_back(nums[i]);
-
 				selected[i]=true;
-
 				getPermute(res, nums, solution, selected);
-
 				solution.pop_back();
-
 				selected[i]=false;
-
 			}
-
 		}
-
 	}
 
-
-
     vector<vector<int>> permute(vector<int>& nums) {
-
     	vector<vector<int> > res;
-
     	std::sort(nums.begin(), nums.end());
-
     	vector<int> solution;
-
     	vector<bool> selected(nums.size(), false);
-
-
-
     	getPermute(res, nums, solution, selected);
-
-
-
     	return res;
-
     }
-
 };
 
 
