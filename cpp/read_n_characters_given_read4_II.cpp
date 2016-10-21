@@ -65,6 +65,48 @@ private:
 
 class Solution {
 public:
+	Solution () {
+		readIndex=0;
+		readCnt=0;
+	}
+
+    int read(char *buf, int n) {
+    	int index=0;
+
+    	if (readIndex>0) {
+    		while (index<n && readIndex<readCnt) {
+    			buf[index++]=readBuf[readIndex++];
+    		}
+    		if (readIndex==readCnt) readIndex=0;
+    	}
+
+    	if (index<n) {
+			while (index<=n-4) {
+				readCnt=read4(buf+index);
+				index+=readCnt;
+				if (readCnt<4) return index;
+			}
+
+			if (index<n) {
+				readCnt=read4(readBuf);
+				if (readCnt==0) return index;
+				while (index<n && readIndex<readCnt) {
+					buf[index++]=readBuf[readIndex++];
+				}
+				if (readIndex==readCnt) readIndex=0;
+			}
+    	}
+
+    	return index;
+    }
+private:
+    int readBuf[4];
+    int readIndex;
+    int readCnt;
+};
+
+class Solution {
+public:
     /**
      * @param buf Destination buffer
      * @param n   Maximum number of characters to read

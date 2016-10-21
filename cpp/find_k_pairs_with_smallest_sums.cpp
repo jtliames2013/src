@@ -51,3 +51,39 @@ public:
         return res;
     }
 };
+
+2.
+class Solution {
+public:
+    struct Point {
+        int i1; 
+        int i2;
+        int val;
+        Point(int a, int b, int v): i1(a), i2(b), val(v) {} 
+    };
+    
+    class Compare {
+    public:
+        bool operator()(Point a, Point b) {
+            return a.val>b.val;
+        }
+    };
+    
+    vector<pair<int, int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+        vector<pair<int,int>> res;
+        if (nums1.size()==0 || nums2.size()==0) return res;
+        priority_queue<Point, vector<Point>, Compare> pq;
+        pq.push(Point(0, 0, nums1[0]+nums2[0]));
+        
+        while (!pq.empty() && k>0) {
+            Point t=pq.top();
+            pq.pop();
+            k--;
+            res.push_back({nums1[t.i1], nums2[t.i2]});
+            
+            if (t.i1+1<nums1.size()) pq.push(Point(t.i1+1, t.i2, nums1[t.i1+1]+nums2[t.i2]));
+            if (t.i1==0 && t.i2+1<nums2.size()) pq.push(Point(t.i1, t.i2+1, nums1[t.i1]+nums2[t.i2+1]));
+        }
+        return res;
+    }
+};

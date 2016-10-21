@@ -58,6 +58,68 @@ private:
     int read4Cnt;
 };
 
+class Solution {
+public:
+	Solution () {
+		readCnt=0;
+	}
+
+    int read(char *buf, int n) {
+    	int index=0;
+
+    	while (index<=n-4) {
+    		readCnt=read4(buf+index);
+    		index+=readCnt;
+    		if (readCnt<4) return index;
+    	}
+
+		if (index<n) {
+			char readBuf[4];
+			readCnt=read4(readBuf);
+			if (readCnt==0) return index;
+			int i=0;
+			while (index<n && i<readCnt) {
+				buf[index++]=readBuf[i++];
+			}
+		}
+
+    	return index;
+    }
+private:
+    int readCnt;
+};
+
+	class Solution {
+public:
+	Solution () {
+		readCnt=0;
+	}
+
+    int read(char *buf, int n) {
+    	int index=0;
+
+    	for (int i=0; i<n/4; i++) {
+    		readCnt=read4(buf+index);
+    		index+=readCnt;
+    		if (readCnt<4) return index;
+    	}
+
+    	if (index<n) {
+    		char readBuf[4];
+			readCnt=read4(readBuf);
+			if (readCnt==0) return index;
+			int i=0;
+			while (index<n && i<readCnt) {
+				buf[index++]=readBuf[i++];
+			}
+    	}
+    	return index;
+    }
+private:
+    int readCnt;
+};
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	return 0;

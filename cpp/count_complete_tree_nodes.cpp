@@ -84,6 +84,27 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    int countNodes(TreeNode* root) {
+        int res=0;
+        while (root!=NULL) {
+            int lcount=0, rcount=0;
+            for(TreeNode *n=root->left; n!=NULL; n=n->left) lcount++;
+            for(TreeNode *n=root->right; n!=NULL; n=n->left) rcount++;
+            if (lcount==rcount) {
+                res+=(1<<lcount);
+                root=root->right;
+            } else {
+                res+=(1<<rcount);
+                root=root->left;
+            }
+        }
+        return res;
+    }
+};
+
 int main()
 {
 	return 0;

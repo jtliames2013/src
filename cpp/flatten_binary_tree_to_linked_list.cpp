@@ -141,6 +141,30 @@ public:
     }
 };
 
+3.
+class Solution {
+public:
+    TreeNode* flatten(TreeNode *root, TreeNode *parent) {
+        if (root==NULL) return NULL;
+        TreeNode *last=root;
+        if (parent!=NULL) parent->right=root;
+        TreeNode *r=root->right;
+        if (root->left) {
+            last=flatten(root->left, root);
+            root->left=NULL;
+        }
+        if (r) {
+            last=flatten(r, last);
+        }
+        
+        return last;
+    }
+    
+    void flatten(TreeNode* root) {
+        flatten(root, NULL);
+    }
+};
+
 int main()
 {
 	return 0;
