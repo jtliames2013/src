@@ -136,8 +136,8 @@ public:
     }
    
     void flatten(TreeNode* root) {
-        TreeNode** last=&root;
-        getFlat(root, NULL, last);
+        TreeNode* last=NULL;
+        getFlat(root, NULL, &last);
     }
 };
 
@@ -162,6 +162,33 @@ public:
     
     void flatten(TreeNode* root) {
         flatten(root, NULL);
+    }
+};
+
+4.
+class Solution {
+public:
+    void flatten(TreeNode* root, TreeNode **head, TreeNode **tail) {
+        if (root==NULL) return;
+        *head=*tail=root;
+        TreeNode *r=root->right;
+        if (root->left) {
+            TreeNode *leftHead=NULL, *leftTail=NULL;
+            flatten(root->left, &leftHead, &leftTail);
+            root->right=leftHead;
+            *tail=leftTail;
+            root->left=NULL;
+        }
+        if (r) {
+            TreeNode *rightHead=NULL, *rightTail=NULL;
+            flatten(r, &rightHead, &rightTail);
+            (*tail)->right=rightHead;
+            *tail=rightTail;
+        }
+    }
+    void flatten(TreeNode* root) {
+        TreeNode *head=NULL, *tail=NULL;
+        flatten(root, &head, &tail);
     }
 };
 

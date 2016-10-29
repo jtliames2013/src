@@ -215,3 +215,58 @@ public:
 	}
 };
 
+5.
+class Solution {
+public:
+	void convert(TreeNode *root, TreeNode **head, TreeNode **tail) {
+		if (root==NULL) return;
+		*head=*tail=root;
+		if (root->left) {
+			TreeNode *lefthead=NULL, *lefttail=NULL;
+			convert(root->left, &lefthead, &lefttail);
+			*head=lefthead;
+			lefttail->right=root;
+			root->left=lefttail;
+		}
+		if (root->right) {
+			TreeNode *righthead=NULL, *righttail=NULL;
+			convert(root->right, &righthead, &righttail);
+			root->right=righthead;
+			righthead->left=root;
+			*tail=righttail;
+		}
+	}
+
+	void convertBSTToLinkedList(TreeNode *root, TreeNode **head, TreeNode **tail) {
+		convert(root, head, tail);
+	}
+};
+
+int main()
+{
+	Solution s;
+	TreeNode t1(1);
+	TreeNode t2(2);
+	TreeNode t3(3);
+	TreeNode t4(4);
+	TreeNode t5(5);
+	TreeNode t6(6);
+	TreeNode t7(7);
+	t1.left=&t2;
+	t1.right=&t3;
+	t2.left=&t4;
+	t2.right=&t5;
+	t3.left=&t6;
+	t3.right=&t7;
+	TreeNode *head=NULL, *tail=NULL;
+	s.convertBSTToLinkedList(&t1, &head, &tail);
+
+	TreeNode *curr=head;
+	while (curr!=NULL) {
+		cout << curr->val << endl;
+		curr=curr->right;
+	}
+
+	return 0;
+}
+

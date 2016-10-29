@@ -26,33 +26,53 @@ using namespace std;
 
 class Solution {
 public:
-    struct comp {
-        bool operator() (const pair<int,int>& left, const pair<int,int>& right) { return left.second<right.second; };
+    class Compare {
+    public:
+        bool operator()(pair<int,int> a, pair<int,int> b) {
+            return a.second>b.second;
+        }
     };
-
+    
     vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int,int> count;
+        for (auto n:nums) count[n]++;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, Compare> pq;
+        
+        for (auto cnt:count) {
+            pq.push({cnt.first, cnt.second});
+            if (pq.size()>k) pq.pop();
+        }
+        
         vector<int> res;
-        map<int, int> frequency;
-        for (auto n:nums) {
-            frequency[n]++;
+        while (!pq.empty()) {
+            res.push_back(pq.top().first);
+            pq.pop();
         }
-
-        priority_queue<pair<int,int>, vector<pair<int,int>>, comp> q;
-
-        for (auto f:frequency) {
-            q.push(make_pair(f.first, f.second));
-        }
-
-        int i=0; 
-        while (i<k && !q.empty()) {
-            res.push_back(q.top().first);
-            q.pop();
-            i++;
-        }
-
         return res;
     }
 };
+
+2. bucket sort
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int,int> count;
+        for (auto n:nums) count[n]++;
+        vector<int> res;
+        int n=nums.size();
+        vector<vector<int>> bucket(n+1);
+        for (auto cnt:count) bucket[cnt.second].push_back(cnt.first);
+        
+        for (int i=n; i>=0; i--) {
+            for (int j=0; j<bucket[i].size(); j++) {
+                if (res.size()==k) break;
+                res.push_back(bucket[i][j]);
+            }
+        }
+        return res;
+    }
+};
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {

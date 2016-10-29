@@ -25,76 +25,6 @@ Special thanks to @Freezen for adding this problem and creating all test cases.
 #include <limits.h>
 #include <math.h>
 
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-class Solution {
-public:
-    int minSubArrayLen(int s, vector<int>& nums) {
-    	int size=nums.size();
-    	if (size==0) return 0;
-
-    	int start=0, end=0, sum=0, res=size+1;
-
-    	while (1) {
-    		if (sum < s) {
-    			if (end >= size) break;
-    			else {
-    				sum += nums[end];
-    				end++;
-    			}
-    		} else {
-    			if (start >= end) break;
-    			else {
-    				sum -= nums[start];
-    				res=min(res, end-start);
-    				start++;
-    			}
-    		}
-    	}
-
-    	if (res > size) return 0;
-    	else return res;
-    }
-};
-
-2.
 class Solution {
 public:
     int minSubArrayLen(int s, vector<int>& nums) {
@@ -113,6 +43,29 @@ public:
             }
         }
         
+        if (minlen==INT_MAX) return 0;
+        else return minlen;
+    }
+};
+
+2.
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        int n=nums.size();
+        if (n==0) return 0;
+        int minlen=INT_MAX;
+        int sum=0;
+        for (int l=0, r=0; r<n; r++) {
+            sum+=nums[r];
+            if (sum>=s) {
+                while (sum>=s) {
+                    sum-=nums[l];
+                    l++;
+                }
+                minlen=min(minlen, r-l+2);
+            }
+        }
         if (minlen==INT_MAX) return 0;
         else return minlen;
     }

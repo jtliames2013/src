@@ -50,44 +50,30 @@ struct TreeLinkNode {
 
 class Solution {
 public:
-    vector<TreeNode *> generateTrees(int n) {
-    	return generateTreesRange(n, 1, n);
+    vector<TreeNode*> generateTrees(int l, int r) {
+        vector<TreeNode*> res;
+        if (l>=r) {
+            res.push_back(l==r?new TreeNode(l):NULL);
+            return res;
+        }
+        for (int i=l; i<=r; i++) {
+            vector<TreeNode*> left=generateTrees(l, i-1);
+            vector<TreeNode*> right=generateTrees(i+1, r);
+            for (int j=0; j<left.size(); j++) {
+                for (int k=0; k<right.size(); k++) {
+                    TreeNode *n=new TreeNode(i);
+                    n->left=left[j];
+                    n->right=right[k];
+                    res.push_back(n);
+                }
+            }
+        }
+        
+        return res;
     }
-
-    vector<TreeNode *> generateTreesRange(int n, int start, int end)
-	{
-    	vector<TreeNode *> res;
-    	if (n<=0)
-    	{
-    		res.push_back(NULL);
-    		return res;
-    	}
-
-    	if (n==1)
-    	{
-    		TreeNode *n = new TreeNode(start);
-    		res.push_back(n);
-    		return res;
-    	}
-
-    	for (int i=0; i<n; i++)
-    	{
-    		vector<TreeNode*> l = generateTreesRange(i, start, start+i-1);
-    		vector<TreeNode*> r = generateTreesRange(n-1-i, start+i+1, end);
-    		for (unsigned int j=0; j<l.size(); j++)
-    		{
-    			for (unsigned int k=0; k<r.size(); k++)
-    			{
-    				TreeNode *n = new TreeNode(start+i);
-    				n->left = l[j];
-    				n->right = r[k];
-
-    				res.push_back(n);
-    			}
-    		}
-    	}
-
-    	return res;
+    vector<TreeNode*> generateTrees(int n) {
+        if (n==0) return vector<TreeNode*>();
+        return generateTrees(1, n);
     }
 };
 

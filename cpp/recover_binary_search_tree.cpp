@@ -132,107 +132,56 @@ http://www.cnblogs.com/AnnieKim/archive/2013/06/15/MorrisTraversal.html
 2. inorder traversal with stack, O(logn)
 
 /**
-
  * Definition for a binary tree node.
-
  * struct TreeNode {
-
  *     int val;
-
  *     TreeNode *left;
-
  *     TreeNode *right;
-
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-
  * };
-
  */
-
 class Solution {
-
 public:
-
     void recoverTree(TreeNode* root) {
-
-        TreeNode *prev=NULL, *first=NULL, *second=NULL;
-
-        if (root==NULL) return;
-
+        TreeNode *first=NULL, *second=NULL;
         stack<TreeNode*> stk;
-
-        
-
         TreeNode *n=root;
-
         while (n!=NULL) {
-
             stk.push(n);
-
             n=n->left;
-
         }
-
-        
-
+    
+        TreeNode *prev=NULL, *curr;
         while (!stk.empty()) {
-
-            TreeNode *t=stk.top();
-
+            curr=stk.top();
             stk.pop();
-
-            if (prev!=NULL) {
-
-                if (t->val<prev->val) {
-
-                    if (first==NULL) {
-
-                        first=prev;
-
-                        second=t;
-
-                    } else {
-
-                        second=t;
-
-                    }
-
-                }
-
-            }
-
-            prev=t;
-
             
-
-            n=t->right;
-
-            while (n!=NULL) {
-
-                stk.push(n);
-
-                n=n->left;
-
+            if (prev!=NULL) {
+                if (curr->val<prev->val) {
+                    if (first==NULL) {
+                        first=prev;
+                        second=curr;
+                    } else {
+                        second=curr;
+                    }
+                }
             }
-
+            
+            TreeNode *n=curr->right;
+            while (n!=NULL) {
+                stk.push(n);
+                n=n->left;
+            }
+            prev=curr;
         }
-
         
-
         if (first && second) {
-
             int tmp=first->val;
-
             first->val=second->val;
-
             second->val=tmp;
-
         }
-
     }
-
 };
-
 
 int main()
 {

@@ -110,6 +110,66 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+	bool solveSudoku(vector<vector<char> >& board, int row, int col) {
+	    if (row>=9) return true;
+	    int nextRow, nextCol;
+	    if (col<8) {
+	        nextRow=row;
+	        nextCol=col+1;
+	    } else {
+	        nextRow=row+1;
+	        nextCol=0;
+	    }
+	    
+	    if (board[row][col]=='.') {
+	        for (int i=0; i<9; i++) {
+	            int idx=(row/3)*3+col/3;
+	            if (rows[row].test(i)==false && 
+	                cols[col].test(i)==false && 
+	                blocks[idx].test(i)==false) {
+	                    board[row][col]='1'+i;
+	                    rows[row].set(i);
+	                    cols[col].set(i);
+	                    blocks[idx].set(i);
+	                    if (solveSudoku(board, nextRow, nextCol)) return true;
+	                    rows[row].reset(i);
+	                    cols[col].reset(i);
+	                    blocks[idx].reset(i);
+	                }
+	        }
+	        
+	        board[row][col]='.';
+	        return false;
+	    } else {
+	        return solveSudoku(board, nextRow, nextCol);
+	    }
+	}
+
+    void solveSudoku(vector<vector<char>>& board) {
+        rows.resize(9);
+        cols.resize(9);
+        blocks.resize(9);
+        for (int i=0; i<9; i++) {
+            for (int j=0; j<9; j++) {
+                if (board[i][j]!='.') {
+                    rows[i].set(board[i][j]-'1');
+                    cols[j].set(board[i][j]-'1');
+                    int idx=(i/3)*3+j/3;
+                    blocks[idx].set(board[i][j]-'1');
+                }
+            }
+        }
+    	solveSudoku(board, 0, 0);
+    }
+private:
+    vector<bitset<9>> rows;
+    vector<bitset<9>> cols;
+    vector<bitset<9>> blocks;
+};
+
 int main()
 {
 	return 0;

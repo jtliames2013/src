@@ -337,6 +337,45 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    string convert(int part) {
+        if (part==0) return "";
+        else if (part<20) {
+            return underTwenty[part];
+        } else if (part<100) {
+            return tens[part/10] + " " + underTwenty[part%10];
+        } else {
+            return underTwenty[part/100] + " Hundred " + convert(part%100);
+        }
+    }
+    string numberToWords(int num) {
+        string res;
+        if (num==0) return "Zero";
+        int i=0;
+        int scale=1000000000;
+        while (num>0) {
+            int part=num/scale;
+            if (part>0) {
+                if (!res.empty()) res+=" ";
+                res+=convert(part);
+                if (res[res.size()-1]==' ') res.pop_back();
+                if (scale>1) res+=" " + thousands[i];
+            }
+            num%=scale;
+            scale/=1000;
+            i++;
+        }
+        
+        return res;
+    }
+private:
+    vector<string> thousands={"Billion", "Million", "Thousand"};
+    vector<string> underTwenty = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+    vector<string> tens={"", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+};
+
 int main()
 {
 	return 0;

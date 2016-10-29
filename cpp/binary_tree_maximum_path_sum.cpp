@@ -109,6 +109,23 @@ struct TreeLinkNode {
      }
  };
 
+2.
+class Solution {
+public:
+    int findSum(TreeNode* root, int& sum) {
+        if (root==NULL) return 0;
+        int left=findSum(root->left, sum);
+        int right=findSum(root->right, sum);
+        sum=max(sum, max(left, 0)+max(right, 0)+root->val);
+        return max(max(left,right),0)+root->val;
+    }
+    int maxPathSum(TreeNode* root) {
+        int sum=INT_MIN;
+        findSum(root, sum);
+        return sum;
+    }
+};
+
 int main()
 {
 	return 0;
