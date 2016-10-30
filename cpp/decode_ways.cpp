@@ -26,45 +26,6 @@ Hide Tags Dynamic Programming String
 #include <map>
 #include <limits.h>
 
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class Solution {
 public:
     int numDecodings(string s) {
@@ -168,6 +129,28 @@ public:
         
         return dp[n-1];
   }
+};
+
+4. no array
+class Solution {
+public:
+    int numDecodings(string s) {
+        int n=s.size();
+        if (n==0) return 0;
+        int a=1;
+        int b=0;
+        if (s[0]!='0') b=1;
+        if (n==1) return b;
+        int c;
+        for (int i=2; i<=n; i++) {
+            c=0;
+            if (s[i-1]!='0') c+=b;
+            if (s[i-2]=='1' || (s[i-2]=='2' && s[i-1]<='6')) c+=a;
+            a=b;
+            b=c;
+        }
+        return c;
+    }
 };
 
 int main()

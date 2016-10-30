@@ -43,3 +43,22 @@ public:
     }
 
 };
+
+2.
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        if (nums1.size()>nums2.size()) return intersect(nums2, nums1);
+        vector<int> res;
+        map<int,int> count1;
+        for (int i:nums1) count1[i]++;
+        for (int i:nums2) {
+            if (count1[i]>0) {
+                res.push_back(i);
+                count1[i]--;
+            }
+        }
+        return res;
+    }
+};
+

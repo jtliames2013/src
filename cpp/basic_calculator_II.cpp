@@ -118,44 +118,38 @@ public:
         if (op=='+') nums.push_back(num);
         else if (op=='-') nums.push_back(-num);
         else {
-            int n=nums.back();
+            int b=nums.back();
             nums.pop_back();
-            nums.push_back(op=='*'?n*num:n/num);
+            nums.push_back(op=='*'?b*num:b/num);
         }
     }
-    bool isOp(char c) {
-        return c=='+' || c=='-' || c=='*' || c=='/';
+    bool isop(char ch) {
+        return ch=='+' || ch=='-' || ch=='*' || ch=='/';
     }
-    
     int calculate(string s) {
-        int res;
         vector<int> nums;
-        int num=0;
         char op='+';
-        
+        int num=0;
+
         for (int i=0; i<s.size();) {
             if (isdigit(s[i])) {
                 num=0;
-                while (isdigit(s[i])) {
+                while (i<s.size()&&isdigit(s[i])) {
                     num=num*10+s[i]-'0';
                     i++;
                 }
-            } else if (isOp(s[i])) {
                 process(nums, num, op);
+            } else if (isop(s[i])) {
                 op=s[i];
                 i++;
             } else {
                 i++;
             }
-        }
-        
-        process(nums, num, op);
-        res=0;
-        for (int i=0; i<nums.size();i++) {
-            res+=nums[i];
-        }
+        }        
+        int res=0;
+        for (int i=0; i<nums.size(); i++) res+=nums[i];
         return res;
-    }
+     }
 };
 
 2. Use num to remember current number. If operator is * or /, then get next number and apply operator.
