@@ -39,8 +39,14 @@ public:
         priority_queue<pair<int,int>, vector<pair<int,int>>, Compare> pq;
         
         for (auto cnt:count) {
-            pq.push({cnt.first, cnt.second});
-            if (pq.size()>k) pq.pop();
+            if (pq.size()<k) {
+                pq.push({cnt.first, cnt.second});
+            } else {
+                if (cnt.second>pq.top().second) {
+                    pq.pop();
+                    pq.push({cnt.first, cnt.second});
+                }
+            }
         }
         
         vector<int> res;
