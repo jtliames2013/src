@@ -16,64 +16,7 @@
 #include <iostream>
 #include <sstream>
 
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-  // Definition for a point.
-  struct Point {
-       int x;
-       int y;
-       Point() : x(0), y(0) {}
-       Point(int a, int b) : x(a), y(b) {}
-  };
-
-  class Solution {
+class Solution {
 public:
 	  Solution() {
 		  data.resize(1001, 0);
@@ -100,48 +43,41 @@ public:
 	  }
 
 	  double getMedian() {
-		  int target=0;
-
-		  int m, m1, m2;
+		  int count=0;
+		  int m, m1=-1, m2;
 		  bool odd=(cnt%2==1);
 		  for (int i=0; i<=1000; i++) {
 			  if (data[i]!=0) {
-				  int before=target;
-				  int after=target+data[i];
+				  count+=data[i];
 				  if (odd) {
-					  if (before<cnt/2+1 && after>=cnt/2+1) {
-						  m=i;
-					  }
+					  if (count>=cnt/2+1) return i;
 				  } else {
-					  if (before<cnt/2 && after>=cnt/2) {
-						  m1=i;
-					  }
-					  if (before<cnt/2+1 && after>=cnt/2+1) {
+					  if (count>=cnt/2 && m1==-1) m1=i;
+					  if (count>=cnt/2+1) {
 						  m2=i;
+						  return ((double)(m1+m2))/2;
 					  }
 				  }
-
-				  target+=data[i];
 			  }
 		  }
-
-		  if (odd) return (double)m;
-		  else return (double)(m1+m2)/2;
 	  }
 
 private:
 	  vector<int> data;
 	  int cnt;
-  };
+};
 
 int main()
 {
 	Solution s;
-	for (int i=0; i<10; i++) {
+	for (int i=1; i<4; i++) {
 		s.insert(i);
 	}
 
+	double mean=s.getMean();
+	cout << mean << endl;
 	double median=s.getMedian();
+	cout << median << endl;
 
 	return 0;
 }
