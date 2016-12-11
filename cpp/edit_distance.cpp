@@ -57,55 +57,6 @@ DP[i][0] = i： word2为空，要从word1转化到空字符串，需要删除i�
 #include <limits.h>
 #include <math.h>
 
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
  class Solution {
  public:
      int minDistance(string word1, string word2) {
@@ -132,7 +83,6 @@ struct TreeLinkNode {
  };
 
 2.
-
 class Solution {
 public:
     int minDistance(string word1, string word2) {
@@ -150,6 +100,30 @@ public:
         }
         
         return dp[m][n];
+    }
+};
+
+3. 1D dp array
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int m=word1.size();
+        int n=word2.size();
+        vector<int> dp(n+1,0);
+        for (int j=1; j<=n; j++) dp[j]=j;
+        
+        for (int i=1; i<=m; i++) {
+            dp[0]=i;
+            int prev=i-1;
+            for (int j=1; j<=n; j++) {
+                int delta=word1[i-1]==word2[j-1]?0:1;
+                int temp=dp[j];
+                dp[j]=min(min(dp[j-1], dp[j])+1, prev+delta);
+                prev=temp;
+            }
+        }
+        
+        return dp[n];
     }
 };
 

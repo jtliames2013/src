@@ -35,9 +35,7 @@ class Solution {
 public:
     ListNode *deleteDuplicates(ListNode *head) {
     	if (head == NULL) return NULL;
-
     	ListNode *prev = head, *curr= head->next, *temp;
-
     	while (curr)
     	{
     		if (curr->val == prev->val)
@@ -55,6 +53,24 @@ public:
     	}
 
     	return head;
+    }
+};
+
+2.
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode *curr=head, *tmp;
+        while (curr!=NULL) {
+            if (curr->next && curr->next->val==curr->val) {
+                tmp=curr->next;
+                curr->next=curr->next->next;
+                delete tmp;
+            } else {
+                curr=curr->next;
+            }
+        }
+        return head;
     }
 };
 

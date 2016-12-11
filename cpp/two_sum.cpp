@@ -27,65 +27,52 @@ Hide Similar Problems (M) 3Sum (M) 4Sum (M) Two Sum II - Input array is sorted (
 #include <algorithm>
 #include <limits.h>
 
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
+1. hash table
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-    	map<int, int> m;
-    	vector<int> res;
+        vector<int> res(2,0);
+        int n=nums.size();
+        if (n==0) return res;
+        unordered_map<int,int> table;
+        for (int i=0; i<n; i++) {
+            if (table.find(target-nums[i])!=table.end()) {
+                res[0]=table[target-nums[i]];
+                res[1]=i;
+                return res;
+            }
+            table[nums[i]]=i;
+        }
+        return res;
+    }
+};
 
-    	for(int i=0; i<nums.size(); i++) {
-    		m.insert(make_pair(nums[i], i+1));
-    	}
-
-    	for(int i=0; i<nums.size(); i++) {
-    		auto n=m.find(target-nums[i]);
-    		if (n!=m.end() && (*n).second != i+1) {
-    			res.push_back(i+1<(*n).second ? i+1 : (*n).second );
-    			res.push_back(i+1<(*n).second ? (*n).second : i+1 );
-    			break;
-    		}
-    	}
-
-    	return res;
+2. two pointers
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> res(2,0);
+        int n=nums.size();
+        if (n==0) return res;
+        vector<pair<int,int>> data(n);
+        for (int i=0; i<n; i++) {
+            data[i].first=nums[i];
+            data[i].second=i;
+        }
+        sort(data.begin(), data.end(), [](pair<int,int> &a, pair<int,int> &b){ return a.first<b.first; });
+        int l=0, r=n-1;
+        while (l<r) {
+            if (data[l].first+data[r].first==target) {
+                res[0]=data[l].second;
+                res[1]=data[r].second;
+                return res;
+            } else if (data[l].first+data[r].first<target) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+        return res;
     }
 };
 

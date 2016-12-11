@@ -63,39 +63,36 @@ public:
 };
 
 2. when removed element is rare.
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int start=0, end=nums.size()-1;
+        
+        while (start<=end) {
+            if (nums[start]==val) {
+                nums[start]=nums[end];
+                end--;
+            } else {
+                start++;
+            }
+        }        
+        return end+1;
+    }
+};
 
 class Solution {
-
 public:
-
     int removeElement(vector<int>& nums, int val) {
-
-        int start=0, end=nums.size()-1;
-
-        
-
+        int n=nums.size();
+        if (n==0) return 0;
+        int start=0, end=n-1;
         while (start<=end) {
-
-            if (nums[start]==val) {
-
-                nums[start]=nums[end];
-
-                end--;
-
-            } else {
-
-                start++;
-
-            }
-
+            if (nums[end]==val) end--;
+            else if (nums[start]!=val) start++;
+            else swap(nums[start], nums[end]);
         }
-
-        
-
         return end+1;
-
     }
-
 };
 
 int main()

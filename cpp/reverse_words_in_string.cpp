@@ -186,21 +186,18 @@ public:
             }
         }
         
-        int end=0;
-        int i=0;
-        while (i<s.size() && s[i]==' ') i++;
-        
-        for (; i<s.size(); i++) {
+        int index=0;
+        for (int i=0; i<s.size(); i++) {
             if (s[i]!=' ' || (i>0 && s[i-1]!=' ')) {
-                if (end!=i) {
-                    s[end]=s[i];
+                if (index!=i) {
+                    s[index]=s[i];
                 }
-                end++;
+                index++;
             }
         }
-        end--;
-        while (end>=0 && s[end]==' ') end--;
-        s.resize(end+1);
+        index--;
+        if (index>=0 && s[index]==' ') index--;
+        s.resize(index+1);
     }
 };
 

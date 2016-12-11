@@ -69,3 +69,51 @@ public:
         return prev;
     }
 };
+
+2.
+class Solution {
+public:
+    ListNode* plusOne(ListNode* head) {
+        if (head==NULL) return NULL;
+        //reverse
+        ListNode *prev=NULL, *curr=head, *next, *tail;
+        int num;
+        while (curr!=NULL) {
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+        }
+        
+        tail=curr=prev;
+        prev=NULL;
+        while (curr!=NULL) {
+            if (curr->val<9) {
+                curr->val++;
+                break;            
+            } else {
+                curr->val=0;
+            }
+            prev=curr;
+            curr=curr->next;
+        }
+        
+        if (curr==NULL) {
+            ListNode *n=new ListNode(1);
+            prev->next=n;
+        }
+        
+        //reverse
+        curr=tail;
+        prev=NULL;
+        while (curr!=NULL) {
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+        }
+        
+        return prev;
+    }
+};
+

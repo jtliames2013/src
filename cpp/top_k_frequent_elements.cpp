@@ -71,7 +71,7 @@ public:
         
         for (int i=n; i>=0; i--) {
             for (int j=0; j<bucket[i].size(); j++) {
-                if (res.size()==k) break;
+                if (res.size()==k) return res;
                 res.push_back(bucket[i][j]);
             }
         }

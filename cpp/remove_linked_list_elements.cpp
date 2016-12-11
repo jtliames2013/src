@@ -15,63 +15,6 @@
 #include <iostream>
 #include <sstream>
 
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-  // Definition for a point.
-  struct Point {
-       int x;
-       int y;
-       Point() : x(0), y(0) {}
-       Point(int a, int b) : x(a), y(b) {}
-  };
-
   class Solution {
   public:
       ListNode* removeElements(ListNode* head, int val) {
@@ -116,6 +59,28 @@ public:
             curr=next;
         }
         
+        return newHead;
+    }
+};
+
+3. Use dummy node
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        ListNode *dummy=new ListNode(0);
+        dummy->next=head;
+        ListNode *prev=dummy, *curr=head;
+        while (curr!=NULL) {
+            if (curr->val==val) {
+                prev->next=curr->next;
+            } else {
+                prev=curr;
+            }
+            curr=curr->next;
+        }
+        
+        ListNode *newHead=dummy->next;
+        delete dummy;
         return newHead;
     }
 };

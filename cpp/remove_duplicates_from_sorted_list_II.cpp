@@ -20,88 +20,7 @@ Given 1->1->1->2->3, return 2->3.
 
 using namespace std;
 
-
-class Solution {
-public:
-    ListNode* deleteDuplicates(ListNode* head) {
-    	ListNode* curr=head;
-    	ListNode* prev=NULL;
-    	ListNode* next;
-    	ListNode* newhead=NULL;
-    	ListNode* temp;
-    	bool isDup;
-
-    	while(curr!=NULL) {
-    		temp=NULL;
-    		next=curr->next;
-    		isDup=false;
-    		while (next!=NULL && next->val==curr->val) {
-				isDup=true;
-				temp=curr;
-
-				if (prev!=NULL) {
-					prev->next=next;
-				}
-
-    			curr=curr->next;
-    			next=curr->next;
-    			delete temp;
-    		}
-
-    		if (isDup) {
-    			if (prev!=NULL) {
-    				prev->next=next;
-    			}
-    			temp=curr;
-    		} else {
-    			if (newhead==NULL) {
-    				newhead=curr;
-    			}
-
-    			prev=curr;
-    		}
-
-    		curr=curr->next;
-    		if (temp) delete temp;
-    	}
-
-    	return newhead;
-    }
-};
-
-2.
-class Solution {
-public:
-    ListNode* deleteDuplicates(ListNode* head) {
-        ListNode *newhead=NULL, *tail=NULL, *curr=head;
-        while (curr!=NULL) {
-            ListNode *n=curr->next;
-            bool isDup=false;
-            while (n!=NULL && n->val==curr->val) {
-                isDup=true;
-                n=n->next;
-            }
-            if (!isDup) {
-                if (newhead==NULL) {
-                    newhead=tail=curr;
-                } else {
-                    tail->next=curr;
-                    tail=curr;
-                }
-            } else {
-                for (ListNode *tmp=curr; tmp!=n; tmp=tmp->next) {
-                    delete tmp;
-                }
-            }
-            curr=n;
-        }
-        
-        if (tail) tail->next=NULL;
-        return newhead;
-    }
-};
-
-3.
+1.
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
@@ -122,6 +41,34 @@ public:
                 curr=next;
             }
         }
+        return newHead;
+    }
+};
+
+2.
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode *dummy=new ListNode(0);
+        dummy->next=head;
+        ListNode *curr=head, *prev=dummy, *tmp;
+        while (curr!=NULL) {
+            if (curr->next && curr->next->val==curr->val) {
+                int val=curr->val;
+                while (curr && curr->val==val) {
+                    tmp=curr;
+                    curr=curr->next;
+                    delete tmp;
+                }
+                prev->next=curr;
+            } else {
+                prev=curr;
+                curr=curr->next;
+            }
+        }
+        
+        ListNode *newHead=dummy->next;
+        delete dummy;
         return newHead;
     }
 };
