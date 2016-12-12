@@ -24,79 +24,36 @@ A solution set is:
 #include <algorithm>
 #include <limits.h>
 
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-    	vector<vector<int> > res;
-    	if (nums.size()==0) return res;
-    	int start, end;
-    	sort(nums.begin(), nums.end());
-    	for (int i=0; i<nums.size()-1; i++) {
-    		if (i==0 || nums[i]!=nums[i-1]) {
-				start=i+1;
-				end=nums.size()-1;
-				while (start<end) {
-					if (nums[i]+nums[start]+nums[end]==0) {
-						if ((start==i+1 || nums[start]!=nums[start-1]) &&
-							(end==nums.size()-1 || nums[end]!=nums[end+1]))
-						{
-							vector<int> v;
-							v.push_back(nums[i]);
-							v.push_back(nums[start]);
-							v.push_back(nums[end]);
-							res.push_back(v);
-						}
-						start++;
-						end--;
-					} else if (nums[i]+nums[start]+nums[end]>0) {
-						end--;
-					} else {
-						start++;
-					}
-				}
-    		}
-    	}
-
-    	return res;
+        vector<vector<int>> res;
+        int n=nums.size();
+        if (n==0) return res;
+        sort(nums.begin(), nums.end());
+        
+        for (int i=0; i<n-2; i++) {
+            if (i==0 || nums[i]!=nums[i-1]) {
+                if (nums[i]+nums[i+1]+nums[i+2]>0) break;
+                if (nums[i]+nums[n-2]+nums[n-1]<0) continue;
+                int l=i+1, r=n-1;
+                while (l<r) {
+                    if (nums[i]+nums[l]+nums[r]==0) {
+                        res.push_back({nums[i], nums[l], nums[r]});
+                        l++;
+                        r--;
+                        while (l<r && nums[l]==nums[l-1]) l++;
+                        while (l<r && nums[r]==nums[r+1]) r--;
+                    } else if (nums[i]+nums[l]+nums[r]<0) {
+                        l++;
+                    } else {
+                        r--;
+                    }
+                }
+            }
+        }
+        
+        return res;
     }
 };
 

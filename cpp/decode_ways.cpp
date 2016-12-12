@@ -29,72 +29,6 @@ Hide Tags Dynamic Programming String
 class Solution {
 public:
     int numDecodings(string s) {
-    	int len = s.size();
-    	if (len == 0) return 0;
-
-    	vector<int> count(len);
-
-    	for (int i=len-1; i>=0; i--)
-    	{
-    		if (i < len-1)
-    		{
-    			count[i] = count[i+1];
-
-    			if (s[i] == '1' || (s[i] == '2' && s[i+1] <= '6' && s[i+1] >= '0' ))
-    			{
-    				if (i < len-2)
-    				{
-    					count[i] += count[i+2];
-    				}
-    				else
-    				{
-    					count[i] += 1;
-    				}
-    			}
-    			else if (s[i] == '0')
-    			{
-    				count[i] = 0;
-    			}
-    		}
-    		else
-    		{
-    			if (s[i] == '0') count[i] = 0;
-    			else count[i] = 1;
-    		}
-    	}
-
-    	return count[0];
-    }
-};
-
-2. calculate from end
-class Solution {
-public:
-    int numDecodings(string s) {
-        int size=s.size();
-        if (size==0) return 0;
-        vector<int> res(size+1, 1);
-
-        if (s[size-1]=='0') res[size-1]=0;
-        for (int i=size-2; i>=0; i--) {
-            if ((s[i]=='1') || 
-                (s[i]=='2' && s[i+1]<='6')) {
-                res[i]=res[i+1]+res[i+2];
-            } else if (s[i]=='0') {
-                res[i]=0;
-            } else {
-                res[i]=res[i+1];
-            }
-        }
-
-        return res[0];
-    }
-};
-
-3. calculate from begining
-class Solution {
-public:
-    int numDecodings(string s) {
         int size=s.size();
         if (size==0) return 0;
         vector<int> dp(size+1, 0);
@@ -131,21 +65,21 @@ public:
   }
 };
 
-4. no array
+2. no array
 class Solution {
 public:
     int numDecodings(string s) {
         int n=s.size();
         if (n==0) return 0;
         int a=1;
-        int b=0;
-        if (s[0]!='0') b=1;
+        int b=s[0]=='0'?0:1;
         if (n==1) return b;
         int c;
-        for (int i=2; i<=n; i++) {
+        for (int i=1; i<n; i++) {
             c=0;
-            if (s[i-1]!='0') c+=b;
-            if (s[i-2]=='1' || (s[i-2]=='2' && s[i-1]<='6')) c+=a;
+            if (s[i]=='0' && s[i-1]=='0') return 0;
+            if (s[i]!='0') c+=b;
+            if (s[i-1]=='1' || (s[i-1]=='2' && s[i]<='6')) c+=a;
             a=b;
             b=c;
         }

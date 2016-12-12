@@ -29,105 +29,13 @@ Hide Similar Problems (H) Substring with Concatenation of All Words (M) Minimum 
 #include <limits.h>
 #include <math.h>
 
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
- class Solution {
- public:
-     string minWindow(string s, string t) {
-    	 map<char, int> count;
-    	 int start=0, end=0;
-    	 int minlen=INT_MAX;
-    	 int total=0;
-    	 for (int i=0; i<t.size(); i++) {
-    		 if (count.find(t[i])!=count.end()) {
-    			 count[t[i]]++;
-    		 } else {
-    			 count[t[i]]=1;
-    		 }
-    	 }
-
-    	 for (int l=0, r=0; r<s.size(); r++) {
-    		 if (count.find(s[r])!=count.end()) {
-    			 count[s[r]]--;
-    			 if (count[s[r]]>=0) total++;
-
-    			 while (total==t.size()) {
-    				 if (r-l+1<minlen) {
-    					 minlen=r-l+1;
-    					 start=l;
-    					 end=r;
-    				 }
-
-    				 if (count.find(s[l])!=count.end()) {
-    					 count[s[l]]++;
-    					 if (count[s[l]]>0) total--;
-    				 }
-    				 l++;
-    			 }
-    		 }
-    	 }
-
-    	 if (minlen==INT_MAX) return "";
-    	 else return s.substr(start, end-start+1);
-     }
- };
-
-2. No need to set map element to 1. just ++ is fine.
 class Solution {
 public:
     string minWindow(string s, string t) {
         unordered_map<char, int> count;
-        for (int i=0; i<t.size(); i++) {
-            count[t[i]]++;
-        }
-        int total=0, start, end, minLen=INT_MAX;
+        for (auto ch:t) count[ch]++;
+        
+        int total=0, start, minLen=INT_MAX;
         
         for (int l=0, r=0; r<s.size(); r++) {
             if (count.find(s[r])!=count.end()) {
@@ -135,23 +43,57 @@ public:
                 count[s[r]]--;
             }
             
-            while (total==t.size()) {
-                if (minLen>r-l+1) {
-                    start=l;
-                    end=r;
-                    minLen=r-l+1;
+            if (total==t.size()) {
+                while (total==t.size()) {
+                    if (count.find(s[l])!=count.end()) {
+                        count[s[l]]++;
+                        if (count[s[l]]>0) total--;
+                    }
+                    l++;
                 }
                 
-                if (count.find(s[l])!=count.end()) {
-                    count[s[l]]++;
-                    if (count[s[l]]>0) total--;
+                // l-1 is start of string, r is end of string
+                if (minLen>r-l+2) {
+                    start=l-1;
+                    minLen=r-l+2;
                 }
-                l++;
             }
         }
         
         if (minLen==INT_MAX) return "";
-        else return s.substr(start, end-start+1);
+        else return s.substr(start, minLen);
+    }
+};
+
+2. Use array instead of hash table
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        vector<int> count(128,0);
+        for (auto ch:t) count[ch]++;
+        
+        int total=0, start, minLen=INT_MAX;
+        
+        for (int l=0, r=0; r<s.size(); r++) {
+            if (count[s[r]]>0) total++;
+            count[s[r]]--;
+            
+            if (total==t.size()) {
+                while (total==t.size()) {
+                    count[s[l]]++;
+                    if (count[s[l]]>0) total--;
+                    l++;
+                }
+                
+                if (minLen>r-l+2) {
+                    start=l-1;
+                    minLen=r-l+2;
+                }
+            }
+        }
+        
+        if (minLen==INT_MAX) return "";
+        else return s.substr(start, minLen);
     }
 };
 
