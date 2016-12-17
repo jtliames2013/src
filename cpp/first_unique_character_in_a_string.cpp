@@ -25,3 +25,23 @@ public:
         return -1;
     }
 };
+
+2.
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        unordered_map<char,pair<int,int>> count;
+        for (int i=0; i<s.size(); i++) {
+            count[s[i]].second=i;
+            count[s[i]].first++;
+        }
+        
+        int minIdx=INT_MAX;
+        for (auto &iter:count) {
+            if (iter.second.first==1) {
+                minIdx=min(minIdx,iter.second.second);
+            }
+        }
+        return minIdx==INT_MAX?-1:minIdx;
+    }
+};

@@ -42,27 +42,25 @@ public:
         int total=0;
         for (auto c:p) {
             count[c]++;
-            total++;
         }
         int m=s.size(), n=p.size();
 
         map<char,int> cnt=count;
-        int t=0;
         for (int l=0, r=0; r<m;) {
             if (count.find(s[r])==count.end()) {
                 cnt=count;
-                t=0;
+                total=0;
                 r++;
                 l=r;
             } else {
-                if (cnt[s[r]]>0) t++;
+                if (cnt[s[r]]>0) total++;
                 cnt[s[r]]--;
                 if (r-l+1>n) {
                     cnt[s[l]]++;
-                    if (cnt[s[l]]>0) t--;
+                    if (cnt[s[l]]>0) total--;
                     l++;
                 }
-                if (t==total) {
+                if (total==n) {
                     res.push_back(l);
                 }
                 r++;
@@ -72,4 +70,32 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> res;
+        int m=s.size(), n=p.size();
+        vector<int> count(128);
+        for (auto c:p) count[c]++;
+        vector<int> curr=count;
+        
+        for (int l=0, r=0; r<m;) {
+            if (count[s[r]]==0) {
+                curr=count;
+                r++;
+                l=r;
+            } else {
+                curr[s[r]]--;
+                while (curr[s[r]]<0) {
+                    curr[s[l]]++;
+                    l++;
+                }
+                if (r-l+1==n) res.push_back(l);
+                r++;
+            }
+        }
+        return res;
+    }
+};
 
