@@ -70,16 +70,15 @@ public:
 };
 
 2.
-
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
         ListNode *one=head, *two=head;
         
         while (1) {
-            if (one!=NULL) one=one->next;
             if (two!=NULL && two->next!=NULL) two=two->next->next;
             else return NULL;            
+            one=one->next;
             if (one==two) break;
 
         }        
@@ -92,7 +91,6 @@ public:
 
         return one;
     }
-
 };
 
 int main()

@@ -82,72 +82,58 @@ public:
     }
 };
 
-2.
-
 class Solution {
-
 public:
-
     ListNode* swapPairs(ListNode* head) {
+        if (head==NULL) return NULL;
+        ListNode dummy(0);
+        dummy.next=head;
+        ListNode *prev=&dummy, *curr=head, *next;
+        while (curr!=NULL) {
+            if (curr->next==NULL) break;
+            next=curr->next;
+            prev->next=next;            
+            curr->next=next->next;
+            next->next=curr;
+            prev=curr;
+            curr=curr->next;
+        }
+        return dummy.next;
+    }
+};
 
+2.
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
         ListNode *one=head, *two, *next;
-
-        ListNode *newhead=NULL, *tail=NULL;
-
-        
-
+        ListNode *newhead=NULL, *tail=NULL;        
         while (one!=NULL) {
-
             two=one->next;
-
             if (two!=NULL) {
-
                 next=two->next;
-
                 if (newhead==NULL) {
-
                     newhead=two;
-
                 } else {
-
                     tail->next=two;
-
                 }
-
                 two->next=one;
-
                 tail=one;
-
             } else {
-
                 next=NULL;
-
                 if (newhead==NULL) {
-
                     newhead=one;
-
                 } else {
-
                     tail->next=one;
-
                 }
-
                 tail=one;
-
             }
-
             one=next;
-
         }
 
-        if (tail) tail->next=NULL;
-
-        
-
+        if (tail) tail->next=NULL;       
         return newhead;
-
     }
-
 };
 
 int main()

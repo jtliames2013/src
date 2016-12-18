@@ -49,31 +49,17 @@ public:
 };
 
 2.
-
 class Solution {
-
 public:
-
     bool hasCycle(ListNode *head) {
-
         ListNode *one=head, *two=head;
-
         while (1) {
-
-            if (one!=NULL) one=one->next;
-
             if (two!=NULL && two->next!=NULL) two=two->next->next;
-
             else return false;
-
-            
-
+            one=one->next;
             if (one==two) return true;
-
         }
-
     }
-
 };
 
 int main()

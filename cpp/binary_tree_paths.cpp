@@ -37,143 +37,33 @@ ending condition: no left and no right. assueme root is not NULL.
 #include <iostream>
 #include <sstream>
 
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-  // Definition for a point.
-  struct Point {
-       int x;
-       int y;
-       Point() : x(0), y(0) {}
-       Point(int a, int b) : x(a), y(b) {}
-  };
-
-  class Solution {
-  public:
-	  string getPathStr(vector<string> path) {
-		  string res;
-		  for (int i=0; i<path.size(); i++) {
-			  res.append(path[i]);
-			  if (i<path.size()-1) res.append("->");
-		  }
-		  return res;
-	  }
-
-	  void getTreePaths(TreeNode* root, vector<string>& res, vector<string>& path) {
-		  char buf[64];
-		  sprintf(buf, "%d", root->val);
-		  path.push_back(buf);
-
-		  if (root->left==NULL && root->right==NULL) {
-			  string str=getPathStr(path);
-			  res.push_back(str);
-
-			  path.pop_back();
-			  return;
-		  }
-
-		  if (root->left) {
-			  getTreePaths(root->left, res, path);
-		  }
-
-		  if (root->right) {
-			  getTreePaths(root->right, res, path);
-		  }
-
-		  path.pop_back();
-	  }
-
-      vector<string> binaryTreePaths(TreeNode* root) {
-    	  vector<string> res;
-    	  vector<string> path;
-    	  if (root==NULL) return res;
-    	  getTreePaths(root, res, path);
-
-    	  return res;
-      }
-  };
-
-2. use int vector
 class Solution {
 public:
-    string convert(vector<int>& path) {
-        string str;
+    string getStr(vector<int>& path) {
+        string res;
         for (int i=0; i<path.size(); i++) {
-            if (i>0) {
-                str+="->";
-            }
-            str+=to_string(path[i]);
+            if (i>0) res+="->";
+            res+=to_string(path[i]);
         }
-        return str;
+        return res;
     }
-    
-    void findPaths(TreeNode* root, vector<string>& res, vector<int>& path) {
+    void getPath(vector<string>& res, vector<int>& path, TreeNode* root) {
         if (root==NULL) return;
-        
-        if (root->left==NULL && root->right==NULL) {
-            path.push_back(root->val);
-            res.push_back(convert(path));
+        path.push_back(root->val);
+        if (root->left==NULL&&root->right==NULL) {
+            res.push_back(getStr(path));
             path.pop_back();
             return;
         }
         
-        path.push_back(root->val);    
-        if (root->left) findPaths(root->left, res, path);
-        if (root->right) findPaths(root->right, res, path);
+        getPath(res, path, root->left);
+        getPath(res, path, root->right);
         path.pop_back();
     }
-    
     vector<string> binaryTreePaths(TreeNode* root) {
         vector<string> res;
         vector<int> path;
-        findPaths(root, res, path);
-        
+        getPath(res, path, root);
         return res;
     }
 };

@@ -22,58 +22,27 @@ Hide Tags Linked List Two Pointers
 #include <vector>
 #include <queue>
 
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
+1. Use dummy node
 class Solution {
 public:
-    ListNode *removeNthFromEnd(ListNode *head, int n) {
-    	ListNode *prev, *curr, *end;
-
-    	if (head == NULL) return NULL;
-    	if (n == 0) return head;
-
-    	end = head;
-    	while (n > 0 && end != NULL)
-    	{
-    		end = end->next;
-    		n--;
-    	}
-
-    	if (n > 0) return head;
-
-    	curr = head; prev = NULL;
-    	while (end != NULL)
-    	{
-    		end = end->next;
-    		prev = curr;
-    		curr = curr->next;
-    	}
-
-    	if (prev == NULL) return curr->next;
-    	else
-    	{
-    		prev->next = curr->next;
-    		return head;
-    	}
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if (head==NULL) return NULL;
+        ListNode dummy(0);
+        dummy.next=head;
+        ListNode *prev=&dummy, *curr=head, *tail=head;
+        while (n>0) {
+            tail=tail->next;
+            n--;
+        }
+        while (tail!=NULL) {
+            prev=curr;
+            curr=curr->next;
+            tail=tail->next;
+        }
+        
+        prev->next=curr->next;
+        delete curr;
+        return dummy.next;
     }
 };
 

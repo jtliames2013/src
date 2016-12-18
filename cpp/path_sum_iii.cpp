@@ -61,5 +61,18 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    int pathSum(TreeNode* root, int prev, int sum) {
+        if (root==NULL) return 0;
+        int curr=prev+root->val;
+        return (curr==sum)+pathSum(root->left, curr, sum)+pathSum(root->right, curr, sum);
+    }
+    int pathSum(TreeNode* root, int sum) {
+        if (root==NULL) return 0;
+        return pathSum(root, 0, sum) + pathSum(root->left, sum) + pathSum(root->right, sum);
+    }
+};
 
 

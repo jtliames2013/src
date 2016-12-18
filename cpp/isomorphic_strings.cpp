@@ -1,22 +1,23 @@
 note case "ab" -> "aa"
 
-  class Solution {
-  public:
-      bool isIsomorphic(string s, string t) {
-    	  int size=s.size();
-    	  map<char, char> m;
-    	  unordered_set<char> mapped;
-    	  for (int i=0; i<size; i++) {
-    		  if (m.find(s[i])==m.end()) {
-    			  if (mapped.find(t[i])!=mapped.end()) return false;
-    			  m[s[i]]=t[i];
-    			  mapped.insert(t[i]);
-    		  } else {
-    			  if (t[i]!=m[s[i]]) return false;
-    		  }
-    	  }
-
-    	  return true;
-      }
-  };
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        unordered_map<char,char> table;
+        unordered_set<char> st;
+        int m=s.size(), n=t.size();
+        if (m!=n) return false;
+        for (int i=0; i<m; i++) {
+            if (table.find(s[i])!=table.end()) {
+                if (table[s[i]]!=t[i]) return false;
+            } else {
+                if (st.find(t[i])!=st.end()) return false;
+                table[s[i]]=t[i];
+                st.insert(t[i]);
+            }
+        }
+        
+        return true;
+    }
+};
 

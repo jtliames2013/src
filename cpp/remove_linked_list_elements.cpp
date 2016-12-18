@@ -15,33 +15,6 @@
 #include <iostream>
 #include <sstream>
 
-  class Solution {
-  public:
-      ListNode* removeElements(ListNode* head, int val) {
-    	  ListNode *prev=NULL, *curr=head;
-    	  ListNode *newHead=head;
-
-    	  while (curr!=NULL) {
-    		  if (curr->val==val) {
-    			  ListNode *tmp=curr;
-    			  curr=curr->next;
-    			  if (prev==NULL) {
-    				  newHead=curr;
-    			  } else {
-    				  prev->next=curr;
-    			  }
-    			  delete tmp;
-    		  } else {
-    			  prev=curr;
-    			  curr=curr->next;
-    		  }
-    	  }
-
-    	  return newHead;
-      }
-  };
-
-2.
 class Solution {
 public:
     ListNode* removeElements(ListNode* head, int val) {
@@ -63,25 +36,25 @@ public:
     }
 };
 
-3. Use dummy node
+2. Use dummy node
 class Solution {
 public:
     ListNode* removeElements(ListNode* head, int val) {
-        ListNode *dummy=new ListNode(0);
-        dummy->next=head;
-        ListNode *prev=dummy, *curr=head;
+        if (head==NULL) return NULL;
+        ListNode dummy(0);
+        dummy.next=head;
+        ListNode *prev=&dummy, *curr=head, *next;
         while (curr!=NULL) {
+            next=curr->next;
             if (curr->val==val) {
                 prev->next=curr->next;
+                delete curr;
             } else {
                 prev=curr;
             }
-            curr=curr->next;
+            curr=next;
         }
-        
-        ListNode *newHead=dummy->next;
-        delete dummy;
-        return newHead;
+        return dummy.next;
     }
 };
 
