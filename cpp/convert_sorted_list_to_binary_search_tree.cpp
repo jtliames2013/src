@@ -16,45 +16,6 @@ Hide Similar Problems (M) Convert Sorted Array to Binary Search Tree
 #include <unordered_set>
 #include <map>
 
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class Solution {
 public:
     TreeNode *sortedListToBST(ListNode *head) {
@@ -85,31 +46,25 @@ public:
 
 2.
 class Solution {
-
 public:
     TreeNode* sortedListToBST(ListNode* head) {
         if (head==NULL) return NULL;
-        ListNode *l1=head, *l2=head, *prev=NULL;
-        while (l2!=NULL&&l2->next!=NULL) {
-            prev=l1;
-            l1=l1->next;
-            l2=l2->next->next;
+        ListNode *one=head, *two=head, *prev=NULL, *next;
+        while (two && two->next) {
+            prev=one;
+            one=one->next;
+            two=two->next->next;
         }
         
-        TreeNode *res=new TreeNode(l1->val);
-        if (l1==head) head=NULL;
-        else prev->next=NULL;
-        ListNode *next=l1->next;
-        l1->next=NULL;
-        TreeNode *l=sortedListToBST(head);
-        TreeNode *r=sortedListToBST(next);
-        res->left=l;
-        res->right=r;
-
-        return res;       
+        TreeNode *n=new TreeNode(one->val);
+        if (prev) prev->next=NULL;
+        next=one->next;
+        one->next=NULL;
+        n->left=sortedListToBST(head!=one?head:NULL);
+        n->right=sortedListToBST(next);
+        return n;
     }
 };
-
 
 int main()
 {

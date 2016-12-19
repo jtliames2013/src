@@ -68,7 +68,7 @@ public:
     }
 };
 
-3. iteratively
+2. iteratively
 /**
  * Definition for a binary tree node.
  * struct TreeNode {

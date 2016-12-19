@@ -57,7 +57,7 @@ Hide Similar Problems (M) Design Hit Counter
     	  }
       }
   private:
-      map<string, int> time;
+      unordered_map<string, int> time;
   };
 
   /**
