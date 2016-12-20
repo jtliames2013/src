@@ -37,120 +37,7 @@ NOTE: A node's neighbor could be the node itself, or have been visited. Therefor
 #include <unordered_set>
 #include <map>
 
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-1. use two queues
-
-class Solution {
-public:
-    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
-    	if (node == NULL) return NULL;
-    	queue<UndirectedGraphNode *> q, cloneq;
-    	map<int, UndirectedGraphNode *> m;
-
-    	UndirectedGraphNode *clonenode = new UndirectedGraphNode(node->label);
-    	q.push(node);
-    	cloneq.push(clonenode);
-    	m.insert({node->label, clonenode});
-    	while (!q.empty())
-    	{
-    		UndirectedGraphNode *n = q.front();
-    		q.pop();
-    		UndirectedGraphNode *clonen = cloneq.front();
-    		cloneq.pop();
-
-    		for (int i = 0; i < n->neighbors.size(); i++)
-    		{
-    			UndirectedGraphNode *cloneneighbor;
-    			if (m.find(n->neighbors[i]->label) == m.end())
-    			{
-        			cloneneighbor = new UndirectedGraphNode(n->neighbors[i]->label);
-    				q.push(n->neighbors[i]);
-        			m.insert({n->neighbors[i]->label, cloneneighbor});
-        			cloneq.push(cloneneighbor);
-        			m.insert({cloneneighbor->label, cloneneighbor});
-    			}
-    			else if (n == n->neighbors[i])
-    			{
-    				cloneneighbor = clonen;
-    			}
-    			else
-    			{
-    				auto res = m.find(n->neighbors[i]->label);
-    				cloneneighbor = res->second;
-    			}
-    			clonen->neighbors.push_back(cloneneighbor);
-    		}
-    	}
-
-    	return clonenode;
-    }
-};
-
-2. use one queue
-class Solution {
-public:
-    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
-        unordered_set<UndirectedGraphNode*> visited;
-        queue<pair<UndirectedGraphNode*, UndirectedGraphNode*>> q;
-        map<UndirectedGraphNode*, UndirectedGraphNode*> m;
-        if (node==NULL)  return NULL;       
-
-        UndirectedGraphNode *cnode=new UndirectedGraphNode(node->label);
-        q.push(make_pair(node, cnode));
-        m[node]=cnode;
-        visited.insert(node);
-        
-        while(!q.empty()) {
-            auto t=q.front();
-            q.pop();            
-
-            for (auto neighbor:t.first->neighbors) {
-                if (visited.find(neighbor)==visited.end()) {
-                    UndirectedGraphNode *cn=new UndirectedGraphNode(neighbor->label);
-                    t.second->neighbors.push_back(cn);                    
-                    q.push(make_pair(neighbor, cn));
-                    m[neighbor]=cn;
-                    visited.insert(neighbor);
-                } else {
-                    t.second->neighbors.push_back(m[neighbor]);   
-                }
-            }
-        }
-        
-        return cnode;
-    }
-};
-
-3. Don't use pair in queue since map has the info.
+1. BFS
 class Solution {
 public:
     UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
@@ -181,6 +68,32 @@ public:
         }
         
         return cnode;
+    }
+};
+
+2. DFS
+class Solution {
+public:
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node, set<UndirectedGraphNode*>& visited, map<UndirectedGraphNode*, UndirectedGraphNode*>& table) {
+        visited.insert(node);
+        UndirectedGraphNode *cnode=new UndirectedGraphNode(node->label);
+        table[node]=cnode;
+        
+        for (auto neighbor:node->neighbors) {
+            if (visited.find(neighbor)==visited.end()) {
+                UndirectedGraphNode *cneighbor=cloneGraph(neighbor, visited, table);
+                table[neighbor]=cneighbor;
+            }
+            cnode->neighbors.push_back(table[neighbor]);
+        }
+        
+        return cnode;
+    }
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+        if (node==NULL) return NULL;
+        set<UndirectedGraphNode*> visited;
+        map<UndirectedGraphNode*, UndirectedGraphNode*> table;
+        return cloneGraph(node, visited, table);
     }
 };
 
