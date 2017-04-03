@@ -12,58 +12,8 @@ Hide Company Tags LinkedIn Microsoft
 Hide Tags Backtracking
 Hide Similar Problems (M) Next Permutation (M) Permutations (M) Palindrome Permutation II
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-NOTE: [0,1,0,0,9], can't use swap as in I because the order will be changed.
+NOTE: Can't use swap as in I because it will change the sorted order and sorted order is used to avoid duplicate.
+E.g., [0,0,0,1,9], after swap [0,9,0,1,0] and index is at 2. swap index 2 and 4 will cause duplicate.
 class Solution {
 public:
 	void getPermuteUnique(vector<vector<int> >& res, vector<int>& nums, vector<int>& solution, vector<bool>& selected) {
@@ -94,10 +44,5 @@ public:
     	return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
 
