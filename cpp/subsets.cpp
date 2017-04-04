@@ -20,18 +20,6 @@ Hide Company Tags Amazon Uber Facebook
 Hide Tags Array Backtracking Bit Manipulation
 Hide Similar Problems (M) Generalized Abbreviation
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-
 class Solution {
 public:
     void getSet(vector<vector<int>>& res, vector<int>& output, vector<int>& nums, int start) {

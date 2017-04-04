@@ -16,45 +16,30 @@ Hide Company Tags Snapchat Uber
 Hide Tags Array Backtracking
 Show Similar Problems
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-
 class Solution {
 public:
-    void getComb(vector<vector<int>>& res, vector<int>& comb, vector<int>& candidates, int target, int start) {
+    void getSum(vector<vector<int>>& res, vector<int>& output, vector<int>& candidates, int target, int start) {
         if (target==0) {
-            res.push_back(comb);
+            res.push_back(output);
             return;
-        }
+        }    
         
         for (int i=start; i<candidates.size(); i++) {
-            if (target>=candidates[i]) {
-                comb.push_back(candidates[i]);
-                getComb(res, comb, candidates, target-candidates[i], i);
-                comb.pop_back();
+            if (target-candidates[i]>=0) {
+                output.push_back(candidates[i]);
+                getSum(res, output, candidates, target-candidates[i], i);
+                output.pop_back();
             }
         }
     }
+    
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>> res;
-        vector<int> comb;
-        getComb(res, comb, candidates, target, 0);
+        vector<int> output;
+        getSum(res, output, candidates, target, 0);
+        
         return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
 

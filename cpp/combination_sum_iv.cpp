@@ -31,21 +31,19 @@ Subscribe to see which companies asked this question
 Hide Tags Dynamic Programming
 Hide Similar Problems (M) Combination Sum
 
-
 class Solution {
 public:
     int combinationSum4(vector<int>& nums, int target) {
-        int res=0;
-        if (nums.size()==0||target<0) return 0;
+        if (nums.size()==0 || target<0) return 0;
         if (target==0) return 1;
         if (count.find(target)!=count.end()) return count[target];
+        int sum=0;
         
-        for (auto i:nums) {
-            res+=combinationSum4(nums, target-i);
+        for (auto n:nums) {
+            sum+=combinationSum4(nums, target-n);
         }
-        
-        count[target]=res;
-        return res;
+        count[target]=sum;
+        return sum;
     }
 private:
     unordered_map<int,int> count;
