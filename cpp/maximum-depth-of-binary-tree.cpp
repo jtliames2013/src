@@ -7,10 +7,15 @@ Hide Company Tags LinkedIn Uber Apple Yahoo
 Hide Tags Tree Depth-first Search
 Hide Similar Problems (E) Balanced Binary Tree (E) Minimum Depth of Binary Tree
 
-#include <stdio.h>
-#include <vector>
-#include <queue>
-
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
@@ -18,9 +23,4 @@ public:
         return max(maxDepth(root->left), maxDepth(root->right))+1;
     }
 };
-
-int main()
-{
-	return 0;
-}
 

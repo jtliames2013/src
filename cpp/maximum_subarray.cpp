@@ -1,72 +1,31 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
+53. Maximum Subarray Add to List
+DescriptionSubmissionsSolutions
+Total Accepted: 181174
+Total Submissions: 462789
+Difficulty: Easy
+Contributor: LeetCode
+Find the contiguous subarray within an array (containing at least one number) which has the largest sum.
 
-using namespace std;
+For example, given the array [-2,1,-3,4,-1,2,1,-5,4],
+the contiguous subarray [4,-1,2,1] has the largest sum = 6.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+click to show more practice.
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+Subscribe to see which companies asked this question.
 
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
+Hide Tags Array Dynamic Programming Divide and Conquer
+Hide Similar Problems (E) Best Time to Buy and Sell Stock (M) Maximum Product Subarray
 
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
-    	int max=INT_MIN;
-    	int subsum=0;
-
-    	for (int i=0; i<nums.size(); i++) {
-    		subsum += nums[i];
-    		if (max<subsum) max=subsum;
-    		if (subsum<0) subsum=0;
-    	}
-
-    	return max;
+        int global=INT_MIN, local=0;
+        for (int i=0; i<nums.size(); i++) {
+            local+=nums[i];
+            if (global<local) global=local;
+            if (local<0) local=0;
+        }
+        return global;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
