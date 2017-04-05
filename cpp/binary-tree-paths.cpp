@@ -37,33 +37,51 @@ ending condition: no left and no right. assueme root is not NULL.
 #include <iostream>
 #include <sstream>
 
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
 class Solution {
 public:
-    string getStr(vector<int>& path) {
+    string convertPath(vector<int> path) {
         string res;
-        for (int i=0; i<path.size(); i++) {
-            if (i>0) res+="->";
-            res+=to_string(path[i]);
+        for (auto p:path) {
+            if (!res.empty()) res+="->";
+            res+=to_string(p);
         }
         return res;
     }
+    
     void getPath(vector<string>& res, vector<int>& path, TreeNode* root) {
         if (root==NULL) return;
         path.push_back(root->val);
         if (root->left==NULL&&root->right==NULL) {
-            res.push_back(getStr(path));
+            res.push_back(convertPath(path));
             path.pop_back();
             return;
         }
         
-        getPath(res, path, root->left);
-        getPath(res, path, root->right);
+        if (root->left) {
+            getPath(res, path, root->left);
+        }
+
+        if (root->right) {
+            getPath(res, path, root->right);
+        }
+
         path.pop_back();
     }
+    
     vector<string> binaryTreePaths(TreeNode* root) {
         vector<string> res;
         vector<int> path;
         getPath(res, path, root);
+        
         return res;
     }
 };
@@ -116,9 +134,4 @@ public:
         return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
