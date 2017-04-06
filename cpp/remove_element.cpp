@@ -17,48 +17,18 @@ Try two pointers.
 Did you use the property of "the order of elements can be changed"?
 What happens when the elements to remove are rare?
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
 class Solution {
 public:
-    int removeElement(int A[], int n, int elem) {
-    	int end = 0;
-    	for (int i = 0; i < n; i++)
-    	{
-    		if (A[i] != elem)
-    		{
-    			A[end] = A[i];
-    			end++;
-    		}
-    	}
-
-    	return end;
+    int removeElement(vector<int>& nums, int val) {
+        int end=0;
+        for (int i=0; i<nums.size(); i++) {
+            if (nums[i]!=val) {
+                if (end!=i) nums[end]=nums[i];
+                end++;
+            }
+        }
+        
+        return end;
     }
 };
 
@@ -80,6 +50,7 @@ public:
     }
 };
 
+3.
 class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
@@ -94,9 +65,4 @@ public:
         return end+1;
     }
 };
-
-int main()
-{
-	return 0;
-}
 

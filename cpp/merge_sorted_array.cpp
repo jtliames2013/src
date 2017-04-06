@@ -1,43 +1,29 @@
-#include <stdio.h>
-#include <vector>
-#include <queue>
+88. Merge Sorted Array Add to List
+DescriptionSubmissionsSolutions
+Total Accepted: 153461
+Total Submissions: 483973
+Difficulty: Easy
+Contributor: LeetCode
+Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
 
-class Solution {
-public:
-    void merge(int A[], int m, int B[], int n) {
-    	int i = m + n - 1;
-    	int aidx = m - 1;
-    	int bidx = n - 1;
+Note:
+You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional elements from nums2. The number of elements initialized in nums1 and nums2 are m and n respectively.
 
-    	while (aidx >= 0 && bidx >= 0)
-    	{
-    		if (A[aidx] >= B[bidx]) A[i--] = A[aidx--];
-    		else A[i--] = B[bidx--];
-    	}
+Subscribe to see which companies asked this question.
 
-    	if (bidx >= 0)
-    	{
-    		while (bidx >= 0) A[i--] = B[bidx--];
-    	}
-    }
-};
+Hide Tags Array Two Pointers
+Hide Similar Problems (E) Merge Two Sorted Lists
 
-2.
 class Solution {
 public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        int index=m+n-1;
-        int i=m-1, j=n-1;
+        int index=m+n-1, i=m-1, j=n-1;
         while (i>=0&&j>=0) {
-            if (nums1[i]<nums2[j]) nums1[index--]=nums2[j--];
-            else nums1[index--]=nums1[i--];
+            if (nums1[i]>nums2[j]) nums1[index--]=nums1[i--];
+            else nums1[index--]=nums2[j--];
         }
-        while (j>=0) nums1[index--]=nums2[j--];
+        while (j>=0) {
+            nums1[index--]=nums2[j--];
+        }
     }
 };
-
-int main()
-{
-	return 0;
-}
-

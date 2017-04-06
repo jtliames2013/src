@@ -13,132 +13,16 @@ Hide Company Tags Bloomberg Facebook
 Hide Tags Array Two Pointers
 Hide Similar Problems (E) Remove Element
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-
-using namespace std;
-
- class Solution {
- public:
-	 void swap(vector<int>& nums, int s, int e) {
-		 int tmp=nums[s];
-		 nums[s]=nums[e];
-		 nums[e]=tmp;
-	 }
-
-     void moveZeroes(vector<int>& nums) {
-    	 int size=nums.size();
-    	 if (size==0) return;
-    	 int start=0;
-    	 while (start<size) {
-    		 if (nums[start]!=0) start++;
-    		 else break;
-    	 }
-    	 int end=start+1;
-    	 while (end<size) {
-    		 if (nums[end]==0) end++;
-    		 else break;
-    	 }
-
-    	 while (end<size) {
-    		 swap(nums, start, end);
-    		 start++;
-    		 while (end<size && nums[end]==0) end++;
-    	 }
-     }
- };
-
-2. Find the first occurrance of 0, it should be exchanged with numbers after it. 
-   Find the the first occurance of nonzero after it. 
-   Exchange zero and nonzero.
-   zero pointer only moves one step because it either exchange with nonzero next after it or number next after it is also zero.
-   nonzero pointer moves to the next nonzero number.
-
-class Solution {
-public:
-    void swap(vector<int>& nums, int s, int e) {
-        int tmp=nums[s];
-        nums[s]=nums[e];
-        nums[e]=tmp;
-    }
-
-    void moveZeroes(vector<int>& nums) {
-        int size=nums.size();
-        int zero=0, nonzero=0;
-        
-        while (zero<size) {
-            if (nums[zero]==0) break;
-            zero++;
-        }    
-        nonzero=zero+1;
-
-        while (nonzero<size) {
-            if (nums[nonzero]!=0) break;
-            nonzero++;
-        }
-        
-        if (zero<size) {
-            while (nonzero<size) {
-                swap(nums, zero, nonzero);
-                zero++;
-                while (nonzero<size && nums[nonzero]==0) nonzero++;
-            }
-        }
-    }
-};
-
-2.
 class Solution {
 public:
     void moveZeroes(vector<int>& nums) {
-        int zero=0, nonzero=0;
-        for (; zero<nums.size(); zero++) {
-            if (nums[zero]==0) break;
-        }
-        
-        for (nonzero=zero+1;nonzero<nums.size(); nonzero++) {
-            if (nums[nonzero]!=0) break;
-        }
-        
-        while (nonzero<nums.size()) {
-            swap(nums[zero], nums[nonzero]);
-            zero++;
-            while (nonzero<nums.size()) {
-                if (nums[nonzero]!=0) break;
-                nonzero++;
-            }
-        }
-    }
-};
-
-3.
-class Solution {
-public:
-    void moveZeroes(vector<int>& nums) {
-        for (int i=0, nonzero=0; i<nums.size(); i++) {
+        int end=0;
+        for (int i=0; i<nums.size(); i++) {
             if (nums[i]!=0) {
-                if (i!=nonzero) {
-                    swap(nums[i], nums[nonzero]);
-                }
-                nonzero++;
+                if (end!=i) swap(nums[end], nums[i]);
+                end++;
             }
-        }
+        } 
     }
 };
-
-int main()
-{
-	return 0;
-}
 

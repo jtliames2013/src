@@ -1,87 +1,32 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
+237. Delete Node in a Linked List Add to List
+DescriptionSubmissionsSolutions
+Total Accepted: 141980
+Total Submissions: 309470
+Difficulty: Easy
+Contributor: LeetCode
+Write a function to delete a node (except the tail) in a singly linked list, given only access to that node.
 
-using namespace std;
+Supposed the linked list is 1 -> 2 -> 3 -> 4 and you are given the third node with value 3, the linked list should become 1 -> 2 -> 4 after calling your function.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Subscribe to see which companies asked this question.
+
+Hide Tags Linked List
+Hide Similar Problems (E) Remove Linked List Elements
 
 /**
  * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
  */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        if (node==NULL) return;
+        node->val=node->next->val;
+        node->next=node->next->next;
+    }
 };
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-  // Definition for a point.
-  struct Point {
-       int x;
-       int y;
-       Point() : x(0), y(0) {}
-       Point(int a, int b) : x(a), y(b) {}
-  };
-
-  class Solution {
-  public:
-      void deleteNode(ListNode* node) {
-    	  node->val=node->next->val;
-    	  ListNode* tmp=node->next;
-    	  node->next=node->next->next;
-    	  delete tmp;
-      }
-  };
-
-int main()
-{
-	return 0;
-}
 

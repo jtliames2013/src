@@ -1,44 +1,44 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
-#include <vector>
-#include <queue>
+21. Merge Two Sorted Lists Add to List
+DescriptionSubmissionsSolutions
+Total Accepted: 207116
+Total Submissions: 538019
+Difficulty: Easy
+Contributor: LeetCode
+Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
 
+Subscribe to see which companies asked this question.
+
+Hide Tags Linked List
+Hide Similar Problems (H) Merge k Sorted Lists (E) Merge Sorted Array (M) Sort List (M) Shortest Word Distance II
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        ListNode *head=NULL, *tail=NULL;
-        ListNode *node;
+        ListNode dummy(0);
+        ListNode *tail=&dummy;
         while (l1 && l2) {
-            if (l1->val>l2->val) {
-                node=l2;
-                l2=l2->next;
-            } else {
-                node=l1;
+            if (l1->val<l2->val) {
+                tail->next=l1;
+                tail=l1;
                 l1=l1->next;
-            }
-            if (head==NULL) {
-                head=tail=node;
             } else {
-                tail->next=node;
-                tail=node;
+                tail->next=l2;
+                tail=l2;
+                l2=l2->next;
             }
         }
-        if (l1) node=l1;
-        else node=l2;
         
-        if (head==NULL) {
-            head=node;
-        } else {
-            tail->next=node;
-        }
+        tail->next=l1!=NULL?l1:l2;
         
-        return head;
+        return dummy.next;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
