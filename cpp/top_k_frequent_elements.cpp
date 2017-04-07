@@ -11,19 +11,6 @@ Hide Company Tags Pocket Gems Yelp
 Hide Tags Hash Table Heap
 Hide Similar Problems (M) Word Frequency (M) Kth Largest Element in an Array
 
-// ConsoleApplication3.cpp : Defines the entry point for the console application.
-//
-
-#include "stdafx.h"
-#include <vector>
-#include <map>
-#include <set>
-#include <unordered_set>
-#include <queue>
-#include <string>
-#include <stack>
-using namespace std;
-
 class Solution {
 public:
     class Compare {

@@ -20,85 +20,59 @@ Hide Company Tags Bloomberg Uber Google
 Hide Tags Binary Search Tree
 Hide Similar Problems (M) Binary Tree Inorder Traversal
 
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-
-using namespace std;
-
 /**
- * Definition for binary tree
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
  */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
-    	if (root==NULL) return 0;
-    	stack<TreeNode *>stk;
-
-    	TreeNode* n=root;
-    	while (n!=NULL) {
-    		stk.push(n);
-    		n=n->left;
-    	}
-
-    	while (!stk.empty()) {
-    		TreeNode* node = stk.top();
-    		k--;
-    		if (k==0) {
-    			return node->val;
-    		}
-
-    		stk.pop();
-    		TreeNode* r=node->right;
-    		while (r!=NULL) {
-    			stk.push(r);
-    			r=r->left;
-    		}
-    	}
+        if (root==NULL) return 0;
+        stack<TreeNode*> stk;
+        TreeNode* n=root;
+        while (n) {
+            stk.push(n);
+            n=n->left;
+        }
+        
+        while (!stk.empty()) {
+            TreeNode* t=stk.top();
+            stk.pop();
+            k--;
+            if (k==0) return t->val;
+            
+            n=t->right;
+            while (n) {
+                stk.push(n);
+                n=n->left;
+            }
+        }
     }
+};
+
+2. DFS
+class Solution {
+public:
+    int dfs(TreeNode* root) {
+        if (root==NULL) return 0;
+        int val=dfs(root->left);
+        if (count==0) return val;
+        count--;
+        if (count==0) return root->val;
+        return dfs(root->right);    
+    }
+    
+    int kthSmallest(TreeNode* root, int k) {
+        count=k;
+        return dfs(root);
+    }
+private:
+    int count;
 };
 
 一步思考：
@@ -114,9 +88,4 @@ public:
 
 否则，node = node.left
 上述算法时间复杂度为O(BST的高度)
-
-int main()
-{
-	return 0;
-}
 
