@@ -1,5 +1,10 @@
-139. Word Break 
-Given a string s and a dictionary of words dict, determine if s can be segmented into a space-separated sequence of one or more dictionary words.
+139. Word Break Add to List
+DescriptionSubmissionsSolutions
+Total Accepted: 137342
+Total Submissions: 473014
+Difficulty: Medium
+Contributor: LeetCode
+Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, determine if s can be segmented into a space-separated sequence of one or more dictionary words. You may assume the dictionary does not contain duplicate words.
 
 For example, given
 s = "leetcode",
@@ -7,126 +12,34 @@ dict = ["leet", "code"].
 
 Return true because "leetcode" can be segmented as "leet code".
 
-Hide Company Tags Google Uber Facebook Amazon Yahoo Bloomberg Pocket Gems
+UPDATE (2017/1/4):
+The wordDict parameter had been changed to a list of strings (instead of a set of strings). Please reload the code definition to get the latest changes.
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
+Subscribe to see which companies asked this question.
 
-using namespace std;
+Hide Tags Dynamic Programming
+Hide Similar Problems (H) Word Break II
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-1. use iteration. Check each substring up to i can break. For each i, check each substring up to j can break and the rest is a word.
 class Solution {
 public:
-    bool wordBreak(string s, unordered_set<string> &dict) {
-    	if (s.empty()) return true;
-
-    	int len = s.size();
-    	vector<bool> res(len, false);
-
-    	for (int i = 0; i < len; i++)
-    	{
-    		bool r = false;
-    		for (int j = -1; j < i; j++)
-    		{
-    			if (j > -1)
-    			{
-    				if (res[j] == true && dict.find(s.substr(j+1, i-j)) != dict.end())
-    				{
-    					r = true;
-					break;
-    				}
-    			}
-    			else
-    			{
-    				if (dict.find(s.substr(0, i+1)) != dict.end())
-    				{
-    					r = true;
-					break;
-    				}
-    			}
-    		}
-    		res[i] = r;
-    	}
-
-    	return res[len-1];
-    }
-};
-
-2. use recursion and optimize using canBreak array. 
-class Solution {
-
-public:
-
-    bool findBreak(string& s, unordered_set<string>& dict, int start, vector<bool>& canBreak) {
-
-        if (start>=s.size()) return true;
-
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int n=s.size();
+        if (n==0) return false;
+        unordered_set<string> dict;
+        for (auto w:wordDict) dict.insert(w);
         
-
-        for (int i=start; i<s.size(); i++) {
-
-            string str=s.substr(start, i-start+1);
-
-            if (dict.find(str)!=dict.end() && canBreak[i+1]==true) {
-
-                if (findBreak(s, dict, i+1, canBreak)==true) {
-
-                    return true;
-
-                } else {
-
-                    canBreak[i+1]=false;
-
+        vector<bool> dp(n+1, false);
+        dp[0]=true;
+        for (int i=1; i<=n; i++) {
+            for (int j=0; j<i; j++) {
+                if (dp[j] && dict.find(s.substr(j, i-j))!=dict.end()) {
+                    dp[i]=true;
+                    break;
                 }
-
             }
-
         }
-
-        return false;
-
+        
+        return dp[n];
     }
-
-    
-
-    bool wordBreak(string s, unordered_set<string>& wordDict) {
-
-        vector<bool> canBreak(s.size()+1, true);
-
-        return findBreak(s, wordDict, 0, canBreak);
-
-    }
-
 };
-
-
-int main()
-{
-	return 0;
-}
 

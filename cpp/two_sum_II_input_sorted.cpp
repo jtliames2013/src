@@ -7,24 +7,23 @@ You may assume that each input would have exactly one solution.
 Input: numbers={2, 7, 11, 15}, target=9
 Output: index1=1, index2=2 
 
-  class Solution {
-  public:
-      vector<int> twoSum(vector<int>& numbers, int target) {
-    	  int size=numbers.size();
-    	  int l=0, r=size-1;
-    	  vector<int> res;
-
-    	  while (l<r) {
-    		  if (numbers[l]+numbers[r]>target) r--;
-    		  else if (numbers[l]+numbers[r]<target) l++;
-    		  else {
-    			  res.push_back(l+1);
-    			  res.push_back(r+1);
-    			  break;
-    		  }
-    	  }
-
-    	  return res;
-      }
-  };
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        vector<int> res(2,0);
+        int l=0, r=numbers.size()-1;
+        while (l<r) {
+            if (numbers[l]+numbers[r]==target) {
+                res[0]=l+1;
+                res[1]=r+1;
+                break;
+            } else if (numbers[l]+numbers[r]<target) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+        return res;
+    }
+};
 

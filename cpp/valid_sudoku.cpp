@@ -13,139 +13,46 @@ Hide Company Tags Snapchat Uber Apple
 Hide Tags Hash Table
 Hide Similar Problems (H) Sudoku Solver
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-
-class Solution {
-public:
-	void initFlag(vector<bool> &f)
-	{
-		for (int i = 0; i < 9; i++) f.push_back(false);
-	}
-
-    bool isValidSudoku(vector<vector<char> > &board) {
-    	vector<bool> flag;
-
-    	for (int row = 0; row < 9; row++)
-    	{
-    		flag.clear();
-    		initFlag(flag);
-
-    		for (int i = 0; i < 9; i++)
-    		{
-    			if (board[row][i] != '.')
-    			{
-    				if (flag[board[row][i] - '1'] == true)
-    				{
-    					return false;
-    				}
-    				else
-    				{
-    					flag[board[row][i] - '1'] = true;
-    				}
-    			}
-    		}
-    	}
-
-		for (int col = 0; col < 9; col++)
-		{
-			flag.clear();
-			initFlag(flag);
-
-			for (int i = 0; i < 9; i++)
-			{
-				if (board[i][col] != '.')
-				{
-					if (flag[board[i][col] - '1'] == true)
-					{
-						return false;
-					}
-					else
-					{
-						flag[board[i][col] - '1'] = true;
-					}
-				}
-			}
-		}
-
-		for (int row = 0; row < 3; row++)
-		{
-			for (int col= 0; col < 3; col++)
-			{
-				flag.clear();
-				initFlag(flag);
-				for (int i = 0; i < 3; i++)
-				{
-					for (int j = 0; j < 3; j++)
-					{
-						if (board[row * 3 + i][col * 3 + j] != '.')
-						{
-							if (flag[board[row * 3 + i][col * 3 + j] - '1'] == true)
-							{
-								return false;
-							}
-							else
-							{
-								flag[board[row * 3 + i][col * 3 + j] - '1'] = true;
-							}
-						}
-					}
-				}
-			}
-		}
-
-    	return true;
-    }
-};
-
-2. Use bit vector
 class Solution {
 public:
     bool isValidSudoku(vector<vector<char>>& board) {
-        for (int row=0; row<9; row++) {
-            bitset<9> flag;
-            for (int i=0; i<9; i++) {
-                if (board[row][i]!='.') {
-                    if (flag.test(board[row][i]-'1')) return false;
-                    else flag.set(board[row][i]-'1');
+        const int size=9;
+        for (int row=0; row<size; row++) {
+            bitset<size> b;
+            for (int col=0; col<size; col++) {
+                if (board[row][col]!='.') {
+                    if (b.test(board[row][col]-'1')) return false;
+                    b.set(board[row][col]-'1');
                 }
             }
         }
         
-        for (int col=0; col<9; col++) {
-            bitset<9> flag;
-            for (int i=0; i<9; i++) {
-                if (board[i][col]!='.'){
-                    if (flag.test(board[i][col]-'1')) return false;
-                    else flag.set(board[i][col]-'1');
+        for (int col=0; col<size; col++) {
+            bitset<size> b;
+            for (int row=0; row<size; row++) {
+                if (board[row][col]!='.') {
+                    if (b.test(board[row][col]-'1')) return false;
+                    b.set(board[row][col]-'1');
                 }
             }
         }
         
-        for (int blockRow=0; blockRow<3; blockRow++) {
-            for (int blockCol=0; blockCol<3; blockCol++) {
-                bitset<9> flag;
-                for (int i=0; i<3; i++) {
-                    for (int j=0; j<3; j++) {
-                        if (board[blockRow*3+i][blockCol*3+j]!='.') {
-                            if (flag.test(board[blockRow*3+i][blockCol*3+j]-'1')) return false;
-                            else flag.set(board[blockRow*3+i][blockCol*3+j]-'1');
+        for (int i=0; i<3; i++) {
+            for (int j=0; j<3; j++) {
+                bitset<size> b;
+                for (int r=0; r<3; r++) {
+                    for (int c=0; c<3; c++) {
+                        int row=i*3+r;
+                        int col=j*3+c;
+                        if (board[row][col]!='.') {
+                            if (b.test(board[row][col]-'1')) return false;    
+                            b.set(board[row][col]-'1');
                         }
                     }
                 }
             }
         }
-        
         return true;
     }
 };
-
-int main()
-{
-	return 0;
-}
 

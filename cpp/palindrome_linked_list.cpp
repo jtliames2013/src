@@ -1,50 +1,51 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
-#include <sstream>
+234. Palindrome Linked List Add to List
+DescriptionSubmissionsSolutions
+Total Accepted: 95231
+Total Submissions: 296692
+Difficulty: Easy
+Contributor: LeetCode
+Given a singly linked list, determine if it is a palindrome.
 
-  class Solution {
-  public:
-      bool isPalindrome(ListNode* head) {
-    	  ListNode *one=head, *two=head;
-    	  ListNode *prev=NULL;
-    	  while (two!=NULL && two->next!=NULL) {
-    		  one=one->next;
-    		  two=two->next->next;
-    	  }
+Follow up:
+Could you do it in O(n) time and O(1) space?
 
-    	  // reverse from one
-    	  while (one!=NULL) {
-    		  ListNode *next=one->next;
-    		  one->next=prev;
-    		  prev=one;
-    		  one=next;
-    	  }
+Subscribe to see which companies asked this question.
 
-    	  ListNode *front=head, *back=prev;
-    	  while (back!=NULL) {
-    		  if (back->val!=front->val) return false;
-    		  front=front->next;
-    		  back=back->next;
-    	  }
-    	  return true;
-      }
-  };
+Hide Tags Linked List Two Pointers
+Hide Similar Problems (E) Palindrome Number (E) Valid Palindrome (E) Reverse Linked List
 
-int main()
-{
-	return 0;
-}
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        ListNode *one=head, *two=head, *prev=NULL, *next;
+        while (two && two->next) {
+            one=one->next;
+            two=two->next->next;
+        }
+        
+        // reverse list from one
+        while (one) {
+            next=one->next;
+            one->next=prev;
+            prev=one;
+            one=next;
+        }
+        
+        ListNode *front=head, *back=prev;
+        while (back) {
+            if (back->val!=front->val) return false;
+            front=front->next;
+            back=back->next;
+        }
+        return true;
+    }
+};
 
