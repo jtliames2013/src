@@ -18,49 +18,26 @@ Hide Company Tags Dropbox Uber
 Hide Tags Hash Table
 Hide Similar Problems (E) Isomorphic Strings (H) Word Pattern II
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
-#include <sstream>
-
-  class Solution {
-  public:
-      bool wordPattern(string pattern, string str) {
-    	  map<char, string> m;
-    	  unordered_set<string> mapped;
-    	  istringstream iss(str);
-    	  int i=0;
-
-    	  for (string word; iss >> word; i++) {
-    		  if (i>=pattern.size()) return false;
-
-    		  if (m.find(pattern[i])!=m.end()) {
-    			  if (word != m[pattern[i]]) return false;
-    		  } else {
-    			  if (mapped.find(word)!=mapped.end()) return false;
-    			  mapped.insert(word);
-    			  m[pattern[i]]=word;
-    		  }
-    	  }
-
-    	  return i==pattern.size();
-      }
-  };
-
-int main()
-{
-	return 0;
-}
-
+class Solution {
+public:
+    bool wordPattern(string pattern, string str) {
+        unordered_map<char,string> mp;
+        unordered_set<string> st;
+        istringstream iss(str);
+        int i=0;
+        
+        for (string word; iss>>word; i++) {
+            if (i>pattern.size()) return false;
+            
+            if (mp.find(pattern[i])!=mp.end()) {
+                if (word!=mp[pattern[i]]) return false;
+            } else {
+                if (st.find(word)!=st.end()) return false;
+                mp[pattern[i]]=word;
+                st.insert(word);
+            }
+        }
+        
+        return i==pattern.size();
+    }
+};
