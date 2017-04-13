@@ -7,11 +7,6 @@ Hide Company Tags Google
 Hide Tags Array Math
 Hide Similar Problems (M) Multiply Strings (E) Add Binary (M) Plus One Linked List
 
-#include <stdio.h>
-#include <vector>
-#include <queue>
-
-
 class Solution {
 public:
     vector<int> plusOne(vector<int>& digits) {
@@ -25,41 +20,8 @@ public:
             }
         }
         
-        digits.insert(digits.begin(),1);
+        digits.insert(digits.begin(), 1);
         return digits;
     }
 };
-
-2.
-class Solution {
-public:
-    vector<int> plusOne(vector<int>& digits) {
-        vector<int> res;
-        int size=digits.size();
-        if (size==0) return res;
-        bool carry=false;
-        int num;
-        for (int i=size-1; i>=0; i--) {
-            num=digits[i];
-            if (i==size-1) num++;
-            if (carry) num++;
-            if (num>=10) {
-                num%=10;
-                carry=true;
-            } else {
-                carry=false;
-            }
-            res.insert(res.begin(), num);
-        }
-        
-        if (carry) res.insert(res.begin(), 1);
-        
-        return res;
-    }
-};
-
-int main()
-{
-	return 0;
-}
 

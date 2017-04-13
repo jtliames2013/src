@@ -11,43 +11,22 @@ For example:
     27 -> AA
     28 -> AB 
 
-  class Solution {
-  public:
-      string convertToTitle(int n) {
-    	  string res;
-    	  char c;
-    	  while (n>0) {
-    		  int mod=n%26;
-    		  if (mod==0) c='Z';
-    		  else c=mod-1+'A';
-    		  res.insert(res.begin(), c);
-    		  if (mod==0) n-=26;
-    		  n/=26;
-    	  }
-
-    	  return res;
-      }
-  };
-
-2.
 class Solution {
-
 public:
-
     string convertToTitle(int n) {
         string res;
         while (n>0) {
             int num=n%26;
             if (num==0) {
-                num=26;
-				// borrow from high digit
+                // borrow from high digit
                 n-=26;
+                num=26;
             }
-
-            res.insert(res.begin(), 'A'+num-1);
+            res.push_back('A'+num-1);
             n/=26;
         }
-       
+        
+        reverse(res.begin(), res.end());
         return res;
     }
 };
