@@ -27,42 +27,28 @@ Maximum amount of money the thief can rob = 4 + 5 = 9.
 
 状态转移方程见代码。
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
-#include <sstream>
-
-  class Solution {
-  public:
-	  // <max use root, max not use root>
-	  pair<int, int> dfs(TreeNode* root) {
-		  if (root==NULL) return make_pair(0, 0);
-		  auto lp=dfs(root->left);
-		  auto rp=dfs(root->right);
-
-		  return make_pair(root->val+lp.second+rp.second, max(lp.first, lp.second)+max(rp.first, rp.second));
-	  }
-
-	  int rob(TreeNode* root) {
-		  pair<int, int> p=dfs(root);
-		  return max(p.first, p.second);
-      }
-  };
-
-int main()
-{
-	return 0;
-}
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+  	// <max use root, max not use root>
+    pair<int,int> dfs(TreeNode* root) {
+        if (root==NULL) return {0,0};
+        pair<int,int> l=dfs(root->left);
+        pair<int,int> r=dfs(root->right);
+        return {root->val+l.second+r.second, max(l.first, l.second)+max(r.first, r.second)};
+    }
+    
+    int rob(TreeNode* root) {
+        pair<int,int> res=dfs(root);
+        return max(res.first, res.second);
+    }
+};
 
