@@ -27,78 +27,69 @@ Hide Similar Problems (H) Copy List with Random Pointer
 
 NOTE: A node's neighbor could be the node itself, or have been visited. Therefore need a map to store mapping of original to clone.
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-
 1. BFS
+/**
+ * Definition for undirected graph.
+ * struct UndirectedGraphNode {
+ *     int label;
+ *     vector<UndirectedGraphNode *> neighbors;
+ *     UndirectedGraphNode(int x) : label(x) {};
+ * };
+ */
 class Solution {
 public:
     UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
         if (node==NULL) return NULL;
+        unordered_map<UndirectedGraphNode*,UndirectedGraphNode*> mp;
         queue<UndirectedGraphNode*> q;
-        set<UndirectedGraphNode*> visited;
-        map<UndirectedGraphNode*, UndirectedGraphNode*> m;
+        unordered_set<UndirectedGraphNode*> visited;
         q.push(node);
         visited.insert(node);
-        UndirectedGraphNode *cnode=new UndirectedGraphNode(node->label);
-        m[node]=cnode;
+        UndirectedGraphNode* newNode=new UndirectedGraphNode(node->label);
+        mp[node]=newNode;
         
-        while(!q.empty()) {
-            UndirectedGraphNode *f=q.front();
+        while (!q.empty()) {
+            UndirectedGraphNode* f=q.front();
             q.pop();
-            UndirectedGraphNode *parent=m[f];
+            UndirectedGraphNode* p=mp[f];
             
             for (auto neighbor:f->neighbors) {
                 if (visited.find(neighbor)==visited.end()) {
-                    q.push(neighbor);
+                    UndirectedGraphNode* n=new UndirectedGraphNode(neighbor->label);
+                    mp[neighbor]=n;
                     visited.insert(neighbor);
-                    UndirectedGraphNode *n=new UndirectedGraphNode(neighbor->label);
-                    m[neighbor]=n;
+                    q.push(neighbor);
                 }
-				// must be out of if condition because a node can have itself as neighbor
-                parent->neighbors.push_back(m[neighbor]);
+                p->neighbors.push_back(mp[neighbor]);
             }
         }
         
-        return cnode;
+        return newNode;
     }
 };
 
 2. DFS
 class Solution {
 public:
-    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node, set<UndirectedGraphNode*>& visited, map<UndirectedGraphNode*, UndirectedGraphNode*>& table) {
+    UndirectedGraphNode *dfs(UndirectedGraphNode *node, unordered_map<UndirectedGraphNode*,UndirectedGraphNode*>& mp, unordered_set<UndirectedGraphNode*>& visited) {
+        UndirectedGraphNode *newNode=new UndirectedGraphNode(node->label);
+        mp[node]=newNode;
         visited.insert(node);
-        UndirectedGraphNode *cnode=new UndirectedGraphNode(node->label);
-        table[node]=cnode;
-        
         for (auto neighbor:node->neighbors) {
             if (visited.find(neighbor)==visited.end()) {
-                UndirectedGraphNode *cneighbor=cloneGraph(neighbor, visited, table);
-                table[neighbor]=cneighbor;
+                mp[neighbor]=dfs(neighbor, mp, visited);
             }
-            cnode->neighbors.push_back(table[neighbor]);
+            newNode->neighbors.push_back(mp[neighbor]);
         }
         
-        return cnode;
+        return newNode;
     }
+    
     UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
         if (node==NULL) return NULL;
-        set<UndirectedGraphNode*> visited;
-        map<UndirectedGraphNode*, UndirectedGraphNode*> table;
-        return cloneGraph(node, visited, table);
+        unordered_map<UndirectedGraphNode*,UndirectedGraphNode*> mp;
+        unordered_set<UndirectedGraphNode*> visited;
+        return dfs(node, mp, visited);
     }
 };
-
-int main()
-{
-	return 0;
-}
 
