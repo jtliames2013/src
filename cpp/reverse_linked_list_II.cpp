@@ -1,107 +1,64 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <limits.h>
+92. Reverse Linked List II Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 103483
+Total Submissions: 343460
+Difficulty: Medium
+Contributor: LeetCode
+Reverse a linked list from position m to n. Do it in-place and in one-pass.
 
-using namespace std;
+For example:
+Given 1->2->3->4->5->NULL, m = 2 and n = 4,
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+return 1->4->3->2->5->NULL.
+
+Note:
+Given m, n satisfy the following condition:
+1 ≤ m ≤ n ≤ length of list.
+
+Subscribe to see which companies asked this question.
+
+Hide Tags Linked List
+Hide Similar Problems (E) Reverse Linked List
 
 /**
  * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
  */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class Solution {
 public:
-    ListNode *reverseBetween(ListNode *head, int m, int n) {
-    	if (!head) return NULL;
-    	ListNode *res;
-
-    	ListNode *start=NULL, *end=NULL, *beforeStart=NULL, *afterEnd=NULL;
-    	int i=1;
-    	ListNode *node=head, *prev=NULL;
-    	while (node!=NULL)
-    	{
-    		if (i==m)
-    		{
-    			start=node;
-    			beforeStart=prev;
-    		}
-    		if (i==n)
-    		{
-    			end=node;
-    			afterEnd=end->next;
-    		}
-    		prev=node;
-    		node=node->next;
-    		i++;
-    	}
-
-    	node=start;
-    	prev=NULL;
-    	ListNode *tmp;
-    	while (node!=afterEnd)
-    	{
-    		tmp=node->next;
-    		node->next=prev;
-    		prev=node;
-    		node=tmp;
-    	}
-
-    	start->next = afterEnd;
-    	if (beforeStart!=NULL)
-    	{
-    		beforeStart->next=end;
-    		res=head;
-    	}
-    	else
-    	{
-    		res=end;
-    	}
-
-    	return res;
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        if (m==n) return head;
+        ListNode *prev=NULL, *curr=head, *next, *newHead=head;
+        int i=0;
+        while (curr) {
+            i++;
+            if (i==m) break;
+            prev=curr;
+            curr=curr->next;
+        }
+        
+        ListNode *tail=prev, *start=curr;
+        while (curr) {
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+            i++;
+            if (i>n) break;
+        }
+        
+        if (tail==NULL) {
+            newHead=prev;
+        } else {
+            tail->next=prev;
+        }
+        start->next=next;
+        
+        return newHead;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
