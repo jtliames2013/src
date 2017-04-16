@@ -1,35 +1,36 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
+58. Length of Last Word Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 137547
+Total Submissions: 436878
+Difficulty: Easy
+Contributor: LeetCode
+Given a string s consists of upper/lower-case alphabets and empty space characters ' ', return the length of last word in the string.
+
+If the last word does not exist, return 0.
+
+Note: A word is defined as a character sequence consists of non-space characters only.
+
+For example, 
+Given s = "Hello World",
+return 5.
+
+Subscribe to see which companies asked this question.
+
+Hide Tags String
 
 class Solution {
 public:
-    int lengthOfLastWord(const char *s) {
-    	if (s == NULL) return 0;
-    	int len = strlen(s);
-
-    	int end, i;
-    	for (end = len - 1; end >= 0; end--)
-    	{
-    		if (s[end] != ' ') break;
-    	}
-
-    	if (end < 0) return 0;
-
-    	for (i = end; i >= 0; i--)
-    	{
-    		if (s[i] == ' ') break;
-    	}
-
-    	return end - i;
+    int lengthOfLastWord(string s) {
+        int n=s.size();
+        int i, j;
+        for (i=n-1; i>=0; i--) {
+            if (s[i]!=' ') break;
+        }
+        for (j=i; j>=0; j--) {
+            if (s[j]==' ') break;
+        }
+        
+        return i-j;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
