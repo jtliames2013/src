@@ -1,77 +1,49 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
+69. Sqrt(x) Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 144973
+Total Submissions: 528938
+Difficulty: Easy
+Contributor: LeetCode
+Implement int sqrt(int x).
 
-using namespace std;
+Compute and return the square root of x.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Subscribe to see which companies asked this question.
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+Hide Tags Binary Search Math
+Hide Similar Problems (M) Pow(x, n) (E) Valid Perfect Square
 
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+class Solution {
+public:
+    int mySqrt(int x) {
+        if (x==0) return 0;
+        int l=1, r=x, mid;
+        
+        while (l<r) {
+            mid=l+(r-l)/2+1;    
+            if (mid==x/mid) return mid;
+            else if (mid<x/mid) l=mid;
+            else r=mid-1;
+        }
+        
+        return l;
+    }
 };
 
 class Solution {
 public:
     int mySqrt(int x) {
-    	if (x<0) return -1;
-    	if (x==0) return 0;
-    	if (x==1) return 1;
-
-    	int start=0, end=x;
-    	int mid;
-    	while (start<=end) {
-    		mid=(start+end)/2;
-    		if (x/mid==mid) return mid;
-    		else if (x/mid>mid) start=mid+1;
-    		else end=mid-1;
-    	}
-
-    	return end;
+        if (x==0) return 0;
+        int l=1, r=x, mid;
+        
+        while (l<=r) {
+            mid=l+(r-l)/2;    
+            if (mid==x/mid) return mid;
+            else if (mid<x/mid) l=mid+1;
+            else r=mid-1;
+        }
+        
+        return r;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
 

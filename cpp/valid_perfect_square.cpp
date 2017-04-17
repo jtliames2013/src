@@ -21,10 +21,10 @@ Hide Similar Problems (M) Sqrt(x)
 class Solution {
 public:
     bool isPerfectSquare(int num) {
-        long l=0, r=num;
-        long mid;
+        long long l=1, r=num, mid;
+        
         while (l<=r) {
-            mid=(l+r)/2;
+            mid=l+(r-l)/2;
             if (mid*mid==num) return true;
             else if (mid*mid<num) l=mid+1;
             else r=mid-1;
@@ -33,3 +33,4 @@ public:
         return false;
     }
 };
+
