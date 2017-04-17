@@ -8,68 +8,25 @@ Hide Company Tags Google Airbnb Facebook Twitter Zenefits Amazon Microsoft Bloom
 Hide Tags Stack String
 Hide Similar Problems (M) Generate Parentheses (H) Longest Valid Parentheses (H) Remove Invalid Parentheses
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
 class Solution {
 public:
     bool isValid(string s) {
-    	vector<char> res;
-
-    	for (int i = 0; i < s.size(); i++)
-    	{
-    		if (s[i] == '{' || s[i] == '(' || s[i] == '[')
-    		{
-    			res.push_back(s[i]);
-    		}
-    		else
-    		{
-    			if (!res.empty() &&
-    				((s[i] == '}' && res.back() == '{') ||
-    				 (s[i] == ')' && res.back() == '(') ||
-    				 (s[i] == ']' && res.back() == '[')))
-    			{
-    				res.pop_back();
-    			}
-    			else
-    			{
-    				return false;
-    			}
-    		}
-    	}
-
-    	if (res.empty()) return true;
-    	else return false;
+        vector<char> stk;
+        for (auto c:s) {
+            if (c=='(' || c== '{' || c=='[') {
+                stk.push_back(c);
+            } else if (!stk.empty() && 
+                     ((c==')' && stk.back()=='(') ||
+                      (c=='}' && stk.back()=='{') ||
+                      (c==']' && stk.back()=='['))) {
+                  stk.pop_back();
+            } else {
+                return false;
+            }
+        }
+        
+        if (stk.empty()) return true;
+        else return false;
     }
 };
-
-int main()
-{
-	return 0;
-}
 

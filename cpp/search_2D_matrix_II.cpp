@@ -1,78 +1,48 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
+240. Search a 2D Matrix II Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 71580
+Total Submissions: 188085
+Difficulty: Medium
+Contributor: LeetCode
+Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
 
-using namespace std;
+Integers in each row are sorted in ascending from left to right.
+Integers in each column are sorted in ascending from top to bottom.
+For example,
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Consider the following matrix:
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+[
+  [1,   4,  7, 11, 15],
+  [2,   5,  8, 12, 19],
+  [3,   6,  9, 16, 22],
+  [10, 13, 14, 17, 24],
+  [18, 21, 23, 26, 30]
+]
+Given target = 5, return true.
 
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
+Given target = 20, return false.
 
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
+Subscribe to see which companies asked this question.
+
+Hide Tags Binary Search Divide and Conquer
+Hide Similar Problems (M) Search a 2D Matrix
 
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-    	int row = matrix.size();
-    	if (row==0) return false;
-    	int col = matrix[0].size();
-    	if (col==0) return false;
-
-    	int i=0;
-    	int j=col-1;
-
-    	while (i<row && j>=0) {
-    		if (target==matrix[i][j]) return true;
-    		else if(target>matrix[i][j]) i++;
-    		else j--;
-    	}
-
-    	return false;
+        int m=matrix.size();
+        if (m==0) return false;
+        int n=matrix[0].size();
+        if (n==0) return false;
+        
+        int i=0, j=n-1;
+        while (i<m && j>=0) {
+            if (matrix[i][j]==target) return true;
+            else if (matrix[i][j]<target) i++;
+            else j--;
+        }
+        
+        return false;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
-
