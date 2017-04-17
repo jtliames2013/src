@@ -1,118 +1,60 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
+116. Populating Next Right Pointers in Each Node Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 125975
+Total Submissions: 341274
+Difficulty: Medium
+Contributor: LeetCode
+Given a binary tree
 
-using namespace std;
+    struct TreeLinkNode {
+      TreeLinkNode *left;
+      TreeLinkNode *right;
+      TreeLinkNode *next;
+    }
+Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Initially, all next pointers are set to NULL.
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+Note:
 
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
+You may only use constant extra space.
+You may assume that it is a perfect binary tree (ie, all leaves are at the same level, and every parent has two children).
+For example,
+
+Given the following perfect binary tree,
+         1
+       /  \
+      2    3
+     / \  / \
+    4  5  6  7
+After calling your function, the tree should look like:
+         1 -> NULL
+       /  \
+      2 -> 3 -> NULL
+     / \  / \
+    4->5->6->7 -> NULL
+Subscribe to see which companies asked this question.
+
+Hide Tags Tree Depth-first Search
+Hide Similar Problems (M) Populating Next Right Pointers in Each Node II (M) Binary Tree Right Side View
 
 /**
  * Definition for binary tree with next pointer.
+ * struct TreeLinkNode {
+ *  int val;
+ *  TreeLinkNode *left, *right, *next;
+ *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+ * };
  */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
- class Solution {
- public:
-     void connect(TreeLinkNode *root) {
-    	 if (root==NULL) return;
-
-    	 if (root->left) {
-    		 root->left->next=root->right;
-    		 root->right->next = root->next==NULL ? NULL : root->next->left;
-
-    		 connect(root->left);
-    		 connect(root->right);
-    	 }
-     }
- };
-
-class Solution2 {
+class Solution {
 public:
     void connect(TreeLinkNode *root) {
-    	queue<TreeLinkNode*> q1;
-    	queue<TreeLinkNode*> q2;
-
-    	if (root==NULL) return;
-
-    	q1.push(root);
-
-    	while(1)
-    	{
-    		if (q1.empty() && q2.empty()) break;
-
-    		TreeLinkNode* prev=NULL;
-    		while (!q1.empty())
-    		{
-    			TreeLinkNode* node=q1.front();
-    			q1.pop();
-
-    			if (prev != NULL)
-    			{
-    				prev->next = node;
-    			}
-    			prev=node;
-
-    			if (node->left != NULL) q2.push(node->left);
-    			if (node->right != NULL) q2.push(node->right);
-    		}
-
-    		prev=NULL;
-			while (!q2.empty())
-			{
-				TreeLinkNode* node=q2.front();
-				q2.pop();
-
-				if (prev != NULL)
-				{
-					prev->next = node;
-				}
-				prev=node;
-
-				if (node->left != NULL) q1.push(node->left);
-				if (node->right != NULL) q1.push(node->right);
-			}
-    	}
+        if (root==NULL) return;
+        if (root->left==NULL && root->right==NULL) return;
+        root->left->next=root->right;
+        root->right->next=root->next?root->next->left:NULL;
+        connect(root->left);
+        connect(root->right);
     }
 };
-
-int main()
-{
-	return 0;
-}
 
