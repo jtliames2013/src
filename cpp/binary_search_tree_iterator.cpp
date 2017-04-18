@@ -1,95 +1,66 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
+173. Binary Search Tree Iterator Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 84187
+Total Submissions: 209419
+Difficulty: Medium
+Contributor: LeetCode
+Implement an iterator over a binary search tree (BST). Your iterator will be initialized with the root node of a BST.
 
-using namespace std;
+Calling next() will return the next smallest number in the BST.
+
+Note: next() and hasNext() should run in average O(1) time and uses O(h) memory, where h is the height of the tree.
+
+Credits:
+Special thanks to @ts for adding this problem and creating all test cases.
+
+Subscribe to see which companies asked this question.
+
+Hide Tags Tree Stack Design
+Hide Similar Problems (M) Binary Tree Inorder Traversal (M) Flatten 2D Vector (M) Zigzag Iterator (M) Peeking Iterator (M) Inorder Successor in BST
 
 /**
  * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
  */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class BSTIterator {
 public:
-	stack<TreeNode*> s;
-
     BSTIterator(TreeNode *root) {
-    	TreeNode* curr=root;
-    	while (curr!=NULL) {
-    		s.push(curr);
-    		curr=curr->left;
-    	}
+        TreeNode *n=root;
+        while (n) {
+            stk.push(n);
+            n=n->left;
+        }
     }
 
     /** @return whether we have a next smallest number */
     bool hasNext() {
-    	if (s.empty()) {
-    		return false;
-    	}
-
-    	return true;
+        return !stk.empty();
     }
 
     /** @return the next smallest number */
     int next() {
-    	if (!s.empty()) {
-    		TreeNode* n=s.top();
-    		s.pop();
-    		TreeNode* curr=n->right;
-			while (curr!=NULL) {
-				s.push(curr);
-				curr=curr->left;
-			}
-    		return n->val;
-    	} else {
-    		return 0;
-    	}
+        if (!hasNext()) return -1;
+        TreeNode *t=stk.top();
+        stk.pop();
+        TreeNode *n=t->right;
+        while (n) {
+            stk.push(n);
+            n=n->left;
+        }
+        return t->val;
     }
+private:
+    stack<TreeNode*> stk;
 };
 
-int main()
-{
-	return 0;
-}
-
+/**
+ * Your BSTIterator will be called like this:
+ * BSTIterator i = BSTIterator(root);
+ * while (i.hasNext()) cout << i.next();
+ */
 

@@ -18,21 +18,6 @@ Subscribe to see which companies asked this question
 Hide Tags Tree Stack
 Hide Similar Problems (M) Binary Tree Inorder Traversal
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-
-using namespace std;
-
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
@@ -75,22 +60,20 @@ class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
         vector<int> res;
-        stack<TreeNode*> stk;
         if (root==NULL) return res;
-        set<TreeNode*> visited;
+        stack<TreeNode*> stk;
+        unordered_set<TreeNode*> visited;
         stk.push(root);
-        visited.insert(root);
         
         while (!stk.empty()) {
-            TreeNode* n=stk.top();
-            if (n->left && visited.find(n->left)==visited.end()) {
-                stk.push(n->left);
-                visited.insert(n->left);
-            } else if (n->right && visited.find(n->right)==visited.end()) {
-                stk.push(n->right);
-                visited.insert(n->right);
+            TreeNode *t=stk.top();
+            if (t->left && visited.find(t->left)==visited.end()) {
+                stk.push(t->left);
+            } else if (t->right && visited.find(t->right)==visited.end()) {
+                stk.push(t->right);
             } else {
-                res.push_back(stk.top()->val);
+                visited.insert(t);
+                res.push_back(t->val);
                 stk.pop();
             }
         }
@@ -98,10 +81,4 @@ public:
         return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
 

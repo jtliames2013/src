@@ -1,64 +1,44 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <limits.h>
+95. Unique Binary Search Trees II Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 78249
+Total Submissions: 252806
+Difficulty: Medium
+Contributor: LeetCode
+Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1...n.
 
-using namespace std;
+For example,
+Given n = 3, your program should return all 5 unique BST's shown below.
+
+   1         3     3      2      1
+    \       /     /      / \      \
+     3     2     1      1   3      2
+    /     /       \                 \
+   2     1         2                 3
+Subscribe to see which companies asked this question.
+
+Hide Tags Tree Dynamic Programming
+Hide Similar Problems (M) Unique Binary Search Trees (M) Different Ways to Add Parentheses
 
 /**
- * Definition for binary tree
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
  */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class Solution {
 public:
-    vector<TreeNode*> generateTrees(int l, int r) {
+    vector<TreeNode*> generateTrees(int start, int end) {
         vector<TreeNode*> res;
-        if (l>=r) {
-            res.push_back(l==r?new TreeNode(l):NULL);
+        if (start>end) {
+            res.push_back(NULL);
             return res;
         }
-        for (int i=l; i<=r; i++) {
-            vector<TreeNode*> left=generateTrees(l, i-1);
-            vector<TreeNode*> right=generateTrees(i+1, r);
+        for (int i=start; i<=end; i++) {
+            vector<TreeNode*> left=generateTrees(start, i-1);
+            vector<TreeNode*> right=generateTrees(i+1, end);
             for (int j=0; j<left.size(); j++) {
                 for (int k=0; k<right.size(); k++) {
                     TreeNode *n=new TreeNode(i);
@@ -71,14 +51,10 @@ public:
         
         return res;
     }
+    
     vector<TreeNode*> generateTrees(int n) {
         if (n==0) return vector<TreeNode*>();
         return generateTrees(1, n);
     }
 };
-
-int main()
-{
-	return 0;
-}
 

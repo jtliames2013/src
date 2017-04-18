@@ -1,101 +1,36 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <limits.h>
+96. Unique Binary Search Trees Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 114993
+Total Submissions: 285161
+Difficulty: Medium
+Contributor: LeetCode
+Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
 
-using namespace std;
+For example,
+Given n = 3, there are a total of 5 unique BST's.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+   1         3     3      2      1
+    \       /     /      / \      \
+     3     2     1      1   3      2
+    /     /       \                 \
+   2     1         2                 3
+Subscribe to see which companies asked this question.
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
+Hide Tags Tree Dynamic Programming
+Hide Similar Problems (M) Unique Binary Search Trees II
 
 class Solution {
 public:
     int numTrees(int n) {
-    	if (n<=0) return 1;
-    	if (n==1) return 1;
-
-    	int sum=0;
-    	for (int i=0; i<n; i++)
-    	{
-    		sum += numTrees(i) * numTrees(n-1-i);
-    	}
-
-    	return sum;
-    }
-};
-
-2. non-recursive
-
-class Solution {
-
-public:
-
-    int numTrees(int n) {
-
-        if (n==0 || n==1) return 1;
-
-        vector<int> count(n+1, 0);
-
-        count[0]=count[1]=1;
-
-        for(int i=2; i<=n; i++) {
-
+        vector<int> dp(n+1, 0);
+        dp[0]=1;
+        for (int i=1; i<=n; i++) {
             for (int j=0; j<i; j++) {
-
-                count[i]+=count[j]*count[i-1-j];
-
+                dp[i]+=dp[j]*dp[i-j-1];
             }
-
         }
-
-        return count[n];
-
+        
+        return dp[n];
     }
-
 };
-
-int main()
-{
-	return 0;
-}
 

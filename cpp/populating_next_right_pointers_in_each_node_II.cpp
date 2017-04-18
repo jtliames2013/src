@@ -71,3 +71,36 @@ public:
     }
 };
 
+2. Iteratively
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+        TreeLinkNode *curr=root, *prev=NULL, *head=NULL;
+        while (curr) {
+            while (curr) {
+                if (curr->left) {
+                    if (head==NULL) {
+                        head=curr->left;
+                    } else {
+                        prev->next=curr->left;
+                    }
+                    prev=curr->left;
+                }
+                
+                if (curr->right) {
+                    if (head==NULL) {
+                        head=curr->right;
+                    } else {
+                        prev->next=curr->right;
+                    }
+                    prev=curr->right;
+                }
+                curr=curr->next;
+            }
+            
+            curr=head;
+            head=prev=NULL;
+        }
+    }
+};
+

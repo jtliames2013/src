@@ -1,78 +1,53 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
+144. Binary Tree Preorder Traversal Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 171995
+Total Submissions: 390601
+Difficulty: Medium
+Contributor: LeetCode
+Given a binary tree, return the preorder traversal of its nodes' values.
 
-using namespace std;
+For example:
+Given binary tree {1,#,2,3},
+   1
+    \
+     2
+    /
+   3
+return [1,2,3].
+
+Note: Recursive solution is trivial, could you do it iteratively?
+
+Subscribe to see which companies asked this question.
+
+Hide Tags Tree Stack
+Hide Similar Problems (M) Binary Tree Inorder Traversal (M) Verify Preorder Sequence in Binary Search Tree
 
 /**
- * Definition for binary tree
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
  */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
 class Solution {
 public:
-	void preTraversalRecur(TreeNode *root, vector<int> &v)
-	{
-		if (root == NULL) return;
-		v.push_back(root->val);
-
-		preTraversalRecur(root->left, v);
-		preTraversalRecur(root->right, v);
-	}
-
-	void preTraversalIter(TreeNode *root, vector<int> &v)
-	{
-		if (root == NULL) return;
-
-		stack<TreeNode*> s;
-		s.push(root);
-
-		while (!s.empty())
-		{
-			TreeNode *t = s.top();
-			v.push_back(t->val);
-			s.pop();
-			if (t->right != NULL)
-			{
-				s.push(t->right);
-			}
-			if (t->left != NULL)
-			{
-				s.push(t->left);
-			}
-		}
-	}
-
-    vector<int> preorderTraversal(TreeNode *root) {
-    	vector<int> res;
-
-    	preTraversalRecur(root, res);
-    	//preTraversalIter(root, res);
-
-    	return res;
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> res;
+        if (root==NULL) return res;
+        stack<TreeNode*> stk;
+        stk.push(root);
+        
+        while (!stk.empty()) {
+            TreeNode *t=stk.top();
+            stk.pop();
+            res.push_back(t->val);
+            if (t->right) stk.push(t->right);
+            if (t->left) stk.push(t->left);
+        }
+        
+        return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
