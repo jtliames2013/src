@@ -1,75 +1,56 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
+235. Lowest Common Ancestor of a Binary Search Tree Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 130177
+Total Submissions: 338311
+Difficulty: Easy
+Contributor: LeetCode
+Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
 
-using namespace std;
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
+
+        _______6______
+       /              \
+    ___2__          ___8__
+   /      \        /      \
+   0      _4       7       9
+         /  \
+         3   5
+For example, the lowest common ancestor (LCA) of nodes 2 and 8 is 6. Another example is LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
+
+Subscribe to see which companies asked this question.
+
+Hide Tags Tree
+Hide Similar Problems (M) Lowest Common Ancestor of a Binary Tree
 
 /**
- * Definition for binary tree
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
  */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-    	// iterative
-    	while ((p->val - root->val) * (q->val - root->val) > 0) {
-    		if (p->val < root->val) root=root->left;
-    		else root=root->right;
-    	}
-
-    	return root;
-    	/* recursive
-    	if ((p->val - root->val) * (q->val - root->val) <= 0) return root;
-    	else if (p->val < root->val) return lowestCommonAncestor(root->left, p, q);
-    	else return lowestCommonAncestor(root->right, p, q); */
+        if (root==NULL || p==NULL || q==NULL) return NULL;
+        while (root) {
+            if ((root->val-p->val)*(root->val-q->val)<=0) return root;
+            else if (root->val-p->val>0) root=root->left;
+            else root=root->right;
+        }
+        return NULL;
     }
 };
 
-int main()
-{
-	return 0;
-}
-
-
+2. Recursively
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (root==NULL || p==NULL || q==NULL) return NULL;
+        if ((root->val-p->val)*(root->val-q->val)<=0) return root;
+        else if (root->val-p->val>0) return lowestCommonAncestor(root->left, p, q);
+        else return lowestCommonAncestor(root->right, p, q);
+    }
+};

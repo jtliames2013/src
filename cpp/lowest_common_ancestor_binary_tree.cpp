@@ -16,48 +16,26 @@ Hide Company Tags Amazon LinkedIn Apple Facebook Microsoft
 Hide Tags Tree
 Hide Similar Problems (E) Lowest Common Ancestor of a Binary Search Tree
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-    	if (!root || root==p || root==q)  return root;
-    	TreeNode* left = lowestCommonAncestor(root->left, p, q);
-    	TreeNode* right = lowestCommonAncestor(root->right, p, q);
-    	if (left && right) return root;
-    	else if (left) return left;
-    	else if (right) return right;
-    	else return NULL;
-    }
-};
-
-2.
-class Solution {
-public:
-    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if (root==NULL || p==root || q==root) return root;
+        if (root==NULL || p==NULL || q==NULL) return NULL;
+        if (root==p || root==q) return root;
         TreeNode *l=lowestCommonAncestor(root->left, p, q);
         TreeNode *r=lowestCommonAncestor(root->right, p, q);
-        if (l==NULL) return r;
-        if (r==NULL) return l;
-        return root;
+        if (l && r) return root;
+        else if (l) return l;
+        else if (r) return r;
+        else return NULL;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
 
