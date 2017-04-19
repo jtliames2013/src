@@ -10,34 +10,9 @@ Hide Company Tags Adobe Zenefits
 Hide Tags Array Divide and Conquer Bit Manipulation
 Hide Similar Problems (M) Majority Element II
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
+Boyer–Moore majority vote algorithm
+https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_majority_vote_algorithm
 
-class Solution {
-public:
-    int majorityElement(vector<int>& nums) {
-        int n=nums.size();
-        map<int, int> count;
-        for (auto num:nums) count[num]++;
-        
-        for (auto c:count) {
-            if (c.second>n/2) return c.first;
-        }
-        return 0;
-    }
-};
-
-2.
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
@@ -58,9 +33,4 @@ public:
     	return candidate;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
