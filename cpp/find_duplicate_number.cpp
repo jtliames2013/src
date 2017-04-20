@@ -95,3 +95,23 @@ class Solution(object):
             if slow == finder:
                 return slow
 
+The main idea is the same with problem Linked List Cycle II,https://leetcode.com/problems/linked-list-cycle-ii/.
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        if (nums.size()<=1) return -1;
+        int one=nums[0], two=nums[nums[0]];
+        while (one!=two) {
+            one=nums[one];
+            two=nums[nums[two]];
+        }
+        
+        two=0;
+        while (one!=two) {
+            one=nums[one];
+            two=nums[two];
+        }
+        return one;
+    }
+};
+

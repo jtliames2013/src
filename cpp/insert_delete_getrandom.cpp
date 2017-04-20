@@ -42,46 +42,34 @@ public:
     
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     bool insert(int val) {
-        auto iter=table.find(val);
-        if (iter==table.end()) {
-            data.push_back(val);
-            table[val]=data.size()-1;
-            return true;
-        } else {
-            return false;
-        }
+        if (mp.find(val)!=mp.end()) return false;
+        data.push_back(val);
+        mp[val]=data.size()-1;
+        return true;
     }
     
     /** Removes a value from the set. Returns true if the set contained the specified element. */
     bool remove(int val) {
-        auto iter=table.find(val);
-        if (iter!=table.end()) {
-            int lastVal=data[data.size()-1];
-            int lastIdx=iter->second;
-            if (iter->second!=data.size()-1) {
-                swap(data[iter->second], data[data.size()-1]);
-                table[lastVal]=lastIdx;
-            }
-            data.pop_back();
-            table.erase(val);
-            return true;
-        } else {
-            return false;
+        if (mp.find(val)==mp.end()) return false;
+        if (mp[val]!=data.size()-1) {
+            data[mp[val]]=data[data.size()-1];
+            mp[data[data.size()-1]]=mp[val];
         }
+        
+        data.pop_back();
+        mp.erase(val);
+        return true;
     }
     
     /** Get a random element from the set. */
     int getRandom() {
-        if (data.size()>0) {
-            int num=rand()%data.size();
-            return data[num];
-        } else {
-            return -1;
-        }
+        if (data.empty()) return -1;
+        int i=rand()%data.size();
+        return data[i];
     }
 private:
     vector<int> data;
-    unordered_map<int,int> table;
+    unordered_map<int,int> mp;
 };
 
 /**
