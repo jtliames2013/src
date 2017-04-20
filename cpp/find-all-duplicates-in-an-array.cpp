@@ -22,4 +22,17 @@ Subscribe to see which companies asked this question.
 Hide Tags Array
 Hide Similar Problems (E) Find All Numbers Disappeared in an Array
 
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+        vector<int> res;
+        for (auto n:nums) {
+            int i=abs(n)-1;
+            if (nums[i]<0) res.push_back(i+1);
+            nums[i]=-nums[i];
+        } 
+        
+        return res;
+    }
+};
 
