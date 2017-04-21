@@ -1,18 +1,35 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
+160. Intersection of Two Linked Lists Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 123163
+Total Submissions: 406862
+Difficulty: Easy
+Contributor: LeetCode
+Write a program to find the node at which the intersection of two singly linked lists begins.
+
+
+For example, the following two linked lists:
+
+A:          a1 → a2
+                   ↘
+                     c1 → c2 → c3
+                   ↗            
+B:     b1 → b2 → b3
+begin to intersect at node c1.
+
+
+Notes:
+
+If the two linked lists have no intersection at all, return null.
+The linked lists must retain their original structure after the function returns.
+You may assume there are no cycles anywhere in the entire linked structure.
+Your code should preferably run in O(n) time and use only O(1) memory.
+
+Credits:
+Special thanks to @stellari for adding this problem and creating all test cases.
+
+Subscribe to see which companies asked this question.
+
+Hide Tags Linked List
 
 class Solution {
 public:
@@ -45,40 +62,14 @@ public:
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        if (headA==NULL || headB==NULL) return NULL;
         ListNode *a=headA, *b=headB;
-        bool aTob=false, bToa=false;
         
-        while (1) {
-            if (a==b) return a;
-            else {
-                a=a->next;
-                if (a==NULL) {
-                    if (aTob==false) {
-                        a=headB;
-                        aTob=true;
-                    } else {
-                        break;
-                    }
-                } 
-                
-                b=b->next;
-                if (b==NULL) {
-                    if (bToa==false) {
-                        b=headA;
-                        bToa=true;
-                    } else  {
-                        break;
-                    }
-                }
-            }
+        // a and b will both NULL if there is no intersection
+        while (a!=b) {
+            a=a==NULL?headB:a->next;
+            b=b==NULL?headA:b->next;
         }
-        return NULL;
+        return a;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
