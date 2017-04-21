@@ -26,133 +26,67 @@ Subscribe to see which companies asked this question
 Hide Tags Backtracking Trie Design
 Hide Similar Problems (M) Implement Trie (Prefix Tree)
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class TrieNode {
 public:
-	map<char, TrieNode*> children;
-	bool isWord;
-
-	TrieNode() {
-		isWord=false;
-	}
+    unordered_map<char, TrieNode*> children;
+    bool isWord;
+    
+    TrieNode() {
+        isWord=false;
+    }
 };
 
 class WordDictionary {
 public:
-	TrieNode *root;
-	WordDictionary() {
-		root=new TrieNode();
-	}
-
-    // Adds a word into the data structure.
+    /** Initialize your data structure here. */
+    WordDictionary() {
+        root=new TrieNode();
+    }
+    
+    /** Adds a word into the data structure. */
     void addWord(string word) {
-    	int i=0;
-    	TrieNode* n=root;
-    	while (i<word.size()) {
-    		auto res=n->children.find(word[i]);
-    		if (res==n->children.end()) {
-    			break;
-    		} else {
-    			n=(*res).second;
-    			i++;
-    		}
-    	}
-
-    	TrieNode *curr;
-    	while (i<word.size()) {
-    		curr=new TrieNode();
-    		n->children.insert(make_pair(word[i], curr));
-    		n=curr;
-    		i++;
-    	}
-
-    	n->isWord=true;
+        int i;
+        TrieNode* n=root;
+        for (i=0; i<word.size(); i++) {
+            auto iter=n->children.find(word[i]);
+            if (iter==n->children.end()) break;
+            n=iter->second;
+        }
+        
+        for (; i<word.size(); i++) {
+            TrieNode *c=new TrieNode();
+            n->children[word[i]]=c;
+            n=c;
+        }
+        n->isWord=true;
     }
-
-    bool find(string& word, int startIndex, TrieNode* node) {
-    	if (startIndex==word.size()) {
-    		return node->isWord;
-    	}
-
-    	if (word[startIndex]=='.') {
-    		for(auto child:node->children) {
-    			if (find(word, startIndex+1, child.second)) return true;
-    		}
-    	} else {
-    		auto res=node->children.find(word[startIndex]);
-    		if (res!=node->children.end()) {
-    			return find(word, startIndex+1, (*res).second);
-    		}
-    	}
-
-    	return false;
-    }
-
-    // Returns if the word is in the data structure. A word could
-    // contain the dot character '.' to represent any one letter.
+    
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
     bool search(string word) {
-    	return find(word, 0, root);
+        return search(word,  0, root);
     }
+private:
+    bool search(string& word, int start, TrieNode *n) {
+        if (start==word.size()) return n->isWord;
+        if (word[start]=='.') {
+            for (auto iter:n->children) {
+                if (search(word, start+1, iter.second)) return true;
+            }
+            return false;
+        } else {
+            auto iter=n->children.find(word[start]);
+            if (iter==n->children.end()) return false;
+            return search(word, start+1, iter->second);
+        }
+    }
+
+    TrieNode *root;
 };
 
-// Your WordDictionary object will be instantiated and called as such:
-// WordDictionary wordDictionary;
-// wordDictionary.addWord("word");
-// wordDictionary.search("pattern");
-
-int main()
-{
-	return 0;
-}
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * bool param_2 = obj.search(word);
+ */
 
