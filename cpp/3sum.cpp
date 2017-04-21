@@ -12,18 +12,6 @@ A solution set is:
   [-1, -1, 2]
 ]
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
@@ -31,20 +19,21 @@ public:
         int n=nums.size();
         if (n==0) return res;
         sort(nums.begin(), nums.end());
-        
         for (int i=0; i<n-2; i++) {
             if (i==0 || nums[i]!=nums[i-1]) {
-                if (nums[i]+nums[i+1]+nums[i+2]>0) break;
-                if (nums[i]+nums[n-2]+nums[n-1]<0) continue;
                 int l=i+1, r=n-1;
+                if (nums[i]+nums[l]+nums[l+1]>0) break;
+                if (nums[i]+nums[r-1]+nums[r]<0) continue;
+                
                 while (l<r) {
-                    if (nums[i]+nums[l]+nums[r]==0) {
+                    int sum=nums[i]+nums[l]+nums[r];
+                    if (sum==0) {
                         res.push_back({nums[i], nums[l], nums[r]});
                         l++;
-                        r--;
                         while (l<r && nums[l]==nums[l-1]) l++;
+                        r--;
                         while (l<r && nums[r]==nums[r+1]) r--;
-                    } else if (nums[i]+nums[l]+nums[r]<0) {
+                    } else if (sum<0) {
                         l++;
                     } else {
                         r--;
@@ -56,10 +45,3 @@ public:
         return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
-

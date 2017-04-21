@@ -13,13 +13,11 @@ For the purpose of this problem, we define empty string as valid palindrome.
 
 Subscribe to see which companies asked this question
 
-#include <stdio.h>
-#include <string>
-
 class Solution {
 public:
     bool isPalindrome(string s) {
         int n=s.size();
+        if (n==0) return true;
         int l=0, r=n-1;
         while (l<r) {
             if (!isalnum(s[l])) l++;
@@ -34,12 +32,4 @@ public:
         return true;
     }
 };
-
-int main()
-{
-	Solution s;
-	bool b = s.isPalindrome("abccba");
-
-	return 0;
-}
 

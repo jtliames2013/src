@@ -29,4 +29,44 @@ Subscribe to see which companies asked this question.
 Hide Tags Two Pointers Array
 Hide Similar Problems (E) Minimum Absolute Difference in BST
 
+1. Two pointers
+class Solution {
+public:
+    int findPairs(vector<int>& nums, int k) {
+        int count=0;
+        int n=nums.size();
+        if (n==0) return count;
+        
+        sort(nums.begin(), nums.end());
+        for (int l=0, r=0; r<n; ) {
+            if (l==r || nums[r]-nums[l]<k) r++;
+            else if (nums[r]-nums[l]==k) {
+                count++;
+                int val=nums[r];
+                while (r<n && nums[r]==val) r++;
+            } else {
+                while (l<r && nums[r]-nums[l]>k) l++;
+            }
+        }
+        
+        return count;
+    }
+};
+
+2. Hash map
+class Solution {
+public:
+    int findPairs(vector<int>& nums, int k) {
+        int count=0;
+        unordered_map<int,int> mp;
+        for (auto n:nums) mp[n]++;
+
+        for (auto p:mp) {
+            if (mp.find(p.first+k)!=mp.end()) {
+                if ((k==0&&p.second>1) || k>0) count++; 
+            }
+        }
+        return count;
+    }
+};
 
