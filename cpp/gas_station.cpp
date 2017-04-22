@@ -13,67 +13,28 @@ Subscribe to see which companies asked this question
 
 Hide Tags Greedy
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
 class Solution {
 public:
-    int canCompleteCircuit(vector<int> &gas, vector<int> &cost) {
-    	int s = gas.size();
-    	vector<int> left(s, 0);
-    	for (int i = 0; i < s; i++)
-    	{
-    		left[i] = gas[i] - cost[i];
-    	}
-
-    	int sum = 0, total = 0;
-    	int start = 0;
-    	for (int i = 0; i < s; i++)
-    	{
-    		sum += left[i];
-    		total += left[i];
-    		if (sum < 0)
-    		{
-    			sum = 0;
-    			start = i+1;
-    		}
-    	}
-
-    	if (total < 0) return -1;
-
-    	return start;
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n=gas.size();
+        if (n==0) return -1;
+        vector<int> diff(n, 0);
+        for (int i=0; i<n; i++) {
+            diff[i]=gas[i]-cost[i];
+        }
+        
+        int total=0, sum=0, start=0;
+        for (int i=0; i<n; i++) {
+            total+=diff[i];
+            sum+=diff[i];
+            if (sum<0) { 
+                start=i+1;
+                sum=0;
+            }
+        }
+        
+        if (total<0) return -1;
+        else return start;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
