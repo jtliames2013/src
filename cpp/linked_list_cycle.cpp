@@ -1,69 +1,38 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
+141. Linked List Cycle Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 170576
+Total Submissions: 480483
+Difficulty: Easy
+Contributor: LeetCode
+Given a linked list, determine if it has a cycle in it.
 
-using namespace std;
+Follow up:
+Can you solve it without using extra space?
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Subscribe to see which companies asked this question.
+
+Hide Tags Linked List Two Pointers
+Hide Similar Problems (M) Linked List Cycle II
 
 /**
  * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
  */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-class Solution {
-public:
-    bool hasCycle(ListNode *head) {
-    	if (head == NULL) return false;
-
-    	ListNode *first = head, *second = head;
-
-    	while (second != NULL)
-    	{
-    		first = first->next;
-    		second = second->next;
-    		if (second != NULL) second = second->next;
-
-    		if (first == second) break;
-    	}
-
-    	if (second == NULL) return false;
-    	else return true;
-    }
-};
-
-2.
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
         ListNode *one=head, *two=head;
-        while (1) {
-            if (two!=NULL && two->next!=NULL) two=two->next->next;
-            else return false;
+        while (two) {
+            if (two->next==NULL) break;
             one=one->next;
+            two=two->next->next;
             if (one==two) return true;
         }
+        return false;
     }
 };
-
-int main()
-{
-	return 0;
-}
 

@@ -1,145 +1,41 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
+147. Insertion Sort List Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 96881
+Total Submissions: 298768
+Difficulty: Medium
+Contributor: LeetCode
+Sort a linked list using insertion sort.
 
-using namespace std;
+Subscribe to see which companies asked this question.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Hide Tags Linked List Sort
+Hide Similar Problems (M) Sort List
 
 /**
  * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-class Solution {
-public:
-    ListNode *insertionSortList(ListNode *head) {
-    	if (head == NULL) return NULL;
-
-    	ListNode *curr = head;
-    	ListNode *sorted = NULL;
-    	ListNode *sortedPrev, *sortedCurr;
-    	ListNode *temp;
-    	while (curr != NULL)
-    	{
-    		sortedPrev = NULL;
-    		sortedCurr = sorted;
-    		while (sortedCurr != NULL)
-    		{
-    			if (sortedCurr->val > curr->val) break;
-    			sortedPrev = sortedCurr;
-    			sortedCurr = sortedCurr->next;
-    		}
-
-    		temp = curr->next;
-    		if (sortedPrev == NULL)
-    		{
-    			sorted = curr;
-    			curr->next = sortedCurr;
-    		}
-    		else
-    		{
-    			sortedPrev->next  = curr;
-    			curr->next = sortedCurr;
-    		}
-
-    		curr = temp;
-    	}
-
-    	return sorted;
-    }
-};
-
-2.
-
-/**
-
- * Definition for singly-linked list.
-
  * struct ListNode {
-
  *     int val;
-
  *     ListNode *next;
-
  *     ListNode(int x) : val(x), next(NULL) {}
-
  * };
-
  */
-
 class Solution {
-
 public:
-
     ListNode* insertionSortList(ListNode* head) {
-
-        ListNode *curr=head, *next, *sorted=NULL, *sortedPrev, *sortedCurr;
-
-        
-
-        while (curr!=NULL) {
-
-            next=curr->next;
-
-            
-
-            sortedPrev=NULL;
-
-            sortedCurr=sorted;
-
-            
-
-            while (sortedCurr!=NULL) {
-
-                if (sortedCurr->val>curr->val) break;
-
-                sortedPrev=sortedCurr;
-
-                sortedCurr=sortedCurr->next;
-
+        ListNode dummy(0);
+        while (head) {
+            ListNode *n=head;
+            head=head->next;
+            ListNode *prev=&dummy, *curr=dummy.next;
+            while (curr && curr->val<n->val) {
+                prev=curr;
+                curr=curr->next;
             }
-
-            
-
-            if (sortedPrev!=NULL) sortedPrev->next=curr;
-
-            else sorted=curr;
-
-            curr->next=sortedCurr;
-
-            
-
-            curr=next;
-
+            prev->next=n;
+            n->next=curr;
         }
-
         
-
-        return sorted;
-
+        return dummy.next;
     }
-
 };
-
-int main()
-{
-	return 0;
-}
 
