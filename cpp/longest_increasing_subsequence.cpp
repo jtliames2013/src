@@ -9,118 +9,71 @@ Your algorithm should run in O(n2) complexity.
 
 Follow up: Could you improve it to O(n log n) time complexity?
 
-
-动态规划（Dynamic Programming）
-
-状态转移方程：
-
-dp[x] = max(dp[x], dp[y] + 1) 其中 y < x 并且 nums[x] > nums[y]
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
         int n=nums.size();
         if (n==0) return 0;
-        vector<int> dp(n,1);
-        int res=0;
-        
-        for (int i=0; i<n; i++) {
+        int len=1;
+        vector<int> dp(n, 1);
+        for (int i=1; i<n; i++) {
             for (int j=0; j<i; j++) {
-                if (nums[i]>nums[j] && dp[j]+1>dp[i]) {
-                    dp[i]=dp[j]+1;
-                }
-            }
-            
-            res=max(res, dp[i]);
-        }
-        
-        return res;
-    }
-};
-
-2. Initialize to 0 and use n+1 arrary
-class Solution {
-
-public:
-
-    int lengthOfLIS(vector<int>& nums) {
-        int n=nums.size();
-        if (n==0) return 0;
-        vector<int> dp(n+1, 0);
-
-        for (int i=1; i<=n; i++) {
-            for (int j=0; j<i; j++) {
-                if (j==0 || nums[j-1]<nums[i-1]) {
+                if (nums[i]>nums[j]) {
                     dp[i]=max(dp[i], dp[j]+1);
                 }
             }
+            len=max(len, dp[i]);
         }
-
-        int res=0;
-        for (int i=1; i<=n; i++) {
-            if (res<dp[i]) res=dp[i];
-        }
-
-        return res;
+        return len;
     }
 };
 
+2. 维护一个单调序列
+遍历nums数组，二分查找每一个数在单调序列中的位置，然后替换之。
+nums = [1, 5, 10, 3, 6, 7, 8]
+sorted:
+[1, 5, 10]
+[1, 3, 10]
+[1, 3, 6]
+[1, 3, 6, 7]
+...
+https://en.wikipedia.org/wiki/Longest_increasing_subsequence    
+http://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-n-log-n/
 
-int main()
-{
-	return 0;
-}
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        if (n==0) return 0;
+        vector<int> sorted;
+        
+        for (int i=0; i<n; i++) {
+            auto iter = lower_bound(sorted.begin(), sorted.end(), nums[i]);
+            if (iter==sorted.end()) sorted.push_back(nums[i]);
+            else *iter=nums[i];
+        }
+        return sorted.size();
+    }
+};
 
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        if (n==0) return 0;
+        vector<int> sorted;
+        
+        for (int i=0; i<n; i++) {
+            int l=0, r=sorted.size()-1, mid;
+            while (l<=r) {
+                mid=l+(r-l)/2;
+                if (sorted[mid]<nums[i]) l=mid+1;
+                else r=mid-1;
+            }
+            if (l==sorted.size()) sorted.push_back(nums[i]);
+            else sorted[l]=nums[i];
+        }
+        return sorted.size();
+    }
+};
 
