@@ -14,15 +14,36 @@ Special thanks to @jianchao.li.fighter for adding this problem and creating all 
 
 参考链接：https://leetcode.com/discuss/56982/o-sqrt-n-in-ruby-and-c
 
-int numSquares(int n) {
-    while (n % 4 == 0)
-        n /= 4;
-    if (n % 8 == 7)
-        return 4;
-    for (int a=0; a*a<=n; ++a) {
-        int b = sqrt(n - a*a);
-        if (a*a + b*b == n)
-            return !!a + !!b;
+class Solution {
+public:
+    int numSquares(int n) {
+        while (n % 4 == 0)
+            n /= 4;
+        if (n % 8 == 7)
+            return 4;
+        for (int a=0; a*a<=n; ++a) {
+            int b = sqrt(n - a*a);
+            if (a*a + b*b == n)
+                return !!a + !!b;
+        }
+        return 3;
     }
-    return 3;
-}
+};
+
+2. DP
+class Solution {
+public:
+    int numSquares(int n) {
+        if (n<=0) return 0;
+        vector<int> dp(n+1, 0);
+        for (int i=1; i<=n; i++) {
+            int cnt=INT_MAX;
+            for (int j=1; j*j<=i; j++) {
+                cnt=min(cnt, dp[i-j*j]+1);
+            }
+            dp[i]=cnt;
+        }
+        return dp[n];
+    }
+};
+

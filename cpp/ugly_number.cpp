@@ -1,73 +1,31 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
+263. Ugly Number Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 95882
+Total Submissions: 246903
+Difficulty: Easy
+Contributor: LeetCode
+Write a program to check whether a given number is an ugly number.
 
-using namespace std;
+Ugly numbers are positive numbers whose prime factors only include 2, 3, 5. For example, 6, 8 are ugly while 14 is not ugly since it includes another prime factor 7.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Note that 1 is typically treated as an ugly number.
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+Credits:
+Special thanks to @jianchao.li.fighter for adding this problem and creating all test cases.
 
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
+Subscribe to see which companies asked this question.
 
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
+Hide Tags Math
+Hide Similar Problems (E) Happy Number (E) Count Primes (M) Ugly Number II
 
 class Solution {
 public:
     bool isUgly(int num) {
-    	if (num<=0) return false;
-    	if (num==1) return true;
-
-    	while (num%2==0) num /= 2;
-    	while (num%3==0) num /= 3;
-    	while (num%5==0) num /= 5;
-
-    	if (num==1) return true;
-    	else return false;
+        if (num<=0) return false;
+        while (num%2==0) num/=2;
+        while (num%3==0) num/=3;
+        while (num%5==0) num/=5;
+        return num==1;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
 

@@ -11,25 +11,38 @@ Hide Company Tags Google
 Hide Tags Array
 Hide Similar Problems (M) Missing Ranges (H) Data Stream as Disjoint Intervals
 
-  class Solution {
-  public:
-      vector<string> summaryRanges(vector<int>& nums) {
-    	  vector<string> res;
-    	  if (nums.size()==0) return res;
-    	  int start=0, end;
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& nums) {
+        vector<string> res;
+        int n=nums.size();
+        if (n==0) return res;
+        int start=0;
+        for (int i=1; i<n; i++) {
+            if ((long long)nums[i]-(long long)nums[i-1]>1) {
+                res.push_back(i-1==start?to_string(nums[start]):to_string(nums[start])+"->"+to_string(nums[i-1]));
+                start=i;
+            }
+        }
+        res.push_back(n-1==start?to_string(nums[start]):to_string(nums[start])+"->"+to_string(nums[n-1]));
+        return res;
+    }
+};
 
-    	  for (int i=1; i<nums.size(); i++) {
-    		  if ((long long)nums[i]-(long long)nums[i-1]>1) {
-    			  end=i-1;
-    			  res.push_back(end==start ? to_string(nums[start]) : to_string(nums[start]) + "->" + to_string(nums[end]));
-
-    			  start=i;
-    		  }
-    	  }
-
-    	  res.push_back(nums.size()-1==start ? to_string(nums[start]) : to_string(nums[start]) + "->" + to_string(nums[nums.size()-1]));
-
-    	  return res;
-      }
-  };
-
+2.
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& nums) {
+        vector<string> res;
+        int n=nums.size();
+        if (n==0) return res;
+        int start;
+        for (int i=0; i<n; i++) {
+            start=i;
+            while (i+1<n && nums[i+1]-nums[i]==1) i++;
+            res.push_back(i==start?to_string(nums[start]):to_string(nums[start])+"->"+to_string(nums[i]));
+        }
+        
+        return res;
+    }
+};
