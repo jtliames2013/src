@@ -19,84 +19,46 @@ minStack.getMin();   --> Returns -2.
 当有新的xi<=trackMin.top()被压入时，将xi压入trackMin变为新的当前最小值。
 当xi==trackMin.top()时被pop出时，trackMin也同时pop。
 
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
 class MinStack {
 public:
+    /** initialize your data structure here. */
+    MinStack() {
+        
+    }
+    
     void push(int x) {
-    	v.push_back(x);
-	// note <= here since duplicate is pushed
-    	if (min.empty() || x <= min.back())
-    	{
-    		min.push_back(x);
-    	}
+        data.push_back(x);
+        if (min.empty() || x<=min.back()) min.push_back(x);
     }
-
+    
     void pop() {
-    	if (!v.empty())
-    	{
-    		if (min.back() == v.back()) min.pop_back();
-    		v.pop_back();
-    	}
+        if (!data.empty()) {
+            int t=data.back();
+            data.pop_back();
+            if (min.back()==t) min.pop_back();
+        }
     }
-
+    
     int top() {
-    	if (!v.empty())
-    	{
-    		int res = v.back();
-    		return res;
-    	}
-    	else
-    	{
-    		return 0;
-    	}
+        if (data.empty()) return 0; 
+        return data.back();
     }
-
+    
     int getMin() {
-    	if (!min.empty())
-    	{
-    		int res = min.back();
-    		return res;
-    	}
-    	else
-    	{
-    		return 0;
-    	}
+        if (min.empty()) return 0;
+        return min.back();
     }
-
-    deque<int> v;
-    deque<int> min;
+private:
+    vector<int> data;
+    vector<int> min;
 };
 
-int main()
-{
-	return 0;
-}
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */
 

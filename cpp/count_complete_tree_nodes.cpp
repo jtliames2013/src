@@ -8,105 +8,59 @@ In a complete binary tree every level, except possibly the last, is completely f
 Hide Tags Tree Binary Search
 Show Similar Problems
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-
-using namespace std;
-
 /**
- * Definition for binary tree
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
  */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class Solution {
 public:
     int countNodes(TreeNode* root) {
-    	if (root==NULL) return 0;
-    	int ldepth=0, rdepth=0;
-    	TreeNode *n=root;
-    	while (n) {
-    		ldepth++;
-    		n=n->left;
-    	}
-    	n=root;
-    	while (n) {
-    		rdepth++;
-    		n=n->right;
-    	}
-    	if (ldepth==rdepth) {
-    		return (1<<ldepth)-1;
-    	} else {
-    		return 1 + countNodes(root->left) + countNodes(root->right);
-    	}
-
+        if (root==NULL) return 0;
+        int ldepth=0, rdepth=0;
+        
+        TreeNode *n=root;
+        while (n) {
+            ldepth++;
+            n=n->left;
+        }
+        n=root;
+        while (n) {
+            rdepth++;
+            n=n->right;
+        }
+        
+        if (ldepth==rdepth) return (1<<ldepth)-1;
+        else return 1+countNodes(root->left)+countNodes(root->right);
     }
 };
 
-2.
+2. Iteratively
 class Solution {
 public:
     int countNodes(TreeNode* root) {
+        if (root==NULL) return 0;
         int res=0;
-        while (root!=NULL) {
-            int lcount=0, rcount=0;
-            for(TreeNode *n=root->left; n!=NULL; n=n->left) lcount++;
-            for(TreeNode *n=root->right; n!=NULL; n=n->left) rcount++;
-            if (lcount==rcount) {
-                res+=(1<<lcount);
+        
+        while (root) {
+            int ldepth=0, rdepth=0;
+            res++;
+            for (TreeNode *n=root->left; n!=NULL; n=n->left) ldepth++;
+            for (TreeNode *n=root->right; n!=NULL; n=n->left) rdepth++;
+            if (ldepth==rdepth) {
+                res+=(1<<ldepth)-1;
                 root=root->right;
             } else {
-                res+=(1<<rcount);
+                res+=(1<<rdepth)-1;
                 root=root->left;
             }
         }
+        
         return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
 

@@ -11,114 +11,34 @@ Hide Company Tags LinkedIn
 Hide Tags Stack
 Hide Similar Problems (H) Basic Calculator (H) Expression Add Operators
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-class Solution {
-public:
-	int evalRPN(vector<string> &tokens) {
-    	stack<int> s;
-
-    	for (int i = 0; i < tokens.size(); i++)
-    	{
-			if (tokens[i].compare("+") == 0)
-			{
-				int r = s.top();
-				s.pop();
-				int l = s.top();
-				s.pop();
-				s.push(l+r);
-			}
-			else if (tokens[i].compare("-") == 0)
-			{
-				int r = s.top();
-				s.pop();
-				int l = s.top();
-				s.pop();
-				s.push(l-r);
-			}
-			else if (tokens[i].compare("*") == 0)
-			{
-				int r = s.top();
-				s.pop();
-				int l = s.top();
-				s.pop();
-				s.push(l*r);
-			}
-			else if (tokens[i].compare("/") == 0)
-			{
-				int r = s.top();
-				s.pop();
-				int l = s.top();
-				s.pop();
-				s.push(l/r);
-			}
-    		else
-    		{
-    			s.push(atoi(tokens[i].c_str()));
-    		}
-    	}
-    	return s.top();
-    }
-};
-
-2.
-
 class Solution {
 public:
     bool isop(string s) {
-        return s=="+" || s=="-" || s=="*" || s=="/";
+        if (s=="+" || s=="-" || s=="*" || s=="/") return true;
+        return false;
+    }
+    
+    int calc(int num1, int num2, string op) {
+        if (op=="+") return num1+num2;
+        else if (op=="-") return num1-num2;
+        else if (op=="*") return num1*num2;
+        else if (op=="/") return num1/num2;
+        else return 0;
     }
     
     int evalRPN(vector<string>& tokens) {
         stack<int> stk;
-        for (int i=0; i<tokens.size(); i++) {
-            if (isop(tokens[i])) {
+        for (auto n:tokens) {
+            if (!isop(n)) stk.push(stoi(n));
+            else {
                 int num2=stk.top();
                 stk.pop();
                 int num1=stk.top();
                 stk.pop();
-                if (tokens[i]=="+") stk.push(num1+num2);
-                else if (tokens[i]=="-") stk.push(num1-num2);
-                else if (tokens[i]=="*") stk.push(num1*num2);
-                else if (tokens[i]=="/") stk.push(num1/num2);
-            } else {
-                stk.push(stoi(tokens[i]));
+                stk.push(calc(num1, num2, n));
             }
         }
-        
         return stk.top();
     }
 };
-
-int main()
-{
-	return 0;
-}
 
