@@ -1,101 +1,58 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
+306. Additive Number Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 22828
+Total Submissions: 83841
+Difficulty: Medium
+Contributor: LeetCode
+Additive number is a string whose digits can form additive sequence.
 
-using namespace std;
+A valid additive sequence should contain at least three numbers. Except for the first two numbers, each subsequent number in the sequence must be the sum of the preceding two.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+For example:
+"112358" is an additive number because the digits can form an additive sequence: 1, 1, 2, 3, 5, 8.
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+1 + 1 = 2, 1 + 2 = 3, 2 + 3 = 5, 3 + 5 = 8
+"199100199" is also an additive number, the additive sequence is: 1, 99, 100, 199.
+1 + 99 = 100, 99 + 100 = 199
+Note: Numbers in the additive sequence cannot have leading zeros, so sequence 1, 2, 03 or 1, 02, 3 is invalid.
 
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
+Given a string containing only digits '0'-'9', write a function to determine if it's an additive number.
 
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
+Follow up:
+How would you handle overflow for very large input integers?
+
+Credits:
+Special thanks to @jeantimex for adding this problem and creating all test cases.
 
 class Solution {
 public:
-	bool isValid(string s) {
-		return (s.size()==1 || s[0]!='0');
-	}
-
+    bool isValid(string s) {
+        return s.size()==1 || s[0]!='0';
+    }
+    
     bool isAdditiveNumber(string num) {
-    	int size=num.size();
-
-    	for (int i=0; i<size/2+1; i++) {
-    		for (int j=i+1; j<size && j-i<=size/2+1; j++) {
-    			if (!isValid(num.substr(0,i+1)) || !isValid(num.substr(i+1,j-i))) continue;
-
-    			unsigned long long a = strtoull(num.substr(0,i+1).c_str(), NULL, 10);
-    			unsigned long long b = strtoull(num.substr(i+1,j-i).c_str(), NULL, 10);
-
-    			int index=j+1;
-    			char buf[128];
-    			while (1) {
-    				unsigned long long c=a+b;
-    				sprintf(buf, "%llu", c);
-    				int len=strlen(buf);
-    				if (len > size-index) {
-    					break;
-    				} else if (len==size-index) {
-    					if (strcmp(buf, num.substr(index, size-index).c_str())==0) return true;
-    					else break;
-    				} else {
-    					if (strncmp(buf, num.substr(index, size-index).c_str(), len)==0) {
-    						a=b;
-    						b=c;
-    						index+=len;
-    					} else {
-    						break;
-    					}
-    				}
-    			}
-    		}
-    	}
-
-    	return false;
+        int n=num.size();
+        for (int i=0; i<(n+1)/2; i++) {
+            for (int j=i+1; j<n && j-i<=n/2; j++) {
+                string s1=num.substr(0,i+1);
+                string s2=num.substr(i+1, j-i);
+                if (!isValid(s1) || !isValid(s2)) continue;
+                
+                unsigned long long a=stoull(s1), b=stoull(s2), c;
+                int start=j+1;
+                while (1) {
+                    c=a+b;
+                    string s3=to_string(c);
+                    int len=s3.size();
+                    if (start+len>n || s3!=num.substr(start, len)) break;
+                    a=b;
+                    b=c;
+                    start+=len;
+                    if (start==n) return true;
+                }
+            }
+        }
+        return false;
     }
 };
-
-int main()
-{
-	return 0;
-}
 

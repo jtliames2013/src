@@ -30,105 +30,25 @@ dp[i][j] = max(dp[i][j], nums[i - 1]*nums[k]*nums[j + 1] + dp[i][k - 1] + dp[k +
 
 Note: update the matrix by diagonal, start from lenght 1 to n
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
+class Solution {
+public:
+    int maxCoins(vector<int>& nums) {
+        int n=nums.size();
+        if (n==0) return 0;
+        nums.insert(nums.begin(), 1);
+        nums.push_back(1);
+        vector<vector<int>> dp(n+2, vector<int>(n+2, 0));
+        
+        for (int len=1; len<=n; len++) {
+            for (int l=1; l<=n-len+1; l++) {
+                int r=l+len-1;
+                for (int k=l; k<=r; k++) {
+                    dp[l][r]=max(dp[l][r], dp[l][k-1]+dp[k+1][r]+nums[l-1]*nums[k]*nums[r+1]);
+                }
+            }
+        }
+        
+        return dp[1][n];
+    }
 };
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-  // Definition for a point.
-  struct Point {
-       int x;
-       int y;
-       Point() : x(0), y(0) {}
-       Point(int a, int b) : x(a), y(b) {}
-  };
-
-  class Solution {
-  public:
-      int maxCoins(vector<int>& nums) {
-    	  int size=nums.size();
-    	  if (size==0) return 0;
-    	  nums.push_back(1);
-    	  nums.insert(nums.begin(), 1);
-    	  vector<vector<int> > dp(size+2, vector<int>(size+2, 0));
-
-    	  for (int len=1; len<size+1; len++) {
-    		  for (int left=1; left<=size-len+1; left++) {
-    			  int right=left+len-1;
-    			  for (int k=left; k<=right; k++) {
-    				  int localmax=dp[left][k-1]+dp[k+1][right]+nums[left-1]*nums[k]*nums[right+1];
-    				  dp[left][right]=max(dp[left][right], localmax);
-    			  }
-    		  }
-    	  }
-
-    	  return dp[1][size];
-      }
-  };
-
-int main()
-{
-	return 0;
-}
-
 

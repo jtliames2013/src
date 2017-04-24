@@ -1,54 +1,24 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
+319. Bulb Switcher Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 37217
+Total Submissions: 88270
+Difficulty: Medium
+Contributor: LeetCode
+There are n bulbs that are initially off. You first turn on all the bulbs. Then, you turn off every second bulb. On the third round, you toggle every third bulb (turning on if it's off or turning off if it's on). For the ith round, you toggle every i bulb. For the nth round, you only toggle the last bulb. Find how many bulbs are on after n rounds.
 
-using namespace std;
+Example:
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Given n = 3. 
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+At first, the three bulbs are [off, off, off].
+After first round, the three bulbs are [on, on, on].
+After second round, the three bulbs are [on, off, on].
+After third round, the three bulbs are [on, off, off]. 
 
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
+So you should return 1, because there is only one bulb is on.
+Subscribe to see which companies asked this question.
 
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
+Hide Tags Math Brainteaser
 
 class Solution {
 public:
@@ -56,10 +26,4 @@ public:
     	return (int)sqrt(n);
     }
 };
-
-int main()
-{
-	return 0;
-}
-
 
