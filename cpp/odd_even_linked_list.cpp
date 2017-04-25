@@ -13,147 +13,34 @@ The first node is considered odd, the second node even and so on ...
 
 Note the case where even could be NULL!
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
-#include <sstream>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
 /**
  * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
  */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-  // Definition for a point.
-  struct Point {
-       int x;
-       int y;
-       Point() : x(0), y(0) {}
-       Point(int a, int b) : x(a), y(b) {}
-  };
-
-  class Solution {
-  public:
-      ListNode* oddEvenList(ListNode* head) {
-    	  if (head==NULL) return head;
-
-    	  ListNode *odd=head, *even=head->next, *prev=NULL;
-    	  ListNode *evenHead=even;
-    	  ListNode *oddNext, *evenNext;
-
-    	  while (odd!=NULL) {
-    		  oddNext = (even ? even->next : NULL);
-    		  evenNext = (oddNext ? oddNext->next : NULL);
-    		  odd->next = oddNext;
-    		  if (even) even->next = evenNext;
-
-    		  prev = odd;
-    		  odd = oddNext;
-    		  if (even) even = evenNext;
-    	  }
-
-    	  if (prev!=NULL) prev->next=evenHead;
-
-    	  return head;
-      }
-  };
-
-2.
-
 class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
-        ListNode *oddHead=NULL, *evenHead=NULL, *oddTail=NULL, *evenTail=NULL;
-        ListNode *curr=head, *next=NULL, *nextnext=NULL;
-        
-        while (curr!=NULL) {
-            next=curr->next;
-            if (next!=NULL) {
-                nextnext=next->next;
-            } else {
-                nextnext=NULL;
-            }
+        if (head==NULL||head->next==NULL) return head;
+        ListNode *one=head, *two=head->next, *twoHead=head->next;
+        ListNode *prev=NULL, *oneNext, *twoNext;
+        while (one && two) {
+            oneNext=two->next;
+            twoNext=oneNext?oneNext->next:NULL;
+            one->next=oneNext;
+            two->next=twoNext;
             
-            if (oddHead==NULL) {
-                oddHead=oddTail=curr;
-            } else {
-                oddTail->next=curr;
-                oddTail=curr;
-            }
-            
-            if (evenHead==NULL) {
-                evenHead=evenTail=next;
-            } else {
-                evenTail->next=next;
-                evenTail=next;
-            }
-            
-            curr=nextnext;
+            prev=one;
+            one=oneNext;
+            two=twoNext;
         }
+        if (one) prev=one;
+        prev->next=twoHead;
         
-        if (oddTail!=NULL) oddTail->next=evenHead;
-         
-        return oddHead;
+        return head;
     }
 };
-
-int main()
-{
-	return 0;
-}
 

@@ -12,100 +12,56 @@ return -1.
 Note:
 You may assume that you have an infinite number of each kind of coin.
 
-解法I：动态规划（Dynamic Programming）
-
-状态转移方程：
-
-dp[x + c] = min(dp[x] + 1, dp[x + c])
-其中dp[x]代表凑齐金额x所需的最少硬币数，c为可用的硬币面值
-
-初始令dp[0] = 0
-
+1. Dynamic Programming
 贪心算法是不正确的，因为有可能会错过全局最优解。
-
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
+[1, 4, 5] 12
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
-    	if (amount<=0) return 0;
-    	vector<int> dp(amount+1);
-    	dp[0]=0;
-    	for (int i=1; i<=amount; i++) {
-		// amount can't be made up by coins
-    		dp[i]=-1;
-    	}
-
-    	for (int i=0; i<=amount; i++) {
-    		if (dp[i]>=0) {
-    			for (int j=0; j<coins.size(); j++) {
-    				if (coins[j]+i<=amount) {
-    					if (dp[i+coins[j]]<0 || dp[i+coins[j]] > dp[i]+1) {
-    						dp[i+coins[j]]=dp[i]+1;
-    					}
-    				}
-    			}
-    		}
-    	}
-
-    	return dp[amount];
+        vector<int> dp(amount+1, -1);
+        dp[0]=0;
+        for (int i=1; i<=amount; i++) {
+            for (int j=0; j<coins.size(); j++) {
+                if (i-coins[j]>=0 && dp[i-coins[j]]>=0) {
+                    if (dp[i]==-1||dp[i]>dp[i-coins[j]]+1) dp[i]=dp[i-coins[j]]+1;
+                }
+            }
+        }
+        
+        return dp[amount];
     }
 };
 
-int main()
-{
-	return 0;
-}
-
+2. BFS
+将问题转化为求X轴0点到坐标点amount的最短距离（每次向前行进的合法距离为coin的面值）
+https://leetcode.com/discuss/76432/fast-python-bfs-solution
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        if (amount<=0) return 0;
+        int step=0;
+        vector<bool> visited(amount+1, false);
+        queue<int> q;
+        q.push(0);
+        visited[0]=true;
+        
+        while (!q.empty()) {
+            int n=q.size();
+            step++;
+            for (int i=0; i<n; i++) {
+                int f=q.front();
+                q.pop();
+                for (int j=0; j<coins.size(); j++) {
+                    int k=f+coins[j];
+                    if (k==amount) return step;
+                    if (k<amount && visited[k]==false) {
+                        q.push(k);
+                        visited[k]=true;
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};
 
