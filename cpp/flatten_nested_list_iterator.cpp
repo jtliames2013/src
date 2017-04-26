@@ -14,159 +14,40 @@ By calling next repeatedly until hasNext returns false, the order of elements re
 
 Note: Flatten the nested list into a vector using recursion.
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <unordered_map>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
-#include <sstream>
-
-using namespace std;
-
+1. Use stack
 /**
- * Definition for binary tree
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * class NestedInteger {
+ *   public:
+ *     // Return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     bool isInteger() const;
+ *
+ *     // Return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // The result is undefined if this NestedInteger holds a nested list
+ *     int getInteger() const;
+ *
+ *     // Return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // The result is undefined if this NestedInteger holds a single integer
+ *     const vector<NestedInteger> &getList() const;
+ * };
  */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-  // Definition for a point.
-  struct Point {
-       int x;
-       int y;
-       Point() : x(0), y(0) {}
-       Point(int a, int b) : x(a), y(b) {}
-  };
-
-  /**
-   * // This is the interface that allows for creating nested lists.
-   * // You should not implement it, or speculate about its implementation */
-    class NestedInteger {
-      public:
-        // Return true if this NestedInteger holds a single integer, rather than a nested list.
-        bool isInteger() const;
-
-        // Return the single integer that this NestedInteger holds, if it holds a single integer
-        // The result is undefined if this NestedInteger holds a nested list
-        int getInteger() const;
-
-        // Return the nested list that this NestedInteger holds, if it holds a nested list
-        // The result is undefined if this NestedInteger holds a single integer
-        const vector<NestedInteger> &getList() const;
-    };
-
-  class NestedIterator {
-  public:
-	  vector<int> flatList;
-	  int index;
-
-	  void getFlatList(vector<int> &flatList, const vector<NestedInteger> &nestedList) {
-		  for (auto n:nestedList) {
-			  if (n.isInteger()) {
-				  flatList.push_back(n.getInteger());
-			  } else {
-				  getFlatList(flatList, n.getList());
-			  }
-		  }
-	  }
-
-      NestedIterator(vector<NestedInteger> &nestedList) {
-    	  getFlatList(flatList, nestedList);
-    	  index=0;
-      }
-
-      int next() {
-    	  int res=flatList[index];
-    	  index++;
-    	  return res;
-      }
-
-      bool hasNext() {
-    	  return (index<flatList.size());
-      }
-  };
-
-  /**
-   * Your NestedIterator object will be instantiated and called as such:
-   * NestedIterator i(nestedList);
-   * while (i.hasNext()) cout << i.next();
-   */
-
-2. Use stack
-
 class NestedIterator {
 public:
     void tryAdvance() {
         while (!stk.empty()) {
-            NestedInteger n=stk.top();
-            if (n.isInteger()) break;
+            if (stk.top().isInteger()) break;
             else {
+                NestedInteger t=stk.top();
                 stk.pop();
-                vector<NestedInteger> v=n.getList();
-                int size=v.size();
-                for (int i=size-1; i>=0; i--) {
-                    stk.push(v[i]);
-                }
+                vector<NestedInteger> v=t.getList();
+                for (int i=v.size()-1; i>=0; i--) stk.push(v[i]);
             }
         }
     }
-   
+    
     NestedIterator(vector<NestedInteger> &nestedList) {
-        int size=nestedList.size();
-        for (int i=size-1; i>=0; i--) {
-            stk.push(nestedList[i]);
-        }
+        for (int i=nestedList.size()-1; i>=0; i--) stk.push(nestedList[i]);
         tryAdvance();
     }
 
@@ -178,59 +59,56 @@ public:
     }
 
     bool hasNext() {
-        return stk.size()>0;
+        return !stk.empty();
     }
 private:
     stack<NestedInteger> stk;
 };
 
-3.
+/**
+ * Your NestedIterator object will be instantiated and called as such:
+ * NestedIterator i(nestedList);
+ * while (i.hasNext()) cout << i.next();
+ */
+
+2. Use begin and end iterator to keep track each list level
 class NestedIterator {
 public:
     void tryAdvance() {
-        while (!begins.empty()) {
-            if (begins.top()==ends.top()) {
-                begins.pop();
-                ends.pop();
+        while (!begin.empty()) {
+            if (begin.top()==end.top()) {
+                begin.pop();
+                end.pop();
             } else {
-                if (begins.top()->isInteger()) break;
+                if (begin.top()->isInteger()) break;
                 else {
-                    auto t=begins.top();
-                    begins.top()++;
-                    begins.push(t->getList().begin());
-                    ends.push(t->getList().end());
+                    auto t=begin.top();
+                    begin.top()++;
+                    begin.push(t->getList().begin());
+                    end.push(t->getList().end());
                 }
             }
         }
     }
     
     NestedIterator(vector<NestedInteger> &nestedList) {
-        begins.push(nestedList.begin());
-        ends.push(nestedList.end());
+        begin.push(nestedList.begin());
+        end.push(nestedList.end());
         tryAdvance();
     }
 
     int next() {
-        if (hasNext()) {
-            int res=begins.top()->getInteger();
-            begins.top()++;
-            tryAdvance();
-            return res;
-        } else {
-            return -1;
-        }
+        if (!hasNext()) return -1;
+        int res=begin.top()->getInteger();
+        begin.top()++;
+        tryAdvance();
+        return res;
     }
 
     bool hasNext() {
-        return begins.size()>0;
+        return !begin.empty();
     }
 private:
-    stack<vector<NestedInteger>::iterator> begins, ends;
+    stack<vector<NestedInteger>::iterator> begin, end;
 };
-
-int main()
-{
-	return 0;
-}
-
 

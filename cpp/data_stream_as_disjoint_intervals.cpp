@@ -34,22 +34,20 @@ public:
     }
     
     void addNum(int val) {
-        vector<Interval> res;
-        Interval curr(val, val);
         int pos=0;
-        for (auto i:intervals) {
-            if (curr.start>i.end+1) {
-                res.push_back(i);
-                pos++;
-            } else if (curr.end<i.start-1) {
-                res.push_back(i);
+        Interval curr(val, val);
+        auto iter=intervals.begin();
+        for (; iter<intervals.end(); ) {
+            if (iter->end+1<curr.start) iter++;
+            else if (iter->start-1>curr.end) {
+                break;
             } else {
-                curr.start=min(curr.start, i.start);
-                curr.end=max(curr.end, i.end);
+                curr.start=min(curr.start, iter->start);
+                curr.end=max(curr.end, iter->end);
+                iter=intervals.erase(iter);
             }
         }
-        res.insert(res.begin()+pos, curr);
-        intervals=res;
+        intervals.insert(iter, curr);
     }
     
     vector<Interval> getIntervals() {

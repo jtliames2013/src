@@ -1,37 +1,40 @@
- Given a positive integer n, break it into the sum of at least two positive integers and maximize the product of those integers. Return the maximum product you can get.
+343. Integer Break Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 39590
+Total Submissions: 87117
+Difficulty: Medium
+Contributor: LeetCode
+Given a positive integer n, break it into the sum of at least two positive integers and maximize the product of those integers. Return the maximum product you can get.
 
 For example, given n = 2, return 1 (2 = 1 + 1); given n = 10, return 36 (10 = 3 + 3 + 4).
 
-Note: you may assume that n is not less than 2.
+Note: You may assume that n is not less than 2 and not larger than 58.
 
-Hint:
+Credits:
+Special thanks to @jianchao.li.fighter for adding this problem and creating all test cases.
 
-    There is a simple O(n) solution to this problem.
-    You may check the breaking results of n ranging from 7 to 10 to discover the regularities.
+Subscribe to see which companies asked this question.
 
+Hide Tags Dynamic Programming Mat
 
-观察n为7到10的情形寻找规律：
+For any integer p strictly greater than 4, it has the property such that 3 * (p - 3) > p, which means breaking it into two integers 3 and p - 3 makes the product larger while keeping the sum unchanged. If p - 3 is still greater than 4, we should break it again into 3 and p - 6, giving 3 * 3 * (p - 6), and so on, until we cannot break it (less than or equal to 4) anymore.
 
-7  -> 3 * 4     -> 12
-8  -> 2 * 3 * 3 -> 18
-9  -> 3 * 3 * 3 -> 27
-10 -> 3 * 3 * 4 -> 36
-可以发现得到的拆分结果中，各元素的差值均不超过1。
+For integer 4, breaking it into 2 * 2 or keeping it as 4 does not change its contribution to the product.
+We cannot have more than two 4s, because 2 * 3 * 3 > 4 * 4. We cannot have more than three 2s because 3 * 3 > 2 * 2 * 2.
 
-  class Solution {
-  public:
-	  int getSplitMultiple(int n, int m) {
-		  int divide=n/m;
-		  int mod=n%m;
-		  return (int)(pow(divide+1, mod)*pow(divide, m-mod));
-	  }
-
-      int integerBreak(int n) {
-    	  int maxVal=0;
-    	  for (int i=2; i<=n; i++) {
-    		  maxVal=max(maxVal, getSplitMultiple(n, i));
-    	  }
-    	  return maxVal;
-      }
-  };
+class Solution {
+public:
+    int integerBreak(int n) {
+        if (n==2) return 1;
+        if (n==3) return 2;
+        int product=1;
+        while (n>4) {
+            product*=3;
+            n-=3;
+        }
+        product*=n;
+        
+        return product;
+    }
+};
 
