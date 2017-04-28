@@ -28,7 +28,6 @@ Return: [1,3],[2,3]
 All possible pairs are returned from the sequence:
 [1,3],[2,3]
 
-
 class Solution {
 public:
     vector<pair<int, int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {

@@ -20,9 +20,7 @@ Hide Company Tags Google
 Hide Tags Dynamic Programming Math
 
 思路：其实和求最大上升子序列LIS差不多，只不过这题要求输出序列而已。
-
 先把数组排好序。首先要明确，若a<b且b%a==0 ,  b <c 且 c%b==0那么必然有c%a==0
-
 我们设dp[i] 为最大的子集长度，更新的时候保存上一个的下标即可。
 
 class Solution {
@@ -31,26 +29,28 @@ public:
         vector<int> res;
         int n=nums.size();
         if (n==0) return res;
+        vector<int> dp(n,1);
+        vector<int> index(n,-1);
         sort(nums.begin(), nums.end());
-        vector<int> dp(n, 1), index(n, -1);
-        int maxdp=0, maxidx=-1;
-        for (int i=0; i<n; i++) {
+        
+        int maxdp=1, maxIndex=0;
+        for (int i=1; i<n; i++) {
             for (int j=0; j<i; j++) {
-                if (nums[i]%nums[j]==0 && dp[j]+1>dp[i]) {
+                if (nums[i]%nums[j]==0 && dp[i]<dp[j]+1) {
                     dp[i]=dp[j]+1;
                     index[i]=j;
                 }
             }
             if (maxdp<dp[i]) {
                 maxdp=dp[i];
-                maxidx=i;
+                maxIndex=i;
             }
         }
         
-        for (int i=maxidx; i!=-1; i=index[i]) {
-            res.insert(res.begin(), nums[i]);
+        for (int i=maxIndex; i!=-1; ) {
+            res.push_back(nums[i]);
+            i=index[i];
         }
-        
         return res;
     }
 };
