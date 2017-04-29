@@ -31,10 +31,11 @@ public:
     /** Returns a random shuffling of the array. */
     vector<int> shuffle() {
         vector<int> res=nums;
-        for (int i=res.size()-1; i>0; i--) {
-            int j=rand()%(i+1);
-            swap(res[j],res[i]);
+        for (int i=0; i<res.size(); i++) {
+            int j=rand()%(res.size()-i);
+            swap(res[i], res[i+j]);
         }
+        
         return res;
     }
 private:
@@ -47,3 +48,4 @@ private:
  * vector<int> param_1 = obj.reset();
  * vector<int> param_2 = obj.shuffle();
  */
+
