@@ -1,3 +1,43 @@
+381. Insert Delete GetRandom O(1) - Duplicates allowed Add to List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 13007
+Total Submissions: 45622
+Difficulty: Hard
+Contributor: LeetCode
+Design a data structure that supports all following operations in average O(1) time.
+
+Note: Duplicate elements are allowed.
+insert(val): Inserts an item val to the collection.
+remove(val): Removes an item val from the collection if present.
+getRandom: Returns a random element from current collection of elements. The probability of each element being returned is linearly related to the number of same value the collection contains.
+
+Example:
+
+// Init an empty collection.
+RandomizedCollection collection = new RandomizedCollection();
+
+// Inserts 1 to the collection. Returns true as the collection did not contain 1.
+collection.insert(1);
+
+// Inserts another 1 to the collection. Returns false as the collection contained 1. Collection now contains [1,1].
+collection.insert(1);
+
+// Inserts 2 to the collection, returns true. Collection now contains [1,1,2].
+collection.insert(2);
+
+// getRandom should return 1 with the probability 2/3, and returns 2 with the probability 1/3.
+collection.getRandom();
+
+// Removes 1 from the collection, returns true. Collection now contains [1,2].
+collection.remove(1);
+
+// getRandom should return 1 and 2 both equally likely.
+collection.getRandom();
+Subscribe to see which companies asked this question.
+
+Hide Tags Array Hash Table Design
+Hide Similar Problems (M) Insert Delete GetRandom O(1)
+
 class RandomizedCollection {
 public:
     /** Initialize your data structure here. */
@@ -7,43 +47,39 @@ public:
     
     /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
     bool insert(int val) {
-        int res=false;
-        if (table.find(val)==table.end() || table[val].empty()) {
-            res=true;
-        }
+        bool res=false;
+        if (mp.find(val)==mp.end()||mp[val].empty()) res=true;
         data.push_back(val);
-        table[val].insert(data.size()-1);
+        mp[val].insert(data.size()-1);
         return res;
     }
     
     /** Removes a value from the collection. Returns true if the collection contained the specified element. */
     bool remove(int val) {
-        auto iter=table.find(val);
-        if (iter==table.end() || table[val].empty()) return false;
-        int index=data.size()-1;
-        int last=data[index];
+        if (mp.find(val)==mp.end()||mp[val].empty()) return false;
+        int lastIdx=data.size()-1;
+        int lastVal=data[lastIdx];
         data.pop_back();
-        table[last].erase(index);
-        if (val!=last) {
-            int rmIdx=*(table[val].begin());
-            table[val].erase(table[val].begin());
-            data[rmIdx]=last;
-            table[last].insert(rmIdx);
-        } 
+        mp[lastVal].erase(lastIdx);
+        
+        if (val!=lastVal) {
+            int idx=*(mp[val].begin());
+            mp[val].erase(mp[val].begin());
+            data[idx]=lastVal;
+            mp[lastVal].insert(idx);
+        }
         return true;
     }
     
     /** Get a random element from the collection. */
     int getRandom() {
-        if (data.size()>0) {
-            return data[rand()%data.size()];
-        } else {
-            return -1;
-        }
+        if (data.empty()) return -1;
+        int i=rand()%data.size();
+        return data[i];
     }
 private:
-    unordered_map<int,set<int>> table;
     vector<int> data;
+    unordered_map<int,set<int>> mp;
 };
 
 /**
@@ -53,3 +89,4 @@ private:
  * bool param_2 = obj.remove(val);
  * int param_3 = obj.getRandom();
  */
+

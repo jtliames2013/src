@@ -51,13 +51,18 @@ public:
     /** Removes a value from the set. Returns true if the set contained the specified element. */
     bool remove(int val) {
         if (mp.find(val)==mp.end()) return false;
-        if (mp[val]!=data.size()-1) {
-            data[mp[val]]=data[data.size()-1];
-            mp[data[data.size()-1]]=mp[val];
+        int lastIdx=data.size()-1;
+        int lastVal=data[lastIdx];
+        data.pop_back();
+        mp.erase(lastVal);
+        
+        if (val!=lastVal) {
+            int idx=mp[val];
+            mp.erase(val);
+            data[idx]=lastVal;
+            mp[lastVal]=idx;
         }
         
-        data.pop_back();
-        mp.erase(val);
         return true;
     }
     

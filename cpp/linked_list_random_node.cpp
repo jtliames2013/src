@@ -19,23 +19,17 @@ Subscribe to see which companies asked this question
 
 Hide Tags Reservoir Sampling
 
-according to the wiki https://en.wikipedia.org/wiki/Reservoir_sampling
-here is sudo code for k size reservoir:
+https://en.wikipedia.org/wiki/Reservoir_sampling
+Keep the first item in memory.
+When the i-th item arrives (for i>1):
+with probability 1/i, keep the new item (discard the old one)
+with probability 1-1/i, keep the old item (ignore the new one)
+So:
 
-/*
-  S has items to sample, R will contain the result
-*/
-ReservoirSample(S[1..n], R[1..k])
-  // fill the reservoir array
-  for i = 1 to k
-      R[i] := S[i]
-
-  // replace elements with gradually decreasing probability
-  for i = k+1 to n
-    j := random(1, i)   // important: inclusive range
-    if j <= k
-        R[j] := S[i]
-you need to remember the range [ 0, i ] should be inclusive.
+when there is only one item, it is kept with probability 1;
+when there are 2 items, each of them is kept with probability 1/2;
+when there are 3 items, the third item is kept with probability 1/3, and each of the previous 2 items are also kept with probability (1/2)(1-1/3) = (1/2)(2/3) = 1/3;
+by induction, it is easy to prove that when there are n items, each item is kept with probability 1/n.
 
 /**
  * Definition for singly-linked list.
@@ -55,22 +49,20 @@ public:
     
     /** Returns a random node's value. */
     int getRandom() {
+        if (head==NULL) return -1;
         int res=head->val;
         ListNode *curr=head->next;
-        int i=2;
-        while (curr!=NULL) {
-            int j=rand()%i;
-            if (j==0) {
-                res=curr->val;
-            }
-            i++;
+        int count=2;
+        while (curr) {
+            int i=rand()%count;
+            if (i==0) res=curr->val;
             curr=curr->next;
+            count++;
         }
-        
         return res;
     }
 private:
-    ListNode *head;
+    ListNode* head;
 };
 
 /**

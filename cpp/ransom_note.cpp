@@ -20,18 +20,27 @@ Hide Tags String
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
-        unordered_map<char,int> count;
-        for (auto letter:magazine) {
-            count[letter]++;
+        unordered_map<int,int> mp;
+        for (auto l:magazine) mp[l]++;
+        for (auto l:ransomNote) {
+            if (mp.find(l)==mp.end()||mp[l]==0) return false;
+            mp[l]--;
         }
-        
-        for (auto letter:ransomNote) {
-            if (count.find(letter)==count.end() || count[letter]<=0) {
-                return false;
-            }    
-            count[letter]--;
-        }
-        
         return true;
     }
 };
+
+2. Use array
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        vector<int> mp(256);
+        for (auto l:magazine) mp[l]++;
+        for (auto l:ransomNote) {
+            if (mp[l]==0) return false;
+            mp[l]--;
+        }
+        return true;
+    }
+};
+
