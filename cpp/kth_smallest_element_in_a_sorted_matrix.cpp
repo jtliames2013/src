@@ -65,13 +65,12 @@ public:
 2. binary search
 class Solution {
 public:
-    int search(vector<vector<int>>& matrix, int target, const int n) {
-        int i=0, j=n-1;
-        int count=0;
-        while (i<n && j>=0) {
-            if (matrix[i][j]<=target) {
-                i++;
+    int countSmaller(vector<vector<int>>& matrix, int target, int m) {
+        int i=0, j=m-1, count=0;
+        while (i<m && j>=0) {
+            if (target>=matrix[i][j]) {
                 count+=j+1;
+                i++;
             } else {
                 j--;
             }
@@ -80,16 +79,15 @@ public:
     }
     
     int kthSmallest(vector<vector<int>>& matrix, int k) {
-        int n=matrix.size();
-        if (n==0) return 0;
-        int l=matrix[0][0], r=matrix[n-1][n-1];
+        int m=matrix.size();
+        if (m==0) return 0;
+        int l=matrix[0][0], r=matrix[m-1][m-1], mid;
         while (l<r) {
-            int mid=l+(r-l)/2;
-            int cnt=search(matrix, mid, n);
+            mid=l+(r-l)/2;
+            int cnt=countSmaller(matrix, mid, m);
             if (cnt<k) l=mid+1;
             else r=mid;
         }
-
         return l;
     }
 };
