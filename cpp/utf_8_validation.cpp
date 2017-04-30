@@ -41,35 +41,6 @@ class Solution {
 public:
     bool validUtf8(vector<int>& data) {
         int n=data.size();
-        for (int i=0; i<n;) {
-            if ((data[i] & 0x80)==0) {
-                i++;
-            } else if ((data[i] & 0xE0)==0xC0) {
-                if (i+1>=n) return false;
-                if ((data[i+1] & 0xC0) != 0x80) return false;
-                i+=2;
-            } else if ((data[i] & 0xF0)==0xE0) {
-                if (i+2>=n) return false;
-                if ((data[i+1] & 0xC0) != 0x80 || (data[i+2] & 0xC0) != 0x80) return false;
-                i+=3;
-            } else if ((data[i] & 0xF8)==0xF0) {
-                if (i+3>=n) return false;
-                if ((data[i+1] & 0xC0) != 0x80 || (data[i+2] & 0xC0) != 0x80 || (data[i+3] & 0xC0) != 0x80) return false;
-                i+=4;
-            } else {
-                return false;
-            }
-        }
-        
-        return true;
-    }
-};
-
-2.
-class Solution {
-public:
-    bool validUtf8(vector<int>& data) {
-        int n=data.size();
         int count=0;
         for (int i=0; i<n; i++) {
             if (count==0) {
@@ -86,3 +57,29 @@ public:
         return count==0;
     }
 };
+
+2.
+class Solution {
+public:
+    bool validUtf8(vector<int>& data) {
+        int n=data.size();
+        int count=0;
+        for (int i=0; i<n;) {
+            if ((data[i]>>3)==0b11110) count=3;
+            else if ((data[i]>>4)==0b1110) count=2;
+            else if ((data[i]>>5)==0b110) count=1;
+            else if ((data[i]>>7)==0) count=0;
+            else return false;
+            i++;
+            
+            if (i+count>n) return false;
+            for (int j=i; j<i+count; j++) {
+                if ((data[j]>>6)!=0b10) return false;
+            }
+            i+=count;
+        }
+        
+        return true;
+    }
+};
+

@@ -26,6 +26,11 @@ Subscribe to see which companies asked this question
 
 Hide Tags Math
 
+1 digit - 9
+2 digit - 90
+3 digit - 900
+...
+
 class Solution {
 public:
     int findNthDigit(int n) {

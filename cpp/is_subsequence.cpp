@@ -29,14 +29,12 @@ Hide Tags Binary Search Dynamic Programming Greedy
 class Solution {
 public:
     bool isSubsequence(string s, string t) {
-        int m=s.size();
-        int n=t.size();
-        int i=0;
-        for (int j=0; j<n && n-j>=m-i; j++) {
-            if (t[j]==s[i]) i++;
-            if (i==m) return true;
+        int m=s.size(), n=t.size();
+        for (int i=0, j=0; j<=n-m+i; j++) {
+            if (s[i]==t[j]) i++;
+            if (i>=m) return true;
         }
-        if (i==m) return true;
+        
         return false;
     }
 };
