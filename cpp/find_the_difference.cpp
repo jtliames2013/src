@@ -28,13 +28,24 @@ Hide Similar Problems (E) Single Number
 class Solution {
 public:
     char findTheDifference(string s, string t) {
-        map<char,int> count;
-        for (auto l:t) count[l]++;
-        for (auto l:s) count[l]--;
-        
-        for (auto cnt:count) {
-            if (cnt.second==1) return cnt.first;
+        vector<int> mp(256);
+        for (auto c:s) mp[c]++;
+        for (auto c:t) {
+            mp[c]--;
+            if (mp[c]<0) return c;
         }
-        return '\0';
+        return 0;
     }
 };
+
+2. Bit manipulation
+class Solution {
+public:
+    char findTheDifference(string s, string t) {
+        char res=0;
+        for (auto c:s) res^=c;
+        for (auto c:t) res^=c;
+        return res;
+    }
+};
+

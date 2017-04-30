@@ -35,30 +35,24 @@ Notice that a/aa/aaa/file1.txt is not the longest file path, if there is another
 class Solution {
 public:
     int lengthLongestPath(string input) {
-        int maxlen=0;
-        int len=0, level=0;
+        int res=0, len=0;
         vector<int> path;
-        string val;
         istringstream iss(input);
+        string val;
+        
         while (getline(iss, val, '\n')) {
-            int num=0;
-            while (num<val.size()) {
-                if (val[num]!='\t') break;
-                num++;
-            }
-            while(path.size()>num) {
+            int n=0;
+            while (n<val.size() && val[n]=='\t') n++;
+            while (path.size()>n) {
                 len-=path.back();
                 path.pop_back();
             }
-            path.push_back(val.size()-num);
+            path.push_back(val.size()-n);
             len+=path.back();
-            if (val.find('.')!=string::npos) {
-                int size=path.size();
-                maxlen=max(maxlen, len+size-1);
-            }
+            if (val.find('.')!=string::npos) res=max(res, (int)(len+path.size()-1));
         }
         
-        return maxlen;
+        return res;
     }
 };
 

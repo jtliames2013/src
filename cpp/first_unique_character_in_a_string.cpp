@@ -14,13 +14,10 @@ Note: You may assume the string contain only lowercase letters.
 class Solution {
 public:
     int firstUniqChar(string s) {
-        unordered_map<char,int> count;
-        for (auto l:s) {
-            count[l]++;
-        }
-        
+        vector<int> mp(256);
+        for (auto c:s) mp[c]++;
         for (int i=0; i<s.size(); i++) {
-            if (count[s[i]]==1) return i;
+            if (mp[s[i]]==1) return i;
         }
         return -1;
     }
@@ -30,18 +27,16 @@ public:
 class Solution {
 public:
     int firstUniqChar(string s) {
-        unordered_map<char,pair<int,int>> count;
+        unordered_map<char,pair<int,int>> mp;
         for (int i=0; i<s.size(); i++) {
-            count[s[i]].second=i;
-            count[s[i]].first++;
+            mp[s[i]].first++;
+            mp[s[i]].second=i;
         }
-        
-        int minIdx=INT_MAX;
-        for (auto &iter:count) {
-            if (iter.second.first==1) {
-                minIdx=min(minIdx,iter.second.second);
-            }
+        int res=INT_MAX;
+        for (auto &m:mp) {
+            if (m.second.first==1) res=min(res, m.second.second);
         }
-        return minIdx==INT_MAX?-1:minIdx;
+        return res==INT_MAX?-1:res;
     }
 };
+
