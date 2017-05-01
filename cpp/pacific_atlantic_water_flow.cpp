@@ -72,3 +72,54 @@ public:
     }
 };
 
+2. One matrix
+class Solution {
+public:
+    void dfs(vector<vector<int>>& matrix, vector<vector<int>>& touch, int row, int col, int m, int n, int type) {
+        if (type==1) touch[row][col] |= 1;
+        else touch[row][col] |= 2;
+        
+        for (int k=0; k<4; k++) {
+            int nr=row+delta[k][0];
+            int nc=col+delta[k][1];
+            if (nr>=0 && nr<m && nc>=0 && nc<n) {
+                bool visited=false;
+                if (type==1) visited=(touch[nr][nc] & 0x1)!=0;
+                else visited=(touch[nr][nc] & 0x2)!=0;
+                if (!visited && matrix[nr][nc]>=matrix[row][col]) {
+                    dfs(matrix, touch, nr, nc, m, n, type);
+                }
+            }
+        }
+    }
+    
+    vector<pair<int, int>> pacificAtlantic(vector<vector<int>>& matrix) {
+        vector<pair<int, int>> res;
+        int m=matrix.size();
+        if (m==0) return res;
+        int n=matrix[0].size();
+        if (n==0) return res;
+        vector<vector<int>> touch(m, vector<int>(n,0));
+        
+        // pacific 1, atlantic 2
+        for (int i=0; i<m; i++) {
+            dfs(matrix, touch, i, 0, m, n, 1);
+            dfs(matrix, touch, i, n-1, m, n, 2);
+        }
+        
+        for (int i=0; i<n; i++) {
+            dfs(matrix, touch, 0, i, m, n, 1);
+            dfs(matrix, touch, m-1, i, m, n, 2);
+        }
+        
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if (touch[i][j]==3) res.push_back({i,j});
+            }
+        }
+        return res;
+    }
+private:
+    const int delta[4][2]={{-1,0}, {1,0}, {0,-1}, {0,1}};
+};
+

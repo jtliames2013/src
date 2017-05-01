@@ -18,36 +18,26 @@ public:
     string addStrings(string num1, string num2) {
         string res;
         int n1=num1.size(), n2=num2.size();
-        int i=n1-1, j=n2-1;
+        int i1=n1-1, i2=n2-1;
         bool carry=false;
-        int num;
-        while (i>=0 || j>=0) {
-            num=0;
-            if (i>=0 && j>=0) {
-                num=num1[i]-'0'+num2[j]-'0';
-                i--;
-                j--;
-            } else if (i>=0) {
-                num=num1[i]-'0';
-                i--;
-            } else {
-                num=num2[j]-'0';
-                j--;
-            }
+        while (i1>=0||i2>=0) {
+            int num=0;
+            if (i1>=0) { num+=num1[i1]-'0'; i1--; }
+            if (i2>=0) { num+=num2[i2]-'0'; i2--; }
             if (carry) {
                 num++;
                 carry=false;
             }
-            if (num>9) {
+            if (num>=10) {
                 num%=10;
                 carry=true;
             }
             res.push_back(num+'0');
         }
-        if (carry) {
-            res.push_back('1');
-        }
+        if (carry) res.push_back('1');
+        
         reverse(res.begin(), res.end());
         return res;
     }
 };
+

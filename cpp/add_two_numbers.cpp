@@ -8,18 +8,6 @@ Hide Company Tags Amazon Microsoft Bloomberg Airbnb Adobe
 Hide Tags Linked List Math
 Hide Similar Problems (M) Multiply Strings (E) Add Binary (E) Sum of Two Integers
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -31,51 +19,33 @@ Hide Similar Problems (M) Multiply Strings (E) Add Binary (E) Sum of Two Integer
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode *res=NULL, *tail=NULL;
+        ListNode dummy(0);
+        ListNode *prev=&dummy;
         bool carry=false;
-        int num;
         
-        while (l1!=NULL || l2!=NULL) {
-            if (l1!=NULL && l2!=NULL) {
-                num=l1->val+l2->val;
-                l1=l1->next;
-                l2=l2->next;
-            } else if (l1!=NULL) {
-                num=l1->val;
-                l1=l1->next;
-            } else {
-                num=l2->val;
-                l2=l2->next;
-            }
+        while (l1 || l2) {
+            int num=0;
+            if (l1) { num+=l1->val; l1=l1->next; }
+            if (l2) { num+=l2->val; l2=l2->next; }
             if (carry) {
                 num++;
                 carry=false;
             }
-            if (num>9) {
+            if (num>=10) {
                 num%=10;
                 carry=true;
             }
             ListNode *n=new ListNode(num);
-            if (res==NULL) {
-                res=tail=n;
-            } else {
-                tail->next=n;
-                tail=n;
-            }
+            prev->next=n;
+            prev=n;
         }
         
         if (carry) {
             ListNode *n=new ListNode(1);
-            tail->next=n;
+            prev->next=n;
         }
         
-        return res;
+        return dummy.next;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
 
