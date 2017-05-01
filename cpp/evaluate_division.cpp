@@ -20,66 +20,103 @@ Subscribe to see which companies asked this question
 
 Hide Tags Graph
 
+1. DFS
+class Solution {
+public:
+    double dfs(unordered_map<string, unordered_map<string,double>>& graph, set<string>& visited, string start, string end) {
+        if (graph[start].find(end)!=graph[start].end()) return graph[start][end];
+        for (auto neighbor:graph[start]) {
+            if (visited.find(neighbor.first)==visited.end()) {
+                visited.insert(neighbor.first);
+                double res=dfs(graph, visited, neighbor.first, end);
+                if (res!=-1) return res*neighbor.second;
+            }
+        }
+        return -1;
+    }
+    
+    vector<double> calcEquation(vector<pair<string, string>> equations, vector<double>& values, vector<pair<string, string>> queries) {
+        vector<double> res;
+        unordered_map<string, unordered_map<string,double>> graph;
+        for (int i=0; i<equations.size(); i++) {
+            graph[equations[i].first][equations[i].second]=values[i];
+            if (values[i]!=0) {
+                graph[equations[i].second][equations[i].first]=1/values[i];
+            }
+        }
+        
+        for (int i=0; i<queries.size(); i++) {
+            set<string> visited;
+            visited.insert(queries[i].first);
+            res.push_back(dfs(graph, visited, queries[i].first, queries[i].second));
+        }
+        
+        return res;
+    }
+};
+
+2. Union-Find
 class Solution {
 public:
     struct Node {
         Node* parent;
         double val;
-        Node():parent(this),val(1) {}
+        Node():parent(this), val(1) {}
     };
-    void Union(string& s1, string& s2, unordered_map<string, Node*>& table, double val) {
-        Node *parent1=Find(table[s1]);
-        Node *parent2=Find(table[s2]);
-        double ratio=table[s2]->val*val/table[s1]->val;
-        if (parent1!=parent2) {
-            for (auto iter:table) {
-                if (Find(iter.second)==parent1) {
-                    iter.second->val*=ratio;
-                }
+    
+    void Union(string& s1, string& s2, unordered_map<string, Node*>& mp, double val) {
+        Node *p1=Find(mp[s1]);
+        Node *p2=Find(mp[s2]);
+        double ratio=mp[s2]->val*val/mp[s1]->val;
+        if (p1!=p2) {
+            for (auto iter:mp) {
+                if (Find(iter.second)==p1) iter.second->val*=ratio;
             }
-            parent1->parent=parent2;
+            p1->parent=p2;
         }
     }
-    Node* Find(Node* n) {
+    
+    Node* Find(Node *n) {
         if (n->parent==n) return n;
-        else return Find(n->parent);
+        return Find(n->parent);
     }
+    
     vector<double> calcEquation(vector<pair<string, string>> equations, vector<double>& values, vector<pair<string, string>> queries) {
-        unordered_map<string, Node*> table;
+        vector<double> res;
+        unordered_map<string, Node*> mp;
         for (int i=0; i<equations.size(); i++) {
             string s1=equations[i].first;
             string s2=equations[i].second;
-            auto iter1=table.find(s1);
-            auto iter2=table.find(s2);
-            if (iter1==table.end() && iter2==table.end()) {
+            auto iter1=mp.find(s1);
+            auto iter2=mp.find(s2);
+            // a/b == 2, a->val=2, b->val=1, a->parent=b
+            if (iter1==mp.end() && iter2==mp.end()) {
                 Node *n1=new Node(), *n2=new Node();
-                table[s1]=n1;
-                table[s2]=n2;
-                table[s1]->parent=table[s2];
-                table[s1]->val=values[i];
-            } else if (iter1==table.end()) {
+                n1->parent=n2;
+                n1->val=values[i];
+                mp[s1]=n1;
+                mp[s2]=n2;
+            } else if (iter1==mp.end()) {
                 Node *n1=new Node();
-                table[s1]=n1;
-                table[s1]->parent=table[s2];
-                table[s1]->val=table[s2]->val*values[i];
-            } else if (iter2==table.end()) {
+                n1->parent=iter2->second;
+                n1->val=iter2->second->val*values[i];
+                mp[s1]=n1;
+            } else if (iter2==mp.end()) {
                 Node *n2=new Node();
-                table[s2]=n2;
-                table[s2]->parent=table[s1];
-                table[s2]->val=table[s1]->val/values[i];
+                n2->parent=iter1->second;
+                n2->val=iter1->second->val/values[i];
+                mp[s2]=n2;
             } else {
-                Union(s1, s2, table, values[i]);
+                Union(s1, s2, mp, values[i]);
             }
         }
-
-        vector<double> res;
-        for (int i=0; i<queries.size(); i++) {
-            if (table.find(queries[i].first)==table.end() ||
-                table.find(queries[i].second)==table.end() ||
-                Find(table[queries[i].first])!=Find(table[queries[i].second])) {
+        
+        for (auto q:queries) {
+            if (mp.find(q.first)==mp.end() || mp.find(q.second)==mp.end() ||
+                Find(mp[q.first])!=Find(mp[q.second])) {
                     res.push_back(-1);
                 } else {
-                    res.push_back(table[queries[i].first]->val/table[queries[i].second]->val);
+                    res.push_back(mp[q.first]->val/mp[q.second]->val);
                 }
         }
         return res;

@@ -20,35 +20,31 @@ Output:
 
 The longest substring is "ababb", as 'a' is repeated 2 times and 'b' is repeated 3 times.
 
+1. in the first pass I record counts of every character in a hashmap
+2. in the second pass I locate the first character that appear less than k times in the string. this character is definitely not included in the result, and that separates the string into two parts.
+3. keep doing this recursively and the maximum of the left/right part is the answer.
+
 class Solution {
 public:
-    void getLongest(string& s, int left, int right, int k, int& longest) {
-        int table[26]={0};
-        for (int i=left; i<=right; i++) table[s[i]-'a']++;
+    int longestSubstring(string& s, int start, int end, int k) {
+        if (s.empty()||k>end-start+1) return 0;
         
-        int start=left;
-        for (int i=left; i<=right; i++) {
-            if (table[s[i]-'a']<k) {
-				// find each split point
-                if (start!=i) {
-                    getLongest(s, start, i-1, k, longest);
-                }
-                start=i+1;
-            }
-        }
+        vector<int> mp(256);
+        for (int i=start; i<=end; i++) mp[s[i]]++;
         
-        if (start==left) {
-            longest=max(longest, right-left+1);
-        } else if (start<=right) {
-            getLongest(s, start, right, k, longest);
+        int i=start;
+        for (; i<=end; i++) {
+            if (mp[s[i]]<k) break;
         }
+        if (i>end) return end-start+1;
+        int l=longestSubstring(s, start, i-1, k);
+        int r=longestSubstring(s, i+1, end, k);
+        
+        return max(l, r);
     }
+    
     int longestSubstring(string s, int k) {
-        int longest=0;
-        if (s.empty()) return 0;
-        
-        getLongest(s, 0, s.size()-1, k, longest);
-        return longest;
+        return longestSubstring(s, 0, s.size()-1, k);
     }
 };
 

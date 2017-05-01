@@ -24,90 +24,17 @@ Hide Similar Problems (M) Letter Combinations of a Phone Number (E) Number of 1 
 
 class Solution {
 public:
-    vector<string> getHour(int h) {
-        vector<string> res;
-        for (int i=0; i<12; i++) {
-            int count=0;
-            int n=i;
-            while (n>0) {
-                if ((n & 0x1)==1) count++;
-                n>>=1;
-            }
-            if (count==h) res.push_back(to_string(i));
-        }
-        return res;
-    }
-    vector<string> getMinute(int m) {
-        vector<string> res;
-        for (int i=0; i<60; i++) {
-            int count=0;
-            int n=i;
-            while (n>0) {
-                if ((n & 0x1)==1) count++;
-                n>>=1;
-            }
-            if (count==m) {
-                string str=to_string(i);
-                if (i<10) str="0"+str;
-                res.push_back(str);
-            }
-        }
-        return res;
-    }
     vector<string> readBinaryWatch(int num) {
         vector<string> res;
-        if (num<0||num>9) return res;
-        for (int h=0; h<=num && h<=3; h++) {
-            int m=num-h;
-            vector<string> hours=getHour(h);
-            vector<string> mins=getMinute(m);
-            for (int i=0; i<hours.size(); i++) {
-                for (int j=0; j<mins.size(); j++) {
-                    res.push_back(hours[i]+":"+mins[j]);
+        for (int h=0; h<12; h++) {
+            for (int m=0; m<60; m++) {
+                int n=(h<<6 | m), count=0;
+                while (n>0) {
+                    count+=(n&0x1);
+                    n>>=1;
                 }
-            }
-        }
-        
-        return res;
-    }
-};
-
-2.
-class Solution {
-public:
-    vector<int> getNum(int n, vector<int>& nums) {
-        vector<int> res;
-        int sum=0;
-        dfs(res, n, sum, nums, 0);
-        return res;
-    }
-    void dfs(vector<int>& res, int n, int& sum, vector<int>& nums, int start) {
-        if (n==0) {
-            res.push_back(sum);
-            return;
-        }
-        for (int i=start; i<nums.size(); i++) {
-            sum+=nums[i];
-            dfs(res, n-1, sum, nums, i+1);
-            sum-=nums[i];
-        }
-    }
-    vector<string> readBinaryWatch(int num) {
-        vector<string> res;
-        if (num<0||num>9) return res;
-        vector<int> nums1={8,4,2,1};
-        vector<int> nums2={32,16,8,4,2,1};
-        for (int h=0; h<=num && h<=3; h++) {
-            int m=num-h;
-            vector<int> hours=getNum(h, nums1);
-            vector<int> mins=getNum(m, nums2);
-            for (int i=0; i<hours.size(); i++) {
-                if (hours[i]>=12) continue;
-                for (int j=0; j<mins.size(); j++) {
-                    if (mins[j]>=60) continue;
-                    string str=to_string(mins[j]);
-                    if (mins[j]<10) str="0"+str;
-                    res.push_back(to_string(hours[i])+":"+str);
+                if (count==num) {
+                    res.push_back(to_string(h) + ":" + (m<10?"0":"") + to_string(m));
                 }
             }
         }

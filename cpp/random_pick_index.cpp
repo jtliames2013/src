@@ -27,15 +27,14 @@ public:
     }
     
     int pick(int target) {
-        int res=-1;
-        int count=1;
+        int count=0, idx;
         for (int i=0; i<nums.size(); i++) {
             if (nums[i]==target) {
-                if (rand()%count==0) res=i;
                 count++;
+                if (rand()%count==0) idx=i;
             }
         }
-        return res;
+        return idx;
     }
 private:
     vector<int> nums;
@@ -46,3 +45,4 @@ private:
  * Solution obj = new Solution(nums);
  * int param_1 = obj.pick(target);
  */
+

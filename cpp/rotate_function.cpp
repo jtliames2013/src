@@ -28,20 +28,19 @@ Hide Tags Math
 class Solution {
 public:
     int maxRotateFunction(vector<int>& A) {
-        int num=0, maxNum;
-        int sum=0;
         int n=A.size();
+        int res, sum=0, f=0;
         for (int i=0; i<n; i++) {
-            num+=i*A[i];
             sum+=A[i];
-        }
-        maxNum=num;
-        for (int i=n-1; i>0; i--) {
-            num=num-(n-1)*A[i]+sum-A[i];
-            maxNum=max(maxNum, num);
+            f+=i*A[i];
         }
         
-        return maxNum;
+        res=f;
+        for (int i=n-1; i>0; i--) {
+            f+=sum-n*A[i];
+            res=max(res,f);
+        }
+        return res;
     }
 };
 

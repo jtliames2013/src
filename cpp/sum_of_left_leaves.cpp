@@ -33,7 +33,34 @@ public:
             if (root->left->left==NULL && root->left->right==NULL) sum+=root->left->val;
             else sum+=sumOfLeftLeaves(root->left);
         }
-        sum+=sumOfLeftLeaves(root->right);
+        if (root->right) {
+            sum+=sumOfLeftLeaves(root->right);
+        }
+        return sum;
+    }
+};
+
+2. Iteratively
+class Solution {
+public:
+    int sumOfLeftLeaves(TreeNode* root) {
+        if (root==NULL) return 0;
+        stack<TreeNode*> stk;
+        stk.push(root);
+        
+        int sum=0;
+        while (!stk.empty()) {
+            TreeNode* t=stk.top();
+            stk.pop();
+            if (t->right) {
+                stk.push(t->right);
+            }
+            if (t->left) {
+                if (t->left->left==NULL && t->left->right==NULL) sum+=t->left->val;
+                else stk.push(t->left);
+            }
+        }
+        
         return sum;
     }
 };

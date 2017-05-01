@@ -31,15 +31,16 @@ Hide Tags Bit Manipulation
 class Solution {
 public:
     string toHex(int num) {
+        if (num==0) return "0";
         string res;
         unsigned int n=num;
-        if (n==0) return "0";
         while (n>0) {
-            int digit=n%16;
-            if (digit<10) res.push_back(digit+'0');
-            else res.push_back(digit-10+'a');
-            n/=16;
+            int digit=n&0xf;
+            if (digit<10) res+=digit+'0';
+            else res+=digit-10+'a';
+            n>>=4;
         }
+        
         reverse(res.begin(), res.end());
         return res;
     }

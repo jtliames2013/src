@@ -19,36 +19,78 @@ Hide Tags Depth-first Search Stack
 
 class Solution {
 public:
-    string dfs(string& s, int start, int *end) {
+    string decodeString(string& s, int& i) {
         string res;
-        for (size_t i=start; i<s.size(); ) {
+        
+        while (i<s.size() && s[i]!=']') {
             if (isalpha(s[i])) {
-                res.push_back(s[i]);
+                res+=s[i];
                 i++;
             } else if (isdigit(s[i])) {
                 int num=0;
                 while (i<s.size() && isdigit(s[i])) {
-                    num=num*10+s[i]-'0';
+                    num*=10;
+                    num+=s[i]-'0';
                     i++;
                 }
-                int last;
-                string str=dfs(s, i, &last);
-                for (int j=0; j<num; j++) {
-                    res+=str;
-                }
-                i=last+1;
-            } else if (s[i]==']') {
-                *end=i;
-                break;
+                
+                i++; //'['
+                string str=decodeString(s, i);
+                i++; //']'
+                for (int j=0; j<num; j++) res+=str;
             } else {
-                i++;
+                // Should not come here
             }
         }
+        
         return res;
     }
     
     string decodeString(string s) {
-        int last;
-        return dfs(s, 0, &last);
+        int i=0;
+        return decodeString(s, i);
     }
 };
+
+2. Use stack
+class Solution {
+public:
+    string decodeString(string s) {
+        string res;
+        stack<string> strs;
+        stack<int> nums;
+        int num=0;
+        strs.push(res);
+        
+        for (int i=0; i<s.size();) {
+            if (isdigit(s[i])) {
+                num=0;
+                while (i<s.size() && isdigit(s[i])) {
+                    num*=10;
+                    num+=s[i]-'0';
+                    i++;
+                }
+                nums.push(num);
+            } else if (isalpha(s[i])) {
+                while (i<s.size() && isalpha(s[i])) {
+                    strs.top()+=s[i];
+                    i++;
+                }
+            } else if (s[i]=='[') {
+                strs.push("");
+                i++;
+            } else if (s[i]==']') {
+                int n=nums.top();
+                nums.pop();
+                string s=strs.top();
+                strs.pop();
+                for (int i=0; i<n; i++) strs.top()+=s;
+                i++;
+            } else {
+                // Should not come here
+            }
+        }
+        return strs.top();
+    }
+};
+
