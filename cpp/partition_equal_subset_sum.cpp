@@ -21,39 +21,23 @@ Output: false
 
 Explanation: The array cannot be partitioned into equal sum subsets.
 
+Transition function: For each number, if we don't pick it, dp[i][j] = dp[i-1][j], which means if the first i-1 elements has made it to j, dp[i][j] would also make it to j (we can just ignore nums[i]). If we pick nums[i]. dp[i][j] = dp[i-1][j-nums[i]], which represents that j is composed of the current value nums[i] and the remaining composed of other previous numbers. Thus, the transition function is dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i]]
+
 class Solution {
 public:
-    bool dfs(vector<int>& nums, int start, int target) {
-        if (target==0) return true;
-        if (target<0) return false;
-        for (int i=start; i<nums.size(); i++) {
-            if (dfs(nums, i+1, target-nums[i])) return true;
-        }
-        return false;
-    }
-    
     bool canPartition(vector<int>& nums) {
         int sum=0;
         for (auto n:nums) sum+=n;
-        if (sum%2==1) return false;
-        return dfs(nums, 0, sum/2);
+        if ((sum & 0x1)==1) return false;
+        sum/=2;
+        vector<int> dp(sum+1,false);
+        dp[0]=true;
+        for (auto n:nums) {
+            for (int i=sum; i>=n; i--) {
+                dp[i]=dp[i]||dp[i-n];
+            }
+        }
+        return dp[sum];
     }
 };
 
-2.
-class Solution {
-public:
-    bool canPartition(vector<int>& nums) {
-        int sum = accumulate(nums.begin(), nums.end(), 0);
-        int target = sum/2;
-        if (sum%2==1) return false;
-        vector<bool> dp(target + 1, false);
-        dp[0] = true;
-        for(auto num : nums) 
-            for(int i=target; i>=num; i--)
-                dp[i]=dp[i] || dp[i-num];
-        return dp[target];
-    }
-};
-
-https://chinmaylokesh.wordpress.com/2011/02/10/balanced-partition-problem-finding-the-minimized-sum-between-two-partitions-of-a-set-of-positive-integers/

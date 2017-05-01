@@ -8,86 +8,44 @@ Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
 
 The above elevation map is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped. Thanks Marcos for contributing this image!
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class Solution {
 public:
     int trap(vector<int>& height) {
-    	int size=height.size();
-    	if (size<3) return 0;
-
-    	vector<int> leftMax(size, 0);
-    	vector<int> rightMax(size, 0);
-    	int volume=0;
-
-    	for (int i=1; i<size; i++) {
-    		leftMax[i] = max(leftMax[i-1], height[i-1]);
-    	}
-
-    	for (int i=size-2; i>=0; i--) {
-    		rightMax[i] = max(rightMax[i+1], height[i+1]);
-    		int depth = min(leftMax[i], rightMax[i]) - height[i];
-    		if (depth>0) {
-    			volume += depth;
-    		}
-    	}
-
-    	return volume;
+        int res=0;
+        int n=height.size();
+        if (n==0) return 0;
+        vector<int> left(n), right(n);
+        for (int i=1; i<n; i++) left[i]=max(left[i-1], height[i-1]);
+        for (int i=n-2; i>=0; i--) right[i]=max(right[i+1], height[i+1]);
+        
+        for (int i=0; i<n; i++) {
+            res+=max(0, min(left[i], right[i])-height[i]);
+        }
+        return res;
     }
 };
 
-int main()
-{
-	return 0;
-}
+2. O(1) space
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n=height.size();
+        if (n==0) return 0;
+        int res=0, left=0, right=n-1;
+        int maxleft=0, maxright=0;
+        while (left<=right) {
+            if (height[left]<=height[right]) {
+                if (height[left]>=maxleft) maxleft=height[left];
+                else res+=maxleft-height[left];
+                left++;
+            } else {
+                if (height[right]>=maxright) maxright=height[right];
+                else res+=maxright-height[right];
+                right--;
+            }
+        }
+
+        return res;
+    }
+};
 

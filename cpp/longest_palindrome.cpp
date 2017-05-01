@@ -25,18 +25,18 @@ Hide Similar Problems (E) Palindrome Permutation
 class Solution {
 public:
     int longestPalindrome(string s) {
-        map<char,int> count;
-        for (auto c:s) count[c]++;
-        bool odd=0;
+        unordered_map<char,int> mp;
+        for (auto c:s) mp[c]++;
+        bool odd=false;
         int res=0;
-        for (auto cnt:count) {
-            if (cnt.second%2==0) {
-                res+=cnt.second;
-            } else {
+        for (auto m:mp) {
+            if (m.second%2==0) res+=m.second;
+            else {
                 odd=true;
-                res+=cnt.second-1;
+                res+=m.second-1;
             }
         }
         return odd?res+1:res;
     }
 };
+
