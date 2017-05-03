@@ -48,25 +48,16 @@ public:
     vector<int> findRightInterval(vector<Interval>& intervals) {
         int n=intervals.size();
         if (n==0) return vector<int>();
-        vector<int> res(n,0);
-        map<int,int> table;
+        vector<int> res(n);
+        map<int,int> mp;
+        for (int i=0; i<intervals.size(); i++) mp[intervals[i].start]=i;
         
         for (int i=0; i<intervals.size(); i++) {
-            table[intervals[i].start]=i;
+            auto iter=mp.lower_bound(intervals[i].end);
+            if (iter!=mp.end()) res[i]=iter->second;
+            else res[i]=-1;
         }
-        
-        for (int i=0; i<intervals.size(); i++) {
-            auto iter=table.lower_bound(intervals[i].end);
-            if (iter!=table.end()) {
-                res[i]=iter->second;
-            } else {
-                res[i]=-1;
-            }
-        }
-        
         return res;
     }
 };
-
-
 

@@ -29,6 +29,9 @@ Subscribe to see which companies asked this question
 
 Hide Tags Greedy
 
+Actually, the problem is the same as "Given a collection of intervals, find the maximum number of intervals that are non-overlapping." (the classic Greedy problem: Interval Scheduling).
+https://en.wikipedia.org/wiki/Interval_scheduling#Interval_Scheduling_Maximization
+
 /**
  * Definition for an interval.
  * struct Interval {
@@ -43,22 +46,14 @@ public:
     int eraseOverlapIntervals(vector<Interval>& intervals) {
         int n=intervals.size();
         if (n==0) return 0;
-        sort(intervals.begin(), intervals.end(), [](Interval& a, Interval& b){ return a.start<b.start; });
+        sort(intervals.begin(), intervals.end(), [](Interval& a, Interval& b) { return a.end<b.end; } );
         
-        int res=0;
-        int prev=0;
+        int end=intervals[0].end, count=0;
         for (int i=1; i<n; i++) {
-            if (intervals[i].start<intervals[prev].end) {
-                if (intervals[i].end<=intervals[prev].end) {
-                    prev=i;
-                }
-                res++;
-            } else {
-                prev=i;
-            }
+            if (intervals[i].start<end) count++;
+            else end=intervals[i].end;
         }
-        
-        return res;
+        return count;
     }
 };
 
