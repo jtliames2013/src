@@ -36,41 +36,58 @@ Hide Similar Problems (E) Valid Anagram
 
 class Solution {
 public:
+    bool isAnagram(vector<int>& count) {
+        for (int i=0; i<count.size(); i++) {
+            if (count[i]!=0) return false;
+        }
+        return true;
+    }
+    
     vector<int> findAnagrams(string s, string p) {
         vector<int> res;
-        map<char,int> count;
-        int total=0;
-        for (auto c:p) {
-            count[c]++;
-        }
         int m=s.size(), n=p.size();
+        vector<int> count(26);
+        for (auto c:p) count[c-'a']++;
 
-        map<char,int> cnt=count;
-        for (int l=0, r=0; r<m;) {
-            if (count.find(s[r])==count.end()) {
-                cnt=count;
-                total=0;
-                r++;
-                l=r;
-            } else {
-                if (cnt[s[r]]>0) total++;
-                cnt[s[r]]--;
-                if (r-l+1>n) {
-                    cnt[s[l]]++;
-                    if (cnt[s[l]]>0) total--;
-                    l++;
-                }
-                if (total==n) {
-                    res.push_back(l);
-                }
-                r++;
+        for (int i=0; i<m; i++) {
+            count[s[i]-'a']--;
+            if (i>=n) count[s[i-n]-'a']++;
+            if (i>=n-1) {
+                if (isAnagram(count)) res.push_back(i-n+1);
             }
         }
+        
         return res;
     }
 };
 
-2.
+2. Sliding window
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> res;
+        int m=s.size(), n=p.size();
+        vector<int> mp(26);
+        for (auto c:p) mp[c-'a']++;
+        int count=0;
+
+        for (int l=0, r=0; r<m; r++) {
+            mp[s[r]-'a']--;
+            if (mp[s[r]-'a']>=0) count++;
+        
+            if (r-l==n) {
+                mp[s[l]-'a']++;
+                if (mp[s[l]-'a']>0) count--;
+                l++;
+            }
+            if (count==n) res.push_back(l);
+        }
+        
+        return res;
+    }
+};
+
+3. Sliding window with optimization
 class Solution {
 public:
     vector<int> findAnagrams(string s, string p) {

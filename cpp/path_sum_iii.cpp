@@ -41,38 +41,37 @@ Hide Similar Problems (E) Path Sum (M) Path Sum II
  */
 class Solution {
 public:
-    void getSum(TreeNode* root, int sum, vector<int>& sums, int& num) {
-        if (root==NULL) return;
-        for (int i=0; i<sums.size(); i++) {
-            if (sums[i]+root->val==sum) num++;
-            sums[i]+=root->val;
-        }
-        sums.push_back(0);
-        if (root->left) getSum(root->left, sum, sums, num);
-        if (root->right) getSum(root->right, sum, sums, num);
-        for (int i=0; i<(int)sums.size()-1; i++) sums[i]-=root->val;
-        sums.pop_back();
+    int pathSum(TreeNode* root, unordered_map<int,int>& sums, int target, int currSum) {
+        if (root==NULL) return 0;
+        currSum+=root->val;
+        int res=sums[currSum-target];
+        sums[currSum]++;
+        res+=pathSum(root->left, sums, target, currSum);
+        res+=pathSum(root->right, sums, target, currSum);
+        
+        sums[currSum]--;
+        return res;
     }
-    int pathSum(TreeNode* root, int sum) {
-        vector<int> sums={0};
-        int num=0;
-        getSum(root, sum, sums, num);
-        return num;
+    
+    int pathSum(TreeNode* root, int target) {
+        unordered_map<int,int> sums;
+        sums[0]=1;
+        return pathSum(root, sums, target, 0);
     }
 };
 
-2.
+2. DFS
 class Solution {
 public:
-    int pathSum(TreeNode* root, int prev, int sum) {
-        if (root==NULL) return 0;
-        int curr=prev+root->val;
-        return (curr==sum)+pathSum(root->left, curr, sum)+pathSum(root->right, curr, sum);
+    int pathSum(TreeNode* root, int target, int currSum) {
+        if (!root) return 0;
+        currSum+=root->val;
+        return (currSum==target?1:0)+pathSum(root->left, target, currSum)+pathSum(root->right, target, currSum);
     }
-    int pathSum(TreeNode* root, int sum) {
-        if (root==NULL) return 0;
-        return pathSum(root, 0, sum) + pathSum(root->left, sum) + pathSum(root->right, sum);
+    
+    int pathSum(TreeNode* root, int target) {
+        if (!root) return 0;
+        return pathSum(root, target, 0)+pathSum(root->left, target)+pathSum(root->right, target);
     }
 };
-
 
