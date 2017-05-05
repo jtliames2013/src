@@ -24,15 +24,17 @@ public:
     int findMinArrowShots(vector<pair<int, int>>& points) {
         int n=points.size();
         if (n==0) return 0;
-        sort(points.begin(), points.end(), [](pair<int,int> a, pair<int,int> b) { return a.second<b.second || (a.second==b.second&&a.first<b.first); });
         
-        int res=0, bound=INT_MIN;
-        for (int i=0; i<points.size(); i++) {
-            if (bound==INT_MIN || points[i].first>bound) {
-                bound=points[i].second;
+        sort(points.begin(), points.end(), [](pair<int,int>& a, pair<int,int>& b) { return a.second<b.second || (a.second==b.second&&a.first<b.first); } );
+        
+        int res=1, end=points[0].second;
+        for (int i=1; i<n; i++) {
+            if (points[i].first>end) {
+                end=points[i].second;
                 res++;
             }
         }
+        
         return res;
     }
 };

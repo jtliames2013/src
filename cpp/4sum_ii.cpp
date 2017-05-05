@@ -30,9 +30,8 @@ Hide Similar Problems (M) 4Sum
 class Solution {
 public:
     int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
-        int res=0;
+        int res=0, n=A.size();
         unordered_map<int,int> count;
-        int n=A.size();
         for (int i=0; i<n; i++) {
             for (int j=0; j<n; j++) {
                 count[A[i]+B[j]]++;
@@ -41,9 +40,10 @@ public:
         
         for (int i=0; i<n; i++) {
             for (int j=0; j<n; j++) {
-                if (count.find(-C[i]-D[j])!=count.end()) res+=count[-C[i]-D[j]];
+                if (count.find(-(C[i]+D[j]))!=count.end()) res+=count[-(C[i]+D[j])];
             }
         }
+        
         return res;
     }
 };

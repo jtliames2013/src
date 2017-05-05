@@ -21,27 +21,19 @@ public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
         ListNode dummy(0);
         ListNode *prev=&dummy;
-        bool carry=false;
+        int num=0;
         
         while (l1 || l2) {
-            int num=0;
             if (l1) { num+=l1->val; l1=l1->next; }
             if (l2) { num+=l2->val; l2=l2->next; }
-            if (carry) {
-                num++;
-                carry=false;
-            }
-            if (num>=10) {
-                num%=10;
-                carry=true;
-            }
-            ListNode *n=new ListNode(num);
+            ListNode *n=new ListNode(num%10);
+            num/=10;
             prev->next=n;
             prev=n;
         }
         
-        if (carry) {
-            ListNode *n=new ListNode(1);
+        if (num!=0) {
+            ListNode *n=new ListNode(num);
             prev->next=n;
         }
         

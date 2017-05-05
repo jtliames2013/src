@@ -29,19 +29,20 @@ Hide Similar Problems (E) Implement strStr()
 
 class Solution {
 public:
-    bool canRepeat(string& str, int n, int len) {
-        string sub=str.substr(0, len);
-        for (int i=0; i<n; i++) {
-            if (str[i]!=sub[i%len]) return false;
-        }
+    bool canRepeat(string& s, int len) {
+        for (int i=0; i<s.size(); i+=len) {
+            for (int j=0; j<len; j++) {
+                if (s[i+j]!=s[j]) return false;
+            }
+        }    
         return true;
     }
-    bool repeatedSubstringPattern(string str) {
-        int n=str.size();
-        if (n<2) return false;
-        for (int l=1; l<=n/2; l++) {
-            if (n%l==0) {
-                if (canRepeat(str, n, l)) return true;
+    
+    bool repeatedSubstringPattern(string s) {
+        int n=s.size();
+        for (int i=n/2; i>0; i--) {
+            if (n%i==0) {
+                if (canRepeat(s, i)) return true;
             }
         }
         return false;
