@@ -33,4 +33,56 @@ Subscribe to see which companies asked this question.
 Hide Tags Design
 Hide Similar Problems (H) LRU Cache
 
+class LFUCache {
+public:
+    LFUCache(int capacity) {
+        this->capacity=capacity;
+        minCount=0;
+    }
+    
+    int get(int key) {
+        if (data.find(key)==data.end()) return -1;
+        int cnt=data[key].second++;
+        keys[cnt+1].push_front(key);
+        keys[cnt].erase(keyIter[key]);
+        keyIter[key]=keys[cnt+1].begin();
+        if (keys[cnt].empty()) {
+            keys.erase(cnt);
+            if (minCount==cnt) minCount++;
+        }
+        return data[key].first;
+    }
+    
+    void put(int key, int value) {
+        if (capacity<=0) return;
+        int val=get(key);
+        if (val!=-1) {
+            data[key].first=value;
+            return;
+        }
+        if (data.size()>=capacity) {
+            int k=keys[minCount].back();
+            keys[minCount].pop_back();
+            keyIter.erase(k);
+            data.erase(k);
+        }
+        data[key]={value,1};
+        keys[1].push_front(key);
+        keyIter[key]=keys[1].begin();
+        minCount=1;
+    }
+private:
+    int capacity;
+    int minCount;
+    unordered_map<int,pair<int,int>> data; // value, count
+    unordered_map<int,list<int>> keys; // count, list of keys
+    unordered_map<int,list<int>::iterator> keyIter; // key, key iterator in the list
+};
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache obj = new LFUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
 
