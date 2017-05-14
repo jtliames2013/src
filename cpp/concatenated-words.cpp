@@ -27,4 +27,29 @@ Subscribe to see which companies asked this question.
 Hide Tags Dynamic Programming Trie Depth-first Search
 Hide Similar Problems (H) Word Break II
 
+class Solution {
+public:
+    vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {
+        vector<string> res;
+        unordered_set<string> st(words.begin(), words.end());
+        
+        for (auto& w:words) {
+            int n=w.size();
+            vector<bool> dp(n+1);
+            dp[0]=true;
+            for (int i=0; i<n; i++) {
+                if (dp[i]) {
+                    for (int j=i+1; j<=n; j++) {
+                        if (j-i<n && st.find(w.substr(i, j-i))!=st.end()) dp[j]=1;
+                    }
+                    if (dp[n]) {
+                        res.push_back(w);
+                        break;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+};
 

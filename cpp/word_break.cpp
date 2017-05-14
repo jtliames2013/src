@@ -43,3 +43,28 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int n=s.size();
+        if (n==0) return false;
+        unordered_set<string> dict;
+        for (auto w:wordDict) dict.insert(w);
+        
+        vector<bool> dp(n+1, false);
+        dp[0]=true;
+        for (int i=0; i<n; i++) {
+            if (dp[i]) {
+                for (int j=i+1; j<=n; j++) {
+                    if (dict.find(s.substr(i, j-i))!=dict.end()) {
+                        dp[j]=true;
+                    }
+                }
+                if (dp[n]) return true;
+            }
+        }
+        
+        return false;
+    }
+};
