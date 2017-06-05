@@ -29,4 +29,20 @@ Subscribe to see which companies asked this question.
 
 Hide Tags Math
 
+class Solution {
+public:
+    string fractionAddition(string expression) {
+        istringstream iss(expression);
+        int n1=0, d1=1, n2, d2;
+        char div;
+        while (iss >> n2 >> div >> d2) {
+            n1=n1*d2+n2*d1;
+            d1*=d2;
+            int g=abs(__gcd(n1,d1));
+            n1/=g;
+            d1/=g;
+        }
+        return to_string(n1)+"/"+to_string(d1);
+    }
+};
 
