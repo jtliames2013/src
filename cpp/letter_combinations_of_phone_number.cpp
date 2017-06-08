@@ -12,18 +12,6 @@ Hide Company Tags Amazon Dropbox Google Uber Facebook
 Hide Tags Backtracking String
 Show Similar Problems
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-
 class Solution {
 public:
     char getbase(char digit) {
@@ -87,7 +75,6 @@ public:
 };
 
 2. Use recursion
-
 class Solution {
 public:
     vector<char> getChar(char digit) {
@@ -106,7 +93,7 @@ public:
     
     void getComb(vector<string>& res, string& digits, string& expr, int start) {
         if (start==digits.size()) {
-            if (!expr.empty()) res.push_back(expr);
+            res.push_back(expr);
             return;
         }    
         
@@ -120,16 +107,11 @@ public:
     
     vector<string> letterCombinations(string digits) {
         vector<string> res;
+        if (digits.empty()) return res;
         string expr;
         getComb(res, digits, expr, 0);
         
         return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
 

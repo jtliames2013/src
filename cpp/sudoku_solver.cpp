@@ -1,54 +1,25 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
+37. Sudoku Solver
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 72977
+Total Submissions: 247660
+Difficulty: Hard
+Contributor: LeetCode
+Write a program to solve a Sudoku puzzle by filling the empty cells.
 
-using namespace std;
+Empty cells are indicated by the character '.'.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+You may assume that there will be only one unique solution.
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
 
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
+A sudoku puzzle...
 
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
+
+...and its solution numbers marked in red.
+
+Subscribe to see which companies asked this question.
+
+Hide Tags Backtracking Hash Table
+Hide Similar Problems (M) Valid Sudoku
 
 class Solution {
 public:
@@ -169,9 +140,4 @@ private:
     vector<bitset<9>> cols;
     vector<bitset<9>> blocks;
 };
-
-int main()
-{
-	return 0;
-}
 

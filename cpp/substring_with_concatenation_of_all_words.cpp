@@ -1,101 +1,45 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
+30. Substring with Concatenation of All Words
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 78243
+Total Submissions: 358481
+Difficulty: Hard
+Contributor: LeetCode
+You are given a string, s, and a list of words, words, that are all of the same length. Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
 
-using namespace std;
+For example, given:
+s: "barfoothefoobarman"
+words: ["foo", "bar"]
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+You should return the indices: [0,9].
+(order does not matter).
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+Subscribe to see which companies asked this question.
 
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
+Hide Tags Hash Table Two Pointers String
+Hide Similar Problems (H) Minimum Window Substring
+
+class Solution {
+public:
+    vector<int> findSubstring(string s, vector<string>& words) {
+        vector<int> res;
+        int n=words.size();
+        if (n==0) return res;
+        int l=words[0].size(), size=s.size();
+        unordered_map<string,int> m;
+        for (auto& w:words) m[w]++;
+        
+        for (int i=0; i<=size-n*l; i++) {
+            unordered_map<string,int> mp=m;
+            int j;
+            for (j=0; j<n; j++) {
+                string w=s.substr(i+j*l, l);
+                if (mp.find(w)==mp.end()) break;
+                mp[w]--;
+                if (mp[w]==0) mp.erase(w);
+            }
+            if (j==n) res.push_back(i);
+        }
+        return res;
+    }
 };
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
- class Solution {
- public:
-	 bool checkWordsInString(string& s, int index, map<string, int>& wordCount, int wordSize, int numWords) {
-		 map<string, int> wordFound;
-		 if (index+numWords*wordSize>s.size()) return false;
-
-		 for (int i=index, j=0; j<numWords; i+=wordSize, j++) {
-			 string word = s.substr(i, wordSize);
-			 if (wordCount.find(word) == wordCount.end()) return false;
-			 wordFound[word]++;
-			 if (wordFound[word] > wordCount[word]) return false;
-		 }
-
-		 return true;
-	 }
-
-     vector<int> findSubstring(string s, vector<string>& words) {
-    	 vector<int> res;
-    	 map<string, int> wordCount;
-    	 int wordSize=words[0].size();
-    	 for (int i=0; i<words.size(); i++) {
-    		 wordCount[words[i]]++;
-    	 }
-
-    	 for (int i=0; i<s.size(); i++) {
-    		 if (checkWordsInString(s, i, wordCount, wordSize, words.size())) {
-    			 res.push_back(i);
-    		 }
-    	 }
-
-    	 return res;
-     }
- };
-
-int main()
-{
-	return 0;
-}
 

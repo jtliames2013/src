@@ -15,34 +15,22 @@ Hide Company Tags LinkedIn Uber Airbnb Facebook Amazon Microsoft Apple Yahoo Dro
 Hide Tags Array Hash Table
 Hide Similar Problems (M) 3Sum (M) 4Sum (M) Two Sum II - Input array is sorted (E) Two Sum III - Data structure design
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-
 1. hash table
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        vector<int> res(2,0);
-        int n=nums.size();
-        if (n==0) return res;
-        unordered_map<int,int> table;
-        for (int i=0; i<n; i++) {
-            if (table.find(target-nums[i])!=table.end()) {
-                res[0]=table[target-nums[i]];
+        vector<int> res(2);
+        unordered_map<int,int> mp;
+        for (int i=0; i<nums.size(); i++) {
+            if (mp.find(target-nums[i])!=mp.end()) {
+                res[0]=mp[target-nums[i]];
                 res[1]=i;
                 return res;
+            } else {
+                mp[nums[i]]=i;
             }
-            table[nums[i]]=i;
         }
+
         return res;
     }
 };
@@ -51,15 +39,12 @@ public:
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        vector<int> res(2,0);
+        vector<int> res(2);
         int n=nums.size();
         if (n==0) return res;
         vector<pair<int,int>> data(n);
-        for (int i=0; i<n; i++) {
-            data[i].first=nums[i];
-            data[i].second=i;
-        }
-        sort(data.begin(), data.end(), [](pair<int,int> &a, pair<int,int> &b){ return a.first<b.first; });
+        for (int i=0; i<n; i++) data[i]={nums[i],i};
+        sort(data.begin(), data.end(), [](pair<int,int>& a, pair<int,int>& b){ return a.first<b.first; });
         int l=0, r=n-1;
         while (l<r) {
             if (data[l].first+data[r].first==target) {
@@ -72,13 +57,8 @@ public:
                 r--;
             }
         }
+        
         return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
 

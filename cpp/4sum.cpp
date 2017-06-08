@@ -1,53 +1,25 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
+18. 4Sum
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 115725
+Total Submissions: 438492
+Difficulty: Medium
+Contributor: LeetCode
+Given an array S of n integers, are there elements a, b, c, and d in S such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.
 
-using namespace std;
+Note: The solution set must not contain duplicate quadruplets.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+For example, given array S = [1, 0, -1, 0, -2, 2], and target = 0.
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+A solution set is:
+[
+  [-1,  0, 0, 1],
+  [-2, -1, 1, 2],
+  [-2,  0, 0, 2]
+]
+Subscribe to see which companies asked this question.
 
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
+Hide Tags Array Hash Table Two Pointers
+Hide Similar Problems (E) Two Sum (M) 3Sum (M) 4Sum II
 
 class Solution {
 public:
@@ -145,10 +117,4 @@ public:
         return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
 
