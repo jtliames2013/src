@@ -1,73 +1,52 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
+38. Count and Say
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 133708
+Total Submissions: 394831
+Difficulty: Easy
+Contributor: LeetCode
+The count-and-say sequence is the sequence of integers with the first five terms as following:
 
-using namespace std;
+1.     1
+2.     11
+3.     21
+4.     1211
+5.     111221
+1 is read off as "one 1" or 11.
+11 is read off as "two 1s" or 21.
+21 is read off as "one 2, then one 1" or 1211.
+Given an integer n, generate the nth term of the count-and-say sequence.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Note: Each term of the sequence of integers will be represented as a string.
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+Example 1:
+
+Input: 1
+Output: "1"
+Example 2:
+
+Input: 4
+Output: "1211"
+Subscribe to see which companies asked this question.
+
+Hide Tags String
+Hide Similar Problems (M) Encode and Decode Strings
 
 class Solution {
 public:
     string countAndSay(int n) {
-    	string prev, curr;
-
-    	if (n == 0) return curr;
-    	if (n == 1)
-    	{
-    		curr.push_back('1');
-    		return curr;
-    	}
-
-    	prev.push_back('1');
-    	int cnt;
-    	for (int i = 1; i < n; i++)
-    	{
-    		curr.clear();
-    		cnt = 0;
-    		char start = prev[0];
-    		for (int j = 0; j < prev.size(); j++)
-    		{
-    			if (prev[j] == start) cnt++;
-    			else
-    			{
-    				curr.push_back(cnt + '0');
-    				curr.push_back(start);
-    				start = prev[j];
-    				cnt = 1;
-    			}
-    		}
-
-    		curr.push_back(cnt + '0');
-    		curr.push_back(start);
-    		prev = curr;
-    	}
-
-    	return curr;
+        if (n==1) return "1";
+        string prev="1", res;
+        for (int i=2; i<=n; i++) {
+            res.clear();
+            for (int start=0, end=0; start<prev.size(); ) {
+                while (end<prev.size() && prev[end]==prev[start]) end++;
+                res+=to_string(end-start)+prev[start];
+                start=end;
+            }
+            prev=res;
+        }
+        
+        return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
 

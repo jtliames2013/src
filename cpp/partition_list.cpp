@@ -1,100 +1,49 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
+86. Partition List
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 97177
+Total Submissions: 301343
+Difficulty: Medium
+Contributor: LeetCode
+Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
 
-using namespace std;
+You should preserve the original relative order of the nodes in each of the two partitions.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+For example,
+Given 1->4->3->2->5->2 and x = 3,
+return 1->2->2->4->3->5.
+
+Subscribe to see which companies asked this question.
+
+Hide Tags Linked List Two Pointers
 
 /**
  * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
  */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-    	ListNode *less=NULL, *lessEnd=NULL;
-    	ListNode *more=NULL, *moreEnd=NULL;
-    	ListNode *curr=head;
-    	ListNode *res=NULL;
-
-    	while (curr!=NULL) {
-    		if (curr->val<x) {
-    			if (lessEnd==NULL) {
-    				less=lessEnd=curr;
-    			} else {
-    				lessEnd->next=curr;
-    				lessEnd=curr;
-    			}
-    		} else if (curr->val>=x) {
-    			if (moreEnd==NULL) {
-    				more=moreEnd=curr;
-    			} else {
-    				moreEnd->next=curr;
-    				moreEnd=curr;
-    			}
-
-    		}
-
-    		curr=curr->next;
-    	}
-
-    	if (lessEnd!=NULL) lessEnd->next=NULL;
-    	if (moreEnd!=NULL) moreEnd->next=NULL;
-
-    	if (less!=NULL) {
-    		res=less;
-    		lessEnd->next=more;
-    	} else{
-    		res=more;
-    	}
-
-    	return res;
+        ListNode one(0), two(0);
+        ListNode *oneTail=&one, *twoTail=&two, *curr=head;
+        
+        while (curr) {
+            if (curr->val<x) {
+                oneTail->next=curr;
+                oneTail=curr;
+            } else {
+                twoTail->next=curr;
+                twoTail=curr;
+            }
+            curr=curr->next;
+        }
+        
+        oneTail->next=two.next;
+        twoTail->next=NULL;
+        return one.next;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
 

@@ -18,98 +18,6 @@ Hide Company Tags Microsoft Google Uber
 Hide Tags Array
 Hide Similar Problems (M) Spiral Matrix II
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-class Solution {
-public:
-    vector<int> spiralOrder(vector<vector<int>>& matrix) {
-    	vector<int> res;
-    	int m=matrix.size();
-    	if (m==0) return res;
-    	int n=matrix[0].size();
-    	int size=m>n ? n : m;
-
-    	for (int i=0; i<size/2; i++) {
-    		for (int j=i; j<n-i; j++) {
-    			res.push_back(matrix[i][j]);
-    		}
-    		for (int j=i+1; j<m-i; j++) {
-    			res.push_back(matrix[j][n-i-1]);
-    		}
-    		for (int j=n-i-2; j>=i; j--) {
-    			res.push_back(matrix[m-i-1][j]);
-    		}
-    		for (int j=m-i-2; j>i; j--) {
-    			res.push_back(matrix[j][i]);
-    		}
-    	}
-
-    	if (size % 2 == 1) {
-    		if (m>n) {
-    			for (int i=size/2; i<m-size/2; i++) {
-    				res.push_back(matrix[i][size/2]);
-    			}
-    		} else {
-    			for (int i=size/2; i<n-size/2; i++) {
-    				res.push_back(matrix[size/2][i]);
-    			}
-    		}
-    	}
-
-    	return res;
-    }
-};
-
-2.
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
@@ -137,9 +45,32 @@ public:
     }
 };
 
-int main()
-{
-	return 0;
-}
-
+2.
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> res;
+        int m=matrix.size();
+        if (m==0) return res;
+        int n=matrix[0].size();
+        if (n==0) return res;
+        int rb=0, re=m-1, cb=0, ce=n-1;
+        while (rb<=re && cb<=ce) {
+            for (int i=cb; i<=ce; i++) res.push_back(matrix[rb][i]);
+            rb++;
+            for (int i=rb; i<=re; i++) res.push_back(matrix[i][ce]);
+            ce--;
+            if (rb<=re) {
+                for (int i=ce; i>=cb; i--) res.push_back(matrix[re][i]);
+                re--;
+            }
+            if (cb<=ce) {
+                for (int i=re; i>=rb; i--) res.push_back(matrix[i][cb]);
+                cb++;
+            }
+        }
+        
+        return res;
+    }
+};
 
