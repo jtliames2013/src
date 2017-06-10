@@ -1,65 +1,18 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
+99. Recover Binary Search Tree
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 72121
+Total Submissions: 244338
+Difficulty: Hard
+Contributor: LeetCode
+Two elements of a binary search tree (BST) are swapped by mistake.
 
-using namespace std;
+Recover the tree without changing its structure.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Note:
+A solution using O(n) space is pretty straight forward. Could you devise a constant space solution?
+Subscribe to see which companies asked this question.
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
+Hide Tags Tree Depth-first Search
 
 Morris traversal of binary tree without stack.
 http://www.cnblogs.com/AnnieKim/archive/2013/06/15/MorrisTraversal.html
@@ -130,7 +83,6 @@ http://www.cnblogs.com/AnnieKim/archive/2013/06/15/MorrisTraversal.html
  };
 
 2. inorder traversal with stack, O(logn)
-
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -143,48 +95,39 @@ http://www.cnblogs.com/AnnieKim/archive/2013/06/15/MorrisTraversal.html
 class Solution {
 public:
     void recoverTree(TreeNode* root) {
-        TreeNode *first=NULL, *second=NULL;
+        if (root==NULL) return;
         stack<TreeNode*> stk;
+        TreeNode *first=NULL, *second=NULL, *prev=NULL;
         TreeNode *n=root;
-        while (n!=NULL) {
+        while (n) {
             stk.push(n);
             n=n->left;
         }
-    
-        TreeNode *prev=NULL, *curr;
+        
         while (!stk.empty()) {
-            curr=stk.top();
+            TreeNode *t=stk.top();
             stk.pop();
+            n=t->right;
             
-            if (prev!=NULL) {
-                if (curr->val<prev->val) {
-                    if (first==NULL) {
-                        first=prev;
-                        second=curr;
-                    } else {
-                        second=curr;
-                    }
+            if (prev && prev->val>t->val) {
+                if (first==NULL) {
+                    first=prev;
+                    second=t;
+                } else {
+                    second=t;
                 }
             }
+            prev=t;
             
-            TreeNode *n=curr->right;
-            while (n!=NULL) {
+            while (n) {
                 stk.push(n);
                 n=n->left;
             }
-            prev=curr;
         }
         
         if (first && second) {
-            int tmp=first->val;
-            first->val=second->val;
-            second->val=tmp;
+            swap(first->val, second->val);
         }
     }
 };
-
-int main()
-{
-	return 0;
-}
 
