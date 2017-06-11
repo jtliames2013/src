@@ -1,3 +1,21 @@
+172. Factorial Trailing Zeroes
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 91449
+Total Submissions: 256517
+Difficulty: Easy
+Contributor: LeetCode
+Given an integer n, return the number of trailing zeroes in n!.
+
+Note: Your solution should be in logarithmic time complexity.
+
+Credits:
+Special thanks to @ts for adding this problem and creating all test cases.
+
+Subscribe to see which companies asked this question.
+
+Hide Tags Math
+Hide Similar Problems (H) Number of Digit One
+
 O（logn）解法：
 一个更聪明的解法是：考虑n!的质数因子。后缀0总是由质因子2和质因子5相乘得来的。如果我们可以计数2和5的个数，问题就解决了。考虑下面的例子：
 

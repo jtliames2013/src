@@ -7,125 +7,57 @@ set(key, value) - Set or insert the value if the key is not already present. Whe
 Hide Company Tags Google Uber Facebook Twitter Zenefits Amazon Microsoft Snapchat Yahoo Bloomberg Palantir
 Hide Tags Design
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-class LRUCache{
+class LRUCache {
 public:
-    class CacheEntry {
-    public:    
+    struct Node {
         int key;
         int val;
-        CacheEntry(int k, int v): key(k), val(v) {}
+        Node(int k, int v): key(k), val(v) {}
     };
     
-     LRUCache(int capacity) {
-    	 size=capacity;
-     }
-
-     int get(int key) {
-         auto iter=table.find(key);
-         if (iter!=table.end()) {
-             if (iter->second!=data.begin()) {
-                 data.erase(iter->second);
-                 data.push_front(*(iter->second));
-                 table[key]=data.begin();
-             }
-             return data.begin()->val;
-         } else {
-             return -1;
-         }
-     }
-
-     void set(int key, int value) {
-         auto iter=table.find(key);
-         if (iter!=table.end()) {
-             if (iter->second!=data.begin()) {
-                 data.erase(iter->second);
-                 data.push_front(*(iter->second));
-                 table[key]=data.begin();
-             } 
-             data.begin()->val=value;
-         } else {
-             if (table.size()==size) {
+    LRUCache(int capacity) {
+        this->capacity=capacity;
+    }
+    
+    int get(int key) {
+        if (mp.find(key)==mp.end()) return -1;
+        if (mp[key]!=data.begin()) {
+            data.erase(mp[key]);
+            data.push_front(*mp[key]);
+            mp[key]=data.begin();
+        }
+        return mp[key]->val;
+    }
+    
+    void put(int key, int value) {
+        if (mp.find(key)!=mp.end()) {
+            if (mp[key]!=data.begin()) {
+                data.erase(mp[key]);
+                data.push_front(*mp[key]);
+                mp[key]=data.begin();
+            }
+            mp[key]->val=value;
+        } else {
+            if (mp.size()==capacity) {
                 int k=data.back().key;
-                table.erase(k);
                 data.pop_back();
-             }
-             CacheEntry elem(key, value);
-             data.push_front(elem);
-             table[key]=data.begin();
-         }
-     }
-     
+                mp.erase(k);
+            }
+            Node n(key, value);
+            data.push_front(n);
+            mp[key]=data.begin();
+        }
+    }
 private:
-    int size;
-    list<CacheEntry> data;
-    map<int, list<CacheEntry>::iterator> table;
+    int capacity;
+    list<Node> data;
+    unordered_map<int,list<Node>::iterator> mp;
 };
 
-int main()
-{
-	return 0;
-}
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
 
