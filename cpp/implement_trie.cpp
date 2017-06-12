@@ -31,15 +31,8 @@ public:
         int i;
         TrieNode *n=root;
         for (i=0; i<word.size(); i++) {
-            auto iter=n->children.find(word[i]);
-            if (iter==n->children.end()) break;
-            n=iter->second;
-        }
-        
-        for (; i<word.size(); i++) {
-            TrieNode *c=new TrieNode();
-            n->children[word[i]]=c;
-            n=c;
+            if (n->children.find(word[i])==n->children.end()) n->children[word[i]]=new TrieNode();
+            n=n->children[word[i]];
         }
         n->isWord=true;
     }

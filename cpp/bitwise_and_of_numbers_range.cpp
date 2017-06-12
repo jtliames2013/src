@@ -1,11 +1,26 @@
-解题思路：
-由数据范围0 <= m <= n <= 2147483647可知，时间复杂度O（n）及以上的解法是不可接受的。
+201. Bitwise AND of Numbers Range
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 54048
+Total Submissions: 160447
+Difficulty: Medium
+Contributor: LeetCode
+Given a range [m, n] where 0 <= m <= n <= 2147483647, return the bitwise AND of all numbers in this range, inclusive.
 
-因此可以判断此题为数学题。
+For example, given the range [5, 7], you should return 4.
 
-参考LeetCode Discuss链接：https://leetcode.com/discuss/32053/accepted-c-solution-with-simple-explanation
+Credits:
+Special thanks to @amrsaqr for adding this problem and creating all test cases.
 
-[m, n]范围的按位与的结果为m与n的公共“左边首部（left header）”
+Subscribe to see which companies asked this question.
+
+Hide Tags Bit Manipulation
+
+The idea is very simple:
+
+1.last bit of (odd number & even number) is 0.
+2.when m != n, There is at least an odd number and an even number, so the last bit position result is 0.
+3.Move m and n rigth a position.
+Keep doing step 1,2,3 until m equal to n, use a factor to record the iteration time.
 
 class Solution {
 public:

@@ -1,4 +1,20 @@
+204. Count Primes
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 112955
+Total Submissions: 427542
+Difficulty: Easy
+Contributor: LeetCode
+Description:
 
+Count the number of prime numbers less than a non-negative number, n.
+
+Credits:
+Special thanks to @mithmatt for adding this problem and creating all test cases.
+
+Subscribe to see which companies asked this question.
+
+Hide Tags Hash Table Math
+Hide Similar Problems (E) Ugly Number (M) Ugly Number II (M) Perfect Squares
 
     Let's start with a isPrime function. To determine if a number is prime, we need to check if it is not divisible by any number less than n. The runtime complexity of isPrime function would be O(n) and hence counting the total prime numbers up to n would be O(n2). Could we do better?
 
@@ -49,27 +65,6 @@
     Yes, the terminating loop condition can be p < √n, as all non-primes ≥ √n must have already been marked off. When the loop terminates, all the numbers in the table that are non-marked are prime.
 
     The Sieve of Eratosthenes uses an extra O(n) memory and its runtime complexity is O(n log log n). For the more mathematically inclined readers, you can read more about its algorithm complexity on Wikipedia.
-
-    public int countPrimes(int n) {
-       boolean[] isPrime = new boolean[n];
-       for (int i = 2; i < n; i++) {
-          isPrime[i] = true;
-       }
-       // Loop's ending condition is i * i < n instead of i < sqrt(n)
-       // to avoid repeatedly calling an expensive function sqrt().
-       for (int i = 2; i * i < n; i++) {
-          if (!isPrime[i]) continue;
-          for (int j = i * i; j < n; j += i) {
-             isPrime[j] = false;
-          }
-       }
-       int count = 0;
-       for (int i = 2; i < n; i++) {
-          if (isPrime[i]) count++;
-       }
-       return count;
-    }
-
 
   class Solution {
   public:
