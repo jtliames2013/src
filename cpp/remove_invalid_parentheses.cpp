@@ -62,50 +62,46 @@ public:
     }
 };
 
-3. DFS
+2. DFS
 class Solution {
 public:
-    void dfs(vector<string>& res, string& s, int start, string& path, int open, int close, int count) {
+    void dfs(vector<string>& res, string& s, string& expr, int start, int open, int close, int count) {
         if (count<0) return;
         if (start==s.size()) {
-            if (open==0&&close==0) {
-                res.push_back(path);
-            }
+            if (open==0 && close==0) res.push_back(expr);
             return;
         }
         
-        if (s[start]!='(' && s[start]!=')') {
-            path.push_back(s[start]);
-            dfs(res, s, start+1, path, open, close, count);
-            path.pop_back();
-        } else if (s[start]=='(') {
-            int i=1;
-            while (start+i<s.size() && s[start+i]=='(') i++;
-            int len=path.size();
-            path.append(i, s[start]);
-            dfs(res, s, start+i, path, open, close, count+i);
-            path.erase(len);
+        if (s[start]=='(' || s[start]==')') {
+            int i=start+1;
+            while (i<s.size() && s[i]==s[start]) i++;
+            int len=expr.size();
+            expr.append(i-start, s[start]);
+            dfs(res, s, expr, i, open, close, count+(s[start]=='('?(i-start):(start-i)));
+            expr.erase(len);
             
-            if (open>0) {
-                dfs(res, s, start+1, path, open-1, close, count);
+            if (s[start]=='(') {
+                if (open>0) {
+                    // remove extra '('
+                    dfs(res, s, expr, start+1, open-1, close, count);
+                }
+            } else {
+                if (close>0) {
+                    // remove extra ')'
+                    dfs(res, s, expr, start+1, open, close-1, count);
+                }
             }
         } else {
-            int i=1;
-            while (start+i<s.size() && s[start+i]==')') i++;
-            int len=path.size();
-            path.append(i, s[start]);
-            dfs(res, s, start+i, path, open, close, count-i);
-            path.erase(len);
-            
-            if (close>0) {
-                dfs(res, s, start+1, path, open, close-1, count);
-            }
+            expr.push_back(s[start]);
+            dfs(res, s, expr, start+1, open, close, count);
+            expr.pop_back();
         }
     }
     
     vector<string> removeInvalidParentheses(string s) {
         vector<string> res;
-        int count=0, open=0, close=0;
+        string expr;
+        int open=0, close=0, count=0;
         for (int i=0; i<s.size(); i++) {
             if (s[i]=='(') count++;
             else if (s[i]==')') {
@@ -118,10 +114,8 @@ public:
             res.push_back(s);
             return res;
         }
-        
-        string path;
-        dfs(res, s, 0, path, open, close, 0);
-        
+
+        dfs(res, s, expr, 0, open, close, 0);
         return res;
     }
 };
