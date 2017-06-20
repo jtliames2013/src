@@ -1,54 +1,26 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
+4. Median of Two Sorted Arrays
+DescriptionHintsSubmissionsSolutions
+Total Accepted: 167896
+Total Submissions: 783946
+Difficulty: Hard
+Contributor: LeetCode
+There are two sorted arrays nums1 and nums2 of size m and n respectively.
 
-using namespace std;
+Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Example 1:
+nums1 = [1, 3]
+nums2 = [2]
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+The median is 2.0
+Example 2:
+nums1 = [1, 2]
+nums2 = [3, 4]
 
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
+The median is (2 + 3)/2 = 2.5
+Subscribe to see which companies asked this question.
 
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
+Hide Tags Binary Search Array Divide and Conquer
 
 class Solution {
 public:
@@ -87,14 +59,4 @@ public:
     	}
     }
 };
-
-int main()
-{
-	Solution s;
-	vector<int> v1(2); v1[0]=v1[1]=1;
-	vector<int> v2(2); v2[0]=v2[1]=1;
-
-	double d=s.findMedianSortedArrays(v1, v2);
-	return 0;
-}
 
