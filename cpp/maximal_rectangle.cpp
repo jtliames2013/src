@@ -7,55 +7,35 @@ Hide Tags Array Hash Table Stack Dynamic Programming
 Hide Similar Problems (H) Largest Rectangle in Histogram (M) Maximal Square
 
 
-优化就是先预处理成保存成，当前点向上都是1的最高的高度，就变成每一行都是一个直方图，
-之后用O（n）的直方图求最大面积去算，之前一篇文章 http://blog.csdn.net/havenoidea/article/details/11854723 介绍过这个步骤，就不细说。
+优化就是先预处理成保存成，当前点向上都是1的最高的高度，就变成每一行都是一个直方图，之后用O（n）的直方图求最大面积去算
 
-class Solution {  
-public:  
-    int maximalRectangle(vector<vector<char> > &matrix) {  
-         
-        int i,j,k,row,col,maxx=0;  
-        row=matrix.size();  
-        if(row==0)return 0;  
-        col=matrix[0].size();  
-        if(col==0)return 0;             
-        for(j=0;j<col;++j)  
-            for(i=0;i<row;++i)  
-                if(matrix[i][j]=='0')height[i][j]=0;  
-                else if(i==0)height[0][j]=1;  
-                else height[i][j]=height[i-1][j]+1;  
-          
-        stack<int>s;  
-        for(i=0;i<row;++i)  
-        {  
-            for(j=0;j<col;++j)  
-            {  
-                if(s.empty())s.push(j);  
-                else  
-                {  
-                    while(!s.empty()&&height[i][s.top()]>height[i][j])  
-                    {  
-                        int ph=s.top();  
-                        s.pop();  
-                        if(!s.empty())  
-                            maxx=max(maxx,(j-s.top()-1)*height[i][ph]);  
-                        else   
-                            maxx=max(maxx,j*height[i][ph]);                      
-                    }    
-                    s.push(j);  
-                }  
-            }  
-            while(!s.empty())  
-            {  
-                int ph=s.top();  
-                s.pop();  
-                if(!s.empty())  
-                     maxx=max(maxx,(col-s.top()-1)*height[i][ph]);  
-                else   
-                     maxx=max(maxx,col*height[i][ph]);    
-                  
-            }  
-        }  
-        return maxx;  
-    }  
-};  
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        int m=matrix.size();
+        if (m==0) return 0;
+        int n=matrix[0].size();
+        if (n==0) return 0;
+        int res=0;
+        vector<int> height(n+1);
+        for (int i=0; i<m; i++) {
+            stack<int> idx;
+            for (int j=0; j<=n; j++) {
+                if (j<n) {
+                    if (matrix[i][j]=='1') height[j]+=1;
+                    else height[j]=0;
+                }        
+                while (!idx.empty() && height[idx.top()]>=height[j]) {
+                    int curr=idx.top();
+                    idx.pop();
+                    res=max(res, height[curr]*(idx.empty()?j:(j-idx.top()-1)));
+                }
+                
+                idx.push(j);
+            }
+        }
+        
+        return res;
+    }
+};
+
