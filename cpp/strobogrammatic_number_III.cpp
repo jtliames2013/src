@@ -1,57 +1,47 @@
-﻿// ConsoleApplication3.cpp : Defines the entry point for the console application.
-//
+﻿248. Strobogrammatic Number III
+DescriptionHintsSubmissionsSolutions
+Discuss   Editorial Solution Pick One
+A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
 
-#include "stdafx.h"
-#include <vector>
-#include <map>
-#include <unordered_set>
-#include <queue>
-#include <string>
-#include <stack>
-using namespace std;
+Write a function to count the total strobogrammatic numbers that exist in the range of low <= num <= high.
+
+For example,
+Given low = "50", high = "100", return 3. Because 69, 88, and 96 are three strobogrammatic numbers.
+
+Note:
+Because the range might be a large number, the low and high numbers are represented as string.
 
 class Solution {
 public:
-    void dfs(string& low, string& high, string& str, int left, int right) {
-        if (left>right) {
-            long lowint=atol(low.c_str());
-            long highint=atol(high.c_str());
-            long strint=atol(str.c_str());
-            if (lowint<=strint && strint<=highint) {
-                count++;
-            }
-
+    void dfs(string& low, string& high, string& str, int start, int end) {
+        if (start>end) {
+            long l=stol(low), h=stol(high), n=stol(str);
+            if (n>=l && n<=h) count++;
             return;
         }
-
+        
         for (int i=0; i<l.size(); i++) {
-            str[left]=l[i];
-            str[right]=r[i];
+            str[start]=l[i];
+            str[end]=r[i];
             if (str.size()>1 && str[0]=='0') continue;
-            if (left<right || l[i]==r[i]) {
-                dfs(low, high, str, left+1, right-1);
-            }
+            if (start==end && l[i]!=r[i]) continue;
+            dfs(low, high, str, start+1, end-1);
         }
     }
-
+    
     int strobogrammaticInRange(string low, string high) {
-        l="01689";
-        r="01986";
         count=0;
-
+        
         for (int i=low.size(); i<=high.size(); i++) {
-            string str(i, 'a');
+            string str(i, 0);
             dfs(low, high, str, 0, i-1);
         }
-
+        
         return count;
     }
 private:
-    string l, r;
+    string l="01689";
+    string r="01986";
     int count;
 };
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	return 0;
-}

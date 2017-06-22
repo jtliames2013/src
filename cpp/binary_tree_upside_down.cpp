@@ -20,97 +20,44 @@ return the root of the binary tree [4,5,2,#,#,3,1].
 
 NOTE: Tree has only left depth, the right depth is at most 1.
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <unordered_map>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
-#include <sstream>
-
-using namespace std;
-
+1. Recursive
 /**
- * Definition for binary tree
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
  */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
+class Solution {
+public:
+    TreeNode* upsideDownBinaryTree(TreeNode* root) {
+        if (root==NULL || root->left==NULL) return root;
+        
+        TreeNode *node=upsideDownBinaryTree(root->left);
+        root->left->left=root->right;
+        root->left->right=root;
+        root->left=root->right=NULL;
+        return node;
+    }
 };
 
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+2. Iterative
+class Solution {
+public:
+    TreeNode* upsideDownBinaryTree(TreeNode* root) {
+        TreeNode *p=NULL, *s=NULL, *l=NULL;
+        while (root) {
+            l=root->left;
+            root->left=s;
+            s=root->right;
+            root->right=p;
+            
+            p=root;
+            root=l;
+        }
+        return p;
+    }
 };
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-  // Definition for a point.
-  struct Point {
-       int x;
-       int y;
-       Point() : x(0), y(0) {}
-       Point(int a, int b) : x(a), y(b) {}
-  };
-
-  class Solution {
-  public:
-      TreeNode* upsideDownBinaryTree(TreeNode* root) {
-    	  if (root==NULL || (root->left==NULL && root->right==NULL)) return root;
-
-    	  TreeNode* node=upsideDownBinaryTree(root->left);
-		  root->left->left=root->right;
-		  root->left->right=root;
-		  root->left=root->right=NULL;
-
-    	  return node;
-      }
-  };
-
-int main()
-{
-	return 0;
-}
 
