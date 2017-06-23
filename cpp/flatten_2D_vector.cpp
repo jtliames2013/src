@@ -27,131 +27,85 @@ Hide Company Tags Google Airbnb Twitter Zenefits
 Hide Tags Design
 Hide Similar Problems (M) Binary Search Tree Iterator (M) Zigzag Iterator (M) Peeking Iterator (M) Flatten Nested List Iterator
 
-#include "stdafx.h"
-#include <vector>
-using namespace std;
-
-1. Use iterator
-
-class Vector2D {
-public:
-    Vector2D(vector<vector<int>>& vec2d) {
-        v2d=vec2d;
-        rowIter=v2d.begin();
-        if (rowIter!=v2d.end()) colIter=rowIter->begin();
-        tryAdvance();
-    }
-
-    void tryAdvance() {
-        while (rowIter!=v2d.end()) {
-            if (colIter!=rowIter->end()) break;
-            rowIter++;
-            colIter=rowIter->begin();
-        }    
-    }
-    
-    int next() {
-        if (hasNext()) {
-            int res=*colIter;
-            colIter++;
-            tryAdvance();
-            return res;
-        } else {
-            return 0;
-        }
-    }
-
-    bool hasNext() {
-        if (rowIter!=v2d.end()) return true;
-        else return false;
-    }
-private:
-    vector<vector<int>> v2d;
-    vector<vector<int>>::iterator rowIter;
-    vector<int>::iterator colIter;
-};
-
-2. Use index
-
-class Vector2D {
-public:
-    Vector2D(vector<vector<int>>& vec2d) {
-        v2d=vec2d;
-        size=v2d.size();
-        row=0;
-        idx=0;
-        tryAdvance();
-    }
-
-    void tryAdvance() {
-        while (row<size) {
-            if (idx<v2d[row].size()) break;
-            row++;
-            idx=0;
-        }    
-    }
-    
-    int next() {
-        if (hasNext()) {
-            int res=v2d[row][idx];
-            idx++;
-            tryAdvance();
-            return res;
-        } else {
-            return 0;
-        }
-    }
-
-    bool hasNext() {
-        if (row<size) return true;
-        else return false;
-    }
-private:
-    vector<vector<int>> v2d;
-    int size;
-    int row;
-    int idx;
-};
-
-3. hasNext advance
+1. Use index
 class Vector2D {
 public:
     void tryAdvance() {
-        while (row<size) {
+        while (row<vec2d.size()) {
             if (col<vec2d[row].size()) break;
-            else {
-                row++;
-                col=0;
-            }
-        }    
+            row++;
+            col=0;
+        }
     }
     
     Vector2D(vector<vector<int>>& vec2d) {
         this->vec2d=vec2d;
         row=col=0;
-        size=vec2d.size();
+        tryAdvance();
     }
 
     int next() {
-        if (hasNext()) {
-            int res=vec2d[row][col];
-            col++;
-            return res;
-        } else {
-            return -1;
-        }
+        if (!hasNext()) return -1;
+        int res=vec2d[row][col];
+        col++;
+        tryAdvance();
+        return res;
     }
 
     bool hasNext() {
-        tryAdvance();
-        if (row<size) return true;
-        else return false;
+        return row<vec2d.size();
     }
-    
 private:
     vector<vector<int>> vec2d;
     int row;
     int col;
-    int size;
 };
+
+/**
+ * Your Vector2D object will be instantiated and called as such:
+ * Vector2D i(vec2d);
+ * while (i.hasNext()) cout << i.next();
+ */
+
+2. Use iterator
+class Vector2D {
+public:
+    void tryAdvance() {
+        while (rowIter!=vec2d.end()) {
+            if (colIter!=rowIter->end()) break;
+            rowIter++;
+            if (rowIter!=vec2d.end()) colIter=rowIter->begin();
+        }
+    }
+    
+    Vector2D(vector<vector<int>>& vec2d) {
+        this->vec2d=vec2d;
+        rowIter=this->vec2d.begin();
+        if (rowIter!=this->vec2d.end()) colIter=rowIter->begin();
+        tryAdvance();
+    }
+
+    int next() {
+        if (!hasNext()) return -1;
+        int res=*colIter;
+        colIter++;
+        tryAdvance();
+        return res;
+    }
+
+    bool hasNext() {
+        return rowIter!=vec2d.end();
+    }
+private:
+    vector<vector<int>> vec2d;
+    vector<vector<int>>::iterator rowIter;
+    vector<int>::iterator colIter;
+};
+
+
+/**
+ * Your Vector2D object will be instantiated and called as such:
+ * Vector2D i(vec2d);
+ * while (i.hasNext()) cout << i.next();
+ */
 

@@ -11,68 +11,131 @@ Hide Similar Problems (H) Merge Intervals (E) Meeting Rooms
 
 NOTE: sort an array of both start and end points. if start of point 1 equals end of point 2, then point 2 comes first.
 
-  class Solution {
-  public:
-	  struct point {
-		  int pos;
-		  bool isStart;
-		  point(int p, bool s): pos(p), isStart(s) {}
-	  };
-      int minMeetingRooms(vector<Interval>& intervals) {
-    	  vector<point> points;
-    	  for (auto i:intervals) {
-    		  points.push_back(point(i.start, true));
-    		  points.push_back(point(i.end, false));
-    	  }
-
-    	  sort(points.begin(), points.end(), [](point a, point b) { return (a.pos<b.pos || (a.pos==b.pos && a.isStart==false)); } );
-
-    	  int rooms=0, count=0;
-    	  for (int i=0; i<points.size(); i++) {
-    		  if (points[i].isStart) {
-    			  count++;
-    		  } else {
-    			  count--;
-    		  }
-    		  rooms=max(rooms, count);
-    	  }
-    	  return rooms;
-      }
-  };
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+class Solution {
+public:
+    int minMeetingRooms(vector<Interval>& intervals) {
+        if (intervals.empty()) return 0;
+        vector<pair<int,bool>> points;
+        for (auto& i:intervals) {
+            points.push_back({i.start, true});
+            points.push_back({i.end, false});
+        }
+        sort(points.begin(), points.end(), [](pair<int,bool>& a, pair<int,bool>& b) { return a.first<b.first || (a.first==b.first && a.second==false); } );
+        
+        int res=0, count=0;
+        for (auto& p:points) {
+            if (p.second) count++;
+            else count--;
+            res=max(res, count);
+        }
+        
+        return res;
+    }
+};
 
 2. return all the empty intervals
-  class Solution {
-  public:
-      vector<Interval> minMeetingRooms(vector<Interval>& intervals) {
-          vector<Interval> res;
-    	  vector<pair<int, bool>> time;
-          for (auto i:intervals) {
-              time.push_back({i.start, true});
-              time.push_back({i.end, false});
-          }
+class Solution {
+public:
+	vector<Interval> minMeetingRooms(vector<Interval>& intervals) {
+        vector<Interval> res;
+        if (intervals.empty()) return res;
+        vector<pair<int,bool>> points;
+        for (auto& i:intervals) {
+            points.push_back({i.start, true});
+            points.push_back({i.end, false});
+        }
+        sort(points.begin(), points.end(), [](pair<int,bool>& a, pair<int,bool>& b) { return a.first<b.first || (a.first==b.first && a.second==false); } );
 
-          sort(time.begin(), time.end(), [](pair<int,bool> a, pair<int,bool> b) { return (a.first<b.first||(a.first==b.first&&a.second==false));});
+        int count=0, start=-1, end;
+        for (auto& p:points) {
+            if (p.second) count++;
+            else count--;
+            if (count==0) start=p.first;
+            else if (count==1) {
+            	end=p.first;
+            	if (start!=-1 && end>start) res.push_back(Interval(start,end));
+            } else {
+            	start=-1;
+            }
+        }
 
-          int count=0;
-          int start, end, hasStarted=false;
-          for (auto t:time) {
-              if (t.second==true) count++;
-              else count--;
-              if (count==0) {
-            	  start=t.first;
-            	  hasStarted=true;
-              }
-              if (count==1 && hasStarted) {
-            	  end=t.first;
-            	  hasStarted=false;
-            	  if (end>start) {
-            		  res.push_back(Interval(start, end));
-            	  }
-              }
-          }
+        return res;
+    }
+};
 
-          return res;
-      }
-  };
+void printInterval(vector<Interval> intervals) {
+	for (auto& i:intervals) {
+		cout << i.start << " " << i.end << endl;
+	}
+}
 
+int main()
+{
+	Solution s;
+	//vector<Interval> intervals={Interval(1, 2), Interval(3, 6), Interval(4, 5), Interval(7, 8), Interval(9, 10)};
+	vector<Interval> intervals={Interval(1, 2), Interval(3, 6), Interval(4, 5), Interval(5, 8), Interval(9, 10)};
+	vector<Interval> res=s.minMeetingRooms(intervals);
+	printInterval(res);
+
+	return 0;
+}
+
+3. return all the maximum overlapped intervals
+class Solution {
+public:
+	vector<Interval> minMeetingRooms(vector<Interval>& intervals) {
+        vector<Interval> res;
+        if (intervals.empty()) return res;
+        vector<pair<int,bool>> points;
+        for (auto& i:intervals) {
+            points.push_back({i.start, true});
+            points.push_back({i.end, false});
+        }
+        sort(points.begin(), points.end(), [](pair<int,bool>& a, pair<int,bool>& b) { return a.first<b.first || (a.first==b.first && a.second==false); } );
+
+        int count=0, start=-1, end, maxCnt=0;
+        for (auto& p:points) {
+            if (p.second) count++;
+            else count--;
+            if (count>maxCnt) {
+            	res.clear();
+            	maxCnt=count;
+            	start=p.first;
+            } else if (count==maxCnt) {
+            	start=p.first;
+            } else if (count==maxCnt-1) {
+            	if (start!=-1) res.push_back(Interval(start, p.first));
+            	start=-1;
+            }
+        }
+
+        return res;
+    }
+};
+
+void printInterval(vector<Interval> intervals) {
+	for (auto& i:intervals) {
+		cout << i.start << " " << i.end << endl;
+	}
+}
+
+int main()
+{
+	Solution s;
+	vector<Interval> intervals={Interval(1, 2), Interval(3, 6), Interval(4, 5), Interval(7, 8), Interval(9, 10)};
+	//vector<Interval> intervals={Interval(1, 10), Interval(2, 8), Interval(3, 4), Interval(5, 6), Interval(8, 10)};
+	vector<Interval> res=s.minMeetingRooms(intervals);
+	printInterval(res);
+
+	return 0;
+}
 

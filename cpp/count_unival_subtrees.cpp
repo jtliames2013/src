@@ -14,53 +14,35 @@ Given binary tree,
 
 return 4. 
 
-NOTE: at each node, return if curr subtree is unival. And increment count if so.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isUnival(TreeNode* root) {
+        if (root==NULL) return true;
+        bool l=isUnival(root->left);
+        bool r=isUnival(root->right);
+        if (!l || (root->left!=NULL && root->left->val!=root->val)) return false;
+        if (!r || (root->right!=NULL && root->right->val!=root->val)) return false;
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <unordered_map>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
-#include <sstream>
-
-  class Solution {
-  public:
-	  int count;
-	  bool isUnivalSubtrees(TreeNode* root) {
-		  if (root==NULL) return true;
-
-		  bool left = (root->left==NULL || (isUnivalSubtrees(root->left) && root->left->val==root->val));
-		  bool right = (root->right==NULL || (isUnivalSubtrees(root->right) && root->right->val==root->val));
-
-		  if (left && right) {
-			  count++;
-			  return true;
-		  } else {
-			  return false;
-		  }
-	  }
-
-      int countUnivalSubtrees(TreeNode* root) {
-    	  count=0;
-    	  isUnivalSubtrees(root);
-
-    	  return count;
-      }
-  };
-
-int main()
-{
-	return 0;
-}
+        count++;
+        return true;
+    }
+    
+    int countUnivalSubtrees(TreeNode* root) {
+        count=0;
+        isUnival(root);
+        
+        return count;
+    }
+private:
+    int count;
+};
 

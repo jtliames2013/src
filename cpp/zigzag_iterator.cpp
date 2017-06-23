@@ -19,159 +19,49 @@ The "Zigzag" order is not clearly defined and is ambiguous for k > 2 cases. If "
 
 It should return [1,4,8,2,5,9,3,6,7]. 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <unordered_map>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
-#include <sstream>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-  // Definition for a point.
-  struct Point {
-       int x;
-       int y;
-       Point() : x(0), y(0) {}
-       Point(int a, int b) : x(a), y(b) {}
-  };
-
-  class ZigzagIterator {
-  public:
-	  vector<int> idx;
-	  vector<vector<int> > v;
-	  int select;
-
-      ZigzagIterator(vector<int>& v1, vector<int>& v2) {
-    	  v.push_back(v1);
-    	  v.push_back(v2);
-    	  idx = {0, 0};
-    	  select=v1.size()>0 ? 0 : 1;
-      }
-
-      int next() {
-    	  if (hasNext()) {
-    		  int res=v[select][idx[select]];
-    		  idx[select]++;
-    		  for (int i=0; i<2; i++) {
-    			  select=(select+1)%2;
-    			  if (idx[select]<v[select].size()) break;
-    		  }
-
-    		  return res;
-    	  } else {
-    		  return 0;
-    	  }
-      }
-
-      bool hasNext() {
-    	  return (idx[0]<v[0].size() || idx[1]<v[1].size());
-      }
-  };
-
-2. k lists
-
 class ZigzagIterator {
 public:
     void tryAdvance() {
         int curr=row;
-        while (1) {
-            if (idx[row]<list[row].size()) break;
-            row=(row+1)%size;
-            if (row==curr) break;
-        }
+        do {
+            if (col[row]<vec2d[row].size()) break;
+            row=(row+1)%vec2d.size();
+        } while (curr!=row);
     }
+    
     ZigzagIterator(vector<int>& v1, vector<int>& v2) {
-        list.push_back(v1);
-        list.push_back(v2);
-        idx.resize(2, 0);
+        vec2d.push_back(v1);
+        vec2d.push_back(v2);
         row=0;
-        size=2;
+        col.resize(2,0);
         tryAdvance();
     }
 
     int next() {
-        if (hasNext()) {
-            int res=list[row][idx[row]];
-            idx[row]++;
-            row=(row+1)%size;
-            tryAdvance();
-            return res;
-        } else {
-            return 0;
-        }
+        if (!hasNext()) return -1;
+        int res=vec2d[row][col[row]];
+        col[row]++;
+        row=(row+1)%vec2d.size();
+        tryAdvance();
+        return res;
     }
 
     bool hasNext() {
-        if (idx[row]<list[row].size()) return true;
-        else return false;
+        return col[row]<vec2d[row].size();
     }
 private:
-    vector<vector<int>> list;
-    vector<int> idx;
+    vector<vector<int>> vec2d;
     int row;
-    int size;
+    vector<int> col;
 };
 
-3. Implement remove() that remove the previous next
+/**
+ * Your ZigzagIterator object will be instantiated and called as such:
+ * ZigzagIterator i(v1, v2);
+ * while (i.hasNext()) cout << i.next();
+ */
+
+2. Implement remove() that remove the previous next
 class ZigzagIterator {
 public:
     void tryAdvance() {
@@ -224,22 +114,4 @@ private:
     int row;
     int size;
 };
-
-
-/**
- * Your ZigzagIterator object will be instantiated and called as such:
- * ZigzagIterator i(v1, v2);
- * while (i.hasNext()) cout << i.next();
- */
-
-int main()
-{
-	vector<int> v1={1,2};
-	vector<int> v2={3,4,5,6};
-	ZigzagIterator i(v1, v2);
-	while (i.hasNext()) {
-		cout << i.next();
-	}
-	return 0;
-}
 
