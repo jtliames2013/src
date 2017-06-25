@@ -6,22 +6,18 @@ The cost of painting each house with a certain color is represented by a n x 3 c
 Note:
 All costs are positive integers.
 
-  class Solution {
-  public:
-	  int minThree(int a, int b, int c) {
-		  return (a<b ? (a<c ? a:c) : (b<c ? b:c));
-	  }
-
-      int minCost(vector<vector<int>>& costs) {
-    	  int size=costs.size();
-    	  vector<vector<int> > dp(size+1, vector<int>(3, 0));
-    	  for (int i=1; i<=size; i++) {
-    		  dp[i][0]=min(dp[i-1][1]+costs[i-1][0], dp[i-1][2]+costs[i-1][0]);
-    		  dp[i][1]=min(dp[i-1][0]+costs[i-1][1], dp[i-1][2]+costs[i-1][1]);
-    		  dp[i][2]=min(dp[i-1][0]+costs[i-1][2], dp[i-1][1]+costs[i-1][2]);
-    	  }
-
-    	  return minThree(dp[size][0], dp[size][1], dp[size][2]);
-      }
-  };
+class Solution {
+public:
+    int minCost(vector<vector<int>>& costs) {
+        int m=costs.size();
+        if (m==0) return 0;
+        for (int i=1; i<m; i++) {
+            costs[i][0]+=min(costs[i-1][1], costs[i-1][2]);
+            costs[i][1]+=min(costs[i-1][0], costs[i-1][2]);
+            costs[i][2]+=min(costs[i-1][0], costs[i-1][1]);
+        }
+        
+        return min(costs[m-1][0], min(costs[m-1][1], costs[m-1][2]));
+    }
+};
 

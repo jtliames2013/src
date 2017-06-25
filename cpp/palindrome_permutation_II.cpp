@@ -14,113 +14,87 @@ To generate all distinct permutations of a (half of) string, use a similar appro
 Hide Tags Backtracking
 Hide Similar Problems (M) Next Permutation (M) Permutations II (E) Palindrome Permutation
 
-#include "stdafx.h"
-#include <vector>
-#include <map>
-#include <unordered_set>
-#include <queue>
-#include <string>
-using namespace std;
-
-// NOTE: count frequency and dfs
-
+1. map
 class Solution {
 public:
-    void dfs(vector<string>& res, string& palin, int length, vector<int>& count) {
-        if (palin.size()==length) {
-            res.push_back(palin);
-        }
-
-        for (int i=0; i<count.size(); i++) {
-            if (count[i]>=2) {
-                palin = (char)i + palin + (char)i;
-                count[i]-=2;
-                dfs(res, palin, length, count);
-                count[i]+=2;
-                palin=palin.substr(1, palin.size()-2);
-            }
-        }
-    }
-
-    vector<string> generatePalindromes(string s) {
-        vector<string> res;
-        string palin;
-        vector<int> charCount(256);
-        int oddIdx=INT_MAX;
-        for (int i=0; i<s.size(); i++) {
-            charCount[s[i]]++;
-        }
-
-        for (int i=0; i<256; i++) {
-            if (charCount[i]%2==1) {
-                if (oddIdx==INT_MAX) {
-                    oddIdx=i;
-                } else {
-                    return res;
-                }
-            }
-        }
-
-        if (oddIdx!=INT_MAX) {
-            palin.push_back(oddIdx);
-            charCount[oddIdx]--;
-        }
-
-        dfs(res, palin, s.size(), charCount);
-
-        return res;
-    }
-};
-
-2. Use map instead of 256 array
-class Solution {
-public:
-    void dfs(vector<string>& res, map<char,int>& count, int size, string& output) {
-        if (output.size()==size) {
-            res.push_back(output);
+    void dfs(vector<string>& res, unordered_map<char,int>& mp, string& str, int start, int end, char oddch) {
+        if (start>=end) {
+            if (start==end) str[start]=oddch;
+            res.push_back(str);
             return;
-        }    
+        }
         
-        for (auto cnt:count) {
-            if (cnt.second>=2) {
-                output=cnt.first+output+cnt.first;
-                count[cnt.first]-=2;
-                dfs(res, count, size, output);
-                count[cnt.first]+=2;
-                output.erase(output.begin());
-                output.pop_back();
+        for (auto& iter:mp) {
+            if (iter.second>=2) {
+                iter.second-=2;
+                str[start]=str[end]=iter.first;
+                dfs(res, mp, str, start+1, end-1, oddch);
+                iter.second+=2;
             }
         }
     }
-    
     vector<string> generatePalindromes(string s) {
         vector<string> res;
-        map<char, int> count;
-        char oddchar='\0';
-        for (int i=0; i<s.size(); i++) {
-            count[s[i]]++;
-        }
-        
-        for (auto c:count) {
-            if (c.second%2==1) {
-                if (oddchar!='\0') return res;
-                else oddchar=c.first;
+        int n=s.size();
+        if (n==0) return res;
+        unordered_map<char,int> mp;
+        for (auto c:s) mp[c]++;
+        int odd=0;
+        char oddch;
+        for (auto& iter:mp) {
+            if (iter.second%2==1) {
+                odd++;
+                oddch=iter.first;
             }
+            if (odd>1) return res;
         }
         
-        string output;
-        if (oddchar!='\0') {
-            output.push_back(oddchar);
-            count[oddchar]--;
-        }
-        
-        dfs(res, count, s.size(), output);
+        string str(n, 0);
+        dfs(res, mp, str, 0, n-1, oddch);
         
         return res;
     }
 };
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	return 0;
-}
+2. array
+class Solution {
+public:
+    void dfs(vector<string>& res, int count[], string& str, int start, int end, char oddch) {
+        if (start>=end) {
+            if (start==end) str[start]=oddch;
+            res.push_back(str);
+            return;
+        }
+        
+        for (int i=0; i<256; i++) {
+            if (count[i]>=2) {
+                count[i]-=2;
+                str[start]=str[end]=i;
+                dfs(res, count, str, start+1, end-1, oddch);
+                count[i]+=2;
+            }
+        }
+    }
+    vector<string> generatePalindromes(string s) {
+        vector<string> res;
+        int n=s.size();
+        if (n==0) return res;
+        int count[256]={0};
+        for (auto c:s) count[c]++;
+        int odd=0;
+        char oddch;
+        for (int i=0; i<256; i++) {
+            if (count[i]%2==1) {
+                odd++;
+                oddch=i;
+            }
+            if (odd>1) return res;
+        }
+        
+        string str(n, 0);
+        dfs(res, count, str, 0, n-1, oddch);
+        
+        return res;
+    }
+};
+

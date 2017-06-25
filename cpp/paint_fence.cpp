@@ -1,30 +1,44 @@
 276. Paint Fence
- There is a fence with n posts, each post can be painted with one of the k colors.
+DescriptionHintsSubmissionsSolutions
+Discuss   Editorial Solution Pick One
+There is a fence with n posts, each post can be painted with one of the k colors.
 
 You have to paint all the posts such that no more than two adjacent fence posts have the same color.
 
-Return the total number of ways you can paint the fence. 
+Return the total number of ways you can paint the fence.
 
-这种给定一个规则，计算有多少种结果的题目一般都是动态规划，因为我们可以从这个规则中得到递推式。根据题意，不能有超过连续两根柱子是一个颜色，也就意味着第三根柱子要么根第一个柱子不是一个颜色，要么跟第二根柱子不是一个颜色。如果不是同一个颜色，计算可能性的时候就要去掉之前的颜色，也就是k-1种可能性。假设dp[1]是第一根柱子及之前涂色的可能性数量，dp[2]是第二根柱子及之前涂色的可能性数量，则dp[3]=(k-1)*dp[1] + (k-1)*dp[2]。
+Note:
+n and k are non-negative integers.
 
-递推式有了，下面再讨论下base情况，所有柱子中第一根涂色的方式有k中，第二根涂色的方式则是k*k，因为第二根柱子可以和第一根一样。
+If n == 1, there would be k-ways to paint.
 
-  class Solution {
-  public:
-      int numWays(int n, int k) {
-    	  // n==0 return 0
-    	  vector<int> ways(4, 0);
-    	  ways[1]=k;
-    	  ways[2]=k*k;
-    	  if (n<=2) return ways[n];
+if n == 2, there would be two situations:
 
-    	  for (int i=2; i<n; i++) {
-    		  ways[3]=(k-1) * (ways[2] + ways[1]);
-    		  ways[1]=ways[2];
-    		  ways[2]=ways[3];
-    	  }
+2.1 You paint same color with the previous post: k*1 ways to paint, named it as same
+2.2 You paint differently with the previous post: k*(k-1) ways to paint this way, named it as dif
+So, you can think, if n >= 3, you can always maintain these two situations,
+You either paint the same color with the previous one, or differently.
 
-    	  return ways[3];
-      }
-  };
+Since there is a rule: "no more than two adjacent fence posts have the same color."
+
+We can further analyze:
+
+from 2.1, since previous two are in the same color, next one you could only paint differently, and it would form one part of "paint differently" case in the n == 3 level, and the number of ways to paint this way would equal to same*(k-1).
+from 2.2, since previous two are not the same, you can either paint the same color this time (dif*1) ways to do so, or stick to paint differently (dif*(k-1)) times.
+Here you can conclude, when seeing back from the next level, ways to paint the same, or variable same would equal to dif*1 = dif, and ways to paint differently, variable dif, would equal to same*(k-1)+dif*(k-1) = (same + dif)*(k-1)
+
+class Solution {
+public:
+    int numWays(int n, int k) {
+        if (n==0) return 0;
+        if (n==1) return k;
+        int same=k, diff=k*(k-1);
+        for (int i=2; i<n; i++) {
+            int tmp=same;
+            same=diff;
+            diff=(tmp+diff)*(k-1);
+        }
+        return same+diff;
+    }
+};
 

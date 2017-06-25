@@ -11,30 +11,27 @@ Return 2. Because there are two triplets which sums are less than 2:
 Follow up:
 Could you solve it in O(n2) runtime? 
 
-NOTE: when sum is less than the target, all pair between start and end are less than target.
-
-  class Solution {
-  public:
-      int threeSumSmaller(vector<int>& nums, int target) {
-    	  int res=0;
-    	  int size=nums.size();
-    	  sort(nums.begin(), nums.end());
-
-    	  for (int i=0; i<size-1; i++) {
-    		  int start=i+1;
-    		  int end=size-1;
-
-    		  while (start<end) {
-    			  if (nums[i]+nums[start]+nums[end]<target) {
-    				  res += end-start;
-    				  start++;
-    			  } else {
-    				  end--;
-    			  }
-    		  }
-    	  }
-
-    	  return res;
-      }
-  };
+class Solution {
+public:
+    int threeSumSmaller(vector<int>& nums, int target) {
+        int n=nums.size();
+        if (n==0) return 0;
+        sort(nums.begin(), nums.end());
+        int res=0;
+        for (int i=0; i<n-2; i++) {
+            if (nums[i]+nums[i+1]+nums[i+2]>=target) break;
+            int l=i+1, r=n-1;
+            while (l<r) {
+                if (nums[i]+nums[l]+nums[r]<target) {
+                    res+=r-l;
+                    l++;
+                } else {
+                    r--;
+                }
+            }
+        }
+        
+        return res;
+    }
+};
 
