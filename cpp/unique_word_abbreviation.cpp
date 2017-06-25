@@ -26,76 +26,49 @@ Hide Company Tags Google
 Hide Tags Hash Table Design
 Hide Similar Problems (E) Two Sum III - Data structure design (M) Generalized Abbreviation
 
-NOTE: check if the word is in dictionary. If so, they can have the same abbreviation.
+1) [“dog”]; isUnique(“dig”);   
+//False, because “dig” has the same abbreviation with “dog" and “dog” is already in the dictionary. It’s not unique.
 
-  class ValidWordAbbr {
-  public:
-	  unordered_map<string, int> abbrWords;
-	  unordered_set<string> words;
+2) [“dog”, “dog"]; isUnique(“dog”);  
+//True, because “dog” is the only word that has “d1g” abbreviation.
 
-	  string getAbbr(string s) {
-		  int size=s.size();
-		  int count=size>2 ? size-2 : 0;
-		  string abbr;
-		  abbr.push_back(s[0]);
-		  if (count>0) abbr.append(to_string(count));
-		  if (size>1) abbr.push_back(s[size-1]);
-		  return abbr; 
-	  }
-
-      ValidWordAbbr(vector<string> &dictionary) {
-    	  for (auto d:dictionary) {
-    		  if (words.find(d)==words.end()) {
-    			  string abbr=getAbbr(d);
-    			  abbrWords[abbr]++;
-    			  words.insert(d);
-    		  }
-    	  }
-      }
-
-      bool isUnique(string word) {
-    	  string abbr=getAbbr(word);
-    	  auto iter=words.find(word);
-    	  if ((iter!=words.end() && abbrWords[abbr]==1) ||
-    		  (iter==words.end() && abbrWords.count(abbr)==0)) {
-    		  return true;
-    	  }
-    	  return false;
-      }
-  };
+3) [“dog”, “dig”]; isUnique(“dog”);   
+//False, because if we have more than one word match to the same abbreviation, this abbreviation will never be unique.
 
 class ValidWordAbbr {
 public:
-    string getAbbr(string str) {
-        int size=str.size();
-        if (size<=2) return str;
-        else return (str[0]+to_string(size-2)+str[size-1]);
+    string getAbbr(string& s) {
+        int n=s.size();
+        if (n<=2) return s;
+        return s[0]+to_string(n-2)+s[n-1];
     }
     
-    ValidWordAbbr(vector<string> &dictionary) {
-        for (auto w:dictionary) {
+    ValidWordAbbr(vector<string> dictionary) {
+        for (auto& w:dictionary) {
             if (dict.find(w)==dict.end()) {
-				abbr[getAbbr(w)]++;
-	            dict.insert(w);
-			}
-        }
+                dict.insert(w);
+                string abbr=getAbbr(w);
+                mp[abbr]++;
+            }
+        }    
     }
-
+    
     bool isUnique(string word) {
-        string str=getAbbr(word);
+        string abbr=getAbbr(word);
         if (dict.find(word)==dict.end()) {
-            return abbr.count(str)==0;
+            return mp[abbr]==0;
         } else {
-            return abbr[str]==1;
+            return mp[abbr]==1;
         }
     }
 private:
-    unordered_map<string, int> abbr;
     unordered_set<string> dict;
+    unordered_map<string, int> mp;
 };
 
-  // Your ValidWordAbbr object will be instantiated and called as such:
-  // ValidWordAbbr vwa(dictionary);
-  // vwa.isUnique("hello");
-  // vwa.isUnique("anotherWord");
+/**
+ * Your ValidWordAbbr object will be instantiated and called as such:
+ * ValidWordAbbr obj = new ValidWordAbbr(dictionary);
+ * bool param_1 = obj.isUnique(word);
+ */
 
