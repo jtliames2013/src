@@ -16,15 +16,6 @@ Hide Tags
 Hide Similar Problems
  (H) Shortest Distance from All Buildings
 
-
-#include "stdafx.h"
-#include <vector>
-#include <map>
-#include <unordered_set>
-#include <queue>
-#include <string>
-using namespace std;
-
 //Finding the best meeting point in a 2D grid seems difficult. Let us take a step back and solve the 1D case which is much simpler. Notice that the Manhattan distance is the sum of two independent variables. Therefore, once we solve the 1D case, we can solve the 2D case as two independent 1D problems.
 //
 //Let us look at some 1D examples below:
@@ -65,50 +56,36 @@ using namespace std;
 //
 //The implementation is direct. First we collect both the row and column coordinates, sort them and select their middle elements. Then we calculate the total distance as the sum of two independent 1D problems.
 
-
-
 class Solution {
 public:
     int minTotalDistance1D(vector<int> points, int mid) {
         int dist=0;
-        for (auto p:points) {
-            dist += abs(p-mid);
-        }
+        for (auto p:points) dist+=abs(p-mid);
+            
         return dist;
     }
-
+    
     int minTotalDistance(vector<vector<int>>& grid) {
+        int m=grid.size();
+        if (m==0) return 0;
+        int n=grid[0].size();
+        if (n==0) return 0;
+        
         vector<int> rows, cols;
-        for (int i=0; i<grid.size(); i++) {
-            for (int j=0; j<grid[0].size(); j++) {
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
                 if (grid[i][j]==1) {
                     rows.push_back(i);
                     cols.push_back(j);
                 }
             }
         }
-
-       // get sorted cols
-       //for (int j=0; j<grid[0].size(); j++) {
-       //     for (int i=0; i<grid.size(); i++) {
-       //         if (grid[i][j]==1) {
-       //             cols.push_back(j);
-       //         }
-       //     }
-       // }
-
+        
         // rows is already sorted
         sort(cols.begin(), cols.end());
-        int midRow=rows.size()/2;
-        int midCol=cols.size()/2;
-        int rowDist=minTotalDistance1D(rows, rows[midRow]);
-        int colDist=minTotalDistance1D(cols, cols[midCol]);
-
+        int rowDist=minTotalDistance1D(rows, rows[rows.size()/2]);
+        int colDist=minTotalDistance1D(cols, cols[cols.size()/2]);
         return rowDist+colDist;
     }
 };
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	return 0;
-}

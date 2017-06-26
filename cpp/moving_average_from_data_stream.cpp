@@ -14,25 +14,22 @@ class MovingAverage {
 public:
     /** Initialize your data structure here. */
     MovingAverage(int size) {
-        n=size;
+        this->size=size;
         sum=0;
     }
     
     double next(int val) {
-        if (q.size()<n) {
-            q.push(val);
-            sum+=val;
-        } else {
-            int f=q.front();
-            q.pop();
-            q.push(val);
-            sum+=val-f;
+        sum+=val;
+        dq.push_back(val);
+        if (dq.size()>size) {
+            sum-=dq.front();
+            dq.pop_front();
         }
-        return sum/q.size();
+        return sum/dq.size();
     }
 private:
-    queue<int> q;
-    int n;
+    deque<int> dq;
+    int size;
     double sum;
 };
 
@@ -41,3 +38,4 @@ private:
  * MovingAverage obj = new MovingAverage(size);
  * double param_1 = obj.next(val);
  */
+

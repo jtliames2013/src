@@ -8,24 +8,39 @@ For example, given s = "++++", return true. The starting player can guarantee a 
 Follow up:
 Derive your algorithm's runtime complexity. 
 
-  class Solution {
-  public:
-	  bool canWinGame(string& s) {
-		  int size=s.size();
-		  for (int i=0; i<size-1; i++) {
-			  if (s[i]=='+' && s[i+1]=='+') {
-				  s[i]='-'; s[i+1]='-';
-				  bool win=canWinGame(s);
-				  s[i]='+'; s[i+1]='+';
-				  if (win==false) return true;
-			  }
-		  }
+class Solution {
+public:
+    bool canWin(string s) {
+        int n=s.size();
+        for (int i=0; i<n-1; i++) {
+            if (s[i]=='+' && s[i+1]=='+') {
+                string str=s;
+                str[i]=str[i+1]='-';
+                if (!canWin(str)) return true;
+            }
+        }
+        return false;
+    }
+};
 
-		  return false;
-	  }
-
-      bool canWin(string s) {
-    	  return canWinGame(s);
-      }
-  };
+2. pass reference
+class Solution {
+public:
+    bool canWin(string s) {
+        return dfs(s);   
+    }
+    
+    bool dfs(string& s) {
+        int n=s.size();
+        for (int i=0; i<n-1; i++) {
+            if (s[i]=='+' && s[i+1]=='+') {
+                s[i]=s[i+1]='-';
+                bool b=dfs(s);
+                s[i]=s[i+1]='+';
+                if (!b) return true;
+            }
+        }
+        return false;
+    }
+};
 

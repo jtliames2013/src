@@ -15,128 +15,78 @@ Hide Company Tags LinkedIn
 Hide Tags Depth-first Search
 Hide Similar Problems (E) Nested List Weight Sum
 
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <unordered_map>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
-#include <sstream>
-
-using namespace std;
-
 /**
- * Definition for binary tree
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * class NestedInteger {
+ *   public:
+ *     // Constructor initializes an empty nested list.
+ *     NestedInteger();
+ *
+ *     // Constructor initializes a single integer.
+ *     NestedInteger(int value);
+ *
+ *     // Return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     bool isInteger() const;
+ *
+ *     // Return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // The result is undefined if this NestedInteger holds a nested list
+ *     int getInteger() const;
+ *
+ *     // Set this NestedInteger to hold a single integer.
+ *     void setInteger(int value);
+ *
+ *     // Set this NestedInteger to hold a nested list and adds a nested integer to it.
+ *     void add(const NestedInteger &ni);
+ *
+ *     // Return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // The result is undefined if this NestedInteger holds a single integer
+ *     const vector<NestedInteger> &getList() const;
+ * };
  */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
+class Solution {
+public:
+    int getDepth(vector<NestedInteger>& nestedList) {
+        int depth=1;
+        for (auto& n:nestedList) {
+            if (!n.isInteger()) depth=max(depth, getDepth(n.getList())+1);
+        }
+        
+        return depth;
+    }
+    
+    int depthSumInverse(vector<NestedInteger>& nestedList, int depth) {
+        int sum=0;
+        for (auto& n:nestedList) {
+            if (n.isInteger()) sum+=n.getInteger()*depth;
+            else sum+=depthSumInverse(n.getList(), depth-1);
+        }
+        
+        return sum;
+    }
+    
+    int depthSumInverse(vector<NestedInteger>& nestedList) {
+        int depth=getDepth(nestedList);
+        return depthSumInverse(nestedList, depth);
+    }
 };
 
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+2. add level by level
+class Solution {
+public:
+    int depthSumInverse(vector<NestedInteger>& nestedList, int prevSum) {
+        int sum=prevSum;
+        vector<NestedInteger> l;
+        for (auto& n:nestedList) {
+            if (n.isInteger()) sum+=n.getInteger();
+            else l.insert(l.end(), n.getList().begin(), n.getList().end());
+        }
+        
+        return l.empty()?sum:sum+depthSumInverse(l, sum);
+    }
+    
+    int depthSumInverse(vector<NestedInteger>& nestedList) {
+        return depthSumInverse(nestedList, 0);
+    }
 };
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-  // Definition for a point.
-  struct Point {
-       int x;
-       int y;
-       Point() : x(0), y(0) {}
-       Point(int a, int b) : x(a), y(b) {}
-  };
-
-  /**
-   * // This is the interface that allows for creating nested lists.
-   * // You should not implement it, or speculate about its implementation */
-    class NestedInteger {
-      public:
-        // Return true if this NestedInteger holds a single integer, rather than a nested list.
-        bool isInteger() const;
-
-        // Return the single integer that this NestedInteger holds, if it holds a single integer
-        // The result is undefined if this NestedInteger holds a nested list
-        int getInteger() const;
-
-        // Return the nested list that this NestedInteger holds, if it holds a nested list
-        // The result is undefined if this NestedInteger holds a single integer
-        const vector<NestedInteger> &getList() const;
-    };
-   /**/
-  class Solution {
-  public:
-	  int getDepth(const vector<NestedInteger>& nestedList) {
-		  int depth=0;
-		  for (int i=0; i<nestedList.size(); i++) {
-			  if (nestedList[i].isInteger()) depth=max(depth, 1);
-			  else {
-				  depth=max(depth, getDepth(nestedList[i].getList())+1);
-			  }
-		  }
-		  return depth;
-	  }
-
-	  void getSum(const vector<NestedInteger>& nestedList, int& sum, int depth) {
-		  for (int i=0; i<nestedList.size(); i++) {
-			  if (nestedList[i].isInteger()) {
-				  sum+=nestedList[i].getInteger()*depth;
-			  } else {
-				  getSum(nestedList[i].getList(), sum, depth-1);
-			  }
-		  }
-	  }
-      int depthSumInverse(vector<NestedInteger>& nestedList) {
-    	  int depth=getDepth(nestedList);
-    	  int sum=0;
-    	  getSum(nestedList, sum, depth);
-
-    	  return sum;
-      }
-  };
-
-int main()
-{
-	return 0;
-}
 

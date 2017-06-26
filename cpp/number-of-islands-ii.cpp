@@ -41,14 +41,6 @@ Hide Company Tags Google
 Hide Tags Union Find
 Hide Similar Problems (M) Number of Islands
 
-#include "stdafx.h"
-#include <vector>
-#include <map>
-#include <unordered_set>
-#include <queue>
-#include <string>
-using namespace std;
-
 // https://en.wikipedia.org/wiki/Disjoint-set_data_structure
 //This is a basic union-find problem. Given a graph with points being added, we can at least solve:
 //
@@ -71,51 +63,72 @@ using namespace std;
 //
 //Here I've attached my solution. There can be at least two improvements: union by rank & path compression. However I suggest first finish the basis, then discuss the improvements.
 
+The second optimization to naive method is Path Compression. The idea is to flatten the tree when find() is called. When find() is called for an element x, root of the tree is returned. The find() operation traverses up from x to find root. The idea of path compression is to make the found root as parent of x so that we don’t have to traverse all intermediate nodes again. If x is root of a subtree, then path (to root) from all nodes under x also compresses.
+
+     
+Let the subset {0, 1, .. 9} be represented as below and find() is called
+for element 3.
+              9
+         /    |    \  
+        4     5      6
+     /     \        /  \
+    0        3     7    8
+            /  \
+           1    2  
+
+When find() is called for 3, we traverse up and find 9 as representative
+of this subset. With path compression, we also make 3 as child of 9 so 
+that when find() is called next time for 1, 2 or 3, the path to root is 
+reduced.
+
+               9
+         /    /  \    \
+        4    5    6     3 
+     /           /  \   /  \
+    0           7    8  1   2           
+
 class Solution {
 public:
-    int findRoot(vector<int>& roots, int n) {
-        if (n!=roots[n]) {
-            roots[n]=findRoot(roots, roots[n]);
-        }
-        return roots[n];
+    int find(vector<int>& root, int i) {
+        while (i!=root[i]) i=root[i];
+        /*while (i!=root[i]) {
+            root[i]=root[root[i]];
+            i=root[i];
+        } */
+        return i;
     }
-
+    
     vector<int> numIslands2(int m, int n, vector<pair<int, int>>& positions) {
         vector<int> res;
         if (m==0 || n==0) return res;
+        vector<int> root(m*n, -1);
         int num=0;
-        int neighbors[4][2] = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
-        vector<int> roots(m*n, -1);
-
-        for (auto p:positions) {
-            // MakeSet
-            int root=n*p.first+p.second;
-            roots[root]=root;
+        
+        for (auto& p:positions) {
+            int i=p.first*n+p.second;
+            root[i]=i;
             num++;
-
-            for (int i=0; i<4; i++) {
-                int x=p.first+neighbors[i][0];
-                int y=p.second+neighbors[i][1];
-                int neighbor=n*x+y;
-                if (x<0 || x>=m || y<0 || y>=n || roots[neighbor]==-1) continue;
-
-                // Union
-                int neighborRoot=findRoot(roots, neighbor);  
-                if (neighborRoot!=root) {
-                    roots[root]=neighborRoot;
-                    root=neighborRoot;
-                    num--;
+            
+            for (int k=0; k<4; k++) {
+                int nr=p.first+delta[k][0];
+                int nc=p.second+delta[k][1];
+                int ni=nr*n+nc;
+                if (nr>=0 && nr<m && nc>=0 && nc<n && root[ni]!=-1) {
+                    int nroot=find(root, ni);
+                    if (nroot!=i) {
+                        root[i]=nroot;
+                        i=nroot;
+                        num--;
+                    }
                 }
             }
-
+            
             res.push_back(num);
         }
-
+        
         return res;
     }
+private:
+    const int delta[4][2]={{-1,0}, {1,0}, {0,-1}, {0,1}};
 };
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	return 0;
-}

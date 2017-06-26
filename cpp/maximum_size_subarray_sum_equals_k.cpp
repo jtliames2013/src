@@ -31,110 +31,19 @@ maximize j - i
 subject to sums[j] - sums[i] = k
 This is only a variant of the famous problem two sum. The solution is almost the same
 
-
-NOTE: sum[j]-sum[i]==k, j must > i, since we sum from left to right.
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <unordered_map>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
-#include <sstream>
-
-using namespace std;
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
+class Solution {
+public:
+    int maxSubArrayLen(vector<int>& nums, int k) {
+        int sum=0, res=0;
+        unordered_map<int,int> mp;
+        mp[0]=-1;
+        for (int i=0; i<nums.size(); i++) {
+            sum+=nums[i];
+            if (mp.find(sum-k)!=mp.end()) res=max(res, i-mp[sum-k]);
+            if (mp.find(sum)==mp.end()) mp[sum]=i;
+        }
+        
+        return res;
+    }
 };
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
-/**
- * Definition for an interval.
-*/
- struct Interval {
-      int start;
-      int end;
-      Interval() : start(0), end(0) {}
-      Interval(int s, int e) : start(s), end(e) {}
- };
-
-  // Definition for a point.
-  struct Point {
-       int x;
-       int y;
-       Point() : x(0), y(0) {}
-       Point(int a, int b) : x(a), y(b) {}
-  };
-
-  class Solution {
-  public:
-      int maxSubArrayLen(vector<int>& nums, int k) {
-    	  int res=0;
-    	  int size=nums.size();
-    	  if (size==0) return 0;
-    	  vector<int> sums(size+1, 0);
-    	  map<int, int> m;
-    	  for (int i=1; i<=size; i++) {
-    		  sums[i]=sums[i-1]+nums[i-1];
-    		  m[sums[i]]=i;
-    	  }
-
-    	  for (int i=0; i<size; i++) {
-    		  auto iter = m.find(sums[i]+k);
-    		  if (iter!=m.end()) {
-    			  res=max(res, iter->second-i);
-    		  }
-    	  }
-
-    	  return res;
-      }
-  };
-
-int main()
-{
-	return 0;
-}
 
