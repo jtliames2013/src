@@ -25,20 +25,19 @@ Hide Similar Problems (H) Max Points on a Line
 class Solution {
 public:
     bool isReflected(vector<pair<int, int>>& points) {
-        set<pair<int,int>> pos;
-        int xmin=INT_MAX, xmax=INT_MIN;
-        
-        for (auto p:points) {
-            pos.insert(p);
-            if (p.first<xmin) xmin=p.first;
-            if (p.first>xmax) xmax=p.first;
+        set<pair<int, int>> st;
+        int l=INT_MAX, r=INT_MIN;
+        for (auto& p:points) {
+            st.insert(p);
+            l=min(l, p.first);
+            r=max(r, p.first);
         }
-        
-        double mid=(double)(xmin+xmax)/2;
-        for (auto p:pos) {
-            if (pos.find({2*mid-p.first, p.second})==pos.end()) return false;
+        double mid=(l+r)/2.0;
+        for (auto& p:st) {
+            if (st.find({2*mid-p.first, p.second})==st.end()) return false;
         }
         
         return true;
     }
 };
+

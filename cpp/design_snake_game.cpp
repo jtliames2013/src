@@ -52,69 +52,61 @@ Special thanks to @elmirap for adding this problem and creating all test cases.
 Hide Company Tags Google
 Hide Tags Design Queue
 
-  class SnakeGame {
-  public:
-      /** Initialize your data structure here.
-          @param width - screen width
-          @param height - screen height
-          @param food - A list of food positions
-          E.g food = [[1,1], [1,0]] means the first food is positioned at [1,1], the second is at [1,0]. */
-      SnakeGame(int width, int height, vector<pair<int, int>> food) {
-    	  row=height;
-    	  col=width;
-    	  score=0;
-    	  snake.push_back({0,0});
-    	  for (auto f:food) {
-    		  this->food.push_back(f);
-    	  }
-      }
+class SnakeGame {
+public:
+    /** Initialize your data structure here.
+        @param width - screen width
+        @param height - screen height 
+        @param food - A list of food positions
+        E.g food = [[1,1], [1,0]] means the first food is positioned at [1,1], the second is at [1,0]. */
+    SnakeGame(int width, int height, vector<pair<int, int>> food) {
+        this->width=width;
+        this->height=height;
+        snake.push_front({0,0});
+        st.insert({0,0});
+        this->food=food;
+        idx=0;
+    }
+    
+    /** Moves the snake.
+        @param direction - 'U' = Up, 'L' = Left, 'R' = Right, 'D' = Down 
+        @return The game's score after the move. Return -1 if game over. 
+        Game over when snake crosses the screen boundary or bites its body. */
+    int move(string direction) {
+        pair<int,int> delta;
+        if (direction=="U") delta={-1,0};
+        else if (direction=="L") delta={0,-1};
+        else if (direction=="R") delta={0,1};
+        else delta={1,0};
+        pair<int,int> next;
+        next.first=snake.front().first+delta.first;
+        next.second=snake.front().second+delta.second;
+        if (next.first<0 || next.first>=height || next.second<0 || next.second>=width) return -1;
+        
+        if (idx<food.size() && next==food[idx]) {
+            idx++;
+        } else {
+            st.erase(snake.back());
+            snake.pop_back();
+            if (st.find(next)!=st.end()) return -1;
+        }
+        snake.push_front(next);
+        st.insert(next);
+        
+        return idx;
+    }
+private:
+    int width;
+    int height;
+    deque<pair<int,int>> snake;
+    vector<pair<int,int>> food;
+    set<pair<int,int>> st;
+    int idx;
+};
 
-      pair<int, int> getDelta(string dir) {
-    	  if (dir=="U") return {-1,0};
-    	  else if (dir=="L") return {0,-1};
-    	  else if (dir=="R") return {0,1};
-    	  else if (dir=="D") return {1,0};
-    	  else return {0,0};
-      }
-
-      /** Moves the snake.
-          @param direction - 'U' = Up, 'L' = Left, 'R' = Right, 'D' = Down
-          @return The game's score after the move. Return -1 if game over.
-          Game over when snake crosses the screen boundary or bites its body. */
-      int move(string direction) {
-    	  pair<int,int> f=snake.front();
-    	  pair<int,int> delta=getDelta(direction);
-    	  pair<int,int> next;
-    	  next.first=f.first+delta.first;
-    	  next.second=f.second+delta.second;
-    	  if (next.first<0||next.first>=row||next.second<0||next.second>=col) return -1;
-    	  for (int i=0; i<snake.size()-1; i++) {
-    		  // head can run into tail
-			  if (next==snake[i]) return -1;
-		  }
-
-    	  snake.push_front(next);
-    	  if (!food.empty() && next==food.front()) {
-    		  // eat food
-    		  food.pop_front();
-    		  score++;
-    	  } else {
-    		  snake.pop_back();
-    	  }
-
-    	  return score;
-      }
-  private:
-      deque<pair<int,int> > snake;
-      deque<pair<int,int> > food;
-      int row;
-      int col;
-      int score;
-  };
-
-  /**
-   * Your SnakeGame object will be instantiated and called as such:
-   * SnakeGame obj = new SnakeGame(width, height, food);
-   * int param_1 = obj.move(direction);
-   */
+/**
+ * Your SnakeGame object will be instantiated and called as such:
+ * SnakeGame obj = new SnakeGame(width, height, food);
+ * int param_1 = obj.move(direction);
+ */
 
