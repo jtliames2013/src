@@ -24,96 +24,25 @@ Hide Similar Problems (E) Plus One
 class Solution {
 public:
     ListNode* plusOne(ListNode* head) {
-        if (head==NULL) return NULL;
-        //reverse
-        ListNode *prev=NULL, *curr=head, *next, *tail;
-        bool carry=false;
-        int num;
-        while (curr!=NULL) {
-            next=curr->next;
-            curr->next=prev;
-            prev=curr;
-            curr=next;
-        }
-        
-        tail=curr=prev;
-        prev=NULL;
-        while (curr!=NULL) {
-            if (prev==NULL) curr->val++;
-            if (carry) curr->val++;
-            if (curr->val>=10) {
-                curr->val%=10;
-                carry=true;
-            } else {
-                carry=false;
-            }
+        ListNode* dummy=new ListNode(0);
+        dummy->next=head;
+        ListNode *prev=NULL, *curr=dummy, *p=dummy;
+        while (curr) {
+            if (curr->val!=9) p=curr;
             prev=curr;
             curr=curr->next;
         }
-        
-        if (carry) {
-            ListNode *n=new ListNode(1);
-            prev->next=n;
-        }
-        
-        //reverse
-        curr=tail;
-        prev=NULL;
-        while (curr!=NULL) {
-            next=curr->next;
-            curr->next=prev;
-            prev=curr;
-            curr=next;
-        }
-        
-        return prev;
-    }
-};
-
-2.
-class Solution {
-public:
-    ListNode* plusOne(ListNode* head) {
-        if (head==NULL) return NULL;
-        //reverse
-        ListNode *prev=NULL, *curr=head, *next, *tail;
-        int num;
-        while (curr!=NULL) {
-            next=curr->next;
-            curr->next=prev;
-            prev=curr;
-            curr=next;
-        }
-        
-        tail=curr=prev;
-        prev=NULL;
-        while (curr!=NULL) {
-            if (curr->val<9) {
-                curr->val++;
-                break;            
-            } else {
-                curr->val=0;
+        if (prev->val!=9) prev->val++;
+        else {
+            p->val++;
+            p=p->next;
+            while (p) {
+                p->val=0;
+                p=p->next;
             }
-            prev=curr;
-            curr=curr->next;
         }
-        
-        if (curr==NULL) {
-            ListNode *n=new ListNode(1);
-            prev->next=n;
-        }
-        
-        //reverse
-        curr=tail;
-        prev=NULL;
-        while (curr!=NULL) {
-            next=curr->next;
-            curr->next=prev;
-            prev=curr;
-            curr=next;
-        }
-        
-        return prev;
+        if (dummy->val==0) return dummy->next;
+        return dummy;
     }
 };
 

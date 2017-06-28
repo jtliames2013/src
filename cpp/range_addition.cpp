@@ -1,4 +1,6 @@
-70. Range Addition 
+370. Range Addition
+DescriptionHintsSubmissionsSolutions
+Discuss   Editorial Solution Pick One
 Assume you have an array of length n initialized with all 0's and are given k update operations.
 
 Each operation is represented as a triplet: [startIndex, endIndex, inc] which increments each element of subarray A[startIndex ... endIndex] (startIndex and endIndex inclusive) with inc.
@@ -19,7 +21,6 @@ Given:
 Output:
 
     [-2, 0, 3, 5, 3]
-
 Explanation:
 
 Initial state:
@@ -33,6 +34,9 @@ After applying operation [2, 4, 3]:
 
 After applying operation [0, 2, -2]:
 [-2, 0, 3, 5, 3 ]
+Credits:
+Special thanks to @vinod23 for adding this problem and creating all test cases.
+
 Hint:
 
 Thinking of using advanced data structures? You are thinking it too complicated.
@@ -50,17 +54,15 @@ Hide Tags Array
 class Solution {
 public:
     vector<int> getModifiedArray(int length, vector<vector<int>>& updates) {
-        if (length==0) return vector<int>();
         vector<int> res(length+1);
-        
-        for (auto u:updates) {
+        for (auto& u:updates) {
             res[u[0]]+=u[2];
             res[u[1]+1]-=u[2];
         }
         
-        for (int i=1; i<length; i++) res[i]+=res[i-1];
-        
+        for (int i=1; i<=length; i++) res[i]+=res[i-1];
         res.pop_back();
         return res;
     }
 };
+
