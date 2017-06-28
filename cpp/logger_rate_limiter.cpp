@@ -33,36 +33,30 @@ Hide Company Tags Google
 Hide Tags Hash Table Design
 Hide Similar Problems (M) Design Hit Counter
 
-  class Logger {
-  public:
-      /** Initialize your data structure here. */
-      Logger() {
+class Logger {
+public:
+    /** Initialize your data structure here. */
+    Logger() {
+        
+    }
+    
+    /** Returns true if the message should be printed in the given timestamp, otherwise returns false.
+        If this method returns false, the message will not be printed.
+        The timestamp is in seconds granularity. */
+    bool shouldPrintMessage(int timestamp, string message) {
+        if (mp.find(message)==mp.end() || timestamp-mp[message]>=10) {
+            mp[message]=timestamp;
+            return true;
+        }
+        return false;
+    }
+private:
+    unordered_map<string, int> mp;
+};
 
-      }
-
-      /** Returns true if the message should be printed in the given timestamp, otherwise returns false.
-          If this method returns false, the message will not be printed.
-          The timestamp is in seconds granularity. */
-      bool shouldPrintMessage(int timestamp, string message) {
-    	  auto iter=time.find(message);
-    	  if (iter==time.end()) {
-    		  time[message]=timestamp;
-    		  return true;
-    	  } else {
-    		  if (timestamp-iter->second<10) return false;
-    		  else {
-    			  time[message]=timestamp;
-    			  return true;
-    		  }
-    	  }
-      }
-  private:
-      unordered_map<string, int> time;
-  };
-
-  /**
-   * Your Logger object will be instantiated and called as such:
-   * Logger obj = new Logger();
-   * bool param_1 = obj.shouldPrintMessage(timestamp,message);
-   */
+/**
+ * Your Logger object will be instantiated and called as such:
+ * Logger obj = new Logger();
+ * bool param_1 = obj.shouldPrintMessage(timestamp,message);
+ */
 

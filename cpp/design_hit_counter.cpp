@@ -38,48 +38,94 @@ Hide Company Tags Dropbox Google
 Hide Tags Design
 Hide Similar Problems (E) Logger Rate Limiter
 
-  class HitCounter {
-  public:
-      /** Initialize your data structure here. */
-      HitCounter() {
-    	  hits=0;
-      }
+class HitCounter {
+public:
+    /** Initialize your data structure here. */
+    HitCounter() {
+        hits=0;
+    }
+    
+    void removeHits(int timestamp) {
+        while (!dq.empty() && dq.front().first<=timestamp-300) {
+            hits-=dq.front().second;
+            dq.pop_front();
+        }
+    }
+    
+    /** Record a hit.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    void hit(int timestamp) {
+        removeHits(timestamp);
+        if (!dq.empty() && dq.back().first==timestamp) dq.back().second++;
+        else dq.push_back({timestamp,1});
+        hits++;
+    }
+    
+    /** Return the number of hits in the past 5 minutes.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    int getHits(int timestamp) {
+        removeHits(timestamp);
+        return hits;
+    }
+private:
+    deque<pair<int,int>> dq;
+    int hits;
+};
 
-      void removeHits(int timestamp) {
-    	  while (!count.empty()) {
-    		  if (timestamp-count.front().first>=300) {
-    			  hits-=count.front().second;
-    			  count.pop_front();
-    		  } else {
-    			  break;
-    		  }
-    	  }
-      }
+/**
+ * Your HitCounter object will be instantiated and called as such:
+ * HitCounter obj = new HitCounter();
+ * obj.hit(timestamp);
+ * int param_2 = obj.getHits(timestamp);
+ */
 
-      /** Record a hit.
-          @param timestamp - The current timestamp (in seconds granularity). */
-      void hit(int timestamp) {
-    	  removeHits(timestamp);
-    	  if (!count.empty() && count.back().first==timestamp) count.back().second++;
-    	  else count.push_back({timestamp, 1});
-    	  hits++;
-      }
+2. circular array
+class HitCounter {
+public:
+    /** Initialize your data structure here. */
+    HitCounter() {
+        size=300;
+        hits=0;
+        count.resize(size);
+        lastTime=lastPos=0;
+    }
+    
+    void removeHits(int timestamp) {
+        // clear between current position of timestamp and last position
+        int gap=min(size, timestamp-lastTime);
+        for (int i=0; i<gap; i++) {
+            lastPos=(lastPos+1)%size;
+            hits-=count[lastPos];
+            count[lastPos]=0;
+        }
+        lastTime=timestamp;
+    }
+    
+    /** Record a hit.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    void hit(int timestamp) {
+        removeHits(timestamp);
+        count[lastPos]++;
+        hits++;
+    }
+    
+    /** Return the number of hits in the past 5 minutes.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    int getHits(int timestamp) {
+        removeHits(timestamp);
+        return hits;
+    }
+private:
+    vector<int> count;
+    int hits;
+    int size;
+    int lastTime;
+    int lastPos;
+};
 
-      /** Return the number of hits in the past 5 minutes.
-          @param timestamp - The current timestamp (in seconds granularity). */
-      int getHits(int timestamp) {
-    	  removeHits(timestamp);
-    	  return hits;
-      }
-  private:
-      deque<pair<int,int>> count;
-      int hits;
-  };
-
-  /**
-   * Your HitCounter object will be instantiated and called as such:
-   * HitCounter obj = new HitCounter();
-   * obj.hit(timestamp);
-   * int param_2 = obj.getHits(timestamp);
-   */
-
+/**
+ * Your HitCounter object will be instantiated and called as such:
+ * HitCounter obj = new HitCounter();
+ * obj.hit(timestamp);
+ * int param_2 = obj.getHits(timestamp);
+ */

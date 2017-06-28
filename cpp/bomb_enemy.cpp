@@ -30,25 +30,25 @@ public:
         if (m==0) return 0;
         int n=grid[0].size();
         if (n==0) return 0;
-        vector<vector<int>> cnt(m, vector<int>(n, 0));
-        
+        vector<vector<int>> cnt(m, vector<int>(n));
+                
         for (int i=0; i<m; i++) {
             int head=0, tail=0;
             for (int j=0; j<n; j++) {
-                cnt[i][j]=(grid[i][j]!='0'?0:(cnt[i][j]+head));
-                cnt[i][n-j-1]=(grid[i][n-j-1]!='0'?0:(cnt[i][n-j-1]+tail));
-                head=(grid[i][j]=='W'?0:(head+(grid[i][j]=='E'?1:0)));
-                tail=(grid[i][n-j-1]=='W'?0:(tail+(grid[i][n-j-1]=='E'?1:0)));
+                head=grid[i][j]=='W'?0:(head+(grid[i][j]=='E'?1:0));
+                if (grid[i][j]=='0') cnt[i][j]+=head;
+                tail=grid[i][n-j-1]=='W'?0:(tail+(grid[i][n-j-1]=='E'?1:0));
+                if (grid[i][n-j-1]=='0') cnt[i][n-j-1]+=tail;
             }
         }
         
         for (int j=0; j<n; j++) {
             int head=0, tail=0;
             for (int i=0; i<m; i++) {
-                cnt[i][j]=(grid[i][j]!='0'?0:(cnt[i][j]+head));
-                cnt[m-i-1][j]=(grid[m-i-1][j]!='0'?0:(cnt[m-i-1][j]+tail));
-                head=(grid[i][j]=='W'?0:(head+(grid[i][j]=='E'?1:0)));
-                tail=(grid[m-i-1][j]=='W'?0:(tail+(grid[m-i-1][j]=='E'?1:0)));
+                head=grid[i][j]=='W'?0:(head+(grid[i][j]=='E'?1:0));
+                if (grid[i][j]=='0') cnt[i][j]+=head;
+                tail=grid[m-i-1][j]=='W'?0:(tail+(grid[m-i-1][j]=='E'?1:0));
+                if (grid[m-i-1][j]=='0') cnt[m-i-1][j]+=tail;
             }
         }
         
@@ -61,3 +61,4 @@ public:
         return res;
     }
 };
+

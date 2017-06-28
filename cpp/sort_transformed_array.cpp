@@ -19,6 +19,15 @@ Special thanks to @elmirap for adding this problem and creating all test cases.
 Hide Company Tags Google
 Hide Tags Math Two Pointers
 
+the problem seems to have many cases a>0, a=0,a<0, (when a=0, b>0, b<0). However, they can be combined into just 2 cases: a>0 or a<0
+
+1.a>0, two ends in original array are bigger than center if you learned middle school math before.
+
+2.a<0, center is bigger than two ends.
+
+so use two pointers i, j and do a merge-sort like process. depending on sign of a, you may want to start from the beginning or end of the transformed array. For a==0 case, it does not matter what b's sign is.
+The function is monotonically increasing or decreasing. you can start with either beginning or end.
+    
 但是题目中的要求让我们在O(n)中实现，那么我们只能另辟蹊径。其实这道题用到了大量的高中所学的关于抛物线的数学知识，我们知道，对于一个方程f(x) = ax2 + bx + c 来说，如果a>0，则抛物线开口朝上，那么两端的值比中间的大，而如果a<0，则抛物线开口朝下，则两端的值比中间的小。而当a=0时，则为直线方法，是单调递增或递减的。那么我们可以利用这个性质来解题，题目中说明了给定数组nums是有序的，如果不是有序的，我想很难有O(n)的解法。正因为输入数组是有序的，我们可以根据a来分情况讨论：
 
 当a>0，说明两端的值比中间的值大，那么此时我们从结果res后往前填数，用两个指针分别指向nums数组的开头和结尾，指向的两个数就是抛物线两端的数，将它们之中较大的数先存入res的末尾，然后指针向中间移，重复比较过程，直到把res都填满。
@@ -34,39 +43,30 @@ public:
     }
     
     vector<int> sortTransformedArray(vector<int>& nums, int a, int b, int c) {
-        vector<int> res;
-        int size=nums.size();
-        if (size==0) return res;
-        res.resize(size, 0);
-        int start=0, end=size-1;
-        int i=(a>=0?size-1:0);
-        
-        while (start<=end) {
+        int n=nums.size();
+        if (n==0) return vector<int>();
+        vector<int> res(n);
+        int l=0, r=n-1, idx=a>=0?n-1:0;
+        while (l<=r) {
+            int lval=calc(nums[l], a, b, c);
+            int rval=calc(nums[r], a, b, c);
             if (a>=0) {
-                // get the larger
-                int s=calc(nums[start], a, b, c);
-                int e=calc(nums[end], a, b, c);
-                if (s>=e) {
-                    res[i]=s;
-                    start++;
+                if (lval<rval) {
+                    res[idx--]=rval;
+                    r--;
                 } else {
-                    res[i]=e;
-                    end--;
+                    res[idx--]=lval;
+                    l++;
                 }
-                i--;
             } else {
-                // get the smaller
-                int s=calc(nums[start], a, b, c);
-                int e=calc(nums[end], a, b, c);
-                if (s>=e) {
-                    res[i]=e;
-                    end--;
+                if (lval<rval) {
+                    res[idx++]=lval;
+                    l++;
                 } else {
-                    res[i]=s;
-                    start++;
+                    res[idx++]=rval;
+                    r--;
                 }
-                i++;
-            } 
+            }
         }
         
         return res;
