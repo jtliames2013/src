@@ -52,4 +52,225 @@ You could assume that there won't be any circular sum reference. For example, A1
 The test cases are using double-quotes to represent a character.
 Please remember to RESET your class variables declared in class Excel, as static/class variables are persisted across multiple test cases. Please see here for more details.
 
+1. update on the fly
+class Excel {
+public:
+    Excel(int H, char W) {
+        this->height=H;
+        this->width=W-'A'+1;
+        data.resize(this->height, vector<int>(this->width));
+    }
+    
+    void set(int r, char c, int v) {                        
+        update(r, c, v);
+        if (!depend[{r, c}].empty()) {
+            for (auto& d:depend[{r, c}]) affect[d].erase({r, c});
+            depend[{r, c}].clear();
+        }
+    }
+    
+    int get(int r, char c) {        
+        return data[r-1][c-'A'];
+    }
+    
+    int sum(int r, char c, vector<string> strs) {        
+        if (!depend[{r, c}].empty()) {
+            for (auto& d:depend[{r, c}]) affect[d].erase({r, c});
+            depend[{r, c}].clear();
+        }
 
+        data[r-1][c-'A']=eval(r, c, strs);        
+        return data[r-1][c-'A'];
+    }
+
+    void update(int r, char c, int v) {
+        int diff=v-data[r-1][c-'A'];        
+        queue<pair<int,char>> q;
+        queue<int> diffq;
+        q.push({r,c});
+        diffq.push(diff);
+        data[r-1][c-'A']=v;
+        
+        while (!q.empty()) {
+            pair<int,char> f=q.front();
+            int d=diffq.front();
+            q.pop();
+            diffq.pop();            
+            
+            for (auto& neighbor:affect[f]) {
+                q.push(neighbor.first);
+                diffq.push(d*neighbor.second);
+                data[neighbor.first.first-1][neighbor.first.second-'A']+=d*neighbor.second;
+            }
+        }
+    }
+    
+    int eval(int r, char c, vector<string>& strs) {
+        int res=0;
+        for (auto& s:strs) {
+            if (s.find(':')==string::npos) {
+                res+=evalCell(r, c, s);
+            } else {
+                res+=evalRange(r, c, s);
+            }
+        }        
+        return res;
+    }
+    
+    int evalCell(int r, char c, string& str) {
+        char col=str[0];
+        int row=0, i=1;
+        while (i<str.size()) {
+            row=row*10+str[i]-'0';
+            i++;
+        }
+        affect[{row, col}][{r, c}]++;
+        depend[{r, c}].insert({row, col});
+        return get(row, col);
+    }
+    
+    int evalRange(int r, char c, string& str) {
+        int idx=str.find(':');
+        string start=str.substr(0, idx);
+        string end=str.substr(idx+1);
+        int rowStart=0, rowEnd=0, colStart, colEnd, i;
+        colStart=start[0];
+        i=1;
+        while (i<start.size()) {
+            rowStart=rowStart*10+start[i]-'0';
+            i++;
+        }
+        colEnd=end[0];
+        i=1;
+        while (i<end.size()) {
+            rowEnd=rowEnd*10+end[i]-'0';
+            i++;
+        }
+        int res=0;
+        for (int i=rowStart; i<=rowEnd; i++) {
+            for (int j=colStart; j<=colEnd; j++) {
+                affect[{i, j}][{r, c}]++;
+                depend[{r, c}].insert({i, j});
+                res+=get(i, j);
+            }
+        }
+        
+        update(r, c, res);
+        return res;
+    }
+    
+    struct myhash
+    {
+        size_t operator()(const pair<int, int>& p) const
+        {
+            return (hash<int>{}(p.first)) ^ (hash<int>{}(p.second)<<1);
+        }
+    };
+
+private:
+    int height;
+    int width;
+    unordered_map<pair<int,char>, unordered_map<pair<int,char>, int, myhash>, myhash> affect;
+    unordered_map<pair<int,char>, unordered_set<pair<int,char>, myhash>, myhash> depend;
+    vector<vector<int>> data;
+};
+
+/**
+ * Your Excel object will be instantiated and called as such:
+ * Excel obj = new Excel(H, W);
+ * obj.set(r,c,v);
+ * int param_2 = obj.get(r,c);
+ * int param_3 = obj.sum(r,c,strs);
+ */
+
+2. eval on the fly
+class Excel {
+public:
+    Excel(int H, char W) {
+        this->height=H;
+        this->width=W-'A'+1;
+        data.resize(this->height, vector<int>(this->width));
+    }
+    
+    void set(int r, char c, int v) {
+        int idx=(r-1)*width+c-'A';
+        data[r-1][c-'A']=v;
+        mp.erase(idx);
+    }
+    
+    int get(int r, char c) {
+        int idx=(r-1)*width+c-'A';
+        if (mp.find(idx)==mp.end()) return data[r-1][c-'A'];
+        return eval(mp[idx]);
+    }
+    
+    int sum(int r, char c, vector<string> strs) {
+        int idx=(r-1)*width+c-'A';
+        data[r-1][c-'A']=eval(strs);
+        mp[idx]=strs;
+        return data[r-1][c-'A'];
+    }
+    
+    int eval(vector<string>& strs) {
+        int res=0;
+        for (auto& s:strs) {
+            if (s.find(':')==string::npos) {
+                res+=evalCell(s);
+            } else {
+                res+=evalRange(s);
+            }
+        }
+        
+        return res;
+    }
+    
+    int evalCell(string& str) {
+        char col=str[0];
+        int row=0, i=1;
+        while (i<str.size()) {
+            row=row*10+str[i]-'0';
+            i++;
+        }
+        return get(row, col);
+    }
+    
+    int evalRange(string& str) {
+        int idx=str.find(':');
+        string start=str.substr(0, idx);
+        string end=str.substr(idx+1);
+        int rowStart=0, rowEnd=0, colStart, colEnd, i;
+        colStart=start[0];
+        i=1;
+        while (i<start.size()) {
+            rowStart=rowStart*10+start[i]-'0';
+            i++;
+        }
+        colEnd=end[0];
+        i=1;
+        while (i<end.size()) {
+            rowEnd=rowEnd*10+end[i]-'0';
+            i++;
+        }
+        int res=0;
+        for (int i=rowStart; i<=rowEnd; i++) {
+            for (int j=colStart; j<=colEnd; j++) {
+                res+=get(i, j);
+            }
+        }
+        
+        return res;
+    }
+private:
+    int height;
+    int width;
+    unordered_map<int, vector<string>> mp;
+    vector<vector<int>> data;
+};
+
+/**
+ * Your Excel object will be instantiated and called as such:
+ * Excel obj = new Excel(H, W);
+ * obj.set(r,c,v);
+ * int param_2 = obj.get(r,c);
+ * int param_3 = obj.sum(r,c,strs);
+ */
