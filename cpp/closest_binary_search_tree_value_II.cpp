@@ -20,23 +20,6 @@ Hide Company Tags Google
 Hide Tags Tree Stack
 Hide Similar Problems (M) Binary Tree Inorder Traversal (E) Closest Binary Search Tree Value
 
-
-#include "stdafx.h"
-#include <vector>
-#include <map>
-#include <unordered_set>
-#include <queue>
-#include <string>
-#include <stack>
-using namespace std;
-
-  struct TreeNode {
-      int val;
-      TreeNode *left;
-      TreeNode *right;
-      TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-  };
-
   class Solution {
 public:
     long long getPredecessor(stack<TreeNode*>& small) {
@@ -100,7 +83,3 @@ public:
     }
 };
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	return 0;
-}

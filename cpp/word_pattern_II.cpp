@@ -14,14 +14,6 @@ Hide Company Tags Dropbox Uber
 Hide Tags Backtracking
 Hide Similar Problems (E) Word Pattern
 
-#include "stdafx.h"
-#include <vector>
-#include <map>
-#include <unordered_set>
-#include <queue>
-#include <string>
-using namespace std;
-
 //We can solve this problem using backtracking, we just have to keep trying to use a character in the pattern to match different length of substrings in the input string, keep trying till we go through the input string and the pattern.
 //
 //For example, input string is "redblueredblue", and the pattern is "abab", first let's use 'a' to match "r", 'b' to match "e", then we find that 'a' does not match "d", so we do backtracking, use 'b' to match "ed", so on and so forth ...
@@ -40,41 +32,33 @@ using namespace std;
 
 class Solution {
 public:
-    bool findMatch(string& pattern, int pIdx, string& str, int sIdx, map<char, string>& m, unordered_set<string>& words) {
+    bool findMatch(unordered_map<char,string>& mp, unordered_set<string>& st, string& pattern, int pIdx, string& str, int sIdx) {
         if (pIdx==pattern.size() && sIdx==str.size()) return true;
         else if (pIdx==pattern.size() || sIdx==str.size()) return false;
-
-        char currChar=pattern[pIdx++];
-        int end=str.size()-(pattern.size()-pIdx);
-        for (int i=sIdx; i<end; i++) {
-            string currWord=str.substr(sIdx, i-sIdx+1);
-            if (m.find(currChar)==m.end()) {
-                if (words.find(currWord)==words.end()) {
-                    m[currChar]=currWord;
-                    words.insert(currWord);
-                    if (findMatch(pattern, pIdx, str, i+1, m, words)==true) return true;
-                    words.erase(currWord);
-                    m.erase(currChar);
-                }
-            } else {
-                if (currWord==m[currChar]) {
-                    if (findMatch(pattern, pIdx, str, i+1, m, words)==true) return true;
-                }
+        
+        if (mp.find(pattern[pIdx])!=mp.end()) {
+            string w=mp[pattern[pIdx]];
+            if (str.substr(sIdx, w.size())!=w) return false;
+            return findMatch(mp, st, pattern, pIdx+1, str, sIdx+w.size());
+        } else {
+            for (int i=sIdx; i<str.size(); i++) {
+                string w=str.substr(sIdx, i-sIdx+1);
+                if (st.find(w)!=st.end()) continue;
+                mp[pattern[pIdx]]=w;
+                st.insert(w);
+                bool b=findMatch(mp, st, pattern, pIdx+1, str, i+1);
+                mp.erase(pattern[pIdx]);
+                st.erase(w);
+                if (b) return true;
             }
+            return false;
         }
-
-        return false;
     }
-
+    
     bool wordPatternMatch(string pattern, string str) {
-        map<char, string> m;
-        unordered_set<string> words;
-
-        return findMatch(pattern, 0, str, 0, m, words);
+        unordered_map<char,string> mp;
+        unordered_set<string> st;
+        return findMatch(mp, st, pattern, 0, str, 0);
     }
 };
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	return 0;
-}

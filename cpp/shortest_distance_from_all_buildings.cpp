@@ -20,15 +20,6 @@ Hide Company Tags Google Zenefits
 Hide Tags Breadth-first Search
 Hide Similar Problems (M) Walls and Gates (H) Best Meeting Point
 
-#include "stdafx.h"
-#include <vector>
-#include <map>
-#include <unordered_set>
-#include <queue>
-#include <string>
-#include <stack>
-using namespace std;
-
 // NOTE: 0 may not connect to all 1s, such as
 // 1 1
 // 0 1
@@ -37,68 +28,71 @@ using namespace std;
 class Solution {
 public:
     int shortestDistance(vector<vector<int>>& grid) {
-        int m=grid.size(), n=grid[0].size();
-        vector<vector<int>> total(m, vector<int>(n, 0));
-        // number of buildings each 0 can connect
-        vector<vector<int>> buildings(m, vector<int>(n, 0));
-        int mindist=INT_MAX;
-        int delta[4][2]= {{0,1},{0,-1},{1,0},{-1,0}};
-        int numBuildings=0;
+        int m=grid.size();
+        if (m==0) return 0;
+        int n=grid[0].size();
+        if (n==0) return 0;
+        vector<vector<int>> dist(m, vector<int>(n));
+        vector<vector<int>> count(m, vector<int>(n));
+        int numBuildings=0, cnt;
+        
         for (int i=0; i<m; i++) {
             for (int j=0; j<n; j++) {
                 if (grid[i][j]==1) numBuildings++;
             }
         }
-
+        
         for (int i=0; i<m; i++) {
             for (int j=0; j<n; j++) {
-                if (grid[i][j]==1) {
-                    vector<vector<int>> dist(m, vector<int>(n,0));
-                    vector<vector<bool>> visited(m, vector<bool>(n,false));
-                    // record number of buildings this building can connect to so we can bail out early
-                    int count=1;
-
-                    // BFS
-                    queue<pair<int,int>>q;
-                    q.push(make_pair(i,j));
-                    visited[i][j]=true;
-                    while (!q.empty()) {
-                        auto pos=q.front();
+                if (grid[i][j]!=1) continue;
+                // record number of buildings this building can connect to so we can bail out early
+                cnt=1;
+                // BFS                
+                vector<vector<bool>> visited(m, vector<bool>(n));
+                queue<pair<int,int>> q;
+                q.push({i,j});
+                visited[i][j]=true;                
+                int d=0;
+                
+                while (!q.empty()) {
+                    int size=q.size();
+                    d++;    
+                    for (int l=0; l<size; l++) {
+                        pair<int,int> f=q.front();
                         q.pop();
-
+                        
                         for (int k=0; k<4; k++) {
-                            int nx=pos.first+delta[k][0];
-                            int ny=pos.second+delta[k][1];
-                            if (nx>=0 && nx<m && ny>=0 && ny <n && visited[nx][ny]==false) {
-                                if (grid[nx][ny]==0) {
-                                    dist[nx][ny]=dist[pos.first][pos.second]+1;
-                                    total[nx][ny]+=dist[nx][ny];
-                                    q.push(make_pair(nx, ny));
-                                    buildings[nx][ny]++;
-                                } else if (grid[nx][ny]==1) {
-                                    count++;
+                            int nr=f.first+delta[k][0];
+                            int nc=f.second+delta[k][1];
+                            if (nr>=0 && nr<m && nc>=0 && nc<n && visited[nr][nc]==false) {
+                                if (grid[nr][nc]==0) {
+                                    dist[nr][nc]+=d;
+                                    count[nr][nc]++;
+                                    q.push({nr,nc});                                    
+                                } else if (grid[nr][nc]==1) {
+                                    cnt++;
                                 }
-                                visited[nx][ny]=true;
+                                visited[nr][nc]=true;
                             }
                         }
-                    }
-                    if (count!=numBuildings) return -1;
+                    }                    
                 }
+                if (cnt<numBuildings) return -1;
             }
         }
-
+        
+        int res=INT_MAX;
         for (int i=0; i<m; i++) {
             for (int j=0; j<n; j++) {
-                if (grid[i][j]==0 && buildings[i][j]==numBuildings && mindist>total[i][j]) {
-                    mindist=total[i][j];
+                if (grid[i][j]==0 && count[i][j]==numBuildings) {
+                    res=min(res, dist[i][j]);
                 }
             }
         }
-        return (mindist==INT_MAX?-1:mindist);
-    }
+        
+        return res==INT_MAX?-1:res;
+    }    
+private:
+    const int delta[4][2]={{-1,0}, {1,0}, {0,-1}, {0,1}};
 };
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	return 0;
-}
