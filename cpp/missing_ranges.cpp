@@ -8,44 +8,23 @@ Hide Company Tags Google
 Hide Tags Array
 Hide Similar Problems (M) Summary Ranges
 
-#include "stdafx.h"
-#include <vector>
-#include <map>
-#include <unordered_set>
-#include <queue>
-#include <string>
-using namespace std;
-
 class Solution {
 public:
+    string getRange(int start, int end) {
+        return start==end?to_string(start):to_string(start)+"->"+to_string(end);
+    }
+    
     vector<string> findMissingRanges(vector<int>& nums, int lower, int upper) {
         vector<string> res;
-        int start=lower-1, end;
-
-        for (int i=0; i<nums.size(); i++) {
-            end=nums[i];
-            if (end>start+1) {
-                if (end>start+2) {
-                    res.push_back(to_string(start+1) + "->" + to_string(end-1));
-                } else {
-                    res.push_back(to_string(start+1));
-                }
-            }
-            start=nums[i];
+        long start=lower;
+        
+        for (long n:nums) {
+            if (n-1>=start) res.push_back(getRange(start, n-1));                             
+            start=n+1;
         }
-
-        if (upper>start) {
-            if (upper>start+1) {
-                res.push_back(to_string(start+1) + "->" + to_string(upper));
-            } else {
-                res.push_back(to_string(upper));
-            }
-        }
+        if (upper>=start) res.push_back(getRange(start, upper));
+        
         return res;
     }
 };
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	return 0;
-}
