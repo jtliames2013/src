@@ -15,14 +15,6 @@ Subscribe to see which companies asked this question
 
 Hide Tags Linked List Two Pointers
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-
-1. Use dummy node
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
@@ -45,39 +37,4 @@ public:
         return dummy.next;
     }
 };
-
-2.
-class Solution {
-public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode *one=head, *two=head, *prev=NULL;
-        if (head==NULL) return NULL;
-        ListNode *newHead=NULL;
-        while (two!=NULL && n>0) {
-            two=two->next;
-            n--;
-        }
-        
-        while (two!=NULL) {
-            prev=one;
-            one=one->next;
-            two=two->next;
-        }
-        
-        if (prev==NULL) {
-            newHead=one->next;
-        } else {
-            prev->next=one->next;
-            newHead=head;
-        }
-        delete one;
-        
-        return newHead;
-    }
-};
-
-int main()
-{
-	return 0;
-}
 

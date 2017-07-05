@@ -15,20 +15,6 @@ Hide Company Tags LinkedIn Uber Facebook
 Hide Tags Hash Table Two Pointers String
 Hide Similar Problems (H) Substring with Concatenation of All Words (M) Minimum Size Subarray Sum (H) Sliding Window Maximum
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-
 class Solution {
 public:
     string minWindow(string s, string t) {
@@ -132,9 +118,4 @@ public:
     	  else return s.substr(start, end-start+1);
       }
   };
-
-int main()
-{
-	return 0;
-}
 
