@@ -121,6 +121,8 @@ public:
             parents[i]=find(parents, parents[i]);
         }
         return parents[i]; */
+        /* while (parent[i]!=i) i=parent[i];
+        return i; */        
     }
 };
 
