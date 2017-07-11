@@ -21,17 +21,15 @@ public:
         int n=s.size();
         if (n==0) return 0;
         int a=1, b=s[0]=='0'?0:1, c;
-        if (n==1) return b;
-        
         for (int i=1; i<n; i++) {
             c=0;
             if (s[i]=='0' && s[i-1]=='0') return 0;
-            if (s[i]!='0') c+=b;
             if (s[i-1]=='1' || (s[i-1]=='2' && s[i]<='6')) c+=a;
+            if (s[i]!='0') c+=b;
             a=b;
             b=c;
         }
-        return c;
+        return b;
     }
 };
 
