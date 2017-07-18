@@ -13,10 +13,10 @@ Because the range might be a large number, the low and high numbers are represen
 
 class Solution {
 public:
-    void dfs(string& low, string& high, string& str, int start, int end) {
+    void dfs(long low, long high, string& str, int start, int end) {
         if (start>end) {
-            long l=stol(low), h=stol(high), n=stol(str);
-            if (n>=l && n<=h) count++;
+            long n=stol(str);
+            if (n>=low && n<=high) count++;
             return;
         }
         
@@ -31,10 +31,10 @@ public:
     
     int strobogrammaticInRange(string low, string high) {
         count=0;
-        
+        long l=stol(low), h=stol(high);        
         for (int i=low.size(); i<=high.size(); i++) {
             string str(i, 0);
-            dfs(low, high, str, 0, i-1);
+            dfs(l, h, str, 0, i-1);
         }
         
         return count;
