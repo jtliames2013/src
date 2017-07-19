@@ -20,8 +20,10 @@ public:
         for (auto c:s) mp[c]++;
         int odd=0;
         for (auto& iter:mp) {
-            if (iter.second%2==1) odd++;
-            if (odd>1) return false;
+            if (iter.second%2==1) {
+                odd++;
+                if (odd>1) return false;
+            }
         }
         return true;
     }

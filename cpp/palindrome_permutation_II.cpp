@@ -45,8 +45,8 @@ public:
             if (iter.second%2==1) {
                 odd++;
                 oddch=iter.first;
+                if (odd>1) return res;
             }
-            if (odd>1) return res;
         }
         
         string str(n, 0);
@@ -87,8 +87,8 @@ public:
             if (count[i]%2==1) {
                 odd++;
                 oddch=i;
-            }
-            if (odd>1) return res;
+                if (odd>1) return res;
+            } 
         }
         
         string str(n, 0);

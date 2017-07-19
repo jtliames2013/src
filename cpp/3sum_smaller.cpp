@@ -14,20 +14,25 @@ Could you solve it in O(n2) runtime?
 class Solution {
 public:
     int threeSumSmaller(vector<int>& nums, int target) {
-        int n=nums.size();
-        if (n==0) return 0;
-        sort(nums.begin(), nums.end());
         int res=0;
+        int n=nums.size();
+        if (n<3) return res;
+        sort(nums.begin(), nums.end());
         for (int i=0; i<n-2; i++) {
-            if (nums[i]+nums[i+1]+nums[i+2]>=target) break;
             int l=i+1, r=n-1;
+            if (nums[i]+nums[l]+nums[l+1]>=target) break;
+            if (nums[i]+nums[r]+nums[r-1]<target) {
+                res+=(r-l+1)*(r-l)/2;
+                continue;
+            }
+            
             while (l<r) {
                 if (nums[i]+nums[l]+nums[r]<target) {
                     res+=r-l;
                     l++;
                 } else {
                     r--;
-                }
+                }            
             }
         }
         

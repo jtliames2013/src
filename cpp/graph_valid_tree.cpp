@@ -94,23 +94,22 @@ public:
 3. union-find
 class Solution {
 public:
+    int find (vector<int>& parent, int i) {
+        while (parent[i]!=i) i=parent[i];
+        return i;
+    }
+    
     bool validTree(int n, vector<pair<int, int>>& edges) {
-        vector<int> nums(n, -1);
+        vector<int> parent(n);
+        for (int i=0; i<n; i++) parent[i]=i;
         
         for (auto& e:edges) {
-            int p1=find(nums, e.first);
-            int p2=find(nums, e.second);
+            int p1=find(parent, e.first);
+            int p2=find(parent, e.second);
             if (p1==p2) return false;
-            // union
-            nums[p2]=p1;
+            parent[p2]=p1;
         }
-        
         return edges.size()==n-1;
-    }
-
-    int find(vector<int>& nums, int i) {
-        if (nums[i]==-1) return i;
-        return find(nums, nums[i]);
-    }
+    }    
 };
-    
+
