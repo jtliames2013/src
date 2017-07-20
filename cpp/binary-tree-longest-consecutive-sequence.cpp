@@ -38,7 +38,8 @@ class Solution {
 public:
     int dfs(TreeNode* curr, TreeNode* prev, int len) {
         if (curr==NULL) return len;
-        len=(prev==NULL || prev->val!=curr->val-1)?1:len+1;
+        if (prev && prev->val==curr->val-1) len++;
+        else len=1;
         return max(len, max(dfs(curr->left, curr, len), dfs(curr->right, curr, len)));
     }
     

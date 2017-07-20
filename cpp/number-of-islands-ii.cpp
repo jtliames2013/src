@@ -116,8 +116,7 @@ public:
                 if (nr>=0 && nr<m && nc>=0 && nc<n && root[ni]!=-1) {
                     int nroot=find(root, ni);
                     if (nroot!=i) {
-                        root[i]=nroot;
-                        i=nroot;
+                        root[nroot]=i;
                         num--;
                     }
                 }
