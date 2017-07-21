@@ -24,22 +24,19 @@ Hide Similar Problems (E) Plus One
 class Solution {
 public:
     ListNode* plusOne(ListNode* head) {
-        ListNode* dummy=new ListNode(0);
+        ListNode *dummy=new ListNode(0);
         dummy->next=head;
-        ListNode *prev=NULL, *curr=dummy, *p=dummy;
+        ListNode *prev=dummy, *curr=head, *p=dummy;
         while (curr) {
             if (curr->val!=9) p=curr;
             prev=curr;
             curr=curr->next;
         }
-        if (prev->val!=9) prev->val++;
-        else {
-            p->val++;
+        p->val++;
+        p=p->next;
+        while (p) {
+            p->val=0;
             p=p->next;
-            while (p) {
-                p->val=0;
-                p=p->next;
-            }
         }
         if (dummy->val==0) return dummy->next;
         return dummy;
