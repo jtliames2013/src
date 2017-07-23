@@ -70,13 +70,13 @@ public:
     int minTransfers(vector<vector<int>>& transactions) {
         unordered_map<int,long> bal;
         vector<long> debt;
-        sort(debt.begin(), debt.end());
         for (auto& t:transactions) {
             bal[t[0]]-=t[2];
             bal[t[1]]+=t[2];
         }
         for (auto& b:bal) if (b.second) debt.push_back(b.second);
-        
+        sort(debt.begin(), debt.end());
+
         res=INT_MAX;
         dfs(debt, 0, 0);
         return res;

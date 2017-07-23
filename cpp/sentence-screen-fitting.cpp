@@ -84,11 +84,13 @@ public:
     int wordsTyping(vector<string>& sentence, int rows, int cols) {
         string str;
         for (auto& s:sentence) str+=s+" ";
+        // start is the position in the repeating string that previous characters have fit into the screen
         int start=0, n=str.size();
         for (int i=0; i<rows; i++) {
             start+=cols;
             if (str[start%n]==' ') start++;
             else {
+                // can't fit the current row
                 while (start>0 && str[(start-1)%n]!=' ') start--;
             }
         }
