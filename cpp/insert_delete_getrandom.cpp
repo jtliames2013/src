@@ -43,34 +43,28 @@ public:
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     bool insert(int val) {
         if (mp.find(val)!=mp.end()) return false;
+        mp[val]=data.size();
         data.push_back(val);
-        mp[val]=data.size()-1;
         return true;
     }
     
     /** Removes a value from the set. Returns true if the set contained the specified element. */
     bool remove(int val) {
         if (mp.find(val)==mp.end()) return false;
-        int lastIdx=data.size()-1;
-        int lastVal=data[lastIdx];
-        data.pop_back();
-        mp.erase(lastVal);
-        
-        if (val!=lastVal) {
+        if (data.back()!=val) {
             int idx=mp[val];
-            mp.erase(val);
-            data[idx]=lastVal;
-            mp[lastVal]=idx;
+            mp[data.back()]=idx;
+            data[idx]=data.back();
         }
-        
+        data.pop_back();
+        mp.erase(val);
         return true;
     }
     
     /** Get a random element from the set. */
     int getRandom() {
         if (data.empty()) return -1;
-        int i=rand()%data.size();
-        return data[i];
+        return data[rand()%data.size()];
     }
 private:
     vector<int> data;
