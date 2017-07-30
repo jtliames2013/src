@@ -48,36 +48,35 @@ public:
 	    // **DO NOT** save a copy of nums and manipulate it directly.
 	    // You should only use the Iterator interface methods.
 	    hasPeeked=false;
-	    peekElement=0;
+        peekElem=0;
 	}
 
     // Returns the next element in the iteration without advancing the iterator.
 	int peek() {
-        if (hasPeeked) return peekElement;
-        else {
-            if (!hasNext()) return -1;
-            hasPeeked=true;        
-            peekElement=Iterator::next();
-            return peekElement;
+        if (!hasPeeked) {
+            if (!Iterator::hasNext()) return -1;
+            hasPeeked=true;
+            peekElem=Iterator::next();
         }
+        return peekElem;
 	}
 
 	// hasNext() and next() should behave the same as in the Iterator interface.
 	// Override them if needed.
 	int next() {
 	    if (hasPeeked) {
-	        hasPeeked=false;
-	        return peekElement;
-	    } else {
-	        return Iterator::next();
-	    }
+            hasPeeked=false;
+            return peekElem;
+        } else {
+            return Iterator::next();
+        }
 	}
 
 	bool hasNext() const {
-	    return Iterator::hasNext() || hasPeeked;
+	    return hasPeeked || Iterator::hasNext();
 	}
 private:
     bool hasPeeked;
-    int peekElement;
+    int peekElem;
 };
 
