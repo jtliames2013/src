@@ -46,7 +46,7 @@ public:
         
         for (int i=1; i<n; i++) {
             prevbuy=buy;
-            buy=max((i>1?prevsell:0)-prices[i], buy);
+            buy=max(prevsell-prices[i], buy);
             prevsell=sell;
             sell=max(prevbuy+prices[i], sell);
         }
