@@ -29,13 +29,30 @@ Hide Tags Binary Search Dynamic Programming Greedy
 class Solution {
 public:
     bool isSubsequence(string s, string t) {
-        int m=s.size(), n=t.size();
-        for (int i=0, j=0; j<=n-m+i; j++) {
+        int m=s.size(), n=t.size(), i=0, j=0;
+        while (i<m && j<n) {
             if (s[i]==t[j]) i++;
-            if (i>=m) return true;
+            j++;
         }
+        return i==m;
+    }
+};
+
+2. binary search (MLE)
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        unordered_map<char,set<int>> mp;
+        for (int i=0; i<t.size(); i++) mp[t[i]].insert(i);
         
-        return false;
+        int lower=0;
+        for (int i=0; i<s.size(); i++) {
+            if (mp.find(s[i])==mp.end()) return false;
+            auto iter=mp[s[i]].lower_bound(lower);
+            if (iter==mp[s[i]].end()) return false;
+            lower=(*iter)+1;
+        }
+        return true;
     }
 };
 

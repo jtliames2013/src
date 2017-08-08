@@ -37,7 +37,6 @@ public:
         if (n==0) return 0;
         int l=0, r=n-1;
         while (1) {
-            if (l==r) return nums[l];
             int pivotIndex=rand()%(r-l+1)+l;
             pivotIndex=partition(nums, l, r, pivotIndex);
             if (pivotIndex==k-1) return nums[k-1];
