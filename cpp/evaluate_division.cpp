@@ -25,13 +25,14 @@ class Solution {
 public:
     double dfs(unordered_map<string, unordered_map<string,double>>& graph, set<string>& visited, string start, string end) {
         if (graph[start].find(end)!=graph[start].end()) return graph[start][end];
-        for (auto neighbor:graph[start]) {
-            if (visited.find(neighbor.first)==visited.end()) {
-                visited.insert(neighbor.first);
-                double res=dfs(graph, visited, neighbor.first, end);
+        visited.insert(start);
+        for (auto& neighbor:graph[start]) {
+            if (visited.find(neighbor.first)==visited.end()) {                
+                double res=dfs(graph, visited, neighbor.first, end);                
                 if (res!=-1) return res*neighbor.second;
             }
         }
+        visited.erase(start);
         return -1;
     }
     
@@ -39,16 +40,17 @@ public:
         vector<double> res;
         unordered_map<string, unordered_map<string,double>> graph;
         for (int i=0; i<equations.size(); i++) {
+            graph[equations[i].second][equations[i].second]=1;
             graph[equations[i].first][equations[i].second]=values[i];
             if (values[i]!=0) {
+                graph[equations[i].first][equations[i].first]=1;
                 graph[equations[i].second][equations[i].first]=1/values[i];
             }
         }
         
-        for (int i=0; i<queries.size(); i++) {
-            set<string> visited;
-            visited.insert(queries[i].first);
-            res.push_back(dfs(graph, visited, queries[i].first, queries[i].second));
+        for (auto& q:queries) {
+            set<string> visited;            
+            res.push_back(dfs(graph, visited, q.first, q.second));
         }
         
         return res;
