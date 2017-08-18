@@ -49,12 +49,11 @@ public:
             while (blen>alen) { blen--; b=b->next; }
         }
         
-        while (a!=NULL) {
-            if (a==b) return a;
+        while (a!=b) {            
             a=a->next;
             b=b->next;
         }
-        return NULL;
+        return a;
     }
 };
 

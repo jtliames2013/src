@@ -24,9 +24,7 @@ public:
                 return false;
             }
         }
-        
-        if (stk.empty()) return true;
-        else return false;
+        return stk.empty();
     }
 };
 

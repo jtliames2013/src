@@ -72,34 +72,38 @@ public:
 };
 
 2. Iteratively
+/**
+ * Definition for binary tree with next pointer.
+ * struct TreeLinkNode {
+ *  int val;
+ *  TreeLinkNode *left, *right, *next;
+ *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+ * };
+ */
 class Solution {
 public:
     void connect(TreeLinkNode *root) {
-        TreeLinkNode *curr=root, *prev=NULL, *head=NULL;
+        if (root==NULL) return;
+        TreeLinkNode *curr=root, *head=NULL, *tail=NULL;
         while (curr) {
             while (curr) {
                 if (curr->left) {
-                    if (head==NULL) {
-                        head=curr->left;
-                    } else {
-                        prev->next=curr->left;
-                    }
-                    prev=curr->left;
+                    if (head==NULL) head=curr->left;
+                    else tail->next=curr->left;                        
+                    tail=curr->left;
                 }
                 
                 if (curr->right) {
-                    if (head==NULL) {
-                        head=curr->right;
-                    } else {
-                        prev->next=curr->right;
-                    }
-                    prev=curr->right;
+                    if (head==NULL) head=curr->right;
+                    else tail->next=curr->right;                    
+                    tail=curr->right;
                 }
+                
                 curr=curr->next;
             }
-            
+
             curr=head;
-            head=prev=NULL;
+            head=tail=NULL; 
         }
     }
 };

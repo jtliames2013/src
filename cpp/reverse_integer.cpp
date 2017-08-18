@@ -23,37 +23,6 @@ Hide Company Tags Bloomberg Apple
 Hide Tags Math
 Hide Similar Problems (E) String to Integer (atoi)
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-
-class Solution {
-public:
-    int reverse(int x) {
-        bool neg = false;
-        if (x < 0)
-        {
-        	neg = true;
-        	x = 0 - x;
-        }
-
-        int n = 0;
-        while (x > 0)
-        {
-        	n *= 10;
-        	n += x % 10;
-        	x /= 10;
-        }
-
-        if (neg) n = 0 - n;
-        return n;
-    }
-};
-
-2.
 class Solution {
 public:
     int reverse(int x) {
@@ -64,18 +33,12 @@ public:
         }
         
         unsigned long long res=0;
-        while (x>0) {
-            int digit=x%10;
-            res=res*10+digit;
+        while (x>0) {            
+            res=res*10+x%10;
             x/=10;
         }
         if (res>INT_MAX) return 0;
         return neg?-res:res;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
