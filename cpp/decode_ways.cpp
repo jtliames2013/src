@@ -33,3 +33,31 @@ public:
     }
 };
 
+2. Output all strings
+class Solution {
+public:
+	void dfs(vector<string>& res, string& output, string& s, int start) {
+		if (start==s.size()) {
+			res.push_back(output);
+			return;
+		}
+		if (s[start]!='0') {
+			output.push_back('A'+s[start]-'1');
+			dfs(res, output, s, start+1);
+			output.pop_back();
+		}
+		if (start<s.size()-1 && ((s[start]=='1') || (s[start]=='2' && s[start+1]<='6'))) {
+			int num=(s[start]-'0')*10+s[start+1]-'0';
+			output.push_back('A'+num-1);
+			dfs(res, output, s, start+2);
+			output.pop_back();
+		}
+	}
+    vector<string> getDecodings(string s) {
+        vector<string> res;
+        string output;
+    	dfs(res, output, s, 0);
+        return res;
+    }
+};
+

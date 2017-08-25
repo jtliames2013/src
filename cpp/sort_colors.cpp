@@ -36,3 +36,44 @@ public:
     }
 };
 
+2. Counting sort
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> count(3);
+        for (int i:nums) count[i]++;
+        for (int i=1; i<3; i++) count[i]+=count[i-1];
+        
+        for (int i=0; i<n; i++) {
+            if (i<count[0]) nums[i]=0;
+            else if (i<count[1]) nums[i]=1;
+            else nums[i]=2;
+        }
+    }
+};
+
+3. Counting sort generic
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> count(3);
+        for (int i:nums) count[i]++;
+        
+        int total=0;
+        for (int i=0; i<3; i++) {
+            int tmp=count[i];
+            count[i]=total;
+            total+=tmp;
+        }
+        
+        vector<int> output(n);
+        for (int i=0; i<n; i++) {
+            output[count[nums[i]]]=nums[i];
+            count[nums[i]]++;
+        }
+        nums=output;
+    }
+};
+

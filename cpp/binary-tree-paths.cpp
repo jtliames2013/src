@@ -20,23 +20,6 @@ Hide Similar Problems (M) Path Sum II
 
 ending condition: no left and no right. assueme root is not NULL. 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <list>
-#include <set>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
-#include <math.h>
-#include <iostream>
-#include <sstream>
-
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
