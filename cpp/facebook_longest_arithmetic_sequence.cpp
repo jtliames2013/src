@@ -1,5 +1,31 @@
 http://codercareer.blogspot.com/2014/03/no-53-longest-arithmetic-sequence.html
 
+class Solution {
+public:
+    int longestArithmeticSlices(vector<int>& A) {
+        int n=A.size();
+        if (n<3) return 0;
+        int res=0;
+        unordered_map<long,vector<pair<int,int>>> mp;
+
+        for (int i=0; i<n; i++) {
+            for (int j=i+1; j<n; j++) {
+                long diff=(long)A[j]-(long)A[i];
+                if (diff<INT_MIN || diff>INT_MAX) continue;
+                mp[diff].push_back({i,j});
+        }
+
+        for (auto iter:mp) {
+        	vector<int> len(n,1);
+        	for (auto p:iter.second) {
+        		len[p.second]=len[p.first]+1;
+        	}
+        	for (auto l:len) res=max(res, l);
+        }
+        return res<3?0:res;
+    }
+};
+
 No. 53 - Longest Arithmetic Sequence
 Question 1: Given an array, please get the length of the longest arithmetic sequence. The element order in the arithmetic sequence should be same as the element order in the array. For example, in the array {1, 6, 3, 5, 9, 7}, the longest arithmetic sequence is 1, 3, 5, and 7, whose elements have same order as they are in the array, and the length is 4.
 

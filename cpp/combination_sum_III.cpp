@@ -26,8 +26,8 @@ Hide Similar Problems (M) Combination Sum
 class Solution {
 public:
     void getSum(vector<vector<int>>& res, vector<int>& output, int k, int n, int start) {
-        if (n==0) {
-            if (k==0) res.push_back(output);
+        if (n==0 || k==0) {
+            if (n==0 && k==0) res.push_back(output);
             return;
         }    
         

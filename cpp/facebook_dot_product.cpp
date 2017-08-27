@@ -15,4 +15,46 @@
    
   第三题的输入就是稀疏数组的非0的数列出来了，A=[[1, a1], [300, a300], [5000, a5000]]的意思就是A中第1个数是a1,第300个是a300,第5000个是a5000，其他都是0.
 
+class Solution {
+public:
+	int dotProduct(vector<pair<int,int>> a, vector<pair<int,int>> b) {
+		int res=0, m=a.size(), n=b.size(), i=0, j=0;
+		while (i<m && j<n) {
+			if (a[i].first < b[j].first) i++;
+			else if (a[i].first > b[j].first) j++;
+			else {
+				res+=a[i].second*b[j].second;
+				i++;
+				j++;
+			}
+		}
+
+		return res;
+	}
+};
+
+2. b is big
+class Solution {
+public:
+	int binarySearch(vector<pair<int,int>>& b, int i) {
+		int n=b.size(), l=0, r=n-1;
+		while (l<=r) {
+			int mid=l+(r-l)/2;
+			if (b[mid].first==i) return mid;
+			else if (b[mid].first<i) l=mid+1;
+			else r=mid-1;
+		}
+		return -1;
+	}
+
+	int dotProduct(vector<pair<int,int>> a, vector<pair<int,int>> b) {
+		int res=0, m=a.size(), n=b.size(), i=0;
+		for (int i=0; i<m; i++) {
+			int j=binarySearch(b, a[i].first);
+			if (j!=-1) res+=a[i].second*b[j].second;
+		}
+
+		return res;
+	}
+};
 

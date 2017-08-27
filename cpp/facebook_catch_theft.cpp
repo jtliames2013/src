@@ -28,17 +28,16 @@ class Solution {
 public:
 	bool canCatch(int n, vector<int> strategy) {
 		int k=strategy.size();
-		vector<bool> dp(k, true);
-		dp[strategy[0]]=false;
-		bool before, after, savedBefore;
+		// dp[i]==true - thief can arrive at room i
+		vector<bool> prev(n, true), dp(n);
 		for (int i=0; i<k; i++) {
-			savedBefore=false;
 			for (int j=0; j<n; j++) {
-				before=savedBefore;
-				after=j==n-1?false:dp[j+1];
-				savedBefore=dp[j];
-				if (strategy[i]==j||(before==false&&after==false)) dp[j]=false;
+				if ((j>0 && prev[j-1]) || (j<n-1 && prev[j+1])) {
+					dp[j]=true;
+				}
 			}
+			dp[strategy[i]]=false;
+			prev=dp;
 		}
 		for (int j=0; j<n; j++) {
 			if (dp[j]==true) return false;

@@ -5,17 +5,13 @@ public:
 	int compareNumber(string s1, string s2) {
 		int n1=s1.size(), n2=s2.size();
 		int i1=0, i2=0;
-		while (i1<n1 && s1[i1]=='0') i1++;
-		while (i2<n2 && s2[i2]=='0') i2++;
+		int val1=0, val2=0;
+		for (; i1<n1; i1++) val1=val1*10+s1[i1]-'0';
+		for (; i2<n2; i2++) val2=val2*10+s2[i2]-'0';
 
-		if (n1-i1!=n2-i2) return n1-i1>n2-i2?1:-1;
-
-		for (; i1<n1 && i2<n2; i1++, i2++) {
-			if (s1[i1]!=s2[i2]) {
-				return s1[i1]<s2[i2]?-1:1;
-			}
-		}
-		return 0;
+		if (val1==val2) return 0;
+		else if (val1<val2) return -1;
+		return 1;
 	}
 	int naturalCompare(string s1, string s2) {
 		int n1=s1.size(), n2=s2.size();
@@ -34,7 +30,8 @@ public:
 			}
 		}
 
-		return 0;
+		if (n1==n2) return 0;
+        return n1>n2?1:-1;
 	}
 };
 
@@ -42,6 +39,7 @@ int main()
 {
 	Solution s;
 	string s1="aaa111";
+	//string s2="aaa90";
 	string s2="aaa900";
 	int res=s.naturalCompare(s1, s2);
 	cout << res << endl;

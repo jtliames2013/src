@@ -32,8 +32,8 @@ public:
             if (total==t.size()) {
                 while (total==t.size()) {
                     if (count.find(s[l])!=count.end()) {
-                        count[s[l]]++;
-                        if (count[s[l]]>0) total--;
+                        if (count[s[l]]>=0) total--;
+                        count[s[l]]++;                        
                     }
                     l++;
                 }
@@ -45,9 +45,8 @@ public:
                 }
             }
         }
-        
-        if (minLen==INT_MAX) return "";
-        else return s.substr(start, minLen);
+                
+        return minLen==INT_MAX?"":s.substr(start, minLen);
     }
 };
 
@@ -56,8 +55,7 @@ class Solution {
 public:
     string minWindow(string s, string t) {
         vector<int> count(128,0);
-        for (auto ch:t) count[ch]++;
-        
+        for (auto ch:t) count[ch]++;        
         int total=0, start, minLen=INT_MAX;
         
         for (int l=0, r=0; r<s.size(); r++) {
@@ -66,8 +64,8 @@ public:
             
             if (total==t.size()) {
                 while (total==t.size()) {
+                    if (count[s[l]]>=0) total--;
                     count[s[l]]++;
-                    if (count[s[l]]>0) total--;
                     l++;
                 }
                 
@@ -77,9 +75,8 @@ public:
                 }
             }
         }
-        
-        if (minLen==INT_MAX) return "";
-        else return s.substr(start, minLen);
+                
+        return minLen==INT_MAX?"":s.substr(start, minLen);
     }
 };
 
@@ -89,33 +86,33 @@ public:
       string minWindow(string s, set<char> st) {
     	  map<char, int> count;
     	  for (auto c:st) count[c]++;
-    	  int total;
-    	  int maxLen=INT_MIN;
-    	  int start, end;
+    	  int total=0;
+    	  int minLen=INT_MAX;
+    	  int start;
 
     	  for (int l=0, r=0; r<s.size(); r++) {
     		  if (count.find(s[r])!=count.end()) {
     			  if (count[s[r]]>0) total++;
     			  count[s[r]]--;
+              }
 
+              if (total==st.size()) { 
     			  while (total==st.size()) {
-    				  if (r-l+1>maxLen) {
-    					  maxLen=r-l+1;
-    					  start=l;
-    					  end=r;
-    				  }
-
     				  if (count.find(s[l])!=count.end()) {
+    					  if (count[s[l]]>=0) total--;
     					  count[s[l]]++;
-    					  if (count[s[l]]>0) total--;
     				  }
     				  l++;
     			  }
+
+                  if (minLen>r-l+2) {
+                      minLen=r-l+2;
+                      start=l-1;
+                  }
     		  }
     	  }
 
-    	  if (maxLen==INT_MIN) return "";
-    	  else return s.substr(start, end-start+1);
+          return minLen==INT_MAX?"":s.substr(start, minLen);
       }
   };
-
+    
