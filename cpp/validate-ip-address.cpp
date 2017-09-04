@@ -73,7 +73,7 @@ public:
                     num*=10;
                     num+=val[i]-'0';
                 }
-                if (num>255 || (num>0 && val[0]=='0') || (num==0 && val.size()>1)) return res[2];
+                if (num>255 || (val.size()>1 && val[0]=='0')) return res[2];
             } else if (type==1) {
                 if (val.size()>4) return res[2];
                 for (int i=0; i<val.size(); i++) {
