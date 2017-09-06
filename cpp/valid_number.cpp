@@ -1,114 +1,49 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <vector>
-#include <queue>
+65. Valid Number
+DescriptionHintsSubmissionsDiscussSolution
+Discuss Pick One
+Validate if a given string is numeric.
 
-using namespace std;
+Some examples:
+"0" => true
+" 0.1 " => true
+"abc" => false
+"1 a" => false
+"2e10" => true
+Note: It is intended for the problem statement to be ambiguous. You should gather all requirements up front before implementing one.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Update (2015-02-10):
+The signature of the C++ function had been updated. If you still see your function signature accepts a const char * argument, please click the reload button  to reset your code definition.
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-// Incomplete!!!
 class Solution {
 public:
-	bool isNumeric(const char c)
-	{
-		return c >= '0' && c <= '9';
-	}
-
-	bool isWhiteSpace(const char c)
-	{
-		return (c == ' ' || c == '\t');
-	}
-
-    bool isNumber(const char *s) {
-    	if (s == NULL) return false;
-    	int len = strlen(s);
-
-    	int b, e;
-
-    	for (b = 0; b < len; b++)
-    	{
-    		if (!isWhiteSpace(s[b])) break;
-    	}
-
-    	for (e = len - 1; e >= 0; e--)
-    	{
-    		if (!isWhiteSpace(s[e])) break;
-    	}
-
-    	if (b <= e && (s[b] == '-' || s[b] == '+')) b++;
-
-    	if (b <= e)
-    	{
-			int i;
-			for (i = b; i <= e; i++)
-			{
-				if (!isNumeric(s[i])) break;
-			}
-
-			if (i > e) return true;
-			else if (s[i] == 'e')
-			{
-				int j;
-				if (i == b) return false;
-				if (i == e) return false;
-
-				j = i + 1;
-				if (s[i+1] == '-' || s[i+1] == '+')
-					j++;
-				if (j > e) return false;
-
-				for (; j <= e; j++)
-				{
-					if (!isNumeric(s[j])) return false;
-				}
-
-				return true;
-			}
-			else if (s[i] == '.')
-			{
-				int j;
-				if (i == b && i == e) return false;
-
-				for (j = i + 1; j <= e; j++)
-				{
-					if (!isNumeric(s[j])) return false;
-				}
-
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-    	else
-    	{
-    		return false;
-    	}
+    bool isNumber(string s) {
+        int n=s.size(), i=0;                
+        for (; i<n; i++) {
+            if (!isspace(s[i])) break;
+        }
+        bool hasPoint=false, hasE=false, numBeforeE=false, numAfterE=false;
+        int start=i;
+        for (; i<n; i++) {
+            if (isdigit(s[i])) {
+                if (!hasE) numBeforeE=true;
+                else numAfterE=true;
+            } else if (s[i]=='e') {
+                if (hasE || numBeforeE==false) return false;
+                hasE=true;
+            } else if (s[i]=='.') {
+                if (hasPoint || hasE) return false;
+                hasPoint=true;
+            } else if (s[i]=='+' || s[i]=='-') {
+                if (i>start && s[i-1]!='e') return false;
+            } else if (s[i]==' ') {
+                while (i<n && s[i]==' ') i++;
+                if (i<n) return false;
+            } else {
+                return false;
+            }
+        }
+        
+        return numBeforeE && (!hasE || numAfterE);
     }
 };
-
-int main()
-{
-	return 0;
-}
 

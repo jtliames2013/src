@@ -1,104 +1,46 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
+8. String to Integer (atoi)
+DescriptionHintsSubmissionsDiscussSolution
+Discuss Pick One
+Implement atoi to convert a string to an integer.
 
-using namespace std;
+Hint: Carefully consider all possible input cases. If you want a challenge, please do not see below and ask yourself what are the possible input cases.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Notes: It is intended for this problem to be specified vaguely (ie, no given input specs). You are responsible to gather all the input requirements up front.
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+Update (2015-02-10):
+The signature of the C++ function had been updated. If you still see your function signature accepts a const char * argument, please click the reload button  to reset your code definition.
+
+spoilers alert... click to show requirements for atoi.
+
+Requirements for atoi:
+The function first discards as many whitespace characters as necessary until the first non-whitespace character is found. Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a numerical value.
+
+The string can contain additional characters after those that form the integral number, which are ignored and have no effect on the behavior of this function.
+
+If the first sequence of non-whitespace characters in str is not a valid integral number, or if no such sequence exists because either str is empty or it contains only whitespace characters, no conversion is performed.
+
+If no valid conversion could be performed, a zero value is returned. If the correct value is out of the range of representable values, INT_MAX (2147483647) or INT_MIN (-2147483648) is returned.
 
 class Solution {
 public:
-	bool isNumeric(char c)
-	{
-		return c >= '0' && c <= '9';
-	}
-
-    int atoi(const char *str) {
-    	if (str == NULL) return 0;
-
-    	unsigned long long res = 0;
-    	int len = strlen(str);
-    	int i;
-    	for (i = 0; i < len; i++)
-    	{
-    		if (str[i] != ' ')
-    		{
-    			break;
-    		}
-    	}
-
-    	bool neg = false;
-    	if (i < len)
-    	{
-    		if (str[i] == '-')
-    		{
-    			neg = true;
-    			i++;
-    		}
-    		else if (str[i] == '+')
-    		{
-    			i++;
-    		}
-    	}
-
-    	for (int j = i; j < len; j++)
-    	{
-    		if (isNumeric(str[j]))
-    		{
-    			if (neg == false && res > 0x7FFFFFFF)
-				{
-					break;
-				}
-				else if (neg == true && res >= 0x80000000 )
-				{
-					break;
-				}
-
-    			res *= 10;
-    			res += str[j] - '0';
-    		}
-    		else
-    		{
-    			break;
-    		}
-    	}
-
-    	if (neg == false && res > 0x7FFFFFFF)
-		{
-			res = 0x7FFFFFFF;
-		}
-		else if (neg == true && res >= 0x80000000 )
-		{
-			res = 0x80000000;
-		}
-
-    	if (neg) res = res * (-1);
-    	return (int)res;
+    int myAtoi(string str) {
+        long long res=0;
+        int n=str.size(), i=0;
+        for (; i<n; i++) if (!isspace(str[i])) break;
+            
+        bool neg=false;
+        if (i<n && (str[i]=='+' || str[i]=='-')) {
+            neg=str[i]=='-';
+            i++;
+        }
+        
+        for (; i<n; i++) {                      
+            if (!isdigit(str[i])) break;
+            res=res*10+str[i]-'0';
+            if (res>INT_MAX) return neg?INT_MIN:INT_MAX;
+        }
+        
+        return neg?-res:res;
     }
 };
-
-int main()
-{
-	return 0;
-}
 

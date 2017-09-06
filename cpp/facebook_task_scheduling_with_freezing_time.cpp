@@ -12,40 +12,14 @@ Sample 2
 tasks: 1, 2, 3, 1, 2, 3.  recovery interval: 3
 output: 7  (order is 1 2 3 _ 1 2 3)
 
+1.
 class Solution {
 public:
 	  int getTime(vector<int> samples, int interval) {
 		  int total=0;
 		  map<int, int> lastTime;
 		  for (int i=0; i<samples.size(); i++) {
-			  if (lastTime.find(samples[i])==lastTime.end()) {
-				  lastTime[samples[i]]=total;
-				  total++;
-			  } else {
-				  if (total-1-lastTime[samples[i]]<interval) {
-					  // there are interval numbers in between excluding start and end
-					  total=lastTime[samples[i]]+interval+1;
-					  lastTime[samples[i]]=total;
-					  total++;
-				  } else {
-					  lastTime[samples[i]]=total;
-					  total++;
-				  }
-			  }
-		  }
-
-		  return total;
-	  }
-  };
-
-2.
-class Solution {
-public:
-	  int getTime(vector<int> samples, int interval) {
-		  int total=0;
-		  map<int, int> lastTime;
-		  for (int i=0; i<samples.size(); i++) {
-			  if (lastTime.find(samples[i])!=lastTime.end() && total-1-lastTime[samples[i]]<interval) {
+			  if (lastTime.find(samples[i])!=lastTime.end() && total<lastTime[samples[i]]+interval+1) {
 				  // there are interval numbers in between excluding start and end
 				  total=lastTime[samples[i]]+interval+1;
 			  }
@@ -55,6 +29,28 @@ public:
 		  }
 
 		  return total;
+	  }
+  };
+
+2. get sequence
+public:
+	  vector<char> getTime(vector<char> samples, int interval) {
+		  int total=0;
+          vector<char> seq;
+		  map<char, int> lastTime;
+		  for (int i=0; i<samples.size(); i++) {
+			  if (lastTime.find(samples[i])!=lastTime.end() && total<lastTime[samples[i]]+interval+1) {
+				  // there are interval numbers in between excluding start and end
+                  for (int i=total; i<lastTime[samples[i]]+interval+1; i++) seq.push_back('_');
+				  total=lastTime[samples[i]]+interval+1;
+			  }
+
+              seq.push_back(samples[i]);
+			  lastTime[samples[i]]=total;
+			  total++;
+		  }
+
+		  return seq;
 	  }
   };
 

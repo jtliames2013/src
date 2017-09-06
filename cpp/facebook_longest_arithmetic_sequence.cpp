@@ -1,4 +1,50 @@
+http://www.chenguanghe.com/google-longest-arithmetic-sequence-%E6%B1%82%E6%9C%80%E9%95%BF%E7%AD%89%E5%B7%AE%E6%95%B0%E5%88%97/
+https://prismoskills.appspot.com/lessons/Dynamic_Programming/Chapter_22_-_Longest_arithmetic_progression.jsp
+http://www.geeksforgeeks.org/length-of-the-longest-arithmatic-progression-in-a-sorted-array/
+Given a set of numbers, find the Length of the Longest Arithmetic Progression (LLAP) in it.
+
+class Solution {
+public:
+    vector<int> longestArithmeticSlices(vector<int>& A) {
+        int n=A.size();
+        if (n<3) return 0;
+        // assume input sorted
+        //sort(A.begin(), A.end());
+        vector<int> seq;
+        int maxLen=0, delta=0, val=0;
+        // dp[i][j] stores LLAP with set[i] and set[j] as last two elements
+        vector<vector<int>> dp(n, vector<int>(n));
+
+        for (int j=1; j<n-1; j++) {
+        	int i=j-1, k=j+1;
+        	while (i>=0 && k<n) {
+        		if (A[i]+A[k]>2*A[j]) {
+        			i--;
+        		} else if (A[i]+A[k]<2*A[j]) {
+        			k++;
+        		} else {
+        			dp[j][k]=dp[i][j]==0?3:dp[i][j]+1;
+        			if (dp[j][k]>maxLen) {
+        				maxLen=dp[j][k];
+        				delta=A[j]-A[i];
+        				val=A[k];
+        			}
+        			i--;
+        			k++;
+        		}
+        	}
+        }
+
+        for (int i=0; i<maxLen; i++) {
+        	seq.push_back(val);
+        	val-=delta;
+        }
+        return seq;
+    }
+};
+
 http://codercareer.blogspot.com/2014/03/no-53-longest-arithmetic-sequence.html
+Question 1: Given an array, please get the length of the longest arithmetic sequence. The element order in the arithmetic sequence should be same as the element order in the array. For example, in the array {1, 6, 3, 5, 9, 7}, the longest arithmetic sequence is 1, 3, 5, and 7, whose elements have same order as they are in the array, and the length is 4.
 
 class Solution {
 public:
@@ -17,10 +63,24 @@ public:
 
         for (auto iter:mp) {
         	vector<int> len(n,1);
+            res=0;
+            int idx=0;
         	for (auto p:iter.second) {
         		len[p.second]=len[p.first]+1;
         	}
-        	for (auto l:len) res=max(res, l);
+        	for (int i=0; i<n; i++) {
+                if (res<len[i]) {
+                    res=len[i];
+                    idx=i;
+                }            
+            }
+            // output sequence
+            vector<int> seq;
+            int num=A[idx];
+            for (int i=0; i<res; i++) {
+                seq.push_back(num);
+                num-=iter.first;
+            }
         }
         return res<3?0:res;
     }

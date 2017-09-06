@@ -16,29 +16,15 @@ public:
         string res;
         int m=a.size(), n=b.size();
         int i=m-1, j=n-1;
-        bool carry=false;
-        while (i>=0 || j>=0) {
-            int num=0;
-            if (i>=0) { 
-                num+=a[i]-'0';
-                i--;
-            }
-            if (j>=0) {
-                num+=b[j]-'0';
-                j--;
-            }
-            if (carry) {
-                num++;
-                carry=false;
-            }
-            if (num>1) {
-                num%=2;
-                carry=true;
-            }
-            res.push_back(num+'0');
+        int num=0;
+        while (i>=0 || j>=0) {            
+            if (i>=0) num+=a[i--]-'0';
+            if (j>=0) num+=b[j--]-'0';
+            res.push_back(num%2+'0');
+            num/=2;
         }
         
-        if (carry) res.push_back('1');
+        if (num!=0) res.push_back(num+'0');
         
         reverse(res.begin(), res.end());
         return res;

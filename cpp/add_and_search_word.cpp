@@ -31,9 +31,7 @@ public:
     unordered_map<char, TrieNode*> children;
     bool isWord;
     
-    TrieNode() {
-        isWord=false;
-    }
+    TrieNode():isWord(false) { }
 };
 
 class WordDictionary {
@@ -44,19 +42,11 @@ public:
     }
     
     /** Adds a word into the data structure. */
-    void addWord(string word) {
-        int i;
+    void addWord(string word) {        
         TrieNode* n=root;
-        for (i=0; i<word.size(); i++) {
-            auto iter=n->children.find(word[i]);
-            if (iter==n->children.end()) break;
-            n=iter->second;
-        }
-        
-        for (; i<word.size(); i++) {
-            TrieNode *c=new TrieNode();
-            n->children[word[i]]=c;
-            n=c;
+        for (int i=0; i<word.size(); i++) {
+            if (n->children.find(word[i])==n->children.end()) n->children[word[i]]=new TrieNode();
+            n=n->children[word[i]];
         }
         n->isWord=true;
     }
@@ -90,3 +80,57 @@ private:
  * bool param_2 = obj.search(word);
  */
 
+2.
+class WordDictionary {
+public:
+    struct TrieNode {
+        vector<TrieNode*> children;
+        bool isWord;
+        TrieNode():isWord(false) { children.resize(26); }
+    };
+    
+    /** Initialize your data structure here. */
+    WordDictionary() {
+        root=new TrieNode();
+    }
+    
+    /** Adds a word into the data structure. */
+    void addWord(string word) {
+        TrieNode *n=root;
+        for (int i=0; i<word.size(); i++) {
+            int j=word[i]-'a';
+            if (n->children[j]==NULL) n->children[j]=new TrieNode();
+            n=n->children[j];
+        }
+        n->isWord=true;
+    }
+    
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    bool search(string word) {
+        return search(word, root, 0);
+    }
+    
+private:
+    bool search(string& word, TrieNode* node, int start) {
+        if (start==word.size()) return node->isWord;
+        if (word[start]=='.') {
+            for (auto c:node->children) {
+                if (c!=NULL && search(word, c, start+1)) return true;                
+            }
+            return false;
+        } else {
+            int j=word[start]-'a';            
+            if (node->children[j]==NULL) return false;
+            return search(word, node->children[j], start+1);            
+        }
+    }
+    
+    TrieNode *root;
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * bool param_2 = obj.search(word);
+ */

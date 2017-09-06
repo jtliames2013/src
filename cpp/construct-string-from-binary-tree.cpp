@@ -53,7 +53,7 @@ public:
     void dfs(string& res, TreeNode* t) {
         if (t==NULL) return;
         res+=to_string(t->val);
-        if (t->left || (t->left==NULL && t->right)) {
+        if (t->left || t->right) {
             res+="(";
             dfs(res, t->left);
             res+=")";
