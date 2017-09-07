@@ -237,8 +237,10 @@ public:
 		}
 	}
 
-	void convertBSTToLinkedList(TreeNode *root, TreeNode **head, TreeNode **tail) {
-		convert(root, head, tail);
+	TreeNode* convertBSTToLinkedList(TreeNode *root, TreeNode **head, TreeNode **tail) {
+        TreeNode *head=NULL, *tail=NULL;		
+        convert(root, &head, &tail);
+        return head;
 	}
 };
 

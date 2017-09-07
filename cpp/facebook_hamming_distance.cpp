@@ -21,32 +21,17 @@ int hamming_distance(unsigned x, unsigned y)
     return dist;
 }
 
-public int HammingDistance(vector<int> input)
+public int HammingDistance(vector<unsigned int> nums)
 {
-  // the result is the number of 1 bits x number of 0 bits
-  int total = 0;
-  int n=input.size();
-  if (n==0) return 0;
-
-    // Counts number of bits set per position
-    vector<int> onebitscounter(32, 0);
-    for (int i = 0; i < n; ++i)
-    {
-      int j = 0;
-      while (input[i] != 0)
-      {
-        if (input[i] % 2 == 1)
-          onebitscounter[j] += 1;
-        // shift one bit to the right
-        input[i] = input[i] >> 1;
-        ++j;
-      }
-    }
-
-    for (int k = 0; k < 32; ++k)
-    {
-      total += onebitscounter[k] * (n - onebitscounter[k]);
-    }
-
-  return total;
+        int res=0;
+        for (int i=0; i<32; i++) {
+            int count=0;
+            for (auto n:nums) {
+                count+=((n>>i) & 0x1);
+            }
+            res+=count*(nums.size()-count);
+        }
+        
+        return res;
 }
+

@@ -40,3 +40,47 @@ public:
     }
 };
 
+2. Inorder
+class Solution {
+public:
+    bool isValidBST(TreeNode* root, TreeNode* &prev) {
+        if (root==NULL) return true;
+        if (isValidBST(root->left, prev)==false) return false;
+        if (prev!=NULL && prev->val>=root->val) return false;
+        prev=root;
+        return isValidBST(root->right, prev);
+    }
+    
+    bool isValidBST(TreeNode* root) {
+        TreeNode* prev=NULL;
+        return isValidBST(root, prev);
+    }
+};
+
+3. Iterative
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        if (root==NULL) return true;
+        TreeNode *prev=NULL, *n=root;
+        stack<TreeNode*> stk;
+        while (n) {
+            stk.push(n);
+            n=n->left;
+        }
+        
+        while (!stk.empty()) {
+            TreeNode *t=stk.top();
+            stk.pop();
+            if (prev!=NULL && prev->val>=t->val) return false;
+            prev=t;
+            n=t->right;
+            while (n) {
+                stk.push(n);
+                n=n->left;
+            }
+        }
+        return true;
+    }
+};
+
