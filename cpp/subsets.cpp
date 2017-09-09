@@ -46,23 +46,15 @@ class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
         vector<vector<int>> res;
-        int n=nums.size();
-        int total=1<<n;
+        int n=nums.size(), total=1<<n;
         for (int i=0; i<total; i++) {
             vector<int> output;
             for (int j=0; j<n; j++) {
-                if ((0x1 & (i>>j))==1) output.push_back(nums[j]);
+                if (((i>>j) & 0x1)==1) output.push_back(nums[j]);
             }
             res.push_back(output);
         }
-        
         return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
 

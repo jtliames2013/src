@@ -30,7 +30,7 @@ public:
         if (head==NULL||head->next==NULL) return;
         ListNode *one=head, *two=head, *prev=NULL;
         while (two) {
-            two=two->next?two->next->next:two->next;
+            two=two->next?two->next->next:NULL;
             prev=one;
             one=one->next;
         }

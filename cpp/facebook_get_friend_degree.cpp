@@ -17,6 +17,46 @@ public:
 		visited.insert(start);
 		visited.insert(end);
 		int degree=1;
+
+		if (findHelper(st1, st2, visited, degree)) return degree;
+		else return INT_MAX;
+	}
+
+	bool findHelper(unordered_set<int>& st1, unordered_set<int>& st2, unordered_set<int>& visited, int& degree) {
+		if (st1.size()>st2.size()) return findHelper(st2, st1, visited, degree);
+        if (st1.empty()) return false;
+        unordered_set<int> next;
+
+		for (auto id:st1) {
+			if (st2.find(id)!=st2.end()) return true;
+			unordered_set<int> neighbors=getFriends(id);
+			for (auto neighbor:neighbors) {
+				if (visited.find(neighbor)==visited.end()) {
+					next.insert(neighbor);
+					visited.insert(neighbor);
+				}
+			}
+		}
+		st1.clear();
+		degree++;
+		return findHelper(st2, next, visited, degree);
+	}
+};
+
+class Solution {
+public:
+	unordered_set<int> getFriends(int id) {
+		return unordered_set<int>();
+	}
+
+	int findFriendDegree(int start, int end) {
+		unordered_set<int> st1, st2;
+		unordered_set<int> visited;
+		st1.insert(start);
+		st2.insert(end);
+		visited.insert(start);
+		visited.insert(end);
+		int degree=1;
 		unordered_set<int> next;
 
 		while (!st1.empty() && !st2.empty()) {
