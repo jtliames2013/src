@@ -32,7 +32,28 @@ public:
     }
 };
 
-2. BFS
+2.
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        if (amount<0) return -1;
+        vector<int> dp(amount+1, -1);
+        dp[0]=0;
+        for (int i=0; i<=amount; i++) {
+            if (dp[i]==-1) continue;
+            for (int j=0; j<coins.size(); j++) {
+                long next=i+(long)coins[j];
+                if (next<=amount) {
+                    if (dp[next]==-1 || dp[next]>dp[i]+1) dp[next]=dp[i]+1;                    
+                }
+            }
+        }
+
+        return dp[amount];
+    }
+};
+
+3. BFS
 将问题转化为求X轴0点到坐标点amount的最短距离（每次向前行进的合法距离为coin的面值）
 https://leetcode.com/discuss/76432/fast-python-bfs-solution
 class Solution {

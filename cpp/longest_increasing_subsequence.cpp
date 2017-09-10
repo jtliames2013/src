@@ -77,3 +77,24 @@ public:
     }
 };
 
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        if (n==0) return 0;
+        vector<int> sorted;
+
+        for (int i=0; i<n; i++) {
+            int l=0, r=sorted.size();
+            while (l<r) {
+                int mid=l+(r-l)/2;
+                if (sorted[mid]<nums[i]) l=mid+1;
+                else r=mid;
+            }
+            if (l==sorted.size()) sorted.push_back(nums[i]);
+            else sorted[l]=nums[i];
+        }
+        
+        return sorted.size();
+    }
+};

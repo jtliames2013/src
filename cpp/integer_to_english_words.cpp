@@ -13,12 +13,12 @@ There are many edge cases. What are some good test cases? Does your code work wi
 
 class Solution {
 public:
-    string convert(int part) {
-        if (part==0) return "";
-        else if (part<20) return underTwenty[part];
-        else if (part<100) return tens[part/10] + " " + underTwenty[part%10];
-        else {
-            return underTwenty[part/100] + " Hundred " + convert(part%100); 
+    string convert(int part) {        
+        if (part<20) return underTwenty[part];
+        else if (part<100) {
+            return tens[part/10] + ((part%10)>0?(" " + underTwenty[part%10]):"");
+        } else {
+            return underTwenty[part/100] + " Hundred" + ((part%100)>0?(" " + convert(part%100)):""); 
         }
     }
     
@@ -31,7 +31,6 @@ public:
             if (part>0) {
                 if (!res.empty()) res+=" ";
                 res+=convert(part);
-                if (res.back()==' ') res.pop_back();
                 if (i<3) res+=" " + thousands[i];
             }
             num%=scale;
