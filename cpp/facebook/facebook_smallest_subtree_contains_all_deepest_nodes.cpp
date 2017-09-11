@@ -11,12 +11,39 @@ deepest nodes:[h,i,j]
 least common ancestor of [h,i,j]: b
 return: b
 
+1 Recursive
 struct MultiTreeNode {
 	  int val;
 	  vector<MultiTreeNode*> children;
 	  MultiTreeNode(int v) : val(v) {}
   };
 
+class Solution {
+	pair<MultiTreeNode*,int> findSubTree(MultiTreeNode *root) {
+		if (root==NULL) return {NULL, 0};
+
+		int maxDepth=0, maxCnt=0;
+		MultiTreeNode* maxNode;
+
+		for (int i=0; i<root->children.size(); i++) {
+			int p=findSubTree(root->children[i]);
+			if (p.second>maxDepth) {
+				maxDepth=p.second;
+				maxCnt=1;
+				maxNode=p.first;
+			} else if (p.second==maxDepth) {
+				maxCnt++;
+		}
+
+		if (maxCnt==1) {
+			return {maxNode, maxDepth+1};
+		} else {
+			return {root, maxDepth+1};
+		}
+	}
+};
+
+2. Cache depth
 class Solution {
 	int findDepth(MultiTreeNode *root, map<MultiTreeNode*, int>& depth) {
 		if (root==NULL) return 0;
@@ -74,7 +101,7 @@ class Solution {
     2   3
 4      5 6   retrun 1. 
 
-Recursive
+1. Recursive
 struct TreeNode {
     int val;
     TreeNode *left;
@@ -96,11 +123,10 @@ class Solution {
 		} else {
 			return {r.first, depth};
 		}
-
 	}
 };
 
-Iterative
+2. Iterative
 struct TreeNode {
     int val;
     TreeNode *left;
@@ -144,6 +170,7 @@ class Solution {
 	}
 };
 
+3. Cache depth
 class Solution {
 	int findDepth(TreeNode* root, unordered_map<TreeNode*, int>& mp) {
 		if (root==NULL) return;

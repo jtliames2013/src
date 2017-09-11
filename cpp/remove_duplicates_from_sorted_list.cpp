@@ -14,26 +14,7 @@ Given 1->1->2->3->3, return 1->2->3.
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-class Solution {
-public:
-    ListNode* deleteDuplicates(ListNode* head) {
-        if (head==NULL) return NULL;
-        ListNode *prev=head, *curr=head->next, *tmp;
-        while (curr) {
-            if (curr->val==prev->val) {
-                tmp=curr;
-                prev->next=curr->next;
-                delete tmp;
-            } else {
-                prev=curr;
-            }
-            curr=curr->next;
-        }
-        return head;
-    }
-};
 
-2.
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
@@ -50,9 +31,4 @@ public:
         return head;
     }
 };
-
-int main()
-{
-	return 0;
-}
 
