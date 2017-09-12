@@ -34,8 +34,7 @@ public:
         TreeNode *r=lowestCommonAncestor(root->right, p, q);
         if (l && r) return root;
         else if (l) return l;
-        else if (r) return r;
-        else return NULL;
+        else return r;
     }
 };
 

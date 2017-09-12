@@ -34,19 +34,19 @@ Hide Similar Problems (M) Encode and Decode Strings
 class Solution {
 public:
     string countAndSay(int n) {
-        if (n==1) return "1";
-        string prev="1", res;
-        for (int i=2; i<=n; i++) {
-            res.clear();
-            for (int start=0, end=0; start<prev.size(); ) {
-                while (end<prev.size() && prev[end]==prev[start]) end++;
-                res+=to_string(end-start)+prev[start];
-                start=end;
+        if (n<=0) return "";
+        string prev="1";
+        for (int i=1; i<n; i++) {
+            string curr;
+            for (int j=0; j<prev.size(); ){
+                int k=j;
+                while (k<prev.size() && prev[k]==prev[j]) k++;
+                curr+=to_string(k-j)+prev[j];
+                j=k;
             }
-            prev=res;
+            prev=curr;
         }
-        
-        return res;
+        return prev;
     }
 };
 
