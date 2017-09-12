@@ -5,17 +5,11 @@ public:
 	bool duplicateInKConsecutiveSubarray(vector<int> nums, int k) {
 		int n=nums.size();
 		if (n==0) return false;
-		map<int,int> count;
-		int i;
-		for (i=0; i<k && i<n; i++) {
-			if (count[nums[i]]>0) return true;
-			count[nums[i]]++;
-		}
-
-		for (; i<n; i++) {
-			count[nums[i-k]]--;
-			if (count[nums[i]]>0) return true;
-			count[nums[i]]++;
+		unordered_set<int> st;
+		for (int i=0; i<n; i++) {
+			if (st.find(nums[i])!=st.end()) return true;
+			st.insert(nums[i]);
+			if (i>=k) st.erase(nums[i-k]);
 		}
 
 		return false;

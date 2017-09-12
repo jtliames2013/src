@@ -11,27 +11,42 @@ public:
 			if (nums[r]==0) r--;
 			else if (nums[l]!=0) l++;
 			else {
-				swap(nums[l], nums[r]);
-				l++;
-				r--;
+				swap(nums[l++], nums[r--]);
 			}
 		}
-		return r+1;
+		return l;
 	}
 };
 
-int main()
-{
-	//vector<int> nums={1,0,2,0,4,0,5,7};
-	//vector<int> nums={0};
-	vector<int> nums={1};
-	Solution s;
-	int res=s.movezero(nums);
-	cout << res << endl;
-	for (int i=0; i<nums.size(); i++) {
-		cout << nums[i] << " ";
+void print(vector<int> n) {
+	for (int i=0; i<n.size(); i++) {
+		cout << n[i] << " ";
 	}
 	cout << endl;
+}
+
+int main()
+{
+	vector<int> n1={1,0,2,0,4,0,5,7};
+	vector<int> n2={0};
+	vector<int> n3={1};
+	vector<int> n4={0,0,0};
+	vector<int> n5={1,1,1};
+	vector<int> n6={0,0,1};
+	Solution s;
+	cout << s.movezero(n1) << endl;
+	print(n1);
+	cout << s.movezero(n2) << endl;
+	print(n2);
+	cout << s.movezero(n3) << endl;
+	print(n3);
+	cout << s.movezero(n4) << endl;
+	print(n4);
+	cout << s.movezero(n5) << endl;
+	print(n5);
+	cout << s.movezero(n6) << endl;
+	print(n6);
+
 	return 0;
 }
 
