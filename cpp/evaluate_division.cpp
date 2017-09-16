@@ -32,7 +32,6 @@ public:
                 if (res!=-1) return res*neighbor.second;
             }
         }
-        visited.erase(start);
         return -1;
     }
     
