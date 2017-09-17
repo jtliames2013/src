@@ -17,6 +17,38 @@ Subscribe to see which companies asked this question
 
 Hide Tags Depth-first Search Stack
 
+1. Use stack
+class Solution {
+public:
+    string decodeString(string s) {
+        string res;
+        stack<string> strs;
+        stack<int> nums;
+        int num=0;
+        for (int i=0; i<s.size(); i++) {
+            if (isdigit(s[i])) {           
+                num=num*10+s[i]-'0';                
+            } else if (isalpha(s[i])) {
+                res+=s[i];
+            } else if (s[i]=='[') {
+                strs.push(res);
+                res="";
+                nums.push(num);
+                num=0;
+            } else if (s[i]==']') {
+                for (int i=0; i<nums.top(); i++) strs.top()+=res;
+                res=strs.top();                
+                num=0;
+                strs.pop();
+                nums.pop();
+            }
+        }
+        
+        return res;
+    }
+};
+
+2. Recursive
 class Solution {
 public:
     string decodeString(string& s, int& i) {
@@ -52,7 +84,7 @@ public:
     }
 };
 
-2. Use stack
+3. Use stack
 class Solution {
 public:
     string decodeString(string s) {
