@@ -40,6 +40,29 @@ public:
         vector<double> res;
         multiset<int> st(nums.begin(), nums.begin()+k);
         auto mid=next(st.begin(), k/2);
+        for (int i=k-1; i<nums.size(); i++) {            
+            if (i>=k) {
+                st.insert(nums[i]);
+                if (nums[i]<*mid) mid--;
+                if (nums[i-k]<=*mid) mid++;
+                st.erase(st.lower_bound(nums[i-k]));
+            }
+            
+            double m;
+            if (k%2==0) m=((double)*mid + *prev(mid, 1))/2;
+            else m=*mid;
+            res.push_back(m);
+        }
+        return res;
+     }
+};
+
+class Solution {
+public:
+    vector<double> medianSlidingWindow(vector<int>& nums, int k) {
+        vector<double> res;
+        multiset<int> st(nums.begin(), nums.begin()+k);
+        auto mid=next(st.begin(), k/2);
         for (int i=k; ; i++) {
             double m;
             if (k%2==0) m=((double)*mid + *prev(mid, 1))/2;

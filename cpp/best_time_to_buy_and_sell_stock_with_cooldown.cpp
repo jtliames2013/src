@@ -23,15 +23,17 @@ public:
     int maxProfit(vector<int>& prices) {
         int n=prices.size();
         if (n==0) return 0;
-        vector<int> buy(n, 0), sell(n, 0);
-        buy[0]=-prices[0];
+        int buy=INT_MIN, sell=0;
+        int prevbuy, prevsell=0;
         
-        for (int i=1; i<n; i++) {
-            buy[i]=max((i>1?sell[i-2]:0)-prices[i], buy[i-1]);
-            sell[i]=max(buy[i-1]+prices[i], sell[i-1]);
+        for (int i=0; i<n; i++) {
+            prevbuy=buy;
+            buy=max(prevsell-prices[i], buy);
+            prevsell=sell;
+            sell=max(prevbuy+prices[i], sell);
         }
         
-        return sell[n-1];
+        return sell;
     }
 };
 
@@ -41,17 +43,15 @@ public:
     int maxProfit(vector<int>& prices) {
         int n=prices.size();
         if (n==0) return 0;
-        int buy=-prices[0], sell=0;
-        int prevbuy, prevsell=0;
+        vector<int> buy(n, 0), sell(n, 0);
+        buy[0]=-prices[0];
         
         for (int i=1; i<n; i++) {
-            prevbuy=buy;
-            buy=max(prevsell-prices[i], buy);
-            prevsell=sell;
-            sell=max(prevbuy+prices[i], sell);
+            buy[i]=max((i>1?sell[i-2]:0)-prices[i], buy[i-1]);
+            sell[i]=max(buy[i-1]+prices[i], sell[i-1]);
         }
         
-        return sell;
+        return sell[n-1];
     }
 };
 

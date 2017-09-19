@@ -66,38 +66,34 @@ class NumArray {
 public:
     NumArray(vector<int> nums) {
         n=nums.size();
-        if (n==0) return;
-        this->nums=nums;
+        this->nums.resize(n);
         tree.resize(n+1);
-        for (int i=0; i<n; i++) updateTree(i, nums[i]);
-    }
-    
-    void updateTree(int i, int diff) {
-        i++;
-        while (i<=n) {
-            tree[i]+=diff;
-            i += (i & -i);
+        for (int i=0; i<n; i++) {
+            update(i, nums[i]);
         }
     }
     
     void update(int i, int val) {
         int diff=val-nums[i];
         nums[i]=val;
-        updateTree(i, diff);
+        i++;
+        while (i<=n) {
+            tree[i]+=diff;
+            i+=(i&-i);    
+        }
     }
     
-    int getSum(int i) {
+    int read(int i) {
         int sum=0;
-        i++;
-		while (i > 0) {
-			sum += tree[i];
-			i -= (i & -i);
-		}
+        while (i>0) {
+            sum+=tree[i];
+            i-=(i&-i);
+        }
         return sum;
     }
     
     int sumRange(int i, int j) {
-        return getSum(j)-getSum(i-1);
+        return read(j+1)-read(i);
     }
 private:
     vector<int> tree;
@@ -110,7 +106,7 @@ private:
  * NumArray obj = new NumArray(nums);
  * obj.update(i,val);
  * int param_2 = obj.sumRange(i,j);
- */     
+ */
 
 2.
 class NumArray {

@@ -28,3 +28,27 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    string getRange(int start, int end) {
+        return start==end?to_string(start):to_string(start)+"->"+to_string(end);
+    }
+    
+    vector<string> findMissingRanges(vector<int>& nums, int lower, int upper) {
+        vector<string> res;
+        long start=lower;
+        
+        for (long n:nums) {
+            if (n<=start) continue;
+            else {
+                res.push_back(getRange(start, n-1));                             
+                start=n+1;
+            }
+        }
+        if (upper>=start) res.push_back(getRange(start, upper));
+        
+        return res;
+    }
+};
+

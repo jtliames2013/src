@@ -35,6 +35,14 @@ Subscribe to see which companies asked this question
 Hide Tags Dynamic Programming
 Hide Similar Problems (M) Flip Game II (E) Guess Number Higher or Lower
 
+Definition of dp[i][j]: minimum number of money to guarantee win for subproblem [i, j].
+
+Target: dp[1][n]
+
+Corner case: dp[i][i] = 0 (because the only element must be correct)
+
+Equation: we can choose k (i<=k<=j) as our guess, and pay price k. After our guess, the problem is divided into two subproblems. Notice we do not need to pay the money for both subproblems. We only need to pay the worst case (because the system will tell us which side we should go) to guarantee win. So dp[i][j] = min (i<=k<=j) { k + max(dp[i][k-1], dp[k+1][j]) }
+
 class Solution {
 public:
     int getMoneyAmount(int n) {
@@ -55,3 +63,7 @@ public:
     }
 };
 
+n=3
+0 1 2 
+0 0 2 
+0 0 0 
