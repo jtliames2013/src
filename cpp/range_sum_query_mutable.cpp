@@ -61,7 +61,7 @@ Hide Similar Problems (E) Range Sum Query - Immutable (H) Range Sum Query 2D - M
 	 * j=i-(i&-i), up to j==idx-(idx&-idx) exclusive. (However, a quicker
 	 * way but using extra space is to store the original array.)
 	 */
-
+1. BIT
 class NumArray {
 public:
     NumArray(vector<int> nums) {
@@ -108,7 +108,7 @@ private:
  * int param_2 = obj.sumRange(i,j);
  */
 
-2.
+2. Segment tree
 class NumArray {
 public:
     NumArray(vector<int> nums) {

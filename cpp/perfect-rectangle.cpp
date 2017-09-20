@@ -72,7 +72,7 @@ public:
     };
     
     bool isRectangleCover(vector<vector<int>>& rectangles) {
-        if (rectangles.empty()) return 0;
+        if (rectangles.empty()) return false;
         int bottom=INT_MAX, left=INT_MAX, top=INT_MIN, right=INT_MIN;
         int area=0;
         unordered_set<pair<int,int>, myhash> st;
