@@ -38,3 +38,25 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        vector<int> res, sorted;
+        int n=nums.size();
+        if (n==0) return res;
+        res.resize(n);
+        
+        for (int i=n-1; i>=0; i--) {
+            int l=0, r=sorted.size(), mid;
+            while (l<r) {
+                mid=l+(r-l)/2;
+                if (sorted[mid]<nums[i]) l=mid+1;
+                else r=mid;
+            }
+            res[i]=r;
+            sorted.insert(sorted.begin()+r, nums[i]);
+        }
+        return res;
+    }
+};
