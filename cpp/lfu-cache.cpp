@@ -63,6 +63,9 @@ public:
         if (data.size()>=capacity) {
             int k=keys[minCount].back();
             keys[minCount].pop_back();
+            if (keys[minCount].empty()) {
+                keys.erase(minCount);
+            }
             keyIter.erase(k);
             data.erase(k);
         }
