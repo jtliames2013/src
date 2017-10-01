@@ -53,11 +53,9 @@ class Solution {
 public:
     bool match(TreeNode* s, TreeNode* t) {
         if (s==NULL && t==NULL) return true;
-        if (s!=NULL && t!=NULL) {
-            return (s->val==t->val && match(s->left, t->left) && match(s->right, t->right));
-        } else {
-            return false;
-        }
+        if (s==NULL || t==NULL) return false;
+        
+        return (s->val==t->val && match(s->left, t->left) && match(s->right, t->right));        
     }
     
     bool isSubtree(TreeNode* s, TreeNode* t) {
