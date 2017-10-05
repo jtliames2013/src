@@ -7,36 +7,32 @@ DP(nn, i) = Max(DP(nn-1, i-k)+sum(i-k, i), DP(nn, i-1))
 
 class Solution {
 public:
-	// n - number of windows, k -size of window
-	int maximumNWindowsSum(vector<int> nums, int k, int n) {
-		int m=nums.size();
-		vector<int> dp(m), prev(m), idx(m);
-		for (int i=0; i<n; i++) {
-			int sum=0;
-			for (int j=i*k; j<m; j++) {
-				sum+=nums[j];
-				if (j==(i+1)*k-1) dp[j]=sum;
-				if (j>=(i+1)*k) {
-					sum-=nums[j-k];
-					//dp[j]=max(dp[j-1], prev[j-k]+sum);
-					if (prev[j-k]+sum>=dp[j-1]) {
-						dp[j]=prev[j-k]+sum;
-						idx[j]=1;
-					} else {
-						dp[j]=dp[j-1];
-					}
-				}
-			}
-			prev=dp;
-		}
-		for (int i=m-1; i>=0;) {
-			if (idx[i]==0) i--;
-			else {
-				cout << i-k+1 << " " << i << endl;
-				i-=2;
-			}
-		}
-		return prev[m-1];
+	// m - number of windows, k -size of window
+	int maximumNWindowsSum(vector<int> nums, int k, int m) {
+        vector<int> res(3);
+        int n=nums.size();
+        vector<vector<int>> dp(3, vector<int>(n));
+        for (int i=0; i<m; i++) {
+            int sum=0;            
+            for (int j=i*k; j<n; j++) {
+                sum+=nums[j];                
+                if (j>=(i+1)*k-1) {
+                    if (j>=(i+1)*k) sum-=nums[j-k];
+                    dp[i][j]=max(dp[i][j-1], (i>0?dp[i-1][j-k]:0)+sum);
+                }
+            }
+        }
+                
+        for (int i=m; i>=0; i--) {
+            for (int j=(i==2?n:res[i+1])-1; j>0; j--) {
+                if (dp[i][j]!=dp[i][j-1]) {
+                    res[i]=j-k+1;
+                    break;
+                }
+            }
+        }
+
+        return dp[2][n-1];
 	}
 };
 
