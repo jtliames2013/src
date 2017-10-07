@@ -37,7 +37,7 @@ public:
 				}
 				i++;
 			}
-			if (intervals[idx].end<start) return vector<Interval>();
+			if (idx==-1 || intervals[idx].end<start) return vector<Interval>();
 
 			res.push_back(intervals[idx]);
 			start=intervals[idx].end;
@@ -45,4 +45,15 @@ public:
 		return res;
 	}
 };
+
+int main()
+{
+	Solution s;
+	vector<Interval> a={Interval(1,3), Interval(3,4), Interval(4,6), Interval(2,7)};
+	Interval b(0,6);
+	vector<Interval> res=s.minimumCoverInterval(a, b);
+	for (auto i:res) cout << "[" << i.start << "," << i.end<< "]";
+	cout << endl;
+	return 0;
+}
 

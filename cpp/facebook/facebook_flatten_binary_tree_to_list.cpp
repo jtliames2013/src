@@ -237,8 +237,8 @@ public:
 		}
 	}
 
-	TreeNode* convertBSTToLinkedList(TreeNode *root, TreeNode **head, TreeNode **tail) {
-        TreeNode *head=NULL, *tail=NULL;		
+	TreeNode* convertBSTToLinkedList(TreeNode *root) {
+        TreeNode *head=NULL, *tail=NULL;
         convert(root, &head, &tail);
         return head;
 	}
@@ -260,8 +260,8 @@ int main()
 	t2.right=&t5;
 	t3.left=&t6;
 	t3.right=&t7;
-	TreeNode *head=NULL, *tail=NULL;
-	s.convertBSTToLinkedList(&t1, &head, &tail);
+	TreeNode *head=NULL;
+	head=s.convertBSTToLinkedList(&t1);
 
 	TreeNode *curr=head;
 	while (curr!=NULL) {

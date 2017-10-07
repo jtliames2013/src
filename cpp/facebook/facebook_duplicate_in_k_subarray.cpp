@@ -4,12 +4,12 @@ class Solution {
 public:
 	bool duplicateInKConsecutiveSubarray(vector<int> nums, int k) {
 		int n=nums.size();
-		if (n==0) return false;
+		if (n==0 || k<=1) return false;
 		unordered_set<int> st;
 		for (int i=0; i<n; i++) {
 			if (st.find(nums[i])!=st.end()) return true;
 			st.insert(nums[i]);
-			if (i>=k) st.erase(nums[i-k]);
+			if (st.size()>=k) st.erase(nums[i-k+1]);
 		}
 
 		return false;
@@ -19,7 +19,7 @@ public:
 int main()
 {
 	Solution s;
-	vector<int> nums={1,2,3,1,3,3};
+	vector<int> nums={1,2,3,1,4,5};
 	bool res=s.duplicateInKConsecutiveSubarray(nums, 3);
 	cout << res << endl;
 	return 0;

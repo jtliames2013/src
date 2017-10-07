@@ -86,7 +86,8 @@ public:
 					contactUser[c]=u.first;
 				} else {
 					string root=find(userRoot, contactUser[c]);
-					userRoot[u.first]=root;
+					string root2=find(userRoot, u.first);
+					userRoot[root2]=root;
 				}
 			}
 		}
