@@ -6,7 +6,7 @@ public:
 		for (int i=start; i<nums.size(); i++) {
 			prod*=nums[i];
 			st.insert(prod);
-			getProd(st, prod, nums, i);
+			getProd(st, prod, nums, i+1);
 			prod/=nums[i];
 		}
 	}
