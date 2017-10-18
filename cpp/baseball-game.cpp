@@ -38,3 +38,31 @@ Note:
 The size of the input list will be between 1 and 1000.
 Every integer represented in the list will be between -30000 and 30000.
 
+class Solution {
+public:
+    int calPoints(vector<string>& ops) {
+        int res=0;
+        vector<int> nums;
+        for (auto& op:ops) {
+            if (op=="C") {
+                res-=nums.back();
+                nums.pop_back();
+            } else if (op=="D") {
+                int n=2*nums.back();
+                res+=n;
+                nums.push_back(n);
+            } else if (op=="+") {
+                int n=nums.back()+nums[nums.size()-2];
+                res+=n;
+                nums.push_back(n);
+            } else {
+                int n=stoi(op);
+                res+=n;
+                nums.push_back(n);
+            }
+        }
+
+        return res;
+    }
+};
+
