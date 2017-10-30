@@ -22,3 +22,24 @@ public:
     }
 };
 
+2. KMP
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int m=haystack.size(), n=needle.size();
+        if (n==0) return 0;
+        vector<int> prefix(n);
+        for (int k=0, q=1; q<n; q++) {
+            while (k>0 && needle[k]!=needle[q]) k=prefix[k-1];
+            if (needle[k]==needle[q]) k++;
+            prefix[q]=k;
+        }
+        
+        for (int i=0, j=0; i<m; i++) {
+            while (j>0 && needle[j]!=haystack[i]) j=prefix[j-1];
+            if (needle[j]==haystack[i]) j++;
+            if (j==n) return i-n+1;
+        }
+        return -1;
+    }
+};

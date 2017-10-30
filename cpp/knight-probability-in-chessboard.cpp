@@ -21,4 +21,26 @@ N will be between 1 and 25.
 K will be between 0 and 100.
 The knight always initially starts on the board.
 
+class Solution {
+public:
+    double knightProbability(int N, int K, int r, int c) {
+        vector<vector<double>> dp(N, vector<double>(N,1));
+        for (int k=0; k<K; k++) {
+            vector<vector<double>> next(N, vector<double>(N));
+            for (int i=0; i<N; i++) {
+                for (int j=0; j<N; j++) {
+                    for (int d=0; d<8; d++) {
+                        int nr=i+delta[d][0];
+                        int nc=j+delta[d][1];
+                        if (nr>=0 && nr<N && nc>=0 && nc<N) next[nr][nc]+=dp[i][j];
+                    }
+                }
+            }
+            dp=next;
+        }
+        return dp[r][c]/pow(8,K);
+    }
+private:
+    const int delta[8][2]={{-2,1}, {-2,-1}, {2,1}, {2,-1}, {1,2}, {-1,2}, {1,-2}, {-1,-2}};
+};
 

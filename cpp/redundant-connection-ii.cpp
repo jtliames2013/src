@@ -29,3 +29,39 @@ Note:
 The size of the input 2D-array will be between 3 and 1000.
 Every integer represented in the 2D-array will be between 1 and N, where N is the size of the input array.
 
+There are two cases for the tree structure to be invalid.
+1) A node having two parents
+2) A circle exists
+
+class Solution {
+public:
+    int find(vector<int>& parent, int i) {
+        while (parent[i]!=i) i=parent[i];
+        return i;
+    }
+    
+    vector<int> findRedundantDirectedConnection(vector<vector<int>>& edges) {
+        int n=edges.size();
+        vector<int> parent(n+1), cand1, cand2;
+        for (auto& e:edges) {
+            if (parent[e[1]]==0) parent[e[1]]=e[0];
+            else {
+                cand1={parent[e[1]], e[1]};
+                cand2=e;
+                e[1]=0;
+            }
+        }
+        
+        for (int i=1; i<=n; i++) parent[i]=i;
+        for (auto& e:edges) {
+            if (e[1]==0) continue;
+            int p1=find(parent, e[0]);
+            if (p1==e[1]) {
+                if (cand1.empty()) return e;
+                else return cand1;
+            }
+            parent[e[1]]=p1;
+        }
+        return cand2;
+    }
+};
