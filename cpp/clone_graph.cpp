@@ -77,7 +77,7 @@ public:
         visited.insert(node);
         for (auto neighbor:node->neighbors) {
             if (visited.find(neighbor)==visited.end()) {
-                mp[neighbor]=dfs(neighbor, mp, visited);
+                dfs(neighbor, mp, visited);
             }
             newNode->neighbors.push_back(mp[neighbor]);
         }
