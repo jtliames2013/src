@@ -66,3 +66,39 @@ The length of source[i] is in the range [0, 80].
 Every open block comment is eventually closed.
 There are no single-quote, double-quote, or control characters in the source code.
 
+class Solution {
+public:
+    vector<string> removeComments(vector<string>& source) {
+        vector<string> res;
+        bool hasBlock=false;
+        string str;
+        for (auto& line:source) {
+            int n=line.size();
+            for (int i=0; i<n;) {
+                if (hasBlock) {
+                    if (i<n-1 && line[i]=='*' && line[i+1]=='/') {
+                        hasBlock=false;
+                        i+=2;                        
+                    } else {
+                        i++;
+                    }
+                } else {
+                    if (i<n-1 && line[i]=='/' && line[i+1]=='*') {
+                        hasBlock=true;
+                        i+=2;
+                    } else if (i<n-1 && line[i]=='/' && line[i+1]=='/') {
+                        break;
+                    } else {
+                        str+=line[i++];
+                    }
+                }
+            }
+            if (!hasBlock && !str.empty()) {
+                res.push_back(str);
+                str="";
+            }
+        }
+        return res;
+    }
+};
+

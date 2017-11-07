@@ -24,4 +24,44 @@ The length of board will be in the range [3, 50].
 The length of board[i] will be in the range [3, 50].
 Each board[i][j] will initially start as an integer in the range [1, 2000].
 
+class Solution {
+	vector<vector<int>> candyCrush(vector<vector<int>>& board) {
+		int m=board.size();
+		if (m==0) return board;
+		int n=board[0].size();
+		if (n==0) return board;
+		bool changed;
+		do {
+			changed=false;
+			for (int i=0; i<m; i++) {
+				for (int j=0; j<n-2; j++) {
+					if (board[i][j]!=0 && abs(board[i][j+1])==abs(board[i][j]) && abs(board[i][j+2])==abs(board[i][j])) {
+						board[i][j]=board[i][j+1]=board[i][j+2]=-abs(board[i][j]);
+					}
+				}
+			}
+
+			for (int j=0; j<n; j++) {
+				for (int i=0; i<m-2; i++) {
+					if (board[i][j]!=0 && abs(board[i+1][j])==abs(board[i][j]) && abs(board[i+2][j])==abs(board[i][j])) {
+						board[i][j]=board[i+1][j]=board[i+2][j]=-abs(board[i][j]);
+					}
+				}
+			}
+
+			for (int j=0; j<n; j++) {
+				int end=m-1;
+				for (int i=m-1; i>=0; i--) {
+					if (board[i][j]>0) {
+						if (end!=i) board[end][j]=board[i][j];
+						end--;
+					}
+				}
+				for (int i=end; i>=0; i--) board[i][j]=0;
+			}
+		} while (changed);
+
+		return board;
+	}
+};
 
