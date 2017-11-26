@@ -49,15 +49,12 @@ public:
     
     /** Returns a random node's value. */
     int getRandom() {
-        if (head==NULL) return -1;
-        int res=head->val;
-        ListNode *curr=head->next;
-        int count=2;
+        int count=0, res=0;
+        ListNode *curr=head;
         while (curr) {
-            int i=rand()%count;
-            if (i==0) res=curr->val;
-            curr=curr->next;
             count++;
+            if (rand()%count==0) res=curr->val;
+            curr=curr->next;
         }
         return res;
     }
