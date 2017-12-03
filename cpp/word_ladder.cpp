@@ -37,7 +37,6 @@ public:
         for (auto w:wordList) dict.insert(w);
         int steps=1;
         queue<string> q;
-        unordered_set<string> visited;
         int currNum=1, nextNum=0;
         q.push(beginWord);
         
@@ -83,7 +82,6 @@ public:
         for (auto w:wordList) dict.insert(w);
         int steps=1;
         queue<string> q;
-        unordered_set<string> visited;
         q.push(beginWord);
         
         while (!q.empty()) {
