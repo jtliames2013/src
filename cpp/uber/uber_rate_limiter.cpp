@@ -53,7 +53,7 @@ public:
 		}
 
 		double t=double(-tokens)/rate;
-
+		lasttime+=duration<double>(t);
 		return duration<double>(t);
 	}
 
@@ -62,7 +62,7 @@ public:
 		this_thread::sleep_for(d);
 	}
 
-	time_point<system_clock> lasttime;
+	time_point<system_clock, duration<double>> lasttime;
 	long capacity;
 	long rate;
 	long tokens;
