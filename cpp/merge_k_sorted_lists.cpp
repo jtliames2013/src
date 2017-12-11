@@ -46,3 +46,26 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        ListNode dummy(0);
+        ListNode* tail=&dummy;
+        auto comp=[](ListNode* a, ListNode* b) { return a->val>b->val; };
+        priority_queue<ListNode*, vector<ListNode*>, decltype(comp)> pq(comp);
+        for (auto l:lists) {
+            if (l) pq.push(l);
+        }
+        
+        while (!pq.empty()) {
+            ListNode* t=pq.top();
+            pq.pop();
+            tail->next=t;
+            tail=t;            
+            if (t->next) pq.push(t->next);
+        }
+        
+        return dummy.next;
+    }
+};
