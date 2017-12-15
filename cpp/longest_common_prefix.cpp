@@ -25,3 +25,50 @@ public:
     }
 };
 
+2. Trie
+class Solution {
+public:
+    struct TrieNode {
+        unordered_map<char, TrieNode*> children;
+        bool isWord;
+        TrieNode():isWord(false) {}
+    };
+    
+    class Trie {
+    public:
+        Trie() {
+            root=new TrieNode();
+        }
+        void insert(string word) {
+            TrieNode* n=root;
+            for (int i=0; i<word.size(); i++) {
+                if (n->children.find(word[i])==n->children.end()) {
+                    n->children[word[i]]=new TrieNode();
+                }
+                n=n->children[word[i]];
+            }
+            n->isWord=true;
+        }
+        
+        string getPrefix() {
+            string res;
+            TrieNode *n=root;
+            while (1) {
+                if (n->isWord || n->children.size()!=1) break;
+                res+=n->children.begin()->first;
+                n=n->children.begin()->second;
+            }
+            
+            return res;
+        }
+        
+        TrieNode *root;
+    };
+    
+    string longestCommonPrefix(vector<string>& strs) {
+        Trie trie;
+        for (auto& s:strs) trie.insert(s);
+        return trie.getPrefix();
+    }
+};
+
