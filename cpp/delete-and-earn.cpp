@@ -25,3 +25,17 @@ Note:
 The length of nums is at most 20000.
 Each element nums[i] is an integer in the range [1, 10000].
 
+class Solution {
+public:
+    int deleteAndEarn(vector<int>& nums) {
+        vector<int> points(10001);
+        for (auto i:nums) points[i]+=i;
+        int odd=0, even=0;
+        for (int i=0; i<points.size(); i++) {
+            if (i%2==0) even=max(odd, even+points[i]);
+            else odd=max(even, odd+points[i]);
+        }
+        return max(odd, even);
+    }
+};
+

@@ -37,3 +37,19 @@ Note:
 The length of asteroids will be at most 10000.
 Each asteroid will be a non-zero integer in the range [-1000, 1000]..
 
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        vector<int> stk;
+        for (auto a:asteroids) {
+            if (a>0) stk.push_back(a);
+            else {
+                while (!stk.empty() && stk.back()>0 && stk.back()<-a) stk.pop_back();
+                if (stk.empty() || stk.back()<0) stk.push_back(a);
+                else if (stk.back()==-a) stk.pop_back();
+            }
+        }
+        return stk;
+    }
+};
+
