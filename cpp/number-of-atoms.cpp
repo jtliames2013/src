@@ -37,3 +37,50 @@ All atom names consist of lowercase letters, except for the first character whic
 The length of formula will be in the range [1, 1000].
 formula will only consist of letters, digits, and round parentheses, and is a valid formula as defined in the problem.
 
+class Solution {
+public:
+    string countOfAtoms(string formula) {
+        stack<map<string,int>> stk;
+        map<string,int> mp;
+        int num;
+        string atom;
+        for (int i=0; i<formula.size(); ) {
+            if (isalpha(formula[i])) {
+                num=0;
+                int j=i+1;
+                while (j<formula.size() && isalpha(formula[j]) && islower(formula[j])) j++;
+                atom=formula.substr(i,j-i);
+                while (j<formula.size() && isdigit(formula[j])) {
+                    num=num*10+formula[j]-'0';
+                    j++;
+                }
+                mp[atom]+=num==0?1:num;
+                i=j;
+            } else if (formula[i]=='(') {
+                stk.push(mp);
+                mp.clear();
+                i++;
+            } else if (formula[i]==')') {
+                num=0;
+                int j=i+1;
+                while (j<formula.size() && isdigit(formula[j])) {
+                    num=num*10+formula[j]-'0';
+                    j++;
+                }
+                if (num==0) num=1;
+                for (auto iter:mp) {
+                    stk.top()[iter.first]+=num*iter.second;
+                }
+                mp=stk.top();
+                stk.pop();
+                i=j;
+            } else {
+                i++;
+            }
+        }
+        string res;
+        for (auto iter:mp) res+=iter.first+(iter.second>1?to_string(iter.second):"");
+        return res;
+    }
+};
+
