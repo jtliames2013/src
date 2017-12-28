@@ -29,3 +29,28 @@ Note:
 The number of calls to MyCalendarThree.book per test case will be at most 400.
 In calls to MyCalendarThree.book(start, end), start and end are integers in the range [0, 10^9].
 
+class MyCalendarThree {
+public:
+    MyCalendarThree() {
+        
+    }
+    
+    int book(int start, int end) {
+        points[start]++;
+        points[end]--;
+        int res=0, count=0;
+        for (auto& p:points) {
+            count+=p.second;
+            res=max(res, count);
+        }
+        return res;
+    }
+private:
+    map<int,int> points;
+};
+
+/**
+ * Your MyCalendarThree object will be instantiated and called as such:
+ * MyCalendarThree obj = new MyCalendarThree();
+ * int param_1 = obj.book(start,end);
+ */
