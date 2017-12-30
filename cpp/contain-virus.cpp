@@ -46,4 +46,101 @@ The number of rows and columns of grid will each be in the range [1, 50].
 Each grid[i][j] will be either 0 or 1.
 Throughout the described process, there is always a contiguous viral region that will infect strictly more uncontaminated squares in the next round.
 
+class Solution {
+public:
+    int containVirus(vector<vector<int>>& grid) {
+        int m=grid.size();
+        if (m==0) return 0;
+        int n=grid[0].size();
+        if (n==0) return 0;
+        int res=0;
+        while (1) {
+            int walls=install(grid, m, n);
+            if (walls==0) break;
+            res+=walls;
+        }
+        return res;
+    }
+private:
+    int install(vector<vector<int>>& grid, int m, int n) {
+        int maxWalls=0, maxCnt=0, maxRow, maxCol;
+        vector<vector<bool>> visited(m, vector<bool>(n));
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if (grid[i][j]==1 && visited[i][j]==false) {
+                    int walls=0, cnt=0;
+                    set<pair<int,int>> counted;
+                    find(grid, visited, counted, i, j, m, n, cnt, walls);
+                    if (cnt>maxCnt) {
+                        maxCnt=cnt;
+                        maxWalls=walls;
+                        maxRow=i;
+                        maxCol=j;
+                    }
+                }
+            }
+        }
+        
+        quarantine(grid, maxRow, maxCol, m, n);
+        
+        visited=vector<vector<bool>>(m, vector<bool>(n));
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if (grid[i][j]==1 && visited[i][j]==false) {
+                    spread(grid, visited, i, j, m, n);
+                }
+            }
+        }
+        
+        return maxWalls;
+    }
+    
+    void find(vector<vector<int>>& grid, vector<vector<bool>>& visited, set<pair<int,int>>& counted, int row, int col, int m, int n, int& cnt, int& walls)   {
+        visited[row][col]=true;
+        for (int k=0; k<4; k++) {
+            int nr=row+delta[k][0];
+            int nc=col+delta[k][1];
+            if (nr>=0 && nr<m && nc>=0 && nc<n) {
+                if (grid[nr][nc]==0) {
+                    if (counted.find({nr,nc})==counted.end()) {
+                        cnt++;
+                        counted.insert({nr,nc});
+                    }
+                    walls++;                    
+                }  else if (grid[nr][nc]==1 && visited[nr][nc]==false) {
+                    find(grid, visited, counted, nr, nc, m, n, cnt, walls);
+                }
+            }
+        }
+    }
+    
+    void quarantine(vector<vector<int>>& grid, int row, int col, int m, int n) {
+        grid[row][col]=-1;
+        for (int k=0; k<4; k++) {
+            int nr=row+delta[k][0];
+            int nc=col+delta[k][1];
+            if (nr>=0 && nr<m && nc>=0 && nc<n && grid[nr][nc]==1) {
+                quarantine(grid, nr, nc, m, n);
+            }
+        }        
+    }
+    
+    void spread(vector<vector<int>>& grid, vector<vector<bool>>& visited, int row, int col, int m, int n) {
+        visited[row][col]=true;
+        for (int k=0; k<4; k++) {
+            int nr=row+delta[k][0];
+            int nc=col+delta[k][1];
+            if (nr>=0 && nr<m && nc>=0 && nc<n && visited[nr][nc]==false) {
+                if (grid[nr][nc]==0) {
+                    grid[nr][nc]=1;
+                    visited[nr][nc]=true;
+                } else if (grid[nr][nc]==1) {
+                    spread(grid, visited, nr, nc, m, n);
+                }
+            }
+        }        
+    }
+    
+    const int delta[4][2]={{-1,0},{1,0},{0,-1},{0,1}};
+};
 

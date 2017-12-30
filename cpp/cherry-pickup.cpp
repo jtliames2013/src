@@ -29,3 +29,33 @@ grid is an N by N 2D array, with 1 <= N <= 50.
 Each grid[i][j] is an integer in the set {-1, 0, 1}.
 It is guaranteed that grid[0][0] and grid[N-1][N-1] are not -1.
 
+class Solution {
+public:
+    int cherryPickup(vector<vector<int>>& grid) {
+        int n=grid.size();
+        // the most number of cherries obtained by two people
+        vector<vector<int>> dp(n, vector<int>(n, INT_MIN));
+        dp[0][0]=grid[0][0];
+        
+        for (int t=1; t<=2*n-2; t++) {
+            // each move step from top-left to bottom-right
+            vector<vector<int>> next(n, vector<int>(n, INT_MIN));
+            for (int i=max(0, t-(n-1)); i<=min(n-1, t); i++) {
+                // number of steps down for person 1
+                for (int j=max(0, t-(n-1)); j<=min(n-1, t); j++) {
+                    // number of steps down for person 2
+                    if (grid[i][t-i]==-1 || grid[j][t-j]==-1) continue;
+                    int val=grid[i][t-i];
+                    if (i!=j) val+=grid[j][t-j];
+                    for (int k=i-1; k<=i; k++) {
+                        for (int l=j-1; l<=j; l++) {
+                            if (k>=0 && l>=0) next[i][j]=max(next[i][j], dp[k][l]+val);
+                        }
+                    }
+                }
+            }
+            dp=next;
+        }
+        return max(0,dp[n-1][n-1]);
+    }
+};

@@ -52,4 +52,52 @@ The given string expression is well formatted: There are no leading or trailing 
 The length of expression is at most 2000. (It is also non-empty, as that would not be a legal expression.)
 The answer and all intermediate calculations of that answer are guaranteed to fit in a 32-bit integer.
 
+class Solution {
+public:
+    int evaluate(string expression) {
+        unordered_map<string,int> mp;
+        return dfs(expression, mp);
+    }
+private:
+    int dfs(string expression, unordered_map<string,int> mp) {
+        if (expression[0]=='-' || isdigit(expression[0])) {
+            return stoi(expression);
+        } else if (isalpha(expression[0])) {
+            return mp[expression];
+        } else if (expression[0]=='('){
+            string str=expression.substr(1, expression.size()-2);
+            int start=0;
+            string op=parse(str,start);
+            if (op=="let") {
+                while (1) {
+                    string var=parse(str, start);
+                    if (start>str.size()) return dfs(var, mp);
+                    string expr=parse(str, start);
+                    mp[var]=dfs(expr, mp);
+                }
+            } else if (op=="add") {
+                return dfs(parse(str,start), mp) + dfs(parse(str,start), mp);
+            } else if (op=="mult") {
+                return dfs(parse(str,start), mp) * dfs(parse(str,start), mp);
+            }
+        }
+    }
+                   
+    string parse(string& str, int& start) {
+        int end=start+1, count=0;
+        if (str[start]=='(') {
+            count++;
+            while (count>0) {
+                if (str[end]=='(') count++;
+                else if (str[end]==')') count--;
+                end++;
+            }
+        } else {
+            while (end<str.size() && str[end]!=' ') end++;
+        }
+        string res=str.substr(start,end-start);
+        start=end+1;
+        return res;
+    }
+};
 
