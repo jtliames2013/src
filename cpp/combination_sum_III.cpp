@@ -26,13 +26,13 @@ Hide Similar Problems (M) Combination Sum
 class Solution {
 public:
     void getSum(vector<vector<int>>& res, vector<int>& output, int k, int n, int start) {
-        if (n==0 || k==0) {
-            if (n==0 && k==0) res.push_back(output);
+        if (k==0) {
+            if (n==0) res.push_back(output);
             return;
         }    
         
         for (int i=start; i<=9; i++) {
-            if (n-i>=0 && k>=0) {
+            if (n-i>=0) {
                 output.push_back(i);
                 getSum(res, output, k-1, n-i, i+1);
                 output.pop_back();
