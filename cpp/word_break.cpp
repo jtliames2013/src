@@ -68,3 +68,25 @@ public:
         return false;
     }
 };
+
+3.
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int n=s.size();
+        if (n==0) return false;
+        vector<bool> dp(n+1);
+        dp[0]=true;
+        
+        for (int i=1; i<=n; i++) {
+            for (auto& w:wordDict) {
+                int len=w.size();
+                if (i-len>=0 && w==s.substr(i-len, len) && dp[i-len]==true) {
+                    dp[i]=true;
+                    break;
+                }                    
+            }
+        }
+        return dp[n];
+    }
+};
