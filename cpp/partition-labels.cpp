@@ -15,4 +15,22 @@ Note:
 S will have length in range [1, 500].
 S will consist of lowercase letters ('a' to 'z') only.
 
-
+class Solution {
+public:
+    vector<int> partitionLabels(string S) {
+        vector<int> res;
+        vector<int> pos(26);
+        for (int i=0; i<S.size(); i++) pos[S[i]-'a']=i;
+        
+        int start=0, end=0;
+        for (int i=0; i<S.size(); i++) {
+            end=max(end, pos[S[i]-'a']);
+            if (end==i) {
+                res.push_back(end-start+1);
+                start=end=i+1;
+            }
+        }
+        
+        return res;
+    }
+};
