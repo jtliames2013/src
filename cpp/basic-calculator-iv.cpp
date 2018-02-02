@@ -41,4 +41,154 @@ Note:
 expression will have length in range [1, 250].
 evalvars, evalints will have equal lengths in range [0, 100].
 
+class Expr {
+public:
+    Expr operator+(const Expr& rhs) {
+        Expr e;
+        for (auto iter:coeff) e.update(iter.first, iter.second);
+        for (auto iter:rhs.coeff) e.update(iter.first, iter.second);
+        return e;
+    }
 
+    Expr operator-(const Expr& rhs) {
+        Expr e;
+        for (auto iter:coeff) e.update(iter.first, iter.second);
+        for (auto iter:rhs.coeff) e.update(iter.first, -iter.second);
+        return e;
+    }
+    
+    Expr operator*(const Expr& rhs) {
+        Expr e;
+        for (auto iter1:coeff) {
+            for (auto iter2:rhs.coeff) {
+                multiset<string> k;
+                for (auto& s:iter1.first) k.insert(s);
+                for (auto& s:iter2.first) k.insert(s);
+                e.update(k, iter1.second*iter2.second);
+            }
+        }
+        return e;
+    }
+
+    Expr evaluate(unordered_map<string,int>& mp) {
+        Expr e;
+        for (auto iter:coeff) {
+            int v=iter.second;
+            multiset<string> k;
+            for (auto s:iter.first) {
+                if (mp.find(s)!=mp.end()) v*=mp[s];
+                else k.insert(s);
+            }
+            e.update(k, v);
+        }
+
+        return e;
+    }
+    
+    vector<string> toList() {
+        vector<string> res;
+        vector<multiset<string>> keys;
+        for (auto& iter:coeff) keys.push_back(iter.first);
+        auto comp=[](multiset<string>& a, multiset<string>& b) { 
+            if (a.size()!=b.size()) return a.size()>b.size();
+            for (auto itera=a.begin(), iterb=b.begin(); itera!=a.end(); itera++, iterb++) {
+                if (*itera<*iterb) return true;
+                else if (*itera>*iterb) return false;
+            }
+            return false;
+        };
+        sort(keys.begin(), keys.end(), comp);
+        
+        for (auto& k:keys) {
+            if (coeff[k]==0) continue;
+            string str;            
+            str+=to_string(coeff[k]);            
+            for (auto& s:k) {
+                str+="*"+s;
+            }
+            res.push_back(str);
+        }
+        return res;
+    }
+    
+    void update(multiset<string> key, int val) {
+        coeff[key]+=val;
+    }
+    
+    map<multiset<string>,int> coeff;    
+};
+
+class Solution {
+public:
+    vector<string> basicCalculatorIV(string expression, vector<string>& evalvars, vector<int>& evalints) {
+        unordered_map<string,int> mp;
+        for (int i=0; i<evalvars.size(); i++) {
+            mp[evalvars[i]]=evalints[i];
+        }
+        return parse(expression).evaluate(mp).toList();
+    }
+    
+    Expr create(string s) {
+        Expr e;
+        multiset<string> k;
+        if (isdigit(s[0])) {
+            e.update(k, stoi(s));
+        } else {
+            k.insert(s);
+            e.update(k, 1);
+        }
+        return e;
+    }
+    
+    Expr calc(Expr& lhs, Expr& rhs, char op) {
+        switch (op) {
+            case '+': return lhs+rhs;
+            case '-': return lhs-rhs;
+            case '*': return lhs*rhs;
+            default: return Expr();
+        }
+    }
+    
+    Expr parse(string expression) {
+        Expr e;
+        vector<Expr> exprs;
+        vector<char> ops;
+        for (int i=0; i<expression.size(); i++) {
+            if (expression[i]=='(') {
+                int j=i, count=0;
+                while (j<expression.size()) {
+                    if (expression[j]=='(') count++;
+                    else if (expression[j]==')') count--;
+                    if (count==0) break;
+                    j++;
+                }
+                exprs.push_back(parse(expression.substr(i+1, j-i-1)));
+                i=j;                
+            } else if (isalnum(expression[i])) {
+                int j=i;
+                while (j<expression.size() && isalnum(expression[j])) j++;
+                exprs.push_back(create(expression.substr(i, j-i)));
+                i=j;                
+            } else if (expression[i]!=' ') {
+                ops.push_back(expression[i]);
+            }
+        }
+        
+        for (int j=ops.size()-1; j>=0; j--) {
+            if (ops[j]=='*') {
+                Expr e=calc(exprs[j], exprs[j+1], ops[j]);
+                ops.erase(ops.begin()+j);
+                exprs.erase(exprs.begin()+j+1);
+                exprs[j]=e;
+            }
+        }
+        
+        if (exprs.empty()) return Expr();
+        e=exprs[0];
+        for (int j=0; j<ops.size(); j++) {            
+            e=calc(e, exprs[j+1], ops[j]);
+        }
+        
+        return e;
+    }
+};
