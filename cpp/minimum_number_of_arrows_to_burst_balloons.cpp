@@ -39,3 +39,18 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    int findMinArrowShots(vector<pair<int, int>>& points) {
+        int n=points.size();
+        if (n==0) return 0;
+        sort(points.begin(), points.end(), [](pair<int,int>& a, pair<int,int>& b) { return a.second<b.second; });
+        int end=points[0].second, count=0;
+        for (int i=1; i<n; i++) {
+            if (points[i].first<=end) count++;
+            else end=points[i].second;
+        }
+        return n-count;
+    }
+};

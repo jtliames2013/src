@@ -37,3 +37,23 @@ public:
     }
 };
 
+2. in-place
+class Solution {
+public:
+    vector<Interval> merge(vector<Interval>& intervals) {        
+        int n=intervals.size();
+        if (n==0) return intervals;
+        sort(intervals.begin(), intervals.end(), [](Interval& a, Interval&b) { return a.start<b.start; });
+        
+        int end=0;
+        for (int i=0; i<n; i++) {
+            if (intervals[end].end<intervals[i].start) intervals[++end]=intervals[i];
+            else {
+                intervals[end].end=max(intervals[end].end, intervals[i].end);
+            }
+        }
+        
+        intervals.resize(end+1);
+        return intervals;
+    }
+};
