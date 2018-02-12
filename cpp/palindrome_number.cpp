@@ -1,87 +1,31 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
+9. Palindrome Number
+DescriptionHintsSubmissionsDiscussSolution
+Determine whether an integer is a palindrome. Do this without extra space.
 
-using namespace std;
+click to show spoilers.
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+Some hints:
+Could negative integers be palindromes? (ie, -1)
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+If you are thinking of converting the integer to string, note the restriction of using extra space.
+
+You could also try reversing an integer. However, if you have solved the problem "Reverse Integer", you know that the reversed integer might overflow. How would you handle such case?
+
+There is a more generic way of solving this problem.
 
 class Solution {
 public:
     bool isPalindrome(int x) {
-    	if (x == 0) return true;
-    	if (x < 0) return false;
-
-    	int div = 1;
-    	int t = x;
-    	while (t >= 10)
-    	{
-    		t /= 10;
-    		div *= 10;
-    	}
-
-    	int l, r;
-    	while (x > 0)
-    	{
-    		l = x / div;
-    		r = x % 10;
-    		if (l != r) return false;
-    		x %= div;
-    		x /= 10;
-    		div /= 100;
-    	}
-
-    	return true;
-    }
-};
-
-2.
-class Solution {
-public:
-    bool isPalindrome(int x) {
-        if (x==0) return true;
         if (x<0) return false;
-        long long n=1;
-        while (n<=x) n*=10;
-        n/=10;
-        
+        long base=1;
+        while (base<=x) base*=10;
+        base/=10;
         while (x>0) {
-            int l=x/n;
-            int r=x%10;
-            if (l!=r) return false;
-            x%=n;
+            if (x/base != x%10) return false;
+            x%=base;
             x/=10;
-            n/=100;
+            base/=100;
         }
-        
         return true;
     }
 };
-
-int main()
-{
-	Solution s;
-	s.isPalindrome(-2147483648);
-	return 0;
-}
-
