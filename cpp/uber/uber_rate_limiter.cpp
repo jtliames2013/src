@@ -177,6 +177,9 @@ public:
 int main() {
 	Client client;
 
+	auto curr=system_clock::now();
+	cout << duration_cast<seconds>(curr.time_since_epoch()).count() << endl;
+
 	for (int i=0; i<100; i++) {
 		bool b=client.tryAccept("10.204.0.1");
 		cout << "i=" << i << " " << b << endl;

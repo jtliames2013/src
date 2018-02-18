@@ -29,6 +29,7 @@ Subscribe to see which companies asked this question.
 Hide Tags Binary Search Tree
 Hide Similar Problems (E) K-diff Pairs in an Array
 
+1. Recursive
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -38,6 +39,28 @@ Hide Similar Problems (E) K-diff Pairs in an Array
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+class Solution {
+public:
+    int getMinimumDifference(TreeNode* root) {
+        res=INT_MAX;
+        prev=-1;
+        dfs(root);
+        return res;
+    }
+private:
+    void dfs(TreeNode* root) {
+        if (root==NULL) return;
+        if (root->left) dfs(root->left);
+        if (prev>=0) res=min(res, abs(root->val-prev));
+        prev=root->val;
+        if (root->right) dfs(root->right);
+    }
+    
+    int res;
+    int prev;
+};
+
+2. Iterative
 class Solution {
 public:
     int getMinimumDifference(TreeNode* root) {
