@@ -41,6 +41,12 @@ struct Interval {
 	Interval(int s, int e):start(s), end(e) {}
 };
 
+struct Comp {
+	bool operator()(Interval a, Interval b) {
+		return a.start < b.start;
+	}
+};
+
 class Downloader1 {
 public:
 	bool isComplete(vector<Interval> intervals, int size) {
@@ -66,48 +72,57 @@ public:
 	}
 
 	void addInterval(Interval interval) {
-		auto iter=intervals.lower_bound({interval.start, interval.end});
+		auto iter=intervals.lower_bound(interval);
 		while (iter!=intervals.end()) {
-			if (iter->first>interval.end) break;
-			interval.end=max(interval.end, iter->second);
+			if (iter->start>interval.end) break;
+			interval.end=max(interval.end, iter->end);
 			iter=intervals.erase(iter);
 		}
-		while (iter!=intervals.begin() && (--iter)->second>interval.start) {
-			interval.start=min(interval.start, iter->first);
+		while (iter!=intervals.begin()) {
+			if ((--iter)->end<interval.start) break;
+			interval.start=min(interval.start, iter->start);
 			iter=intervals.erase(iter);
 		}
 
-		intervals.insert({interval.start, interval.end});
+		intervals.insert(interval);
 	}
 
 	bool isComplete() {
-		return intervals.begin()->first<=0 && intervals.begin()->second>=size;
+		return intervals.begin()->start<=0 && intervals.begin()->end>=size;
 	}
 private:
 	int size;
-	set<pair<int,int>> intervals;
+	set<Interval, Comp> intervals;
 };
 
 int main() {
 	Downloader1 d1;
 	vector<Interval> i1={Interval(3,7), Interval(0,1), Interval(2,5), Interval(6,8)};
+	// false
 	cout << d1.isComplete(i1, 8) << endl;
 	vector<Interval> i2={Interval(3,7), Interval(0,2), Interval(2,5), Interval(6,8)};
+	// true
 	cout << d1.isComplete(i2, 8) << endl;
 	cout << endl;
 
 	Downloader2 d2(20);
 	d2.addInterval(Interval(2,8));
+	// false
 	cout << d2.isComplete() << endl;
 	d2.addInterval(Interval(16,20));
+	// false
 	cout << d2.isComplete() << endl;
 	d2.addInterval(Interval(6,10));
+	// false
 	cout << d2.isComplete() << endl;
 	d2.addInterval(Interval(11,15));
+	// false
 	cout << d2.isComplete() << endl;
 	d2.addInterval(Interval(1,19));
+	// false
 	cout << d2.isComplete() << endl;
 	d2.addInterval(Interval(0,3));
+	// true
 	cout << d2.isComplete() << endl;
 
 	return 0;
