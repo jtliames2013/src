@@ -30,16 +30,16 @@ public:
             if (nums[mid]<target) l=mid+1;
             else r=mid;
         }
-        if (nums[r]==target) res[0]=r;
+        if (nums[l]!=target) return res;
+        res[0]=l;
         
-        l=0;
         r=nums.size()-1;
         while (l<r) {
             mid=l+(r-l)/2+1;
             if (nums[mid]<=target) l=mid;
             else r=mid-1;
         }
-        if (nums[l]==target) res[1]=l;
+        res[1]=r;
         
         return res;
     }
