@@ -45,9 +45,9 @@ public:
             }
         }
         
-        // remove last space if there is
-        if (end-1>=0 && s[end-1]==' ') end--;
+        // remove last space if there is        
         s.resize(end);
+        if (s.back()==' ') s.pop_back();
     }
 };
 
