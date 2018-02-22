@@ -16,3 +16,35 @@ Note:
 S will be a string with length at most 12.
 S will consist only of letters or digits.
 
+class Solution {
+public:
+    vector<char> getChars(char c) {
+        if (isalpha(c)) {
+            return {tolower(c), toupper(c)};
+        } else {
+            return { c };
+        }
+    }
+    
+    void dfs(vector<string>& res, string& output, string& S, int start) {
+        if (start==S.size()) {
+            res.push_back(output);
+            return;
+        }
+
+        vector<char> v=getChars(S[start]);
+        for (auto c:v) {
+            output.push_back(c);
+            dfs(res, output, S, start+1);
+            output.pop_back();
+        }
+    }
+    
+    vector<string> letterCasePermutation(string S) {
+        vector<string> res;
+        string output;
+        dfs(res, output, S, 0);
+        
+        return res;
+    }
+};

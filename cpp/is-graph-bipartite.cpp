@@ -34,3 +34,32 @@ graph will have length in range [1, 100].
 graph[i] will contain integers in range [0, graph.length - 1].
 graph[i] will not contain i or duplicate values.
 
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n=graph.size();
+        queue<int> q;
+        vector<int> partition(n);
+        
+        for (int i=0; i<n; i++) {
+            if (partition[i]==0) {        
+                q.push(i);
+                partition[i]=1;
+
+                while (!q.empty()) {            
+                    int f=q.front();
+                    q.pop();
+                    for (auto neighbor:graph[f]) {
+                        if (partition[neighbor]==0) {
+                            partition[neighbor]=partition[f]==1?2:1;
+                            q.push(neighbor);
+                        } else if (partition[neighbor]==partition[f]) {
+                            return false;
+                        }
+                    }            
+                }
+            }
+        }        
+        return true;
+    }
+};

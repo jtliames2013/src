@@ -33,3 +33,19 @@ The price of each flight will be in the range [1, 10000].
 k is in the range of [0, n - 1].
 There will not be any duplicated flights or self cycles.
 
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int K) {
+        K++; // number of hops = number of stops + 1
+        vector<vector<long>> dp(n, vector<long>(K+1, INT_MAX));
+        dp[src][0]=0;
+        
+        for (int i=1; i<=K; i++) {
+            for (int j=0; j<n; j++) dp[j][i]=dp[j][i-1];
+            for (auto& f:flights) {
+                dp[f[1]][i]=min(dp[f[1]][i], dp[f[0]][i-1]+f[2]);
+            }            
+        }
+        return dp[dst][K]==INT_MAX?-1:dp[dst][K];
+    }
+};
