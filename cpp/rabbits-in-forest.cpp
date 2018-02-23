@@ -23,3 +23,19 @@ Note:
 
 answers will have length at most 1000.
 Each answers[i] will be an integer in the range [0, 999].
+
+class Solution {
+public:
+    int numRabbits(vector<int>& answers) {
+        int res=0;
+        unordered_map<int,int> mp;
+        for (auto a:answers) mp[a]++;
+        
+        for (auto iter:mp) {
+            int div=iter.second/(iter.first+1);
+            int mod=iter.second%(iter.first+1);
+            res+=((mod==0)?div:div+1)*(iter.first+1);
+        }
+        return res;
+    }
+};
