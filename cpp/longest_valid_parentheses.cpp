@@ -18,21 +18,21 @@ Hide Similar Problems (E) Valid Parentheses
 class Solution {
 public:
     int longestValidParentheses(string s) {
-        stack<pair<int,bool>> stk; // left -> true, right->false
+        stack<int> stk;
         int res=0;
         for (int i=0; i<s.size(); i++) {
             if (s[i]=='(') {
-                stk.push({i, true});
+                stk.push(i);
             } else {
-                if (stk.empty() || stk.top().second==false) {
-                    stk.push({i, false});
+                if (stk.empty() || s[stk.top()]==')') {
+                    stk.push(i);
                 } else {
                     stk.pop();
-                    res=max(res, stk.empty()?i+1:i-stk.top().first);
+                    res=max(res, stk.empty()?i+1:i-stk.top());
                 }
             }
         }
-        
+
         return res;
     }
 };
