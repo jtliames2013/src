@@ -77,8 +77,8 @@ public:
         auto comp=[](Interval a, Interval b) { return a.start<b.start; };
         auto iter=lower_bound(intervals.begin(), intervals.end(), curr, comp);
         if (iter!=intervals.begin()) iter--;
-        if (iter!=intervals.end() && iter->end+1<val) iter++;
-        for (; iter!=intervals.end() && iter->start-1<=val && iter->end+1>=val;) {
+        if (iter!=intervals.end() && iter->end+1<curr.start) iter++;
+        for (; iter!=intervals.end() && iter->end>=curr.start-1 && iter->start<=curr.end+1; ) {
             curr.start=min(curr.start, iter->start);
             curr.end=max(curr.end, iter->end);
             iter=intervals.erase(iter);
