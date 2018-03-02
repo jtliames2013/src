@@ -21,7 +21,7 @@ class Solution {
 public:
     int countNumbersWithUniqueDigits(int n) {
         if (n==0) return 1;
-        if (n>10) return 0;
+        n=min(n, 9);
         int res=10, prod=9;
         for (int i=1; i<n; i++) {
             prod*=(10-i);
