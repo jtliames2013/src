@@ -65,53 +65,65 @@ private:
 class ZigzagIterator {
 public:
     void tryAdvance() {
-        int currRow=row;
-        while (1) {
+        int curr=row;
+        do {
             if (idx[row]<lists[row].size()) break;
-            row=(row+1)%size;
-            if (row==currRow) break;
-        }
+            row=(row+1)%lists.size();
+        } while(row!=curr);
     }
-    
-    ZigzagIterator(vector<int>& v1, vector<int>& v2) {
-        lists.push_back(v1);
-        lists.push_back(v2);
-        idx.resize(2, 0);
+
+    ZigzagIterator(vector<vector<int>>& v) {
+        lists=v;
+        idx.resize(v.size());
         row=0;
-        size=2;
         tryAdvance();
     }
 
     int next() {
-        if (hasNext()) {
-            int res=lists[row][idx[row]];
-            toRemove.push_back({row, idx[row]});
-            idx[row]++;
-            row=(row+1)%size;
-            tryAdvance();
-            return res;
-        } else {
-            return -1;
-        }
+        if (!hasNext()) return -1;
+		int res=lists[row][idx[row]];
+		toRemove.push_back({row, idx[row]});
+		idx[row]++;
+		row=(row+1)%lists.size();
+		tryAdvance();
+		return res;
     }
 
     bool hasNext() {
-        if (idx[row]<lists[row].size()) return true;
-        else return false;
+        return idx[row]<lists[row].size();
+
     }
-    
+
     void remove() {
         if (toRemove.size()==0) return;
         int i=toRemove.back().first;
         int j=toRemove.back().second;
         toRemove.pop_back();
         lists[i].erase(lists[i].begin()+j);
+        idx[i]--;
+    }
+
+    void print() {
+    	for (int i=0; i<lists.size(); i++) {
+    		for (int j=0; j<lists[i].size(); j++) cout << lists[i][j] << " ";
+    		cout << endl;
+    	}
+    	cout << endl;
     }
 private:
     vector<vector<int>> lists;
     vector<int> idx;
     vector<pair<int,int>> toRemove;
     int row;
-    int size;
 };
+
+int main() {
+	vector<vector<int>> v={{1,2,3}, {}, {4, 5}, {6}};
+	ZigzagIterator iter(v);
+	while (iter.hasNext()) {
+		iter.print();
+		cout << iter.next() << endl << endl;
+		iter.remove();
+	}
+}
 

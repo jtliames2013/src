@@ -27,10 +27,6 @@ Hide Company Tags Google Airbnb Twitter Zenefits
 Hide Tags Design
 Hide Similar Problems (M) Binary Search Tree Iterator (M) Zigzag Iterator (M) Peeking Iterator (M) Flatten Nested List Iterator
 
-#include "stdafx.h"
-#include <vector>
-using namespace std;
-
 1. Use iterator
 
 class Vector2D {
