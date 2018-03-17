@@ -20,28 +20,19 @@ Hide Tags Hash Table Bit Manipulation
 
 class Solution {
 public:
-    int getValue(char c) {
-        switch (c) {
-            case 'A': return 0;
-            case 'C': return 1;
-            case 'G': return 2;
-            case 'T': return 3;
-            default: return 0;
-        }
-    }
-    
     vector<string> findRepeatedDnaSequences(string s) {
         vector<string> res;
+        unordered_map<char,int> dict={{'A',0}, {'C',1}, {'G',2}, {'T',3}};
         unordered_map<int,int> mp;
         int num=0;
         for (int i=0; i<s.size(); i++) {
-            num = ((num<<2) | getValue(s[i])) & 0xFFFFF;
+            num = ((num<<2) | dict[s[i]]) & 0xfffff;
             if (i>=9) {
                 if (mp[num]==1) res.push_back(s.substr(i-9,10));
                 mp[num]++;
             }
         }
-        
+
         return res;
     }
 };
