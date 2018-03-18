@@ -16,3 +16,21 @@ Note:
 L, R  and A[i] will be an integer in the range [0, 10^9].
 The length of A will be in the range of [1, 50000].
 
+class Solution {
+public:
+    int numSubarrayBoundedMax(vector<int>& A, int L, int R) {
+        int res=0, l=0, r=0, count=0;
+        for (; r<A.size(); r++) {
+            if (A[r]>=L && A[r]<=R) {
+                res+=r-l+1;
+                count=r-l+1;
+            } else if (A[r]<L) {
+                res+=count;
+            } else {
+                l=r+1;
+                count=0;
+            }
+        }
+        return res;
+    }
+};

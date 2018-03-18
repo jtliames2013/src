@@ -29,3 +29,40 @@ Note:
 
 A will have length at most 20000.
 A[i] will be in the range [0, A.length].
+
+class Solution {
+public:
+    int bestRotation(vector<int>& A) {
+        int n=A.size();
+        vector<int> change(n);
+        for (int i=0; i<n; i++) change[(i-A[i]+1+n)%n]--;
+        for (int i=1; i<n; i++) change[i]+=change[i-1]+1;
+        return distance(change.begin(), max_element(change.begin(), change.end()));        
+    }
+};
+
+How dosen score change when K++ ?
+
+Get point
+Each time when we rotate, we make index 0 to index N-1, then we get one more point.
+We know that for sure, so I don’t need to record it.
+
+Lose point
+(i - A[i] + N) % N is the value of K making A[i]'s index just equal to A[i].
+For example, If A[6] = 1, then K = (6 - A[6]) % 6 = 5 making A[6] to index 1 of new array.
+So when K=5, we get this point for A[6]
+Then if K is bigger when K = (i - A[i] + 1) % N, we start to lose this point, making our score -= 1
+All I have done is record the value of K for all A[i] where we will lose points.
+
+A[i]=0
+Rotation makes no change for it, becasue we alwars have 0 <= index.
+However, it is covered in a) and b)
+
+Explanation of codes
+
+Search the index where score decrease and record this changement to a list change.
+A simple for loop to calculate the score for every K value.
+score[K] = score[K-1] + change[K]
+In my codes I accumulated changes so I get the changed score for every K value compared to K=0
+Find the index of best score.
+

@@ -33,3 +33,42 @@ Note:
 
 board is a length-3 array of strings, where each string board[i] has length 3.
 Each board[i][j] is a character in the set {" ", "X", "O"}.
+
+class Solution {
+public:
+    bool validTicTacToe(vector<string>& board) {
+        int xcount=0, ocount=0, diag=0, antidiag=0;
+        bool xwin, owin;
+        vector<int> row(3), col(3);
+        
+        for (int i=0; i<3; i++) {
+            for (int j=0; j<3; j++) {
+                if (board[i][j]=='X') {
+                    xcount++;
+                    row[i]++;
+                    col[j]++;
+                    if (i==j) diag++;
+                    if (i+j==2) antidiag++;
+                } else if (board[i][j]=='O') {
+                    ocount++;
+                    row[i]--;
+                    col[j]--;
+                    if (i==j) diag--;
+                    if (i+j==2) antidiag--; 
+                }
+            }
+        }
+        
+        xwin = row[0]==3 || row[1]==3 || row[2]==3 ||
+               col[0]==3 || col[1]==3 || col[2]==3 ||
+               diag==3 || antidiag==3;
+        owin = row[0]==-3 || row[1]==-3 || row[2]==-3 ||
+               col[0]==-3 || col[1]==-3 || col[2]==-3 ||
+               diag==-3 || antidiag==-3;
+        
+        if (xcount<ocount || xcount>ocount+1) return false;
+        if (xwin && owin) return false;
+        if ((xwin && xcount==ocount) || (owin && xcount>ocount)) return false;
+        return true;
+     }
+};
