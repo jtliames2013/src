@@ -28,11 +28,12 @@ class Solution {
 public:
     bool hasAlternatingBits(int n) {
         int d=n&1;
-        while ((n&1)==d) {
+        while (n>0) {
+            if (d!=(n&1)) return false;
             d=1-d;
             n>>=1;
         }
-        return n==0;
+        return true;
     }
 };
 
