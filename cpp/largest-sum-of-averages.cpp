@@ -22,3 +22,27 @@ Note:
 1 <= K <= A.length.
 Answers within 10^-6 of the correct answer will be accepted as correct.
 
+class Solution {
+public:
+    double dfs(vector<int>& A, vector<vector<double>>& dp, int n, int k) {
+        if (n<k) return 0;
+        if (dp[k][n]>0) return dp[k][n];
+        double sum=0;
+        for (int i=n-1; i>0; --i) {
+            sum+=A[i];
+            dp[k][n]=max(dp[k][n], dfs(A, dp, i, k-1)+sum/(n-i));
+        }
+        return dp[k][n];
+    }
+    
+    double largestSumOfAverages(vector<int>& A, int K) {
+        vector<vector<double>> dp(101, vector<double>(101));
+        int n=A.size();
+        double sum=0;
+        for (int i=0; i<n; ++i) {
+            sum+=A[i];
+            dp[1][i+1]=sum/(i+1);
+        }
+        return dfs(A, dp, n, K);
+    }
+};
