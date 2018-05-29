@@ -32,3 +32,23 @@ Note:
 The binary tree will have at most 100 nodes.
 The value of each node will only be 0 or 1.
 
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:    
+    TreeNode* pruneTree(TreeNode* root) {
+        if (!root) return NULL;
+        root->left=pruneTree(root->left);
+        root->right=pruneTree(root->right);
+        if (root->left || root->right || root->val==1)  return root;        
+        delete root;
+        return NULL;
+    }
+};
