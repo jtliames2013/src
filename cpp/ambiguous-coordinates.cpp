@@ -29,6 +29,13 @@ Note:
 4 <= S.length <= 12.
 S[0] = "(", S[S.length - 1] = ")", and the other elements in S are digits.
 
+if S == "": return []
+if S == "0": return [S]
+if S == "0XXX0": return []
+if S == "0XXX": return ["0.XXX"]
+if S == "XXX0": return [S]
+return [S, "X.XXX", "XX.XX", "XXX.X"...]
+
 class Solution {
 public:
     vector<string> helper(string s) {        

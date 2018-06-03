@@ -28,3 +28,25 @@ If N is the length of the linked list given by head, 1 <= N <= 10000.
 The value of each node in the linked list will be in the range [0, N - 1].
 1 <= G.length <= 10000.
 G is a subset of all values in the linked list.
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int numComponents(ListNode* head, vector<int>& G) {
+        int res=0;
+        unordered_set<int> st(G.begin(), G.end());
+        
+        while (head) {
+            if (st.find(head->val)!=st.end() && (head->next==NULL || st.find(head->next->val)==st.end())) res++;
+            head=head->next;
+        }
+        return res;
+    }
+};
