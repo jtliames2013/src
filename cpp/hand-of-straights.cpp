@@ -26,3 +26,21 @@ Note:
 0 <= hand[i] <= 10^9
 1 <= W <= hand.length
 
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int W) {
+        map<int,int> mp;
+        for (auto h:hand) mp[h]++;
+        while (!mp.empty()) {
+            int num=mp.begin()->first;
+            for (int i=0; i<W; ++i) {
+                if (mp.find(num)==mp.end()) return false;
+                mp[num]--;
+                if (mp[num]==0) mp.erase(num);
+                num++;                
+            }            
+        }
+        
+        return true;
+    }
+};
