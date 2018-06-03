@@ -28,3 +28,37 @@ Note:
 
 4 <= S.length <= 12.
 S[0] = "(", S[S.length - 1] = ")", and the other elements in S are digits.
+
+class Solution {
+public:
+    vector<string> helper(string s) {        
+        int n=s.size();
+        if (n==0) return {};
+        if (n==1) return {s};
+        if (s[0]=='0' && s[n-1]=='0') return {};
+        else if (s[0]=='0') return {"0."+s.substr(1)};
+        else if (s[n-1]=='0') return {s};
+        else {
+            vector<string> res={s};
+            for (int i=1; i<n; ++i) {
+                res.push_back(s.substr(0, i)+"."+s.substr(i));
+            }
+            return res;
+        }
+    }
+    
+    vector<string> ambiguousCoordinates(string S) {
+        vector<string> res;
+        int n=S.size();
+        for (int i=1; i<n-2; ++i) {
+            vector<string> left=helper(S.substr(1, i)), right=helper(S.substr(i+1, n-2-i));
+            for (auto& l:left) {
+                for (auto& r:right) {
+                    res.push_back("("+l+", "+r+")");    
+                }
+            }
+        }
+        
+        return res;
+    }
+};
