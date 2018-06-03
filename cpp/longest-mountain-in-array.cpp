@@ -29,3 +29,34 @@ Note:
 0 <= A.length <= 10000
 0 <= A[i] <= 10000
 
+1.
+class Solution {
+public:
+    int longestMountain(vector<int>& A) {
+        int res=0, n=A.size();
+        vector<int> left(n), right(n);
+        for (int i=1; i<n; ++i) {
+            if (A[i]>A[i-1]) left[i]=left[i-1]+1;
+        }
+        for (int i=n-2; i>=0; --i) {
+            if (A[i]>A[i+1]) right[i]=right[i+1]+1;
+            if (left[i]>0 && right[i]>0) res=max(res, left[i]+right[i]+1);
+        }
+        return res;
+    }
+};
+
+2.
+class Solution {
+public:
+    int longestMountain(vector<int>& A) {
+        int res=0, up=0, down=0, n=A.size();
+        for (int i=1; i<n; ++i) {
+            if (A[i]==A[i-1] || (down>0 && A[i]>A[i-1])) up=down=0;
+            if (A[i]>A[i-1]) up++;
+            else if (A[i]<A[i-1]) down++;
+            if (up>0 && down>0) res=max(res, up+down+1);
+        }
+        return res;
+    }
+};
