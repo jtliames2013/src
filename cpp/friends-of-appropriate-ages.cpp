@@ -35,6 +35,7 @@ Notes:
 1 <= ages.length <= 20000.
 1 <= ages[i] <= 120.
 
+1.
 class Solution {
 public:
     bool request(int a, int b) {
@@ -51,6 +52,25 @@ public:
                     res+=a.second*(b.second-(a.first==b.first?1:0));
                 }
             }
+        }
+        return res;
+    }
+};
+
+2.
+class Solution {
+public:
+    int numFriendRequests(vector<int>& ages) {
+        int res=0, sum=0;
+        map<int,int> mp;
+        for (auto a:ages) mp[a]++;
+        for (auto l=mp.begin(), r=mp.begin(); r!=mp.end(); ++r) {
+            sum+=r->second;
+            while (l->first<=r->first && l->first<=r->first*0.5+7) {
+                sum-=l->second;
+                ++l;
+            }
+            if (sum>0) res+=r->second*(sum-1);
         }
         return res;
     }
