@@ -27,3 +27,56 @@ Note:
 1 <= N <= 10^9
 ExamRoom.seat() and ExamRoom.leave() will be called at most 10^4 times across all test cases.
 Calls to ExamRoom.leave(p) are guaranteed to have a student currently sitting in seat number p.
+
+class ExamRoom {
+public:
+    ExamRoom(int N) {
+        size=N;
+    }
+    
+    int seat() {
+        if (s.empty()) {
+            s.push_front(0);
+            return 0;
+        }
+        int d=max(*s.begin(), size-1-*s.rbegin());
+        auto curr=s.begin(), next=s.begin();
+        for (++next; next!=s.end(); ++curr, ++next) {            
+            d=max(d, (*next-*curr)/2);
+        }
+
+        if (d==*s.begin()) {
+            s.push_front(0);            
+            return 0;
+        }
+        curr=s.begin(), next=s.begin();
+        for (++next; next!=s.end(); ++curr, ++next) {
+            if (d==(*next-*curr)/2) {
+                int p=(*curr+*next)/2;
+                s.insert(next, p);                
+                return p;
+            }
+        }
+        s.push_back(size-1);
+        return size-1;
+    }
+    
+    void leave(int p) {
+        for (auto iter=s.begin(); iter!=s.end(); ++iter) {
+            if (*iter==p) {
+                s.erase(iter);            
+                break;
+            }
+        }
+    }
+private:
+    int size;
+    list<int> s;
+};
+
+/**
+ * Your ExamRoom object will be instantiated and called as such:
+ * ExamRoom obj = new ExamRoom(N);
+ * int param_1 = obj.seat();
+ * obj.leave(p);
+ */
