@@ -35,3 +35,17 @@ Note:
 0 <= position[i] < target
 All initial positions are different.
 
+class Solution {
+public:
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        map<int,double> mp;
+        for (int i=0; i<position.size(); ++i) mp[position[i]]=(double)(target-position[i])/speed[i];
+        int res=position.size();
+        double next=0;
+        for (auto iter=mp.rbegin(); iter!=mp.rend(); ++iter) {
+            if (iter->second<=next) res--;
+            else next=iter->second;
+        }
+        return res;
+    }
+};
