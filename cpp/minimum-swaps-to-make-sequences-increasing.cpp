@@ -20,4 +20,24 @@ Note:
 A, B are arrays with the same length, and that length will be in the range [1, 1000].
 A[i], B[i] are integer values in the range [0, 2000].
 
-
+class Solution {
+public:
+    int minSwap(vector<int>& A, vector<int>& B) {
+        int n=A.size();
+        vector<int> swap(n,1), noswap(n);
+        for (int i=1; i<n; ++i) {
+            swap[i]=noswap[i]=INT_MAX;
+            if (A[i]>A[i-1] && B[i]>B[i-1]) {
+                noswap[i]=noswap[i-1];
+                swap[i]=swap[i-1]+1;
+            }
+            
+            if (A[i]>B[i-1] && B[i]>A[i-1]) {
+                noswap[i]=min(noswap[i], swap[i-1]);
+                swap[i]=min(swap[i], noswap[i-1]+1);
+            }
+        }
+        
+        return min(swap[n-1], noswap[n-1]);
+    }
+};
