@@ -20,3 +20,30 @@ Note:
 graph will have length at most 10000.
 The number of edges in the graph will not exceed 32000.
 Each graph[i] will be a sorted list of different integers, chosen within the range [0, graph.length - 1].
+
+class Solution {
+public:
+    bool dfs(vector<vector<int>>& graph, vector<int>& visited, int start) {
+        if (visited[start]!=0) return visited[start]==1;
+        
+        visited[start]=-1;
+        for (auto neighbor:graph[start]) {
+            if (!dfs(graph, visited, neighbor)) return false;
+        }
+        
+        visited[start]=1;
+        return true;
+    }
+    
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        vector<int> res;
+        int n=graph.size();
+        vector<int> visited(n);
+        
+        for (int i=0; i<n; ++i) {
+            if (dfs(graph, visited, i)) res.push_back(i);
+        }
+        
+        return res;
+    }
+};
