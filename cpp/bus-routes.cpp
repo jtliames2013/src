@@ -17,3 +17,40 @@ Note:
 1 <= routes.length <= 500.
 1 <= routes[i].length <= 500.
 0 <= routes[i][j] < 10 ^ 6.
+
+class Solution {
+public:
+    int numBusesToDestination(vector<vector<int>>& routes, int S, int T) {
+        unordered_map<int, unordered_set<int>> mp;
+        for (int i=0; i<routes.size(); ++i) {
+            for (auto stop:routes[i]) mp[stop].insert(i);
+        }
+        unordered_set<int> visited;
+        queue<int> q;
+        int level=0;
+        visited.insert(S);
+        q.push(S);
+        
+        while (!q.empty()) {            
+            int n=q.size();
+            for (int i=0; i<n; ++i) {
+                auto f=q.front();
+                q.pop();
+                if (f==T) return level;
+                
+                for (auto route:mp[f]) {
+                    for (auto stop:routes[route]) {
+                        if (visited.find(stop)==visited.end()) {
+                            q.push(stop);
+                            visited.insert(stop);
+                        }
+                    }
+                    routes[route].clear();
+                }                
+            }
+            level++;
+        }
+        
+        return -1;
+    }
+};
