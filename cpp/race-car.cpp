@@ -32,3 +32,26 @@ Note:
 
 1 <= target <= 10000.
 
+class Solution {
+public:
+    int dfs(vector<int>& dp, int dist) {
+        if (dp[dist]>0) return dp[dist];
+        
+        int d=dist, n=0;
+        while (d) { d>>=1; n++; }
+        if ((1<<n)==dist+1) dp[dist]=n;
+        else {
+            dp[dist]=dfs(dp, (1<<n)-1-dist)+n+1;
+            for (int i=0; i<n-1; ++i) {
+                dp[dist]=min(dp[dist], dfs(dp, dist-(1<<(n-1))+(1<<i))+n+i+1);
+            }
+        }
+        return dp[dist];
+    }
+    
+    int racecar(int target) {
+        if (target<0) return 0;
+        vector<int> dp(target+1);
+        return dfs(dp, target);
+    }
+};
