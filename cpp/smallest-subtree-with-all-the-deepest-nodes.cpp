@@ -30,4 +30,27 @@ Note:
 The number of nodes in the tree will be between 1 and 500.
 The values of each node are unique.
 
-
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    pair<int, TreeNode*> dfs(TreeNode* root) {
+        if (root==NULL) return {0, NULL};
+        auto l=dfs(root->left), r=dfs(root->right);
+        if (l.first==r.first) return {l.first+1, root};
+        else if (l.first>r.first) return {l.first+1, l.second};
+        else return {r.first+1, r.second}; 
+    }
+    
+    TreeNode* subtreeWithAllDeepest(TreeNode* root) {
+        auto res=dfs(root);
+        return res.second;
+    }
+};
