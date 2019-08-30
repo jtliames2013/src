@@ -42,18 +42,14 @@ public:
         if (m==0) return 0;
         int n=grid[0].size();
         if (n==0) return 0;
-        vector<int> dp(n, 0);
-        
-        for (int i=0; i<m; i++) {
-            for (int j=0; j<n; j++) {
-                if (i==0&&j==0) {
-                    dp[j]=grid[i][j];
-                } else {
-                    dp[j]=grid[i][j] + min(i>0?dp[j]:INT_MAX, j>0?dp[j-1]:INT_MAX);    
-                }
+        vector<int> dp(n, INT_MAX);
+        dp[0]=0;
+        for (int i=0; i<m; ++i) {
+            for (int j=0; j<n; ++j) {
+                if (j>0) dp[j]=min(dp[j-1], dp[j]);
+                dp[j]+=grid[i][j];
             }
         }
         return dp[n-1];
     }
 };
-
