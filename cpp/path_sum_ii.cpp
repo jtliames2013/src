@@ -36,33 +36,24 @@ Hide Similar Problems (E) Path Sum (E) Binary Tree Paths (E) Path Sum III
  */
 class Solution {
 public:
-    void getPath(vector<vector<int>>& res, vector<int>& path, TreeNode* node, int sum) {
-        if (node==NULL) return;
-        path.push_back(node->val);
-        sum-=node->val;
-        if (node->left==NULL&&node->right==NULL) {
-            if (sum==0) res.push_back(path);
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> res;
+        vector<int> path;
+        dfs(root, res, path, sum);
+        return res;
+    }
+private:
+    void dfs(TreeNode* root, vector<vector<int>>& res, vector<int>& path, int sum) {
+        if (!root) return;
+        path.push_back(root->val);
+        if (!root->left && !root->right) {
+            if (sum==root->val) res.push_back(path);
             path.pop_back();
             return;
         }
         
-        if (node->left) {
-            getPath(res, path, node->left, sum);
-        }
-        
-        if (node->right) {
-            getPath(res, path, node->right, sum);
-        }
-        
+        dfs(root->left, res, path, sum-root->val);
+        dfs(root->right, res, path, sum-root->val);
         path.pop_back();
     }
-    
-    vector<vector<int>> pathSum(TreeNode* root, int sum) {
-        vector<vector<int>> res;
-        vector<int> path;
-        getPath(res, path, root, sum);
-        
-        return res;
-    }
 };
-
