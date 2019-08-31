@@ -18,28 +18,27 @@ Show Similar Problems
 
 class Solution {
 public:
-    void getSum(vector<vector<int>>& res, vector<int>& output, vector<int>& candidates, int target, int start) {
-        if (target==0) {
-            res.push_back(output);
-            return;
-        }    
-        
-        for (int i=start; i<candidates.size(); i++) {
-            if (target-candidates[i]>=0) {
-                output.push_back(candidates[i]);
-                getSum(res, output, candidates, target-candidates[i], i);
-                output.pop_back();
-            }
-        }
-    }
-    
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>> res;
         vector<int> output;
-        getSum(res, output, candidates, target, 0);
+        dfs(candidates, res, output, target, 0);
         
         return res;
     }
+
+private:
+    void dfs(vector<int>& candidates, vector<vector<int>>& res, vector<int>& output, int target, int start) {
+        if (target==0) {
+            res.push_back(output);
+            return;
+        }
+        
+        for (int i=start; i<candidates.size(); ++i) {
+            if (target>=candidates[i]) {
+                output.push_back(candidates[i]);
+                dfs(candidates, res, output, target-candidates[i], i);
+                output.pop_back();
+            }
+        }   
+    }
 };
-
-
