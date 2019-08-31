@@ -42,23 +42,26 @@ Note: The given binary tree has not more than 10000 nodes. The height of the tre
  */
 class Solution {
 public:
-    int longestUnivaluePath(TreeNode* root, int& longest) {
-        if (root==NULL) return 0;
-        int l=longestUnivaluePath(root->left, longest);
-        int r=longestUnivaluePath(root->right, longest);
-        if (root->left!=NULL && root->val==root->left->val) l++;
+    int longestUnivaluePath(TreeNode* root) {
+        if (!root) return 0;
+        int res=INT_MIN;
+        dfs(root, res);
+        
+        return res;
+    }
+
+private:
+    int dfs(TreeNode* root, int& res) {
+        if (!root) return 0;
+        int l=dfs(root->left, res);
+        int r=dfs(root->right, res);
+        if (root->left && root->left->val==root->val) l++;
         else l=0;
-        if (root->right!=NULL && root->val==root->right->val) r++;
+        if (root->right && root->right->val==root->val) r++;
         else r=0;
-        longest=max(longest, l+r);
+        
+        res=max(res, l+r);
+        
         return max(l, r);
     }
-    
-    int longestUnivaluePath(TreeNode* root) {
-        if (root==NULL) return 0;
-        int longest=INT_MIN;
-        longestUnivaluePath(root, longest);
-        return longest;
-    }
 };
-
