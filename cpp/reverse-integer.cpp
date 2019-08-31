@@ -26,19 +26,15 @@ Hide Similar Problems (E) String to Integer (atoi)
 class Solution {
 public:
     int reverse(int x) {
-        bool neg=false;
-        if (x<0) {
-            neg=true;
-            x=-x;
-        }
-        
+        long long y=x;
+        bool neg=y<0;
+        if (neg) y=-y;
         unsigned long res=0;
-        while (x>0) {            
-            res=res*10+x%10;
-            x/=10;
+        while (y>0) {            
+            res=res*10+y%10;
+            y/=10;
         }
         if (res>INT_MAX) return 0;
         return neg?-res:res;
     }
 };
-
