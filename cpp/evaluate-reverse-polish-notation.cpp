@@ -13,6 +13,21 @@ Hide Similar Problems (H) Basic Calculator (H) Expression Add Operators
 
 class Solution {
 public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> stk;
+        for (auto t:tokens) {
+            if (!isop(t)) stk.push(stoi(t));
+            else {
+                int num2=stk.top();
+                stk.pop();
+                int num1=stk.top();
+                stk.pop();
+                stk.push(calc(num1, num2, t));
+            }
+        }
+        return stk.top();
+    }
+private:
     bool isop(string s) {
         if (s=="+" || s=="-" || s=="*" || s=="/") return true;
         return false;
@@ -25,20 +40,4 @@ public:
         else if (op=="/") return num1/num2;
         else return 0;
     }
-    
-    int evalRPN(vector<string>& tokens) {
-        stack<int> stk;
-        for (auto n:tokens) {
-            if (!isop(n)) stk.push(stoi(n));
-            else {
-                int num2=stk.top();
-                stk.pop();
-                int num1=stk.top();
-                stk.pop();
-                stk.push(calc(num1, num2, n));
-            }
-        }
-        return stk.top();
-    }
 };
-
