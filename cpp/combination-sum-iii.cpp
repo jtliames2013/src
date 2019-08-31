@@ -25,28 +25,27 @@ Hide Similar Problems (M) Combination Sum
 
 class Solution {
 public:
-    void getSum(vector<vector<int>>& res, vector<int>& output, int k, int n, int start) {
-        if (k==0) {
-            if (n==0) res.push_back(output);
-            return;
-        }    
-        
-        for (int i=start; i<=9; i++) {
-            if (n-i>=0) {
-                output.push_back(i);
-                getSum(res, output, k-1, n-i, i+1);
-                output.pop_back();
-            }
-        }
-    }
-    
     vector<vector<int>> combinationSum3(int k, int n) {
         vector<vector<int>> res;
-        if (k==0) return res;
         vector<int> output;
-        getSum(res, output, k, n, 1);
+        dfs(res, output, k, n, 1);
         
         return res;
     }
+    
+private:
+    void dfs(vector<vector<int>>& res, vector<int>& output, int k, int n, int start) {
+        if (n==0) {
+            if (k==0) res.push_back(output);
+            return;
+        }
+        
+        for (int i=start; i<=9; ++i) {
+            output.push_back(i);
+            if (n>=i && k>=0) {
+                dfs(res, output, k-1, n-i, i+1);
+            }
+            output.pop_back();
+        }
+    }
 };
-
