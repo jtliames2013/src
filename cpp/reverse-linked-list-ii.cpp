@@ -1,4 +1,4 @@
-92. Reverse Linked List II Add to List
+9
 DescriptionHintsSubmissionsSolutions
 Total Accepted: 103483
 Total Submissions: 343460
@@ -32,7 +32,7 @@ class Solution {
 public:
     ListNode* reverseBetween(ListNode* head, int m, int n) {
         if (m==n) return head;
-        ListNode *prev=NULL, *curr=head, *next, *newHead=head;
+        ListNode *prev=NULL, *curr=head, *next;
         int i=0;
         while (curr) {
             i++;
@@ -41,7 +41,7 @@ public:
             curr=curr->next;
         }
         
-        ListNode *tail=prev, *start=curr;
+        ListNode *tail=prev, *start=curr, *newHead=head;
         while (curr) {
             next=curr->next;
             curr->next=prev;
@@ -51,14 +51,9 @@ public:
             if (i>n) break;
         }
         
-        if (tail==NULL) {
-            newHead=prev;
-        } else {
-            tail->next=prev;
-        }
-        start->next=next;
-        
+        if (tail==NULL) newHead=prev;
+        else tail->next=prev;
+        start->next=curr;
         return newHead;
     }
 };
-
