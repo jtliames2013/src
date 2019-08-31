@@ -31,39 +31,36 @@ ending condition: no left and no right. assueme root is not NULL.
  */
 class Solution {
 public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> res;
+        vector<int> output;
+        dfs(root, res, output);
+        
+        return res;
+    }
+
+private:
+    void dfs(TreeNode* root, vector<string>& res, vector<int>& output) {
+        if (!root) return;
+        output.push_back(root->val);
+        if (!root->left && !root->right) {
+            res.push_back(convertPath(output));
+            output.pop_back();
+            return;
+        }
+        
+        dfs(root->left, res, output);
+        dfs(root->right, res, output);
+        
+        output.pop_back();
+    }
+    
     string convertPath(vector<int> path) {
         string res;
         for (auto p:path) {
             if (!res.empty()) res+="->";
             res+=to_string(p);
         }
-        return res;
-    }
-    
-    void getPath(vector<string>& res, vector<int>& path, TreeNode* root) {
-        if (root==NULL) return;
-        path.push_back(root->val);
-        if (root->left==NULL&&root->right==NULL) {
-            res.push_back(convertPath(path));
-            path.pop_back();
-            return;
-        }
-        
-        if (root->left) {
-            getPath(res, path, root->left);
-        }
-
-        if (root->right) {
-            getPath(res, path, root->right);
-        }
-
-        path.pop_back();
-    }
-    
-    vector<string> binaryTreePaths(TreeNode* root) {
-        vector<string> res;
-        vector<int> path;
-        getPath(res, path, root);
         
         return res;
     }
