@@ -43,11 +43,11 @@ Each node's value will be an integer in the range [0, 99].
 class Solution {
 public:
     bool isUnivalTree(TreeNode* root) {
-        if (!root) return true;
-        bool l=isUnivalTree(root->left), r=isUnivalTree(root->right);
-        if (!l || !r) return false;
-        if (root->left && root->left->val!=root->val) return false;
-        if (root->right && root->right->val!=root->val) return false;
+        if (!root) return false;
+
+        if (root->left && (root->left->val!=root->val || !isUnivalTree(root->left))) return false;
+        if (root->right && (root->right->val!=root->val || !isUnivalTree(root->right))) return false;
+
         return true;
     }
-;
+};
