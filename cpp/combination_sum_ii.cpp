@@ -19,28 +19,28 @@ Hide Similar Problems (M) Combination Sum
 
 class Solution {
 public:
-    void getSum(vector<vector<int>>& res, vector<int>& output, vector<int>& candidates, int target, int start) {
-        if (target==0) {
-            res.push_back(output);
-            return;
-        }    
-        
-        for (int i=start; i<candidates.size(); i++) {
-            if (target-candidates[i]>=0 && (i==start || candidates[i]!=candidates[i-1])) {
-                output.push_back(candidates[i]);
-                getSum(res, output, candidates, target-candidates[i], i+1);
-                output.pop_back();
-            }
-        }
-    }
-    
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         vector<vector<int>> res;
         vector<int> output;
         sort(candidates.begin(), candidates.end());
-        getSum(res, output, candidates, target, 0);
+        dfs(candidates, res, output, target, 0);
         
         return res;
     }
-};
 
+private:
+    void dfs(vector<int>& candidates, vector<vector<int>>& res, vector<int>& output, int target, int start) {
+        if (target==0) {
+            res.push_back(output);
+            return;
+        }
+        
+        for (int i=start; i<candidates.size(); ++i) {
+            if (target>=candidates[i] && (i==start || candidates[i]!=candidates[i-1])) {
+                output.push_back(candidates[i]);
+                dfs(candidates, res, output, target-candidates[i], i+1);
+                output.pop_back();
+            }
+        }
+    }
+};
