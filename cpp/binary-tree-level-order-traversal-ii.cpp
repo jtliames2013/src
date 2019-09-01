@@ -40,11 +40,10 @@ public:
         if (root==NULL) return res;
         queue<TreeNode*> q;
         q.push(root);
-        int currNum;
         while (!q.empty()) {
-            currNum=q.size();
+            int n=q.size();
             vector<int> level;
-            for (int i=0; i<currNum; i++) {
+            for (int i=0; i<n; ++i) {
                 TreeNode* f=q.front();
                 q.pop();
                 level.push_back(f->val);
@@ -57,4 +56,3 @@ public:
         return vector<vector<int>>(res.rbegin(), res.rend());
     }
 };
-
