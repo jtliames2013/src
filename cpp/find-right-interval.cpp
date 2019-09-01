@@ -61,3 +61,21 @@ public:
     }
 };
 
+2. vector as Interval
+class Solution {
+public:
+    vector<int> findRightInterval(vector<vector<int>>& intervals) {
+        int n=intervals.size();
+        if (n==0) return vector<int>();
+        vector<int> res(n);
+        map<int,int> mp;
+        for (int i=0; i<n; ++i) mp[intervals[i][0]]=i;
+        
+        for (int i=0; i<n; ++i) {
+            auto iter=mp.lower_bound(intervals[i][1]);
+            res[i]=iter==mp.end()?-1:iter->second;            
+        }
+                                   
+        return res;
+    }
+};
