@@ -77,6 +77,29 @@ public:
 2. Use recursion
 class Solution {
 public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> res;
+        string output;
+        if (digits.empty()) return res;
+        dfs(digits, res, output, 0);
+        return res;
+    }
+
+private:
+    void dfs(string digits, vector<string>& res, string& output, int start) {
+        if (start==digits.size()) {
+            res.push_back(output);
+            return;
+        }
+        
+        vector<char> v=getChar(digits[start]);
+        for (auto c:v) {
+            output.push_back(c);
+            dfs(digits, res, output, start+1);
+            output.pop_back();
+        }
+    }
+    
     vector<char> getChar(char digit) {
         switch (digit) {
             case '2': return {'a', 'b', 'c'}; 
@@ -90,28 +113,4 @@ public:
             default: return {};
         }
     }
-    
-    void getComb(vector<string>& res, string& digits, string& expr, int start) {
-        if (start==digits.size()) {
-            res.push_back(expr);
-            return;
-        }    
-        
-        vector<char> letters=getChar(digits[start]);
-        for (int i=0; i<letters.size(); i++) {
-            expr.push_back(letters[i]);
-            getComb(res, digits, expr, start+1);
-            expr.pop_back();
-        }
-    }
-    
-    vector<string> letterCombinations(string digits) {
-        vector<string> res;
-        if (digits.empty()) return res;
-        string expr;
-        getComb(res, digits, expr, 0);
-        
-        return res;
-    }
 };
-
