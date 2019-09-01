@@ -64,7 +64,7 @@ private:
  */
 
 2. one stack
-class MinStack {
+ass MinStack {
 public:
     /** initialize your data structure here. */
     MinStack() {
@@ -72,13 +72,9 @@ public:
     }
     
     void push(int x) {
-        if (data.empty()) {
-            data.push_back(0);
-            minVal=x;
-        } else {
-            data.push_back(x-minVal);
-            if (x<minVal) minVal=x;
-        }
+        if (data.empty()) minVal=x;
+        data.push_back(x-minVal);
+        if (x<minVal) minVal=x;        
     }
     
     void pop() {
@@ -88,9 +84,9 @@ public:
     }
     
     int top() {
-        if (data.empty()) return -1;        
-        if (data.back()>=0) return data.back()+minVal;
-        else return minVal;
+        if (data.empty()) return -1;
+        if (data.back()<0) return minVal;
+        else return data.back()+minVal;
     }
     
     int getMin() {
@@ -101,3 +97,11 @@ private:
     long minVal;
 };
 
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(x);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
