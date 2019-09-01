@@ -20,20 +20,19 @@ public:
         if (n<=1) return;
         
         int i, j;
-        for (i=n-1; i>0; i--) {
+        for (i=n-1; i>0; --i) {
             if (nums[i-1]<nums[i]) break;
         }
+        
         if (i==0) {
             reverse(nums.begin(), nums.end());
             return;
         }
-        
-        int k=i-1;
-        for (j=n-1; j>=i; j--) {
-            if (nums[j]>nums[k]) break;
+                
+        for (j=n-1; j>=i; --j) {
+            if (nums[j]>nums[i-1]) break;
         }
-        swap(nums[j], nums[k]);
+        swap(nums[j], nums[i-1]);
         reverse(nums.begin()+i, nums.end());
     }
 };
-
