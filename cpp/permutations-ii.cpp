@@ -48,23 +48,24 @@ private:
 2. pass array instead of reference
 class Solution {
 public:
-    void getPerm(vector<vector<int>>& res, vector<int> nums, int start) {
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>> res;        
+        sort(nums.begin(), nums.end());
+        dfs(nums, res, 0);
+        return res;
+    }
+private:
+    void dfs(vector<int> nums, vector<vector<int>>& res, int start) {
         if (start==nums.size()) {
             res.push_back(nums);
             return;
         }
-        for (int i=start; i<nums.size(); i++) {
-            if (i!=start && nums[i]==nums[start]) continue;
-            swap(nums[i], nums[start]);
-            getPerm(res, nums, start+1);
+        
+        for (int i=start; i<nums.size(); ++i) {
+            if (i==start || nums[i]!=nums[start]) {
+                swap(nums[i], nums[start]);
+                dfs(nums, res, start+1);
+            }
         }
-    }
-    vector<vector<int>> permuteUnique(vector<int>& nums) {
-        vector<vector<int>> res;
-        int n=nums.size();
-        if (n==0) return res;
-        sort(nums.begin(), nums.end());
-        getPerm(res, nums, 0);
-        return res;
     }
 };
