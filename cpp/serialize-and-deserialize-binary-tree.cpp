@@ -1,4 +1,4 @@
-297. Serialize and Deserialize Binary Tree My Submissions QuestionEditorial Solution
+2
 Total Accepted: 22622 Total Submissions: 79127 Difficulty: Hard
 Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
 
@@ -32,45 +32,31 @@ Hide Similar Problems (M) Encode and Decode Strings
  */
 class Codec {
 public:
-    void serialize(TreeNode* root, string& res) {
-        string val;
-        if (root==NULL) val="#";
-        else val=to_string(root->val);
-        if (!res.empty()) res+=",";
-        res+=val;
-        
-        if (root) {
-            serialize(root->left, res);
-            serialize(root->right, res);
-        }
-    }
-    
+
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-        string res;
-        serialize(root, res);
-        return res;
+        if (root==NULL) return "#";
+        return to_string(root->val)+","+serialize(root->left)+","+serialize(root->right);
     }
 
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        istringstream iss(data);
+        return deserialize(iss);
+    }
+private:
     TreeNode* deserialize(istringstream& iss) {
         string val;
         if (!getline(iss, val, ',')) return NULL;
         if (val=="#") return NULL;
         
-        TreeNode *n=new TreeNode(stoi(val));
+        TreeNode* n=new TreeNode(stoi(val));
         n->left=deserialize(iss);
         n->right=deserialize(iss);
         return n;
-    }
-    
-    // Decodes your encoded data to tree.
-    TreeNode* deserialize(string data) {
-        istringstream iss(data);
-        return deserialize(iss);
     }
 };
 
 // Your Codec object will be instantiated and called as such:
 // Codec codec;
 // codec.deserialize(codec.serialize(root));
-
