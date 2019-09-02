@@ -23,22 +23,20 @@ Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","SFO"]. But it
 
 class Solution {
 public:
-    void dfs(unordered_map<string, multiset<string>>& mp, vector<string>& res, string city) {
-        while (!mp[city].empty()) {
-            string dest=*mp[city].begin();
-            mp[city].erase(mp[city].begin());
-            dfs(mp, res, dest);
-        }
-        res.push_back(city);
-    }
-    
-    vector<string> findItinerary(vector<pair<string, string>> tickets) {
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
         vector<string> res;
         unordered_map<string, multiset<string>> mp;
-        for (auto t:tickets) mp[t.first].insert(t.second);
-        dfs(mp, res, "JFK");
-        
+        for (auto t:tickets) mp[t[0]].insert(t[1]);
+        dfs(res, mp, "JFK");
         return vector<string>(res.rbegin(), res.rend());
     }
+private:
+    void dfs(vector<string>& res, unordered_map<string, multiset<string>>& mp, string src) {
+        while (!mp[src].empty()) {
+            string dest=*mp[src].begin();
+            mp[src].erase(mp[src].begin());
+            dfs(res, mp, dest);
+        }
+        res.push_back(src);
+    }
 };
-
