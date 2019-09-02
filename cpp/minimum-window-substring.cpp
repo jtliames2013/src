@@ -18,22 +18,22 @@ Hide Similar Problems (H) Substring with Concatenation of All Words (M) Minimum 
 class Solution {
 public:
     string minWindow(string s, string t) {
-        unordered_map<char, int> count;
-        for (auto ch:t) count[ch]++;
-        
+        int m=s.size(), n=t.size();
         int total=0, start, minLen=INT_MAX;
+        unordered_map<char,int> count;
+        for (auto c:t) count[c]++;
         
-        for (int l=0, r=0; r<s.size(); r++) {
+        for (int l=0, r=0; r<m; r++) {
             if (count.find(s[r])!=count.end()) {
                 if (count[s[r]]>0) total++;
                 count[s[r]]--;
             }
             
-            if (total==t.size()) {
-                while (total==t.size()) {
+            if (total==n) {
+                while (total==n) {
                     if (count.find(s[l])!=count.end()) {
                         if (count[s[l]]>=0) total--;
-                        count[s[l]]++;                        
+                        count[s[l]]++;
                     }
                     l++;
                 }
@@ -41,11 +41,11 @@ public:
                 // l-1 is start of string, r is end of string
                 if (minLen>r-l+2) {
                     start=l-1;
-                    minLen=r-l+2;
+                    minLen=r-l+2;                    
                 }
             }
         }
-                
+        
         return minLen==INT_MAX?"":s.substr(start, minLen);
     }
 };
