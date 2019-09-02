@@ -23,15 +23,11 @@ Hide Similar Problems (H) Count of Smaller Numbers After Self
 
 class Solution {
 public:
-    vector<pair<int, int>> reconstructQueue(vector<pair<int, int>>& people) {
-        vector<pair<int,int>> res;
-        sort(people.begin(), people.end(), [](pair<int,int>& a, pair<int,int>&b) {return a.first>b.first || (a.first==b.first&&a.second<b.second); } );
-
-        for (auto p:people) {
-            res.insert(res.begin()+p.second, p);
-        }
+    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+        vector<vector<int>> res;
+        sort(people.begin(), people.end(), [](vector<int>& a, vector<int>& b){ return a[0]>b[0] || (a[0]==b[0] && a[1]<b[1]); });
         
+        for (auto p:people) res.insert(res.begin()+p[1], p);
         return res;
     }
 };
-
