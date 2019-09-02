@@ -22,16 +22,13 @@ Subscribe to see which companies asked this question.
 Hide Tags Dynamic Programming Bit Manipulation
 Hide Similar Problems (E) Number of 1 Bits
 
-class Solution {
+ass Solution {
 public:
     vector<int> countBits(int num) {
         vector<int> count(num+1);
-        if (num==0) return count;
-        for (int i=1; i<=num; i++) {
-            count[i]=count[i>>1]+(i&0x1);
+        for (int i=1; i<=num; ++i) {
+            count[i]=count[i>>1]+(i & 0x1);
         }
-        
         return count;
     }
 };
-
