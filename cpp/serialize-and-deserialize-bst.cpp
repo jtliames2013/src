@@ -29,6 +29,21 @@ Hide Similar Problems (H) Serialize and Deserialize Binary Tree
  */
 class Codec {
 public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string res;
+        serialize(root, res);
+        return res;
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        int start=0;
+        return deserialize(data, start, INT_MIN, INT_MAX);
+    }
+
+private:
     void serialize(TreeNode* root, string& res) {
         if (root==NULL) return;
         if (!res.empty()) res+=",";
@@ -38,37 +53,23 @@ public:
         serialize(root->right, res);
     }
     
-    // Encodes a tree to a single string.
-    string serialize(TreeNode* root) {
-        string res;
-        serialize(root, res);
-        return res;
-    }
-
-    TreeNode* deserialize(string& data, int& start, int lower, int upper) {
+    TreeNode* deserialize(string data, int& start, int lower, int upper) {
         if (start>=data.size()) return NULL;
         int i, val=0;
-        for (i=start; i<data.size() && data[i]!=','; i++) {
-            val*=10;
-            val+=data[i]-'0';
+        for (i=start; i<data.size() && data[i]!=','; ++i) {
+            val=val*10+data[i]-'0';
         }
         
         if (val<=lower || val>=upper) return NULL;
-        TreeNode *n=new TreeNode(val);
         start=i+1;
+        TreeNode* n=new TreeNode(val);
         n->left=deserialize(data, start, lower, val);
         n->right=deserialize(data, start, val, upper);
+
         return n;
-    }
-    
-    // Decodes your encoded data to tree.
-    TreeNode* deserialize(string data) {
-        int start=0;
-        return deserialize(data, start, INT_MIN, INT_MAX);
     }
 };
 
 // Your Codec object will be instantiated and called as such:
 // Codec codec;
 // codec.deserialize(codec.serialize(root));
-
