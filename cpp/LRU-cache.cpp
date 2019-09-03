@@ -22,8 +22,8 @@ public:
     int get(int key) {
         if (mp.find(key)==mp.end()) return -1;
         if (mp[key]!=data.begin()) {
-            data.erase(mp[key]);
             data.push_front(*mp[key]);
+            data.erase(mp[key]);
             mp[key]=data.begin();
         }
         return mp[key]->val;
@@ -32,8 +32,8 @@ public:
     void put(int key, int value) {
         if (mp.find(key)!=mp.end()) {
             if (mp[key]!=data.begin()) {
-                data.erase(mp[key]);
                 data.push_front(*mp[key]);
+                data.erase(mp[key]);
                 mp[key]=data.begin();
             }
             mp[key]->val=value;
@@ -60,4 +60,3 @@ private:
  * int param_1 = obj.get(key);
  * obj.put(key,value);
  */
-
