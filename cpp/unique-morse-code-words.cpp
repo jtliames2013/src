@@ -35,7 +35,7 @@ public:
         for (auto& w:words) {
             string key;
             for (auto c:w) key+=morse[c-'a'];
-            if (st.find(key)==st.end()) st.insert(key);
+            st.insert(key);
         }
         return st.size();
     }
