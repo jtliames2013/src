@@ -11,19 +11,17 @@ Hide Company Tags Microsoft Apple
 Hide Tags Bit Manipulation
 Hide Similar Problems (E) Reverse Bits (E) Power of Two (M) Counting Bits
 
-  class Solution {
-  public:
-      int hammingWeight(uint32_t n) {
-    	  int sum=0;
-
-    	  while (n!=0) {
-    		  if (n&0x1 != 0) sum++;
-    		  n = n >> 1;
-    	  }
-
-    	  return sum;
-      }
-  };
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int res=0;
+        while (n>0) {
+            res+=(n & 0x1);
+            n>>=1;
+        }
+        return res;
+    }
+};
 
 2.
 class Solution {
