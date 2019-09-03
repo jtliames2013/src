@@ -13,33 +13,26 @@ Hide Similar Problems (M) Word Frequency (M) Kth Largest Element in an Array
 
 class Solution {
 public:
-    class Compare {
-    public:
-        bool operator()(pair<int,int> a, pair<int,int> b) {
-            return a.second>b.second;
-        }
-    };
-    
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        unordered_map<int,int> count;
-        for (auto n:nums) count[n]++;
-        priority_queue<pair<int,int>, vector<pair<int,int>>, Compare> pq;
+        vector<int> res;
+        unordered_map<int,int> mp;
+        for (auto n:nums) mp[n]++;
+        auto comp=[](pair<int,int>& a, pair<int,int>& b){ return a.second>b.second; };
+        priority_queue<pair<int,int>, vector<pair<int,int>>, decltype(comp)> pq(comp);
         
-        for (auto cnt:count) {
-            if (pq.size()<k) {
-                pq.push({cnt.first, cnt.second});
-            } else {
-                if (cnt.second>pq.top().second) {
+        for (auto i:mp) {
+            if (pq.size()<k) pq.push({i.first, i.second});
+            else {
+                if (i.second>pq.top().second) {
                     pq.pop();
-                    pq.push({cnt.first, cnt.second});
+                    pq.push({i.first, i.second});
                 }
             }
         }
         
-        vector<int> res;
         while (!pq.empty()) {
             res.push_back(pq.top().first);
-            pq.pop();
+            pq.pop();            
         }
         return res;
     }
