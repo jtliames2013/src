@@ -34,3 +34,18 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        int n=s.size(), i=n-1, j;
+        for (; i>=0; --i) {
+            if (s[i]!=' ') {
+                j=i;
+                while (j>=0 && s[j]!=' ') --j;
+                return i-j;
+            }
+        }
+        return 0;
+    }
+};
