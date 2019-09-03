@@ -64,9 +64,8 @@ private:
             }
             return false;
         } else {
-            auto iter=n->children.find(word[start]);
-            if (iter==n->children.end()) return false;
-            return search(word, start+1, iter->second);
+            if (n->children.find(word[start])==n->children.end()) return false;
+            return search(word, start+1, n->children[word[start]]);
         }
     }
 
