@@ -30,31 +30,31 @@ class Solution {
 public:
     string shortestCompletingWord(string licensePlate, vector<string>& words) {
         string res;
-        int maxLen=INT_MAX, total=0;
-        vector<int> count(26);        
+        vector<int> cnt(26);
+        int total=0, len=INT_MAX;
         for (auto c:licensePlate) {
             if (isalpha(c)) {
-                count[tolower(c)-'a']++;
+                cnt[tolower(c)-'a']++;
                 total++;
             }
         }
-        for (auto& word:words) {
-            if (contains(word, count, total) && word.size()<maxLen) {
-                maxLen=word.size();
-                res=word;
+
+        for (auto w:words) {
+            if (contains(w, cnt, total) && w.size()<len) {
+                len=w.size();
+                res=w;
             }
         }
         return res;
     }
 private:
-    bool contains(string& word, vector<int> count, int total) {
+    bool contains(string& word, vector<int> cnt, int total) {
         for (auto c:word) {
-            if (count[c-'a']>0) {
-                count[c-'a']--;
+            if (cnt[c-'a']>0) {
+                cnt[c-'a']--;
                 total--;
             }
         }
         return total==0;
     }
 };
-
