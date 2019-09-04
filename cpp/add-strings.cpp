@@ -16,18 +16,18 @@ Hide Similar Problems (M) Add Two Numbers (M) Multiply Strings
 class Solution {
 public:
     string addStrings(string num1, string num2) {
-        int n1=num1.size(), n2=num2.size(), i1=n1-1, i2=n2-1;
-        int num=0;
         string res;
+        int i1=num1.size()-1, i2=num2.size()-1, num=0;
         while (i1>=0 || i2>=0) {
             if (i1>=0) num+=num1[i1--]-'0';
             if (i2>=0) num+=num2[i2--]-'0';
             res.push_back(num%10+'0');
             num/=10;
         }
+
         if (num>0) res.push_back(num+'0');
+
         reverse(res.begin(), res.end());
         return res;
     }
 };
-
