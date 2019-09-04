@@ -48,65 +48,54 @@ We repeat the same process iteratively, taking words from the full word set, but
  *     int guess(string word);
  * };
  */
-class Solution {
-
-    int dist(const string& a, const string &b) 
-    {
-        // Maybe this can be memoized if too slow.
-        int dist = 0;
-        for (int idx = 0; idx < a.size(); ++idx) {
-            dist += a[idx] == b[idx];
-        }
-        return dist;
-    }
-    
-    int maxEquidistantSetSize(const string& word, const unordered_set<string>& guessSet) 
-    {
-        vector<int> hist(word.size() + 1, 0);    
-        for (auto& guess : guessSet) {
-            ++hist[dist(word, guess)];
-        }
-        return *max_element(hist.cbegin(), hist.cend());
-    }
-    
-    string maxPartitioningGuess(const vector<string>& wordlist, const unordered_set<string>& guessSet)
-    {
-        auto maxGuessIt = wordlist.cend();
-        int minMax = wordlist.size();
-        for (auto it = wordlist.cbegin(); it != wordlist.cend(); ++it) {
-            int curMax = maxEquidistantSetSize(*it, guessSet);
-            if (curMax < minMax) {
-                minMax = curMax;
-                maxGuessIt = it;
-            }
-        }
-        return *maxGuessIt;
-    }
-    
+class Solution {    
 public:
     void findSecretWord(vector<string>& wordlist, Master& master) 
-    {
-        // Start guessing
-        unordered_set<string> guessSet(wordlist.cbegin(), wordlist.cend());
-        while (guessSet.size() > 1) {
-            // Calculate max partitioning elem taken from full word list
-            string guessWord = maxPartitioningGuess(wordlist, guessSet);
-        
-            // Try the guess
-            int d = master.guess(guessWord);
-            if (d == guessWord.size()) return; // Got lucky!
+    {        
+        unordered_set<string> st(wordlist.begin(), wordlist.end());
+        while (st.size()>1) {            
+            string guessWord = patition(wordlist, st);        
+            int d=master.guess(guessWord);
+            if (d==guessWord.size()) return;
 
             // Eliminate words whose distance != d
-            for (auto it = guessSet.begin(); it != guessSet.end();) {
-                if (dist(guessWord, *it) != d) {
-                    it = guessSet.erase(it);
+            for (auto it=st.begin(); it!=st.end();) {
+                if (dist(guessWord, *it)!=d) {
+                    it=st.erase(it);
                 } else {
                     ++it;
                 }
             }
         }
-        if (!guessSet.empty()) {
-            master.guess(*guessSet.cbegin());
+        if (!st.empty()) {
+            master.guess(*st.begin());
         }
+    }
+private:
+    int dist(const string& a, const string& b) {        
+        int dist = 0;
+        for (int i=0; i<a.size(); ++i) {
+            dist+=a[i]==b[i];
+        }
+        return dist;
+    }
+    
+    int maxDistCount(string& word, unordered_set<string>& st) {
+        vector<int> hist(word.size()+1);    
+        for (auto& s:st) hist[dist(word, s)]++;
+        return *max_element(hist.begin(), hist.end());
+    }
+    
+    string patition(vector<string>& wordlist, unordered_set<string>& st) {
+        string res;
+        int minMax=wordlist.size();
+        for (auto w:wordlist) {
+            int cnt=maxDistCount(w, st);
+            if (cnt<minMax) {
+                minMax=cnt;
+                res=w;
+            }
+        }
+        return res;
     }
 };
