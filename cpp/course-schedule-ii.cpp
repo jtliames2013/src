@@ -36,23 +36,23 @@ Hide Similar Problems (M) Course Schedule (H) Alien Dictionary (M) Minimum Heigh
 
 class Solution {
 public:
-    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
         vector<int> res;
         // [0, 1] 1 is prerequisite of 0 so 1-->0
         if (numCourses==0) return res;
         vector<unordered_set<int>> outgoingGraph(numCourses);
-        vector<int> incomingCount(numCourses, 0);
+        vector<int> incomingCount(numCourses);
 
-        for (auto p:prerequisites) {
-            if (outgoingGraph[p.second].find(p.first)==outgoingGraph[p.second].end()) {
+        for (auto& p:prerequisites) {
+            if (outgoingGraph[p[1]].find(p[0])==outgoingGraph[p[1]].end()) {
                 // NOTE: pair could be duplicate so check here to avoid incorectly increment count
-                outgoingGraph[p.second].insert(p.first);
-                incomingCount[p.first]++;
+                outgoingGraph[p[1]].insert(p[0]);
+                incomingCount[p[0]]++;
             }
         }
         
         unordered_set<int> st;
-        for (int i=0; i<incomingCount.size(); i++) {
+        for (int i=0; i<incomingCount.size(); ++i) {
             if (incomingCount[i]==0) st.insert(i);
         }
         
@@ -71,7 +71,5 @@ public:
             if (c>0) return vector<int>();
         }
         return res;
-        
     }
 };
-
