@@ -32,12 +32,10 @@ public:
             prev=n;
         }
         
-        if (num!=0) {
-            ListNode *n=new ListNode(num);
-            prev->next=n;
+        if (num!=0) {            
+            prev->next=new ListNode(num);
         }
         
         return dummy.next;
     }
 };
-
