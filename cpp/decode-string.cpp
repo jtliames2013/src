@@ -46,36 +46,30 @@ public:
 2. Recursive
 class Solution {
 public:
+    string decodeString(string s) {
+        int i=0;
+        return decodeString(s, i);
+    }
+private:
     string decodeString(string& s, int& i) {
         string res;
-        
-        while (i<s.size() && s[i]!=']') {
+        while (i<s.size()) {            
             if (isalpha(s[i])) {
                 res+=s[i];
-                i++;
+                ++i;
             } else if (isdigit(s[i])) {
                 int num=0;
-                while (i<s.size() && isdigit(s[i])) {
-                    num*=10;
-                    num+=s[i]-'0';
-                    i++;
-                }
-                
-                i++; //'['
+                while (i<s.size() && isdigit(s[i])) num=num*10+s[i++]-'0';
+                ++i; //'['
                 string str=decodeString(s, i);
-                i++; //']'
-                for (int j=0; j<num; j++) res+=str;
-            } else {
-                // Should not come here
+                ++i; //']'
+                for (int j=0; j<num; ++j) res+=str;
+            } else if (s[i]==']') {
+                break;
             }
         }
         
         return res;
-    }
-    
-    string decodeString(string s) {
-        int i=0;
-        return decodeString(s, i);
     }
 };
 
