@@ -35,11 +35,10 @@ The number of nodes in the given list will be between 1 and 100.
 class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
-        if (head==NULL || head->next==NULL) return head;
-        ListNode *one=head, *two=head->next;
-        while (two) {
+        ListNode *one=head, *two=head;
+        while (two && two->next) {
             one=one->next;
-            two=two->next?two->next->next:two->next;
+            two=two->next->next;
         }
         return one;
     }
