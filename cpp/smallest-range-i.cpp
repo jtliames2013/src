@@ -43,12 +43,10 @@ class Solution {
 public:
     int smallestRangeI(vector<int>& A, int K) {
         int mn=A[0], mx=A[0];
-        for (int i=0; i<A.size(); ++i) {
+        for (int i=1; i<A.size(); ++i) {
             mn=min(mn, A[i]);
             mx=max(mx, A[i]);
         }
-        
         return max(mx-mn-2*K, 0);
     }
 };
-
