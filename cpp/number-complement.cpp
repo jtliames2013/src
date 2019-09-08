@@ -45,3 +45,16 @@ public:
     }
 };
 
+3.
+class Solution {
+public:
+    int findComplement(int num) {
+        int n=num, m=1;
+        while (n>0) {
+            num^=m;
+            m<<=1;
+            n>>=1;
+        }
+        return num;
+    }
+};
