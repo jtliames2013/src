@@ -36,19 +36,15 @@ widths[i] will be in the range of [2, 10].
 
 class Solution {
 public:
-    vector<int> numberOfLines(vector<int>& widths, string S) {        
+    vector<int> numberOfLines(vector<int>& widths, string S) {
         int row=0, col=0;
-        for (int i=0; i<S.size(); ) {
-            int w=widths[S[i]-'a'];
-            if (col+w>100) {
+        for (auto c:S) {
+            if (col+widths[c-'a']>100) {
                 row++;
                 col=0;
-            } else {
-                col+=w;
-                i++;
             }
+            col+=widths[c-'a'];
         }
-        
         return {row+1, col};
     }
 };
