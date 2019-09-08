@@ -36,14 +36,14 @@ public:
         }
         
         TreeNode* next() {
-            if (!hasNext()) return NULL;
-            while (true) {
+            while (!stk.empty()) {
                 TreeNode *n=stk.top();
                 stk.pop();
                 if (n->left==NULL && n->right==NULL) return n;
                 if (n->right) stk.push(n->right);
                 if (n->left) stk.push(n->left);                
-            }    
+            }
+            return NULL;
         }
         
         bool hasNext() {
