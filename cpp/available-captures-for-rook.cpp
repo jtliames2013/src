@@ -51,7 +51,7 @@ There is exactly one cell with board[i][j] == 'R'
 class Solution {
 public:
     int numRookCaptures(vector<vector<char>>& board) {
-        int rx, ry, res=0;
+        int rx=-1, ry=-1, res=0;
         for (int i=0; i<8; ++i) {
             for (int j=0; j<8; ++j) {
                 if (board[i][j]=='R') {
@@ -60,6 +60,7 @@ public:
                     break;
                 }
             }
+            if (rx!=-1) break;
         }
         
         for (int k=0; k<4; ++k) {
