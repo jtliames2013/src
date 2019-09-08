@@ -41,11 +41,12 @@ class Solution {
 public:
     int numUniqueEmails(vector<string>& emails) {
         unordered_set<string> st;
-        for (auto email:emails) {
+        for (auto& email:emails) {
             int idx=email.find_first_of('@');
-            string name=email.substr(0,idx);
+            string name=email.substr(0, idx);
             string domain=email.substr(idx);
-            name.erase(name.find_first_of('+'));
+            idx=name.find_first_of('+');
+            if (idx!=string::npos) name.erase(name.find_first_of('+'));            
             name.erase(remove(name.begin(), name.end(), '.'), name.end());
             st.insert(name+domain);
         }
@@ -53,4 +54,3 @@ public:
         return st.size();
     }
 };
-
