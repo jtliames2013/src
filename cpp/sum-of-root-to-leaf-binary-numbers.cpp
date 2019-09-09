@@ -1,4 +1,4 @@
-1022. Sum of Root To Leaf Binary Numbers
+1
 Easy
 
 21
@@ -44,17 +44,17 @@ class Solution {
 public:
     int sumRootToLeaf(TreeNode* root) {
         int res=0;
-        getSum(root, res, 0);        
+        dfs(root, res, 0);
         return res;
     }
-    
-    void getSum(TreeNode* node, int &res, int num) {
-        if (node==NULL) return;
-        if (node->left==NULL && node->right==NULL) {
-            res+=num*2+node->val;
+private:
+    void dfs(TreeNode* root, int& res, int num) {
+        if (root==NULL) return;
+        if (root->left==NULL && root->right==NULL) {
+            res+=num*2+root->val;
             return;
         }
-        getSum(node->left, res, num*2+node->val);
-        getSum(node->right, res, num*2+node->val);
+        dfs(root->left, res, num*2+root->val);
+        dfs(root->right, res, num*2+root->val);
     }
 };
