@@ -32,22 +32,21 @@ Hide Similar Problems (M) Next Greater Element II (M) Next Greater Element III
 
 class Solution {
 public:
-    vector<int> nextGreaterElement(vector<int>& findNums, vector<int>& nums) {
-        int n=findNums.size();
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        int n=nums1.size();
         if (n==0) return vector<int>();
-        vector<int> res(n, -1);
-        unordered_map<int,int> pos;
-        for (int i=0; i<n; i++) pos[findNums[i]]=i;
-        
+        vector<int> res(n,-1);
         stack<int> stk;
-        for (int i=0; i<nums.size(); i++) {
-            while (!stk.empty() && stk.top()<nums[i]) {
-                if (pos.find(stk.top())!=pos.end()) res[pos[stk.top()]]=nums[i];
+        unordered_map<int,int> mp;
+        for (int i=0; i<nums1.size(); ++i) mp[nums1[i]]=i;
+
+        for (int i=0; i<nums2.size(); ++i) {
+            while (!stk.empty() && stk.top()<nums2[i]) {
+                if (mp.find(stk.top())!=mp.end()) res[mp[stk.top()]]=nums2[i];
                 stk.pop();
             }
-            stk.push(nums[i]);
+            stk.push(nums2[i]);
         }
         return res;
     }
 };
-
