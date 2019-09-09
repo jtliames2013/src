@@ -45,5 +45,6 @@ public:
         for (auto i:B) {
             if (st.find(i+target)!=st.end()) return {i+target, i};
         }
+        return {0,0};
     }
 };
