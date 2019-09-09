@@ -30,10 +30,8 @@ Hide Tags Hash Table
 class Solution {
 public:
     int distributeCandies(vector<int>& candies) {
-        int n=candies.size();
-        unordered_map<int,int> mp;
-        for (auto c:candies) mp[c]++;
-        return min(n/2, (int)mp.size());
+        unordered_set<int> st;
+        for (auto c:candies) st.insert(c);
+        return min(candies.size()/2, st.size());
     }
 };
-
