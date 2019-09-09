@@ -30,21 +30,20 @@ Note:
 L, R will be integers L <= R in the range [1, 10^6].
 R - L will be at most 10000.
 
-class Solution {
+ass Solution {
 public:
     int countPrimeSetBits(int L, int R) {
-        set<int> primes={2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
         int res=0;
-        for (int i=L; i<=R; i++) {
-            int count=0;
-            int n=i;
+        for (int i=L; i<=R; ++i) {
+            int cnt=0, n=i;
             while (n>0) {
-                count+=n & 0x1;
-                n>>=1;
+                n&=n-1;
+                cnt++;
             }
-            if (primes.find(count)!=primes.end()) res++;
+            if (primes.find(cnt)!=primes.end()) res++;
         }
         return res;
     }
+private:
+    unordered_set<int> primes={2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
 };
-
