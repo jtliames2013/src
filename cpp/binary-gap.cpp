@@ -44,23 +44,15 @@ Note:
 class Solution {
 public:
     int binaryGap(int N) {
-        int res=0, len=0;
-        bool hasOne=false;
+        int res=0, d=INT_MIN; //distance from last 1
         while (N>0) {
-            if ((N & 0x1)==0) {
-                if (hasOne) len++;
-            } else {
-                if (hasOne) {
-                    len++;
-                    res=max(res, len);
-                    len=0;
-                } else {
-                    hasOne=true;
-                }
-            }            
+            if (N%2==1) {
+                res=max(res, d);
+                d=0;
+            }
+            d++;            
             N>>=1;
         }
-        
         return res;
     }
 };
