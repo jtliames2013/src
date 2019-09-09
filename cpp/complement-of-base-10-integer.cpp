@@ -40,8 +40,26 @@ Note:
 class Solution {
 public:
     int bitwiseComplement(int N) {
-        int X=1;
-        while (N>X) X=X*2+1;
-        return X-N;
+        int x=1;
+        while (N>x) {
+            x<<=1;
+            x|=1;
+        }
+        return x-N;
+    }
+};
+
+2.
+class Solution {
+public:
+    int bitwiseComplement(int N) {
+        if (N==0) return 1;
+        int n=N, m=1;
+        while (n>0) {
+            N^=m;
+            m<<=1;
+            n>>=1;
+        }
+        return N;
     }
 };
