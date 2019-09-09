@@ -37,7 +37,7 @@ The answer is guaranteed to fit within a 32-bit integer, ie. answer <= 2^31 - 1.
 class Solution {
 public:
     int tribonacci(int n) {
-        if (n<3) return n<2?n:1;
+        if (n<=2) return n==2?1:n;
         int a=0, b=1, c=1, d;
         for (int i=3; i<=n; ++i) {
             d=a+b+c;
@@ -45,7 +45,6 @@ public:
             b=c;
             c=d;
         }
-        
-        return d;
+        return c;
     }
 };
