@@ -1,9 +1,9 @@
-937. Reorder Log Files
+937. Reorder Data in Log Files
 Easy
 
-55
+229
 
-168
+676
 
 Favorite
 
@@ -24,11 +24,11 @@ Return the final order of the logs.
 
 Example 1:
 
-Input: ["a1 9 2 3 1","g1 act car","zo4 4 7","ab1 off key dog","a8 act zoo"]
-Output: ["g1 act car","a8 act zoo","ab1 off key dog","a1 9 2 3 1","zo4 4 7"]
+Input: logs = ["dig1 8 1 5 1","let1 art can","dig2 3 6","let2 own kit dig","let3 art zero"]
+Output: ["let1 art can","let3 art zero","let2 own kit dig","dig1 8 1 5 1","dig2 3 6"]
  
 
-Note:
+Constraints:
 
 0 <= logs.length <= 100
 3 <= logs[i].length <= 100
@@ -45,7 +45,7 @@ public:
         int i=a.find_first_of(' ');
         int j=b.find_first_of(' ');
         if (!isdigit(a[i+1]) && !isdigit(b[j+1])) {
-            return a.substr(i+1)<b.substr(j+1);
+            return a.substr(i+1)<b.substr(j+1) || (a.substr(i+1)==b.substr(j+1) && a.substr(0,i)<b.substr(0,j));
         } else if (!isdigit(a[i+1])) {
             return true;
         } else {
@@ -53,4 +53,3 @@ public:
         }
     }
 };
-
