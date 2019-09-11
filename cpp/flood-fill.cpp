@@ -27,30 +27,27 @@ The value of each color in image[i][j] and newColor will be an integer in [0, 65
 
 class Solution {
 public:
-    void dfs(vector<vector<int>>& res, int row, int col, int m, int n, int oldColor, int newColor) {
-        res[row][col]=newColor;
-        for (int k=0; k<4; k++) {
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        int m=image.size();
+        if (m==0) return image;
+        int n=image[0].size();
+        if (n==0) return image;
+        int oldColor=image[sr][sc];
+        if (oldColor==newColor) return image;
+        dfs(image, sr, sc, m, n, oldColor, newColor);
+        return image;
+    }
+private:
+    void dfs(vector<vector<int>>& image, int row, int col, int m, int n, int oldColor, int newColor) {
+        image[row][col]=newColor;
+        for (int k=0; k<4; ++k) {
             int nr=row+delta[k][0];
             int nc=col+delta[k][1];
-            if (nr>=0 && nr<m && nc>=0 && nc<n && res[nr][nc]==oldColor) {
-                dfs(res, nr, nc, m, n, oldColor, newColor);
+            if (nr>=0 && nr<m && nc>=0 && nc<n && image[nr][nc]==oldColor) {
+                dfs(image, nr, nc, m, n, oldColor, newColor);
             }
         }
     }
-    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
-        vector<vector<int>> res=image;
-        int m=image.size();
-        if (m==0) return res;
-        int n=image[0].size();
-        if (n==0) return res;        
-        int oldColor=image[sr][sc];
-        if (oldColor==newColor) return res;
-        
-        dfs(res, sr, sc, m, n, oldColor, newColor);
-        
-        return res;
-    }
-private:
+
     const int delta[4][2]={{-1,0}, {1,0}, {0,-1},{0,1}};
 };
-
