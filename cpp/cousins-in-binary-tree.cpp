@@ -84,7 +84,6 @@ public:
                     if (!found) {
                         found=true;
                         parent=f.second;
-                        cout << parent << endl;
                     } else {
                         return parent!=f.second;
                     }
