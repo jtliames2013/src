@@ -52,15 +52,14 @@ public:
         for (auto b:bills) {
             if (b==5) five++;
             else if (b==10) {
+                if (five==0) return false;
                 five--;
                 ten++;
-            } else if (ten>0) {
-                five--;
-                ten--;
             } else {
-                five-=3;
+                if ((ten==0 && five<3) || (five<=0)) return false;
+                if (ten==0) five-=3;
+                else { ten--; five--; }
             }
-            if (five<0) return false;
         }
         return true;
     }
