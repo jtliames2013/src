@@ -52,3 +52,23 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    int findContentChildren(vector<int>& g, vector<int>& s) {
+        if (g.empty() || s.empty()) return 0;
+        sort(g.begin(), g.end());
+        sort(s.begin(), s.end());
+        int res=0, i=0, j=0;
+        for (; i<g.size() && j<s.size(); ) {
+            if (g[i]<=s[j]) {
+                i++;
+                j++;
+                res++;
+            } else {
+                j++;
+            }
+        }
+        return res;
+    }
+};
