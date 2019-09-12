@@ -23,3 +23,14 @@ public:
     }
 };
 
+2. Bit operation
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int res=0, i=0;
+        for (; i<nums.size(); ++i) {
+            res=res^nums[i]^i;
+        }
+        return res^i;
+    }
+};
