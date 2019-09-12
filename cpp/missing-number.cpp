@@ -24,6 +24,8 @@ public:
 };
 
 2. Bit operation
+a^b^b =a
+
 class Solution {
 public:
     int missingNumber(vector<int>& nums) {
