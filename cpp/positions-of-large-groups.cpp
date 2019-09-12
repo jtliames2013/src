@@ -32,11 +32,13 @@ class Solution {
 public:
     vector<vector<int>> largeGroupPositions(string S) {
         vector<vector<int>> res;
-        int start=0, n=S.size();
-        for (int i=0; i<n;) {
-            while (i<n && S[i]==S[start]) i++;
-            if (i-start>=3) res.push_back({start, i-1});
-            start=i;
+        int n=S.size(), i=0, j;
+        for (; i<n; ) {
+            char c=S[i];
+            j=i+1;
+            while (j<n && S[j]==c) j++;
+            if (j-i>=3) res.push_back({i, j-1});
+            i=j;
         }
         return res;
     }
