@@ -44,7 +44,7 @@ public:
         vector<bool> res(n);
         int num=0;
         for (int i=0; i<n; ++i) {
-            num=((num<<1)+A[i])%5;
+            num=((num<<1)|A[i])%5;
             res[i]=num==0;
         }
         
