@@ -25,18 +25,14 @@ class Solution {
 public:
     vector<vector<int>> generate(int numRows) {
         vector<vector<int>> res;
-        for (int i=1; i<=numRows; i++) {
-            vector<int> v;
-            for (int j=0; j<i; j++) {
-                if (j==0 || j==i-1) v.push_back(1);
-                else {
-                    v.push_back(res.back()[j-1]+res.back()[j]);
-                }
+        for (int i=0; i<numRows; ++i) {
+            vector<int> v(i+1);
+            v[0]=v[i]=1;
+            for (int j=1; j<i; ++j) {
+                v[j]=res[i-1][j-1]+res[i-1][j];
             }
             res.push_back(v);
         }
-        
         return res;
     }
 };
-
