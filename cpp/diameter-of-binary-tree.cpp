@@ -33,20 +33,18 @@ Hide Tags Tree
  */
 class Solution {
 public:
+    int diameterOfBinaryTree(TreeNode* root) {
+        if (root==NULL) return 0;
+        int len=0;
+        dfs(root, len);
+        return len-1;
+    }
+private:
     int dfs(TreeNode* root, int& len) {
         if (root==NULL) return 0;
         int l=dfs(root->left, len);
         int r=dfs(root->right, len);
         len=max(len, l+r+1);
-        
         return max(l, r)+1;
     }
-    
-    int diameterOfBinaryTree(TreeNode* root) {
-        if (root==NULL) return 0;
-        int len=INT_MIN;
-        dfs(root, len);
-        return len-1;
-    }
 };
-
