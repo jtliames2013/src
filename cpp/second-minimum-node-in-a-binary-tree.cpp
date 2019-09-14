@@ -37,17 +37,15 @@ Explanation: The smallest value is 2, but there isn't any second smallest value.
  */
 class Solution {
 public:
-    int findMin(TreeNode* node, int val) {
-        if (node==NULL) return INT_MAX;
-        if (node->val>val) return node->val;
-        int l=findMin(node->left, val);
-        int r=findMin(node->right, val);
-        return min(l, r);
-    }
     int findSecondMinimumValue(TreeNode* root) {
         if (root==NULL) return -1;
-        int res=findMin(root, root->val);        
-        return res==INT_MAX?-1:res;
+        int res=dfs(root, root->val);
+        return res==LONG_MAX?-1:res;
+    }
+private:
+    long dfs(TreeNode* root, int val) {
+        if (root==NULL) return LONG_MAX;
+        if (root->val>val) return root->val;
+        return min(dfs(root->left, val), dfs(root->right, val));
     }
 };
-
