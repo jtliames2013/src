@@ -20,12 +20,11 @@ class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
         int global=INT_MIN, local=0;
-        for (int i=0; i<nums.size(); i++) {
-            local+=nums[i];
-            if (global<local) global=local;
+        for (auto n:nums) {
+            local+=n;
+            global=max(global, local);
             if (local<0) local=0;
         }
         return global;
     }
 };
-
