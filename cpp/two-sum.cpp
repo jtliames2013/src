@@ -19,19 +19,12 @@ Hide Similar Problems (M) 3Sum (M) 4Sum (M) Two Sum II - Input array is sorted (
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        vector<int> res(2);
         unordered_map<int,int> mp;
-        for (int i=0; i<nums.size(); i++) {
-            if (mp.find(target-nums[i])!=mp.end()) {
-                res[0]=mp[target-nums[i]];
-                res[1]=i;
-                return res;
-            } else {
-                mp[nums[i]]=i;
-            }
+        for (int i=0; i<nums.size(); ++i) {
+            if (mp.find(target-nums[i])!=mp.end()) return {mp[target-nums[i]], i};
+            mp[nums[i]]=i;
         }
-
-        return res;
+        return {0,0};
     }
 };
 
