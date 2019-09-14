@@ -31,15 +31,18 @@ seats contains only 0s or 1s, at least one 0, and at least one 1.
 class Solution {
 public:
     int maxDistToClosest(vector<int>& seats) {
-        int res=0, n=seats.size(), i=0;
-        for (int zeros=0; i<n; ++i) {
-            if (seats[i]==1) zeros=0;
-            else res=max(res, (++zeros+1)/2);
+        int res=0, zeros=0, n=seats.size(), i;
+        for (auto s:seats) {
+            if (s==1) zeros=0;
+            else {
+                res=max(res, zeros/2+1);
+                zeros++;
+            }
         }
-        for (i=0; seats[i]!=1; ++i);
+        for (i=0; i<n && seats[i]!=1; ++i);
         res=max(res, i);
-        for (i=n-1; seats[i]!=1; --i);
+        for (i=n-1; i>=0 && seats[i]!=1; --i);
         res=max(res, n-1-i);
         return res;
-    }
+     }
 };
