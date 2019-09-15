@@ -26,8 +26,7 @@ class Solution {
 public:
     bool hasCycle(ListNode *head) {
         ListNode *one=head, *two=head;
-        while (two) {
-            if (two->next==NULL) break;
+        while (two && two->next) {
             one=one->next;
             two=two->next->next;
             if (one==two) return true;
@@ -35,4 +34,3 @@ public:
         return false;
     }
 };
-
