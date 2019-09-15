@@ -14,17 +14,12 @@ Elements of the given array will be in the range [-10,000, 10,000].
 class Solution {
 public:
     double findMaxAverage(vector<int>& nums, int k) {
-        int n=nums.size();
-        if (k==0) return 0;
-        long sum=0, res=0;
-        int i=0;
-        for (; i<k; ++i) sum+=nums[i];
-        res=sum;
-        for (; i<n; ++i) {
-            sum+=nums[i]-nums[i-k];
-            res=max(res, sum);
+        long res=LONG_MIN, sum=0;
+        for (int i=0; i<nums.size(); ++i) {
+            sum+=nums[i];
+            if (i>=k) sum-=nums[i-k];
+            if (i>=k-1) res=max(res, sum);
         }
         return (double)res/k;
     }
 };
-
