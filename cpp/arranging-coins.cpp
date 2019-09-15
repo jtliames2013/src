@@ -35,12 +35,11 @@ Hide Tags Binary Search Math
 class Solution {
 public:
     int arrangeCoins(int n) {
-        long l=0, r=n;
-        long mid;
+        long l=0, r=n, mid;
         while (l<r) {
             mid=l+(r-l)/2+1;
-            if (mid*(mid+1)/2<=n) l=mid;
-            else r=mid-1;
+            if (mid*(mid+1)/2>n) r=mid-1;
+            else l=mid;
         }
         return l;
     }
