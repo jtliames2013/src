@@ -41,36 +41,37 @@ Hide Similar Problems (M) Validate Binary Search Tree
  */
 class Solution {
 public:
+    vector<int> findMode(TreeNode* root) {
+        vector<int> res;
+        prev=LONG_MIN;
+        count=0;
+        maxCount=INT_MIN;
+
+        dfs(res, root);
+        return res;
+    }
+private:
     void dfs(vector<int>& res, TreeNode* root) {
         if (root==NULL) return;
         dfs(res, root->left);
-        if (root->val!=val) {
+        if (root->val!=prev) {
             count=0;
-            val=root->val;
+            prev=root->val;
         }
         count++;
         
         if (count>maxCount) {
             maxCount=count;
             res.clear();
-            res.push_back(val);
+            res.push_back(prev);
         } else if (count==maxCount) {
-            res.push_back(val);
+            res.push_back(prev);
         }
         
         dfs(res, root->right);
     }
     
-    vector<int> findMode(TreeNode* root) {
-        vector<int> res;
-        maxCount=count=0;
-        val=INT_MIN;
-        dfs(res, root);
-        return res;
-    }
-private:
-    int maxCount;
+    long prev;
     int count;
-    int val;
+    int maxCount;
 };
-
