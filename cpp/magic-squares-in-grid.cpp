@@ -32,7 +32,7 @@ Note:
 
 class Solution {
 public:
-    bool isMagic(vector<vector<int>>& grid, int r, int c) {        
+    bool isMagic(vector<vector<int>>& grid, int r, int c) {
         if (grid[r+1][c+1]!=5) return false;
         bitset<9> b;
         for (int i=0; i<3; ++i) {
@@ -44,12 +44,14 @@ public:
                 if (edge.find({i,j})!=edge.end() && grid[row][col]%2!=1) return false;
                 if (corner.find({i,j})!=corner.end() && grid[row][col]%2!=0) return false;
             }
-        }        
-        if (grid[r][c]+grid[r+2][c+2]!=10) return false;    
-        if (grid[r+1][c]+grid[r+1][c+2]!=10) return false;        
+        }
+        if (grid[r][c]+grid[r+2][c+2]!=10) return false;
+        if (grid[r+1][c]+grid[r+1][c+2]!=10) return false;
+        if (grid[r][c]+grid[r][c+1]+grid[r][c+2]!=15) return false;
+        if (grid[r][c]+grid[r+1][c]+grid[r+2][c]!=15) return false;
         return true;
     }
-    
+
     int numMagicSquaresInside(vector<vector<int>>& grid) {
         int m=grid.size();
         if (m==0) return 0;
