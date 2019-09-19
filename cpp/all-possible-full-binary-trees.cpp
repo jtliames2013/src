@@ -42,15 +42,16 @@ Note:
 class Solution {
 public:
     vector<TreeNode*> allPossibleFBT(int N) {
-        vector<TreeNode*> res;        
+        vector<TreeNode*> res;
+        if (N%2==0) return res;
+        if (mp.find(N)!=mp.end()) return mp[N];
         if (N==1) {
             res.push_back(new TreeNode(0));
             return res;
         }
-        N--;
-        for (int i=1; i<=N; i+=2) {
+        for (int i=1; i<N; i+=2) {
             vector<TreeNode*> left=allPossibleFBT(i);
-            vector<TreeNode*> right=allPossibleFBT(N-i);
+            vector<TreeNode*> right=allPossibleFBT(N-1-i);
             for (auto l:left) {
                 for (auto r:right) {
                     TreeNode* n=new TreeNode(0);
@@ -60,7 +61,10 @@ public:
                 }
             }
         }
+        mp[N]=res;
         
         return res;
     }
+private:
+    unordered_map<int,vector<TreeNode*>> mp;
 };
