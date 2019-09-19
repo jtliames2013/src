@@ -24,14 +24,11 @@ public:
         path.push_back(v);        
         if (v==graph.size()-1) {
             res.push_back(path);            
-            path.pop_back();
-            return;
+        } else {
+            for (auto neighbor:graph[v]) {
+                dfs(res, path, graph, neighbor);
+            }
         }
-        
-        for (auto neighbor:graph[v]) {        
-            dfs(res, path, graph, neighbor);        
-        }
-                
         path.pop_back();
     }
     
