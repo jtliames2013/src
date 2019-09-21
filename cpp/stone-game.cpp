@@ -37,6 +37,8 @@ piles.length is even.
 1 <= piles[i] <= 500
 sum(piles) is odd.
 
+dp[i][j] means the biggest number of stones you can get more than opponent picking piles in piles[i] ~ piles[j].
+
 class Solution {
 public:
     bool stoneGame(vector<int>& piles) {
