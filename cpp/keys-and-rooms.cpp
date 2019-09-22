@@ -32,19 +32,16 @@ The number of keys in all rooms combined is at most 3000.
 
 class Solution {
 public:
-    void dfs(vector<vector<int>>& rooms, int r, unordered_set<int>& st) {
-        for (auto k:rooms[r]) {
-            if (st.find(k)==st.end()) {
-                st.insert(k);
-                dfs(rooms, k, st);
-            }
-        }
-    }   
-    
     bool canVisitAllRooms(vector<vector<int>>& rooms) {
-        unordered_set<int> st={0};
+        unordered_set<int> st;
         dfs(rooms, 0, st);
         return st.size()==rooms.size();
-    }   
+    }
+private:
+    void dfs(vector<vector<int>>& rooms, int r, unordered_set<int>& st) {
+        st.insert(r);
+        for (auto neighbor:rooms[r]) {
+            if (st.find(neighbor)==st.end()) dfs(rooms, neighbor, st);
+        }
+    }
 };
-
