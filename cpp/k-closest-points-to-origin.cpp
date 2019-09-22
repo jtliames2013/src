@@ -42,25 +42,28 @@ class Solution {
 public:
     vector<vector<int>> kClosest(vector<vector<int>>& points, int K) {
         vector<vector<int>> res;
-        auto comp=[](vector<int>& a, vector<int>& b) {
-            return a[0]*a[0]+a[1]*a[1]<b[0]*b[0]+b[1]*b[1];
-        };
+        auto comp=[&](vector<int>& p1, vector<int>& p2){ return dist(p1)<dist(p2); };
         priority_queue<vector<int>, vector<vector<int>>, decltype(comp)> pq(comp);
-        for (int i=0; i<points.size(); ++i) {
-            if (pq.size()<K) pq.push(points[i]);
+        for (auto& p:points) {
+            if (pq.size()<K) pq.push(p);
             else {
-                vector<int> t=pq.top();
-                if (points[i][0]*points[i][0]+points[i][1]*points[i][1]<t[0]*t[0]+t[1]*t[1]) {
+                auto t=pq.top();
+                if (dist(p)<dist(t)) {
                     pq.pop();
-                    pq.push(points[i]);
+                    pq.push(p);
                 }
             }
         }
+
         while (!pq.empty()) {
             res.push_back(pq.top());
             pq.pop();
         }
+
         return res;
     }
+private:
+    int dist(vector<int>& p) {
+        return p[0]*p[0]+p[1]*p[1];
+    }
 };
-
