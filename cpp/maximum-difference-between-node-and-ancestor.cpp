@@ -69,3 +69,19 @@ private:
         return {mn, mx};
     }
 };
+
+2. Top down
+class Solution {
+public:
+    int maxAncestorDiff(TreeNode* root) {
+        if (root==NULL) return 0;
+        return dfs(root, root->val, root->val);
+    }
+private:
+    int dfs(TreeNode* root, int mn, int mx) {
+        if (root==NULL) return mx-mn;
+        int l=dfs(root->left, min(mn, root->val), max(mx, root->val));
+        int r=dfs(root->right, min(mn, root->val), max(mx, root->val));
+        return max(l, r);
+    }
+};
