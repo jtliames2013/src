@@ -65,8 +65,7 @@ public:
                 b ^= n;
             }
         }
-        vector<int> v= { a, b };
-        return v;
+        return { a, b };
     }
 };
 
