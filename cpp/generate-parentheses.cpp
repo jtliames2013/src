@@ -18,29 +18,28 @@ Hide Similar Problems (M) Letter Combinations of a Phone Number (E) Valid Parent
 
 class Solution {
 public:
-    void genParen(vector<string>& res, string& output, int left, int right) {
-        if (left==0&&right==0) {
+    vector<string> generateParenthesis(int n) {
+        vector<string> res;
+        string output;
+        dfs(res, output, n, n);
+        return res;
+    }
+private:
+    void dfs(vector<string>& res, string& output, int left, int right) {
+        if (right==0) {
             res.push_back(output);
             return;
-        }    
+        }
+
         if (left>0) {
             output.push_back('(');
-            genParen(res, output, left-1, right);
+            dfs(res, output, left-1, right);
             output.pop_back();
         }
         if (right>left) {
             output.push_back(')');
-            genParen(res, output, left, right-1);
+            dfs(res, output, left, right-1);
             output.pop_back();
         }
     }
-    
-    vector<string> generateParenthesis(int n) {
-        vector<string> res;
-        string output;
-        genParen(res, output, n, n);
-        
-        return res;
-    }
 };
-
