@@ -39,26 +39,25 @@ Hide Similar Problems (E) Subtree of Another Tree
  */
 class Solution {
 public:
-    int dfs(TreeNode* root, unordered_map<int,int>& sums, int& maxCount) {
-        if (root==NULL) return 0;
-        int sum=root->val;
-        sum+=dfs(root->left, sums, maxCount);
-        sum+=dfs(root->right, sums, maxCount);
-        sums[sum]++;
-        maxCount=max(maxCount, sums[sum]);
-        return sum;
-    }
-    
     vector<int> findFrequentTreeSum(TreeNode* root) {
         vector<int> res;
-        unordered_map<int,int> sums;
+        unordered_map<int,int> mp;
         int maxCount=0;
-        dfs(root, sums, maxCount);
-        
-        for (auto s:sums) {
-            if (s.second==maxCount) res.push_back(s.first);
+        dfs(root, mp, maxCount);
+        for (auto iter:mp) {
+            if (iter.second==maxCount) res.push_back(iter.first);
         }
         return res;
     }
-};
+private:
+    int dfs(TreeNode* root, unordered_map<int,int>& mp, int& maxCount) {
+        if (root==NULL) return 0;
+        auto l=dfs(root->left, mp, maxCount);
+        auto r=dfs(root->right, mp, maxCount);
+        int sum=root->val+l+r;
+        mp[sum]++;
+        maxCount=max(maxCount, mp[sum]);
 
+        return sum;
+    }
+};
