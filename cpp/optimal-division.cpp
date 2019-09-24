@@ -34,24 +34,17 @@ Hide Tags Math String
 class Solution {
 public:
     string optimalDivision(vector<int>& nums) {
-        string res;
         int n=nums.size();
+        string res;
         if (n==0) return res;
-        
-        res=to_string(nums[0]);
-        if (n==1) return res;
-        
-        res+="/";
-        if (n==2) return res+to_string(nums[1]);
-        
-        res+="(";
-        for (int i=1; i<n; i++) {
+        if (n==1) return to_string(nums[0]);
+        if (n==2) return to_string(nums[0])+"/"+to_string(nums[1]);
+        res=to_string(nums[0])+"/(";
+        for (int i=1; i<n; ++i) {
             res+=to_string(nums[i]);
             if (i<n-1) res+="/";
         }
-        
         res+=")";
         return res;
     }
 };
-
