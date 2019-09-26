@@ -26,18 +26,22 @@ Notes:
 class Solution {
 public:
     int largestOverlap(vector<vector<int>>& A, vector<vector<int>>& B) {
-        int n=A.size();
+        int n=A.size(), res=0;
         set<pair<int,int>> stA, stB;
         map<pair<int,int>, int> mp;
-        for (int i=0; i<n; ++i) for (int j=0; j<n; ++j) if (A[i][j]==1) stA.insert({i, j});
-        for (int i=0; i<n; ++i) for (int j=0; j<n; ++j) if (B[i][j]==1) stB.insert({i, j});
+        for (int i=0; i<n; ++i) {
+            for (int j=0; j<n; ++j) {
+                if (A[i][j]==1) stA.insert({i, j});
+                if (B[i][j]==1) stB.insert({i, j});
+            }
+        }
         for (auto& pA:stA) {
             for (auto& pB:stB) {
                 mp[{pA.first-pB.first, pA.second-pB.second}]++;
             }
         }
-        int res=0;
-        for (auto& iter:mp) res=max(res, iter.second);
+
+        for (auto iter:mp) res=max(res, iter.second);
         return res;
     }
 };
