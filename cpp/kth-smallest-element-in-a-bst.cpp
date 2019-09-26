@@ -56,23 +56,30 @@ public:
 };
 
 2. DFS
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
 class Solution {
 public:
-    int dfs(TreeNode* root) {
-        if (root==NULL) return 0;
-        int val=dfs(root->left);
-        if (count==0) return val;
-        count--;
-        if (count==0) return root->val;
-        return dfs(root->right);    
-    }
-    
     int kthSmallest(TreeNode* root, int k) {
-        count=k;
-        return dfs(root);
+        return dfs(root, k);
     }
 private:
-    int count;
+    int dfs(TreeNode* root, int& k) {
+        if (root==NULL) return 0;
+        int val=dfs(root->left, k);
+        if (k==0) return val;
+        k--;
+        if (k==0) return root->val;
+        return dfs(root->right, k);
+    }
 };
 
 一步思考：
