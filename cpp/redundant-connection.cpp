@@ -32,21 +32,21 @@ We have overhauled the problem description + test cases and specified clearly th
 
 class Solution {
 public:
-    int find(vector<int>& parent, int i) {
-        while (parent[i]!=i) i=parent[i];
-        return i;
-    }
-    
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
         int n=edges.size();
-        vector<int> parent(n);
-        for (int i=0; i<n; i++) parent[i]=i;
+        vector<int> root(n);
+        for (int i=0; i<n; ++i) root[i]=i;
         for (auto& e:edges) {
-            int p1=find(parent, e[0]-1);
-            int p2=find(parent, e[1]-1);
-            if (p1==p2) return e;
-            parent[p1]=p2;
+            int r1=find(root, e[0]-1);
+            int r2=find(root, e[1]-1);
+            if (r1==r2) return e;
+            root[r1]=r2;
         }
+        return {0,0};
+    }
+private:
+    int find(vector<int>& root, int i) {
+        while (root[i]!=i) i=root[i];
+        return i;
     }
 };
-
