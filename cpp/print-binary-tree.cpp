@@ -55,24 +55,24 @@ Note: The height of binary tree is in the range of [1, 10].
  */
 class Solution {
 public:
+    vector<vector<string>> printTree(TreeNode* root) {
+        int height=getHeight(root);
+        int m=height, n=(1<<height)-1;
+        vector<vector<string>> res(m, vector<string>(n, ""));
+        dfs(root, res, 0, 0, n);
+        return res;
+    }
+private:
     int getHeight(TreeNode* root) {
         if (root==NULL) return 0;
         return 1+max(getHeight(root->left), getHeight(root->right));
     }
-    void dfs(vector<vector<string>>& res, TreeNode *node, int row, int l, int r) {
-        if (node!=NULL) {
-            int mid=(l+r)/2;
-            res[row][mid]=to_string(node->val);
-            dfs(res, node->left, row+1, l, mid);
-            dfs(res, node->right, row+1, mid, r);
-        }
-    }
-    vector<vector<string>> printTree(TreeNode* root) {        
-        int height=root==NULL?1:getHeight(root);
-        int m=height, n=pow(2,height)-1;
-        vector<vector<string>> res(m, vector<string>(n, ""));
-        dfs(res, root, 0, 0, n);
-        return res;
+
+    void dfs(TreeNode* root, vector<vector<string>>& res, int row, int l, int r) {
+        if (root==NULL) return;
+        int mid=l+(r-l)/2;
+        res[row][mid]=to_string(root->val);
+        dfs(root->left, res, row+1, l, mid-1);
+        dfs(root->right, res, row+1, mid+1, r);
     }
 };
-
