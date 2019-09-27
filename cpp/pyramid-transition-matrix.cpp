@@ -80,4 +80,21 @@ public:
     }
 };
 
-
+2.
+class Solution {
+public:
+    bool pyramidTransition(string bottom, vector<string>& allowed) {
+        unordered_map<string, vector<char>> mp;
+        for (auto& a:allowed) mp[a.substr(0,2)].push_back(a[2]);
+        return dfs(bottom, mp, 0, "");
+    }
+private:
+    bool dfs(string bottom, unordered_map<string, vector<char>>& mp, int start, string next) {
+        if (bottom.size()==1) return true;
+        if (start==bottom.size()-1) return dfs(next, mp, 0, "");
+        for (auto c:mp[bottom.substr(start, 2)]) {
+            if (dfs(bottom, mp, start+1, next+c)) return true;
+        }
+        return false;
+    }
+};
