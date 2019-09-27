@@ -24,6 +24,13 @@ Note:
 answers will have length at most 1000.
 Each answers[i] will be an integer in the range [0, 999].
 
+If x+1 rabbits have same color, then we get x+1 rabbits who all answer x.
+now n rabbits answer x.
+If n % (x + 1) == 0, we need n / (x + 1) groups of x + 1 rabbits.
+If n % (x + 1) != 0, we need n / (x + 1) + 1 groups of x + 1 rabbits.
+
+the number of groups is math.ceil(n / (x + 1)) and it equals to (n + x) / (x + 1) , which is more elegant.
+
 class Solution {
 public:
     int numRabbits(vector<int>& answers) {
@@ -35,6 +42,38 @@ public:
             int div=iter.second/(iter.first+1);
             int mod=iter.second%(iter.first+1);
             res+=((mod==0)?div:div+1)*(iter.first+1);
+        }
+        return res;
+    }
+};
+
+2.
+class Solution {
+public:
+    int numRabbits(vector<int>& answers) {
+        int res=0;
+        unordered_map<int,int> mp;
+        for (auto a:answers) mp[a]++;
+
+        for (auto iter:mp) {
+            res+=(iter.second+iter.first)/(iter.first+1)*(iter.first+1);
+        }
+        return res;
+    }
+};
+
+3.
+Count when you first see the number(say we see this color for the first time so res += num+1), and once num+1 rabbits say num, we have completed a group so we should remove this color
+
+class Solution {
+public:
+    int numRabbits(vector<int>& answers) {
+        int res=0;
+        unordered_map<int,int> mp;
+        for (auto a:answers) {
+            mp[a]++;
+            if (mp[a]==1) res+=a+1;
+            if (mp[a]>a) mp.erase(a);
         }
         return res;
     }
