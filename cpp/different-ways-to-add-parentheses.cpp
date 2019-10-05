@@ -26,8 +26,12 @@ public:
         return dfs(input, 0, input.size()-1);
     }
 private:
+    unordered_map<string, vector<int>> mp;
+
     vector<int> dfs(string& input, int start, int end) {
         if (start>end) return vector<int>();
+        string str=input.substr(start, end-start+1);
+        if (mp.find(str)!=mp.end()) return mp[str];
         vector<int> res;
 
         for (int i=start; i<=end; ++i) {
@@ -42,8 +46,9 @@ private:
             }
         }
         
-        if (res.empty()) return { stoi(input.substr(start, end-start+1)) };
-        else return res;
+        if (res.empty()) mp[str]={ stoi(str) };
+        else mp[str]=res;
+        return mp[str];
     }
 
     bool isop(char c) {
