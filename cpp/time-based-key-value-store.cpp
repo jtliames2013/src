@@ -47,4 +47,50 @@ The timestamps for all TimeMap.set operations are strictly increasing.
 1 <= timestamp <= 10^7
 TimeMap.set and TimeMap.get functions will be called a total of 120000 times (combined) per test case.
 
+1. map
+class TimeMap {
+public:
+    /** Initialize your data structure here. */
+    TimeMap() {
+
+    }
+
+    void set(string key, string value, int timestamp) {
+        mp[key].insert({timestamp, value});
+    }
+
+    string get(string key, int timestamp) {
+        auto iter=mp[key].upper_bound(timestamp);
+        return iter==mp[key].begin()?"":prev(iter)->second;
+    }
+private:
+    unordered_map<string, map<int, string>> mp;
+};
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap* obj = new TimeMap();
+ * obj->set(key,value,timestamp);
+ * string param_2 = obj->get(key,timestamp);
+ */
+
+2. vector
+class TimeMap {
+public:
+    /** Initialize your data structure here. */
+    TimeMap() {
+
+    }
+
+    void set(string key, string value, int timestamp) {
+        mp[key].push_back({timestamp, value});
+    }
+
+    string get(string key, int timestamp) {
+        auto iter=upper_bound(mp[key].begin(), mp[key].end(), pair<int, string>{timestamp, ""}, [](const pair<int, string>& a, const pair<int, string>& b){ return a.first<b.first; });
+        return iter==mp[key].begin()?"":prev(iter)->second;
+    }
+private:
+    unordered_map<string, vector<pair<int, string>>> mp;
+};
 
