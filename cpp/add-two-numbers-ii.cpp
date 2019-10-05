@@ -40,26 +40,21 @@ public:
             stk2.push(l2->val);
             l2=l2->next;
         }
-
-        ListNode *head=new ListNode(0);        
+        ListNode* head=NULL;
         int num=0;
         while (!stk1.empty()||!stk2.empty()) {
-            if (!stk1.empty()) {
-                num+=stk1.top();
-                stk1.pop();
-            }
-            if (!stk2.empty()) {
-                num+=stk2.top();
-                stk2.pop();
-            }
-            head->val=num%10;
-            ListNode* n=new ListNode(num/10);
+            if (!stk1.empty()) { num+=stk1.top(); stk1.pop(); }
+            if (!stk2.empty()) { num+=stk2.top(); stk2.pop(); }
+            ListNode* n=new ListNode(num%10);
             num/=10;
             n->next=head;
             head=n;
         }
-        
-        return head->val==0?head->next:head;
+        if (num!=0) {
+            ListNode* n=new ListNode(num);
+            n->next=head;
+            head=n;
+        }
+        return head;
     }
 };
-
