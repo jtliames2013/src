@@ -7,6 +7,20 @@ Hide Company Tags Bloomberg
 Hide Tags Array Greedy
 Hide Similar Problems (E) Best Time to Buy and Sell Stock (H) Best Time to Buy and Sell Stock III (H) Best Time to Buy and Sell Stock IV (M) Best Time to Buy and Sell Stock with Cooldown
 
+1.
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int buy=INT_MIN, sell=0;
+        for (auto p:prices) {
+            buy=max(buy, sell-p);
+            sell=max(sell, buy+p);
+        }
+        return sell;
+    }
+};
+
+2.
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
@@ -19,7 +33,7 @@ public:
     }
 };
 
-2.
+3.
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
@@ -37,17 +51,4 @@ public:
     }
 };
 
-class Solution {
-public:
-    int maxProfit(vector<int>& prices) {
-        int n=prices.size();
-        if (n==0) return 0;
-        int buy=INT_MIN, sell=0;
-        for (int i=0; i<n; i++) {
-            buy=max(sell-prices[i], buy);
-            sell=max(buy+prices[i], sell);
-        }
-        return sell;
-    }
-};
 
