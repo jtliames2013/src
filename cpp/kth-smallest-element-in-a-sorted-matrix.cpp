@@ -25,39 +25,25 @@ Hide Similar Problems (M) Find K Pairs with Smallest Sums
 
 class Solution {
 public:
-    struct Point {
-        int row;
-        int col;
-        int val;
-        Point(int r, int c, int v):row(r),col(c),val(v) {}
-    };
-    
-    class Compare {
-    public:    
-        bool operator()(Point a, Point b) {
-           return a.val > b.val;
-        }
-    };
-    
     int kthSmallest(vector<vector<int>>& matrix, int k) {
         int m=matrix.size();
         if (m==0) return 0;
         int n=matrix[0].size();
         if (n==0) return 0;
         
-        priority_queue<Point, vector<Point>, Compare> pq;
-        pq.push(Point(0,0,matrix[0][0]));
+        auto comp=[&](pair<int,int>& a, pair<int,int>& b){ return matrix[a.first][a.second]>matrix[b.first][b.second]; };
+        priority_queue<pair<int,int>, vector<pair<int,int>>, decltype(comp)> pq(comp);
+        pq.push({0,0});
         
         while (!pq.empty()) {
-            Point t=pq.top();
+            auto t=pq.top();
             pq.pop();
             k--;
-            if (k==0) return t.val;
+            if (k==0) return matrix[t.first][t.second];
             
-            if (t.row==0&&t.col<n-1) pq.push(Point(t.row,t.col+1,matrix[t.row][t.col+1]));
-            if (t.row<m-1) pq.push(Point(t.row+1,t.col,matrix[t.row+1][t.col]));
+            if (t.first==0 && t.second<n-1) pq.push({t.first, t.second+1});
+            if (t.first<m-1) pq.push({t.first+1, t.second});
         }
-        
         return 0;
     }
 };
