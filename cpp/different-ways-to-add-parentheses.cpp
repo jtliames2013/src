@@ -22,42 +22,40 @@ Output: [-34, -14, -10, -10, 10]
 
 class Solution {
 public:
-    bool isop(char c) {
-        if (c=='+' || c=='-' || c=='*' || c=='/') return true;
-        return false;
+    vector<int> diffWaysToCompute(string input) {
+        return dfs(input, 0, input.size()-1);
     }
-    
-    int calc(int num1, int num2, char op) {
-        switch (op) {
-            case '+': return num1+num2;
-            case '-': return num1-num2;
-            case '*': return num1*num2;
-            case '/': return num1/num2;
-            default: return 0;
-        }
-    }
-
-    vector<int> diffWaysToCompute(string& input, int start, int end) {
+private:
+    vector<int> dfs(string& input, int start, int end) {
         if (start>end) return vector<int>();
         vector<int> res;
-        for (int i=start; i<end; i++) {
+
+        for (int i=start; i<=end; ++i) {
             if (isop(input[i])) {
-                vector<int> left=diffWaysToCompute(input, start, i-1);
-                vector<int> right=diffWaysToCompute(input, i+1, end);
-                for (int j=0; j<left.size(); j++) {
-                    for (int k=0; k<right.size(); k++) {
+                vector<int> left=dfs(input, start, i-1);
+                vector<int> right=dfs(input, i+1, end);
+                for (int j=0; j<left.size(); ++j) {
+                    for (int k=0; k<right.size(); ++k) {
                         res.push_back(calc(left[j], right[k], input[i]));
                     }
                 }
             }
         }
         
-        if (res.empty()) res.push_back(stoi(input.substr(start, end-start+1)));
-        return res;
+        if (res.empty()) return { stoi(input.substr(start, end-start+1)) };
+        else return res;
+    }
+
+    bool isop(char c) {
+        return c=='+' || c=='-' || c=='*';
     }
     
-    vector<int> diffWaysToCompute(string input) {
-        return diffWaysToCompute(input, 0, input.size()-1);
+    int calc(int l, int r, char op) {
+        switch (op) {
+            case '+': return l+r;
+            case '-': return l-r;
+            case '*': return l*r;
+            default: return 0;
+        }
     }
 };
-
