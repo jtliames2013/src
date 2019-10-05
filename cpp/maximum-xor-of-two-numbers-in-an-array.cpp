@@ -73,8 +73,10 @@ public:
         for (int i=31; i>=0; i--) {
             unordered_set<int> st;
             mask |= (1<<i);
+            // get the prefix bits
             for (auto n:nums) st.insert(n & mask);
             
+            // set the bit to 1 to check XOR
             int tmp = res | (1<<i);
             for (auto prefix:st) {
                 if (st.find(prefix ^ tmp)!=st.end()) {
