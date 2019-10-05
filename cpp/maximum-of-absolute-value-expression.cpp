@@ -31,6 +31,11 @@ Constraints:
 2 <= arr1.length == arr2.length <= 40000
 -10^6 <= arr1[i], arr2[i] <= 10^6
 
+(a1-b1) + (a2-b2) + (i-j)
+(a1-b1) + (b2-a2) + (i-j)
+(b1-a1) + (a2-b2) + (i-j)
+(b1-a1) + (b2-a2) + (i-j)
+
 class Solution {
 public:
     int maxAbsValExpr(vector<int>& arr1, vector<int>& arr2) {
