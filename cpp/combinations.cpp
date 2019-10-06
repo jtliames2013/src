@@ -17,23 +17,24 @@ Hide Similar Problems (M) Combination Sum (M) Permutations
 
 class Solution {
 public:
-    void getComb(vector<vector<int>>& res, vector<int>& output, int n, int k, int start) {
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> res;
+        vector<int> output;
+        dfs(res, output, n, k, 0);
+
+        return res;
+    }
+private:
+    void dfs(vector<vector<int>>& res, vector<int>& output, int n, int k, int start) {
         if (k==0) {
             res.push_back(output);
             return;
         }
-        for (int i=start; i+k<=n; i++) {
+
+        for (int i=start; i+k<=n; ++i) {
             output.push_back(i+1);
-            getComb(res, output, n, k-1, i+1);
+            dfs(res, output, n, k-1, i+1);
             output.pop_back();
         }
     }
-    vector<vector<int>> combine(int n, int k) {
-        vector<vector<int>> res;
-        vector<int> output;
-        getComb(res, output, n, k, 0);
-        
-        return res;
-    }
 };
-
