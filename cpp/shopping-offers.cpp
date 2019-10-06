@@ -32,6 +32,48 @@ There are at most 6 kinds of items, 100 special offers.
 For each item, you need to buy at most 6 of them.
 You are not allowed to buy more items than you want, even if that would lower the overall price.
 
+1.
+bool operator<(const vector<int>& a, const vector<int>& b) {
+    for (int i=0; i<a.size(); ++i) {
+        if (a[i]<b[i]) return true;
+    }
+    return false;
+}
+
+void operator-=(vector<int>& a, const vector<int>& b) {
+    for (int i=0; i<a.size(); ++i) {
+        a[i]-=b[i];
+    }
+}
+
+void operator+=(vector<int>& a, const vector<int>& b) {
+    for (int i=0; i<a.size(); ++i) {
+        a[i]+=b[i];
+    }
+}
+
+class Solution {
+public:
+    int shoppingOffers(vector<int>& price, vector<vector<int>>& special, vector<int>& needs) {
+        return dfs(price, special, needs, 0);
+    }
+private:
+    int dfs(vector<int>& price, vector<vector<int>>& special, vector<int>& needs, int curr) {
+        int total=inner_product(price.begin(), price.end(), needs.begin(), curr);
+
+        for (auto& s:special) {
+            if (curr+s.back()>total) continue;
+            if (needs<s) continue;
+            needs-=s;
+            total=min(total, dfs(price, special, needs, curr+s.back()));
+            needs+=s;
+        }
+
+        return total;
+    }
+};
+
+2.
 class Solution {
 public:
     void dfs(vector<int>& price, vector<vector<int>>& special, vector<int>& needs) {
