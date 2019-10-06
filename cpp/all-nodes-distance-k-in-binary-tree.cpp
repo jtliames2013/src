@@ -40,16 +40,6 @@ The target node is a node in the tree.
  */
 class Solution {
 public:
-    void build(TreeNode* node, TreeNode* parent, unordered_map<int, set<int>>& graph) {
-        if (!node) return;
-        if (parent) {
-            graph[parent->val].insert(node->val);
-            graph[node->val].insert(parent->val);
-        }
-        build(node->left, node, graph);
-        build(node->right, node, graph);
-    }
-    
     vector<int> distanceK(TreeNode* root, TreeNode* target, int K) {
         vector<int> res;
         unordered_map<int, set<int>> graph;
@@ -58,26 +48,35 @@ public:
         unordered_set<int> visited;        
         q.push(target->val);
         visited.insert(target->val);
-        if (K==0) res.push_back(target->val);
-        else {
-            while (!q.empty()) {
-                K--;
-                int n=q.size();            
-                for (int i=0; i<n; ++i) {
-                    int f=q.front();                
-                    q.pop();            
-                    for (auto neighbor:graph[f])  {                    
-                        if (visited.find(neighbor)==visited.end()) {
-                            if (K==0) res.push_back(neighbor);
-                            q.push(neighbor);
-                            visited.insert(neighbor);
-                        }
+
+        while (!q.empty()) {
+            if (K<0) break;
+            int n=q.size();
+            for (int i=0; i<n; ++i) {
+                int f=q.front();
+                q.pop();
+                if (K==0) res.push_back(f);
+
+                for (auto neighbor:graph[f])  {
+                    if (visited.find(neighbor)==visited.end()) {
+                        q.push(neighbor);
+                        visited.insert(neighbor);
                     }
                 }
-                if (K==0) break;
             }
+            K--;
         }
         
         return res;
+    }
+private:
+    void build(TreeNode* node, TreeNode* parent, unordered_map<int, set<int>>& graph) {
+        if (!node) return;
+        if (parent) {
+            graph[parent->val].insert(node->val);
+            graph[node->val].insert(parent->val);
+        }
+        build(node->left, node, graph);
+        build(node->right, node, graph);
     }
 };
