@@ -40,7 +40,8 @@ public:
             pq.pop();
             k--;
             if (k==0) return matrix[t.first][t.second];
-            
+
+            // add right neighbor only on the first row to avoid duplicate            
             if (t.first==0 && t.second<n-1) pq.push({t.first, t.second+1});
             if (t.first<m-1) pq.push({t.first+1, t.second});
         }
