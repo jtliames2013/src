@@ -23,36 +23,36 @@ Hide Tags Graph
 1. DFS
 class Solution {
 public:
-    double dfs(unordered_map<string, unordered_map<string,double>>& graph, set<string>& visited, string start, string end) {
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        int n=queries.size();
+        vector<double> res(n);
+        unordered_map<string, unordered_map<string, double>> graph;
+        for (int i=0; i<equations.size(); ++i) {
+            graph[equations[i][0]][equations[i][1]]=values[i];
+            graph[equations[i][1]][equations[i][1]]=1;
+            if (values[i]!=0) {
+                graph[equations[i][1]][equations[i][0]]=1/values[i];
+                graph[equations[i][0]][equations[i][0]]=1;
+            }
+        }
+        
+        for (int i=0; i<queries.size(); ++i) {
+            unordered_set<string> visited;
+            res[i]=dfs(graph, visited, queries[i][0], queries[i][1]);
+        }
+        return res;
+    }
+private:
+    double dfs(unordered_map<string, unordered_map<string, double>>& graph, unordered_set<string>& visited, string start, string end) {
         if (graph[start].find(end)!=graph[start].end()) return graph[start][end];
         visited.insert(start);
-        for (auto& neighbor:graph[start]) {
-            if (visited.find(neighbor.first)==visited.end()) {                
-                double res=dfs(graph, visited, neighbor.first, end);                
+        for (auto neighbor:graph[start]) {
+            if (visited.find(neighbor.first)==visited.end()) {
+                double res=dfs(graph, visited, neighbor.first, end);
                 if (res!=-1) return res*neighbor.second;
             }
         }
         return -1;
-    }
-    
-    vector<double> calcEquation(vector<pair<string, string>> equations, vector<double>& values, vector<pair<string, string>> queries) {
-        vector<double> res;
-        unordered_map<string, unordered_map<string,double>> graph;
-        for (int i=0; i<equations.size(); i++) {
-            graph[equations[i].second][equations[i].second]=1;
-            graph[equations[i].first][equations[i].second]=values[i];
-            if (values[i]!=0) {
-                graph[equations[i].first][equations[i].first]=1;
-                graph[equations[i].second][equations[i].first]=1/values[i];
-            }
-        }
-        
-        for (auto& q:queries) {
-            set<string> visited;            
-            res.push_back(dfs(graph, visited, q.first, q.second));
-        }
-        
-        return res;
     }
 };
 
