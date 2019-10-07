@@ -30,10 +30,9 @@ public:
     }
     
     bool book(int start, int end) {
-        auto iter=intervals.lower_bound({start,end});
+        auto iter=intervals.lower_bound({start, end});
         if (iter!=intervals.end() && iter->first<end) return false;
-        if (iter!=intervals.begin() && (--iter)->second>start) return false;
-        
+        if (iter!=intervals.begin() && prev(iter)->second>start) return false;
         intervals.insert({start, end});
         return true;
     }
@@ -43,6 +42,6 @@ private:
 
 /**
  * Your MyCalendar object will be instantiated and called as such:
- * MyCalendar obj = new MyCalendar();
- * bool param_1 = obj.book(start,end);
+ * MyCalendar* obj = new MyCalendar();
+ * bool param_1 = obj->book(start,end);
  */
