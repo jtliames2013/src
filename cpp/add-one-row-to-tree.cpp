@@ -71,29 +71,30 @@ Hide Tags Tree
  */
 class Solution {
 public:
-    void dfs(TreeNode *n, int v, int d, int depth) {
-        if (depth==d-1) {
-            TreeNode *l=new TreeNode(v);
-            l->left=n->left;
-            n->left=l;
-            TreeNode *r=new TreeNode(v);
-            r->right=n->right;
-            n->right=r;
-            return;
-        }
-        if (n->left) dfs(n->left, v, d, depth+1);
-        if (n->right) dfs(n->right, v, d, depth+1);
-    }
-    
     TreeNode* addOneRow(TreeNode* root, int v, int d) {
         if (d==1) {
-            TreeNode *n=new TreeNode(v);
+            TreeNode* n=new TreeNode(v);
             n->left=root;
             return n;
         }
-        
-        dfs(root, v, d, 1);
+        dfs(root, v, d, 0);
         return root;
+    }
+private:
+    void dfs(TreeNode* root, int v, int d, int depth) {
+        if (root==NULL) return;
+        depth++;
+        if (depth==d-1) {
+            TreeNode* l=new TreeNode(v);
+            l->left=root->left;
+            root->left=l;
+            TreeNode* r=new TreeNode(v);
+            r->right=root->right;
+            root->right=r;
+            return;
+        }
+        dfs(root->left, v, d, depth);
+        dfs(root->right, v, d, depth);
     }
 };
 
