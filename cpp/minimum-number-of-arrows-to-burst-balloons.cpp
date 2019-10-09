@@ -19,37 +19,37 @@ Subscribe to see which companies asked this question
 Hide Tags Greedy
 Hide Similar Problems (M) Meeting Rooms II (M) Non-overlapping Intervals
 
+1.
 class Solution {
 public:
-    int findMinArrowShots(vector<pair<int, int>>& points) {
+    int findMinArrowShots(vector<vector<int>>& points) {
         int n=points.size();
         if (n==0) return 0;
+        sort(points.begin(), points.end(), [](vector<int>& a, vector<int>& b){ return a[1]<b[1]; });
         
-        sort(points.begin(), points.end(), [](pair<int,int>& a, pair<int,int>& b) { return a.second<b.second || (a.second==b.second&&a.first<b.first); } );
-        
-        int res=1, end=points[0].second;
-        for (int i=1; i<n; i++) {
-            if (points[i].first>end) {
-                end=points[i].second;
-                res++;
+        int end=points[0][1], count=1;
+        for (int i=1; i<n; ++i) {
+            if (points[i][0]>end) {
+                end=points[i][1];
+                count++;
             }
         }
-        
-        return res;
+        return count;
     }
 };
 
 2.
 class Solution {
 public:
-    int findMinArrowShots(vector<pair<int, int>>& points) {
+    int findMinArrowShots(vector<vector<int>>& points) {
         int n=points.size();
         if (n==0) return 0;
-        sort(points.begin(), points.end(), [](pair<int,int>& a, pair<int,int>& b) { return a.second<b.second; });
-        int end=points[0].second, count=0;
-        for (int i=1; i<n; i++) {
-            if (points[i].first<=end) count++;
-            else end=points[i].second;
+        sort(points.begin(), points.end(), [](vector<int>& a, vector<int>& b){ return a[1]<b[1]; });
+
+        int end=points[0][1], count=0;
+        for (int i=1; i<n; ++i) {
+            if (points[i][0]<=end) count++;
+            else end=points[i][1];
         }
         return n-count;
     }
