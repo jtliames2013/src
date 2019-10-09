@@ -39,6 +39,7 @@ Note:
 1 <= A[0] < A[1] < ... < A[A.length - 1] <= 10^9
 (The time limit has been reduced by 50% for submissions in Java, C, and C++.)
 
+1.
 class Solution {
 public:
     int lenLongestFibSubseq(vector<int>& A) {
@@ -62,3 +63,24 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    int lenLongestFibSubseq(vector<int>& A) {
+        int n=A.size(), res=0;
+        unordered_set<int> st(A.begin(), A.end());
+        for (int i=0; i<n; ++i) {
+            for (int j=i+1; j<n; ++j) {
+                int a=A[i], b=A[j], c=a+b, l=2;
+                while (st.find(c)!=st.end()) {
+                    a=b;
+                    b=c;
+                    c=a+b;
+                    l++;
+                }
+                res=max(res, l);
+            }
+        }
+        return res>2?res:0;
+    }
+};
