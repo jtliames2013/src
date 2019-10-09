@@ -61,6 +61,8 @@ public:
                 }
                 len=max(len, prev+curr);
             }
+            // if not all letters are used, we can swap for one more
+            // otherwise we can't swap for one more
             res=max(res, len+(index[i].size()>len?1:0));
         }
         return res;
