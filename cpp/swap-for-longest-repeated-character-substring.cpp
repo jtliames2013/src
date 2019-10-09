@@ -42,4 +42,27 @@ Constraints:
 1 <= text.length <= 20000
 text consist of lowercase English characters only.
 
-
+class Solution {
+public:
+    int maxRepOpt1(string text) {
+        vector<vector<int>> index(26);
+        int n=text.size(), res=0;
+        for (int i=0; i<n; ++i) index[text[i]-'a'].push_back(i);
+        for (int i=0; i<26; ++i) {
+            int curr=1, prev=0, len=0;
+            for (int j=1; j<index[i].size(); ++j) {
+                if (index[i][j]==index[i][j-1]+1) curr++;
+                else if (index[i][j]==index[i][j-1]+2) {
+                    prev=curr;
+                    curr=1;
+                } else {
+                    prev=0;
+                    curr=1;
+                }
+                len=max(len, prev+curr);
+            }
+            res=max(res, len+(index[i].size()>len?1:0));
+        }
+        return res;
+    }
+};
