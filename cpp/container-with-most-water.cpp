@@ -8,6 +8,22 @@ Hide Company Tags Bloomberg
 Hide Tags Array Two Pointers
 Hide Similar Problems (H) Trapping Rain Water
 
+1.
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int res=0, l=0, r=height.size()-1;
+        while (l<r) {
+            res=max(res, min(height[l],height[r])*(r-l));
+            if (height[l]<height[r]) l++;
+            else r--;
+        }
+
+        return res;
+    }
+};
+
+2.
 class Solution {
 public:
     int maxArea(vector<int>& height) {
@@ -17,8 +33,8 @@ public:
         while (left<right) {
             int h=min(height[left], height[right]);
             area=max(area, h*(right-left));
-            while (left<right && height[left]==h) left++;
-            while (left<right && height[right]==h) right--;
+            while (left<right && height[left]<=h) left++;
+            while (left<right && height[right]<=h) right--;
         }
         
         return area;
