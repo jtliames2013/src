@@ -20,21 +20,15 @@ For now, the judge is able to judge based on one instance of gray code sequence.
 Hide Company Tags Amazon
 Show Tags
 
-class Solution {
+ass Solution {
 public:
     vector<int> grayCode(int n) {
-        if (n==0) {
-            return vector<int>(1,0);
+        vector<int> res={0};
+        for (int i=0; i<n; ++i) {
+            int size=res.size();
+            for (int j=size-1; j>=0; --j) res.push_back(res[j]|(1<<i));
         }
         
-        vector<int> res1=grayCode(n-1);
-        vector<int> res2=res1;
-        int num=1<<(n-1);
-        for (auto iter=res2.rbegin(); iter<res2.rend(); iter++) {
-            res1.push_back(*iter | num);
-        }
-        
-        return res1;
+        return res;
     }
 };
-
