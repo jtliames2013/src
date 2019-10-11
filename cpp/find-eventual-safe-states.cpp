@@ -21,6 +21,9 @@ graph will have length at most 10000.
 The number of edges in the graph will not exceed 32000.
 Each graph[i] will be a sorted list of different integers, chosen within the range [0, graph.length - 1].
 
+mark all the node on the path to eventual node as 1
+mark all visited node -1 so that when visiting again, there must be a circle
+
 class Solution {
 public:
     bool dfs(vector<vector<int>>& graph, vector<int>& visited, int start) {
