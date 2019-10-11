@@ -37,13 +37,13 @@ public:
             }
         }
         
-        for (int i=0; i<3; i++) {
-            for (int j=0; j<3; j++) {
+        for (int rb=0; rb<3; rb++) {
+            for (int cb=0; cb<3; cb++) {
                 bitset<size> b;
-                for (int r=0; r<3; r++) {
-                    for (int c=0; c<3; c++) {
-                        int row=i*3+r;
-                        int col=j*3+c;
+                for (int i=0; i<3; i++) {
+                    for (int j=0; j<3; j++) {
+                        int row=rb*3+i;
+                        int col=cb*3+j;
                         if (board[row][col]!='.') {
                             if (b.test(board[row][col]-'1')) return false;    
                             b.set(board[row][col]-'1');
@@ -55,4 +55,3 @@ public:
         return true;
     }
 };
-
