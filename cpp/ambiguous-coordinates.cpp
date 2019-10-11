@@ -38,7 +38,22 @@ return [S, "X.XXX", "XX.XX", "XXX.X"...]
 
 class Solution {
 public:
-    vector<string> helper(string s) {        
+    vector<string> ambiguousCoordinates(string S) {
+        vector<string> res;
+        int n=S.size();
+        for (int i=1; i<n-2; ++i) {
+            vector<string> left=helper(S.substr(1,i));
+            vector<string> right=helper(S.substr(i+1, n-2-i));
+            for (auto& l:left) {
+                for (auto& r:right) {
+                    res.push_back("("+l+", "+r+")");
+                }
+            }
+        }
+        return res;
+    }
+private:
+    vector<string> helper(string s) {
         int n=s.size();
         if (n==0) return {};
         if (n==1) return {s};
@@ -48,24 +63,9 @@ public:
         else {
             vector<string> res={s};
             for (int i=1; i<n; ++i) {
-                res.push_back(s.substr(0, i)+"."+s.substr(i));
+                res.push_back(s.substr(0,i)+"."+s.substr(i));
             }
             return res;
         }
-    }
-    
-    vector<string> ambiguousCoordinates(string S) {
-        vector<string> res;
-        int n=S.size();
-        for (int i=1; i<n-2; ++i) {
-            vector<string> left=helper(S.substr(1, i)), right=helper(S.substr(i+1, n-2-i));
-            for (auto& l:left) {
-                for (auto& r:right) {
-                    res.push_back("("+l+", "+r+")");    
-                }
-            }
-        }
-        
-        return res;
     }
 };
