@@ -9,37 +9,26 @@ Hide Company Tags Bloomberg
 Hide Tags Array Two Pointers
 Hide Similar Problems (M) 3Sum (M) 3Sum Smaller
 
-class Solution {
+ass Solution {
 public:
     int threeSumClosest(vector<int>& nums, int target) {
-        int res, diff=INT_MAX;
-        int n=nums.size();
+        int n=nums.size(), res, diff=INT_MAX;
         if (n==0) return 0;
-        
         sort(nums.begin(), nums.end());
-        for (int i=0; i<n-2; i++) {
-            if (i>0 && nums[i]==nums[i-1]) continue;
-            int l=i+1, r=n-1;
+        
+        for (int i=0; i<n-2; ++i) {
+            int l=i+1, r=n-1, sum;
             while (l<r) {
-                int sum=nums[i]+nums[l]+nums[r];
-                if (sum==target) return sum;
-                else if (sum<target) {
-                    if (diff>target-sum) {
-                        diff=target-sum;
-                        res=sum;
-                    }
-                    l++;
-                } else {
-                    if (diff>sum-target) {
-                        diff=sum-target;
-                        res=sum;
-                    }
-                    r--;
+                sum=nums[i]+nums[l]+nums[r];
+                if (diff>abs(sum-target)) {
+                    diff=abs(sum-target);
+                    res=sum;
                 }
+                if (sum==target) return res;
+                else if (sum>target) r--;
+                else l++;
             }
         }
-
         return res;
     }
 };
-
