@@ -45,6 +45,10 @@ Note:
 1 <= instructions.length <= 100
 instructions[i] is in {'G', 'L', 'R'}
 
+There is an circle if
+1. if the robot returns to the origin, or
+2. the robot finishes not facing north, and can return to origin in another one or three sequences.
+
 class Solution {
 public:
     bool isRobotBounded(string instructions) {
