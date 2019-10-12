@@ -41,25 +41,23 @@ public:
         queue<int> q;
         vector<int> partition(n);
         
-        for (int i=0; i<n; i++) {
-            if (partition[i]==0) {        
+        for (int i=0; i<n; ++i) {
+            if (partition[i]==0) {
                 q.push(i);
                 partition[i]=1;
-
-                while (!q.empty()) {            
-                    int f=q.front();
+                while (!q.empty()) {
+                    auto f=q.front();
                     q.pop();
                     for (auto neighbor:graph[f]) {
-                        if (partition[neighbor]==0) {
-                            partition[neighbor]=partition[f]==1?2:1;
+                        if (partition[neighbor]==partition[f]) return false;
+                        else if (partition[neighbor]==0) {
+                            partition[neighbor]=-partition[f];
                             q.push(neighbor);
-                        } else if (partition[neighbor]==partition[f]) {
-                            return false;
                         }
-                    }            
+                    }
                 }
             }
-        }        
+        }
         return true;
     }
 };
