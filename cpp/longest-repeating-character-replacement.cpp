@@ -35,27 +35,24 @@ Subscribe to see which companies asked this question.
 
 Hide Similar Problems (H) Longest Substring with At Most K Distinct Characters
 
-Since we are only interested in the longest valid substring, our sliding windows need not shrink, even if a window may cover an invalid substring. We either grow the window by appending one char on the right, or shift the whole window to the right by one. And we only grow the window when the count of the new char exceeds the historical max count (from a previous window that covers a valid substring).
+The initial step is to extend the window to its limit, that is, the longest we can get to with maximum number of modifications. Until then the variable start will remain at 0.
 
-That is, we do not need the accurate max count of the current window; we only care if the max count exceeds the historical max count; and that can only happen because of the new char.
+Then as end increase, the whole substring from 0 to end will violate the rule, so we need to update start accordingly (slide the window). We move start to the right until the whole string satisfy the constraint again. Then each time we reach such situation, we update our max length.
 
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-        int n=s.size();
+        int n=s.size(), res=0, maxCount=0;
         vector<int> count(26);
-        int maxCount=0, l=0, r=0;
-        for (; r<n; r++) {
+        for (int l=0, r=0; r<n; ++r) {
             count[s[r]-'A']++;
-            // maxCount is not nessarily the maximum count in the sliding window
             maxCount=max(maxCount, count[s[r]-'A']);
             while (r-l+1-maxCount>k) {
                 count[s[l]-'A']--;
                 l++;
             }
+            res=max(res, r-l+1);
         }
-        
-        return n-l;
+        return res;
     }
 };
-
