@@ -18,21 +18,17 @@ Hide Company Tags Google
 Hide Tags Dynamic Programming
 Hide Similar Problems (E) Best Time to Buy and Sell Stock (M) Best Time to Buy and Sell Stock II
 
+1.
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        int n=prices.size();
-        if (n==0) return 0;
-        int buy=INT_MIN, sell=0;
-        int prevbuy, prevsell=0;
-        
-        for (int i=0; i<n; i++) {
+        int prevbuy, prevsell=0, buy=INT_MIN, sell=0;
+        for (auto& p:prices) {
             prevbuy=buy;
-            buy=max(prevsell-prices[i], buy);
+            buy=max(buy, prevsell-p);
             prevsell=sell;
-            sell=max(prevbuy+prices[i], sell);
+            sell=max(sell, prevbuy+p);
         }
-        
         return sell;
     }
 };
