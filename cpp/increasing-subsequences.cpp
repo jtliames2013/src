@@ -20,26 +20,24 @@ Hide Tags Depth-first Search
 
 class Solution {
 public:
-    void findSubsequences(vector<vector<int>>& res, vector<int>& output, vector<int>& nums, int start) {
+    vector<vector<int>> findSubsequences(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> output;
+        dfs(res, output, nums, 0);
+        return res;
+    }
+private:
+    void dfs(vector<vector<int>>& res, vector<int>& output, vector<int>& nums, int start) {
         if (output.size()>1) res.push_back(output);
 
         unordered_set<int> st;
-        for (int i=start; i<nums.size(); i++) {
-            if ((output.empty() || output.back()<=nums[i]) && st.find(nums[i])==st.end()) {
-                output.push_back(nums[i]);
+        for (int i=start; i<nums.size(); ++i) {
+            if (st.find(nums[i])==st.end() && (output.empty() || nums[i]>=output.back())) {
                 st.insert(nums[i]);
-                findSubsequences(res, output, nums, i+1);
+                output.push_back(nums[i]);
+                dfs(res, output, nums, i+1);
                 output.pop_back();
             }
         }
     }
-    
-    vector<vector<int>> findSubsequences(vector<int>& nums) {
-        vector<vector<int>> res;
-        vector<int> output;
-        findSubsequences(res, output, nums, 0);
-        
-        return res;
-    }
 };
-
