@@ -18,21 +18,17 @@ Subscribe to see which companies asked this question.
 Hide Tags Array Map
 Hide Similar Problems (E) Two Sum (M) Continuous Subarray Sum
 
-class Solution {
+ass Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-        int n=nums.size();
-        if (n==0) return 0;
-        int sum=0;
+        int res=0, sum=0;
         unordered_map<int,int> mp;
         mp[sum]=1;
-        int res=0;
-        for (int i=0; i<n; i++) {
-            sum+=nums[i];
+        for (auto& n:nums) {
+            sum+=n;
             if (mp.find(sum-k)!=mp.end()) res+=mp[sum-k];
             mp[sum]++;
         }
         return res;
     }
 };
-
