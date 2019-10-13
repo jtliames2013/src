@@ -52,6 +52,7 @@ public:
         unordered_set<string> st(wordlist.begin(), wordlist.end());
         unordered_map<string, string> cap, vow;
         for (auto& w:wordlist) {
+            // For the same key, only use the first
             cap.insert({lowerCase(w), w});
             vow.insert({replaceVowels(w), w});
         }
