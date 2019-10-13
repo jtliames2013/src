@@ -17,31 +17,53 @@ All edges times[i] = (u, v, w) will have 1 <= u, v <= N and 1 <= w <= 100.
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int N, int K) {
-        unordered_map<int, unordered_map<int, int>> graph;
-        for (auto& time:times) {
-            graph[time[0]-1][time[1]-1]=time[2];            
-        }
+        int res=0;
+        unordered_map<int, unordered_map<int,int>> graph;
+        for (auto& t:times) graph[t[0]-1][t[1]-1]=t[2];
+
         vector<int> dist(N, INT_MAX);
         dist[K-1]=0;
-        auto comp=[](pair<int,int>& a, pair<int,int>& b) { return a.second>b.second; };
+        auto comp=[](pair<int,int>& a, pair<int,int>& b){ return a.second>b.second; };
         priority_queue<pair<int,int>, vector<pair<int,int>>, decltype(comp)> pq(comp);
-        pq.push({K-1,0});
+        pq.push({K-1, 0});
         while (!pq.empty()) {
             auto t=pq.top();
             pq.pop();
             if (dist[t.first]<t.second) continue;
-            for (auto neighbor:graph[t.first]) {
-                if (dist[neighbor.first]>t.second+graph[t.first][neighbor.first]) {
-                    dist[neighbor.first]=t.second+graph[t.first][neighbor.first];
-                    pq.push({neighbor.first,dist[neighbor.first]});
+            for (auto iter:graph[t.first]) {
+                if (dist[iter.first]>dist[t.first]+iter.second) {
+                    dist[iter.first]=dist[t.first]+iter.second;
+                    pq.push({iter.first, dist[iter.first]});
+                }
+            }
+        }
+
+        for (auto& d:dist) {
+            if (d==INT_MAX) return -1;
+            res=max(res, d);
+        }
+        return res;
+    }
+};
+
+2. bellman ford
+ass Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int N, int K) {
+        vector<int> dist(N, INT_MAX);
+        dist[K-1]=0;
+        for (int i=0; i<N; ++i) {
+            for (auto& t:times) {
+                int u=t[0], v=t[1], w=t[2];
+                if (dist[u-1]!=INT_MAX && dist[v-1]>dist[u-1]+w) {
+                    dist[v-1]=dist[u-1]+w;
                 }
             }
         }
         int res=0;
-        for (auto d:dist) {
-            if (d==INT_MAX) return -1;
-            else if (d>res) res=d;
+        for (int i=0; i<N; ++i) {
+            res=max(res, dist[i]);
         }
-        return res;
+        return res==INT_MAX?-1:res;
     }
 };
