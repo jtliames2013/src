@@ -64,3 +64,49 @@ public:
     }
 };
 
+2. DFS
+class Solution {
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        vector<vector<string>> res;
+        int n=accounts.size();
+        unordered_map<int, unordered_set<int>> graph;
+        unordered_map<string, int> email;
+        unordered_set<int> visited;
+        for (int i=0; i<n; ++i) {
+            for (int j=1; j<accounts[i].size(); ++j) {
+                if (email.find(accounts[i][j])==email.end()) {
+                    email[accounts[i][j]]=i;
+                } else {
+                    graph[email[accounts[i][j]]].insert(i);
+                    graph[i].insert(email[accounts[i][j]]);
+                }
+            }
+        }
+
+        unordered_map<int, set<string>> person;
+        for (int i=0; i<n; ++i) {
+            if (visited.find(i)==visited.end()) {
+                dfs(accounts, graph, visited, person, i, i);
+            }
+        }
+
+        for (auto p:person) {
+            vector<string> v={accounts[p.first][0]};
+            v.insert(v.end(), p.second.begin(), p.second.end());
+            res.push_back(v);
+        }
+
+        return res;
+    }
+private:
+    void dfs(vector<vector<string>>& accounts, unordered_map<int, unordered_set<int>>& graph, unordered_set<int>& visited, unordered_map<int, set<string>>& person, int start, int root) {
+        visited.insert(start);
+        for (int i=1; i<accounts[start].size(); ++i) person[root].insert(accounts[start][i]);
+        for (auto neighbor:graph[start]) {
+            if (visited.find(neighbor)==visited.end()) {
+                dfs(accounts, graph, visited, person, neighbor, root);
+            }
+        }
+    }
+};
