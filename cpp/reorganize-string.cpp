@@ -34,18 +34,17 @@ public:
         while (!pq.empty()) {
             auto t=pq.top();
             pq.pop();
-            if (res.empty() || t.first!=res.back()) {
-                res+=t.first;
-                if (t.second>1) pq.push({t.first, t.second-1});
-            } else {
+            if (!res.empty() && t.first==res.back()) {
                 auto n=pq.top();
                 pq.pop();
                 res+=n.first;
                 if (n.second>1) pq.push({n.first, n.second-1});
-                pq.push({t.first, t.second});
             }
+            res+=t.first;
+            if (t.second>1) pq.push({t.first, t.second-1});
         }
         
         return res;
     }
+
 };
