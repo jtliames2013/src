@@ -26,8 +26,8 @@ public:
                     visited.erase(res.back());
                     res.pop_back();
                 }
-                res.push_back(c);
                 visited.insert(c);
+                res.push_back(c);
             }
         }
         return res;
