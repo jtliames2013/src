@@ -33,41 +33,20 @@ Hide Similar Problems (E) Path Sum (H) Binary Tree Maximum Path Sum
  */
 class Solution {
 public:
-    int getNum(vector<int>& path) {
-        int num=0;
-        for (auto p:path) {
-            num*=10;
-            num+=p;
-        }
-        return num;
-    }
-    
-    void getSum(int& sum, vector<int>& path, TreeNode* root) {
-        if (root==NULL) return;
-        path.push_back(root->val);
-        if (root->left==NULL&&root->right==NULL) {
-            sum+=getNum(path);
-            path.pop_back();
-            return;
-        } 
-        
-        if (root->left) {
-            getSum(sum, path, root->left);
-        }
-
-        if (root->right) {
-            getSum(sum, path, root->right);
-        }
-        
-        path.pop_back();
-    }
-    
     int sumNumbers(TreeNode* root) {
-        int sum=0;
-        vector<int> path;
-        getSum(sum, path, root);
-        
-        return sum;
+        int res=0, num=0;
+        dfs(root, res, num);
+        return res;
+    }
+private:
+    void dfs(TreeNode* root, int& res, int num) {
+        if (root==NULL) return;
+        num=num*10+root->val;
+        if (root->left==NULL && root->right==NULL) {
+            res+=num;
+            return;
+        }
+        dfs(root->left, res, num);
+        dfs(root->right, res, num);
     }
 };
-
