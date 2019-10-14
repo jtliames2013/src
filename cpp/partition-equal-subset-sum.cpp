@@ -27,17 +27,14 @@ class Solution {
 public:
     bool canPartition(vector<int>& nums) {
         int sum=0;
-        for (auto n:nums) sum+=n;
-        if ((sum & 0x1)==1) return false;
+        for (auto& n:nums) sum+=n;
+        if (sum%2!=0) return false;
         sum/=2;
-        vector<int> dp(sum+1,false);
+        vector<bool> dp(sum+1);
         dp[0]=true;
-        for (auto n:nums) {
-            for (int i=sum; i>=n; i--) {
-                dp[i]=dp[i]||dp[i-n];
-            }
+        for (auto& n:nums) {
+            for (int i=sum; i>=n; --i) dp[i]=dp[i]||dp[i-n];
         }
         return dp[sum];
     }
 };
-
