@@ -41,6 +41,7 @@ Note:
 dislikes[i][0] < dislikes[i][1]
 There does not exist i != j for which dislikes[i] == dislikes[j].
 
+1. BFS
 class Solution {
 public:
     bool possibleBipartition(int N, vector<vector<int>>& dislikes) {
@@ -68,6 +69,40 @@ public:
                         }
                     }
                 }
+            }
+        }
+        return true;
+    }
+};
+
+2. DFS
+class Solution {
+public:
+    bool possibleBipartition(int N, vector<vector<int>>& dislikes) {
+        if (N<=0) return false;
+        vector<unordered_set<int>> graph(N);
+        for (auto& d:dislikes) {
+            graph[d[0]-1].insert(d[1]-1);
+            graph[d[1]-1].insert(d[0]-1);
+        }
+
+        queue<int> q;
+        vector<int> partition(N);        
+        for (int i=0; i<N; ++i) {
+            if (partition[i]==0) {
+                partition[i]=1;
+                if (!dfs(graph, partition, i)) return false;
+            }
+        }
+        return true;
+    }
+private:
+    bool dfs(vector<unordered_set<int>>& graph, vector<int>& partition, int start) {
+        for (auto neighbor:graph[start]) {
+            if (partition[neighbor]==partition[start]) return false;
+            else if (partition[neighbor]==0) {
+                partition[neighbor]=-partition[start];
+                if (!dfs(graph, partition, neighbor)) return false;
             }
         }
         return true;
