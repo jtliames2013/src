@@ -55,11 +55,11 @@ public:
             prefix+=curr->val;
             if (mp.find(prefix)!=mp.end()) {
                 ListNode* n=mp[prefix]->next;
-                int p=prefix+n->val;
+                int p=prefix;
                 while (n!=curr) {
+                    p+=n->val;
                     mp.erase(p);
                     n=n->next;
-                    p+=n->val;
                 }
                 
                 mp[prefix]->next=curr->next;
