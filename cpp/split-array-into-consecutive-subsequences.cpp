@@ -31,6 +31,7 @@ Note: both sequences are consecutive
 class Solution {
 public:
     bool isPossible(vector<int>& nums) {
+        // prev records to-be-filled position of previous constructed sequence
         unordered_map<int,int> count, prev;
         for (auto i:nums) count[i]++;
         for (auto i:nums) {
