@@ -19,13 +19,13 @@ public:
     int maximumSwap(int num) {
         string str=to_string(num);
         vector<int> pos(10);
-        for (int i=0; i<str.size(); i++) {
+        for (int i=0; i<str.size(); ++i) {
             pos[str[i]-'0']=i;
         }
-        for (int i=0; i<str.size(); i++) {
-            for (int k=9; k>str[i]-'0'; k--) {
+        for (int i=0; i<str.size(); ++i) {
+            for (int k=9; k>str[i]-'0'; --k) {
                 if (pos[k]>i) {
-                   swap(str[i], str[pos[k]]);
+                    swap(str[i], str[pos[k]]);
                     return stoi(str);
                 }
             }
@@ -33,4 +33,3 @@ public:
         return num;
     }
 };
-
