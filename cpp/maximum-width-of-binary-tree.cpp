@@ -66,14 +66,14 @@ Note: Answer will in the range of 32-bit signed integer.
 class Solution {
 public:
     int widthOfBinaryTree(TreeNode* root) {
-        unsigned long res=0;
-        vector<pair<unsigned long, unsigned long>> pos;
-        dfs(root, pos, 0, 1);
+        unsigned int res=0;
+        vector<pair<unsigned int, unsigned int>> pos;
+        dfs(root, pos, 0, 0);
         for (auto& p:pos) res=max(res, p.second-p.first+1);
         return res;
     }
 private:
-    void dfs(TreeNode* root, vector<pair<unsigned long, unsigned long>>& pos, int level, unsigned long curr) {
+    void dfs(TreeNode* root, vector<pair<unsigned int, unsigned int>>& pos, int level, unsigned int curr) {
         if (root==NULL) return;
         if (level==pos.size()) pos.push_back({curr, curr});
         else {
