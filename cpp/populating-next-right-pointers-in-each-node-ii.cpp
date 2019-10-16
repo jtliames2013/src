@@ -23,45 +23,66 @@ Hide Company Tags Microsoft Bloomberg Facebook
 Hide Tags Tree Depth-first Search
 Hide Similar Problems (M) Populating Next Right Pointers in Each Node
 
-/**
- * Definition for binary tree with next pointer.
- * struct TreeLinkNode {
- *  int val;
- *  TreeLinkNode *left, *right, *next;
- *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
- * };
- */
+1. Recursively
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+};
+*/
 class Solution {
 public:
-    void connect(TreeLinkNode *root) {
+    Node* connect(Node* root) {
+        dfs(root);
+        return root;
+    }
+private:
+    void dfs(Node* root) {
         if (root==NULL) return;
         if (root->left) {
             if (root->right) root->left->next=root->right;
             else {
-                TreeLinkNode *curr=root->next;
+                Node* curr=root->next;
                 while (curr) {
                     if (curr->left) {
                         root->left->next=curr->left;
                         break;
-                    } else if (curr->right) {
+                    }
+                    if (curr->right) {
                         root->left->next=curr->right;
                         break;
                     }
+
                     curr=curr->next;
                 }
             }
         }
         
         if (root->right) {
-            TreeLinkNode *curr=root->next;
+            Node* curr=root->next;
             while (curr) {
                 if (curr->left) {
                     root->right->next=curr->left;
                     break;
-                } else if (curr->right) {
+                }
+                if (curr->right) {
                     root->right->next=curr->right;
                     break;
                 }
+
                 curr=curr->next;
             }
         }
