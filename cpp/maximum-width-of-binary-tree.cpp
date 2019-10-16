@@ -65,25 +65,22 @@ Note: Answer will in the range of 32-bit signed integer.
  */
 class Solution {
 public:
-    void dfs(vector<pair<int,int>>& levels, TreeNode* root, int level, int pos) {
-        if (root==NULL) return;
-        if (level==levels.size()) levels.push_back({pos,pos});
-        else {
-            levels[level].first=min(levels[level].first, pos);
-            levels[level].second=max(levels[level].second, pos);
-        }
-        dfs(levels, root->left, level+1, 2*pos);
-        dfs(levels, root->right, level+1, 2*pos+1);
-    }
-        
     int widthOfBinaryTree(TreeNode* root) {
-        vector<pair<int,int>> levels;
-        dfs(levels, root, 0, 1);
-        int res=0;
-        for (auto p:levels) {
-            res=max(res, p.second-p.first+1);
-        }
+        unsigned long res=0;
+        vector<pair<unsigned long, unsigned long>> pos;
+        dfs(root, pos, 0, 1);
+        for (auto& p:pos) res=max(res, p.second-p.first+1);
         return res;
     }
+private:
+    void dfs(TreeNode* root, vector<pair<unsigned long, unsigned long>>& pos, int level, unsigned long curr) {
+        if (root==NULL) return;
+        if (level==pos.size()) pos.push_back({curr, curr});
+        else {
+            pos[level].first=min(pos[level].first, curr);
+            pos[level].second=max(pos[level].second, curr);
+        }
+        dfs(root->left, pos, level+1, 2*curr);
+        dfs(root->right, pos, level+1, 2*curr+1);
+    }
 };
-
