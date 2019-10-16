@@ -35,48 +35,39 @@ public:
     }
     
     int seat() {
-        if (s.empty()) {
-            s.push_front(0);
+        if (st.empty()) {
+            st.insert(0);
             return 0;
-        }
-        int d=max(*s.begin(), size-1-*s.rbegin());
-        auto curr=s.begin(), next=s.begin();
-        for (++next; next!=s.end(); ++curr, ++next) {            
-            d=max(d, (*next-*curr)/2);
         }
 
-        if (d==*s.begin()) {
-            s.push_front(0);            
-            return 0;
-        }
-        curr=s.begin(), next=s.begin();
-        for (++next; next!=s.end(); ++curr, ++next) {
-            if (d==(*next-*curr)/2) {
-                int p=(*curr+*next)/2;
-                s.insert(next, p);                
-                return p;
+        int maxDist=*st.begin(), idx=0;
+        auto curr=st.begin(), next=st.begin();
+        for (++next; curr!=st.end(); curr++, next++) {
+            int d=(*next-*curr)/2;
+            if (maxDist<d) {
+                maxDist=d;
+                idx=*curr+d;
             }
         }
-        s.push_back(size-1);
-        return size-1;
+
+        if (maxDist<size-1-*st.rbegin()) {
+            idx=size-1;
+        }
+        st.insert(idx);
+        return idx;
     }
     
     void leave(int p) {
-        for (auto iter=s.begin(); iter!=s.end(); ++iter) {
-            if (*iter==p) {
-                s.erase(iter);            
-                break;
-            }
-        }
+        st.erase(p);
     }
 private:
     int size;
-    list<int> s;
+    set<int> st;
 };
 
 /**
  * Your ExamRoom object will be instantiated and called as such:
- * ExamRoom obj = new ExamRoom(N);
- * int param_1 = obj.seat();
- * obj.leave(p);
+ * ExamRoom* obj = new ExamRoom(N);
+ * int param_1 = obj->seat();
+ * obj->leave(p);
  */
