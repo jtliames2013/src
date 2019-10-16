@@ -26,25 +26,20 @@ The longest substring is "ababb", as 'a' is repeated 2 times and 'b' is repeated
 
 class Solution {
 public:
-    int longestSubstring(string& s, int start, int end, int k) {
-        if (s.empty()||k>end-start+1) return 0;
-        
-        vector<int> mp(256);
-        for (int i=start; i<=end; i++) mp[s[i]]++;
-        
-        int i=start;
-        for (; i<=end; i++) {
-            if (mp[s[i]]<k) break;
-        }
-        if (i>end) return end-start+1;
-        int l=longestSubstring(s, start, i-1, k);
-        int r=longestSubstring(s, i+1, end, k);
-        
-        return max(l, r);
-    }
-    
     int longestSubstring(string s, int k) {
-        return longestSubstring(s, 0, s.size()-1, k);
+        return dfs(s, 0, s.size()-1, k);
+    }
+private:
+    int dfs(string& s, int start, int end, int k) {
+        if (start>end || k>end-start+1) return 0;
+        vector<int> count(26);
+        int i;
+        for (i=start; i<=end; ++i) count[s[i]-'a']++;
+        for (i=start; i<=end; ++i) {
+            if (count[s[i]-'a']<k) break;
+        }
+        
+        if (i>end) return end-start+1;
+        return max(dfs(s, start, i-1, k), dfs(s, i+1, end, k));
     }
 };
-
