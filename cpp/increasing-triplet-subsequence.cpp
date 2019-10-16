@@ -33,13 +33,12 @@ Hide Similar Problems (M) Longest Increasing Subsequence
 class Solution {
 public:
     bool increasingTriplet(vector<int>& nums) {
-        long long a=LLONG_MAX, b=LLONG_MAX;
-        for (int i=0; i<nums.size(); i++) {
-            if (nums[i]<=a) a=nums[i];
-            else if (nums[i]<=b) b=nums[i];
+        long long mx1=LLONG_MAX, mx2=LLONG_MAX;
+        for (auto& n:nums) {
+            if (n<=mx2) mx2=n;
+            else if (n<=mx1) mx1=n;
             else return true;
         }
         return false;
     }
 };
-
