@@ -26,27 +26,22 @@ class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
         int m=s1.size(), n=s2.size();
-        vector<int> count(128);
-        for (auto c:s1) count[c]++;
+        vector<int> count(26);
+        for (auto c:s1) count[c-'a']++;
         vector<int> curr=count;
-        
-        for (int l=0, r=0; r<n; ) {
-            if (count[s2[r]]==0) {
-                r++;
-                l=r;
+        for (int l=0, r=0; r<n; ++r) {
+            if (count[s2[r]-'a']==0) {
+                l=r+1;
                 curr=count;
             } else {
-                curr[s2[r]]--;
-                while (curr[s2[r]]<0) {
-                    curr[s2[l]]++;
+                curr[s2[r]-'a']--;
+                while (curr[s2[r]-'a']<0) {
+                    curr[s2[l]-'a']++;
                     l++;
                 }
                 if (r-l+1==m) return true;
-                r++;
             }
         }
-        
         return false;
     }
 };
-
