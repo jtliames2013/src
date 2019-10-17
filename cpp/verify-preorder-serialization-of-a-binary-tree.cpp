@@ -57,3 +57,19 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    bool isValidSerialization(string preorder) {
+        int diff=1;
+        istringstream iss(preorder);
+        string val;
+        while (getline(iss, val, ',')) {
+            // use one in degree
+            if (--diff<0) return false;
+            // create two out degree
+            if (val!="#") diff+=2;
+        }
+        return diff==0;
+    }
+};
