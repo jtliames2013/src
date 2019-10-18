@@ -30,31 +30,26 @@ Hide Similar Problems (M) Unique Binary Search Trees (M) Different Ways to Add P
  */
 class Solution {
 public:
-    vector<TreeNode*> generateTrees(int start, int end) {
+    vector<TreeNode*> generateTrees(int n) {
+        if (n<=0) return {};
+        return dfs(1, n);
+    }
+private:
+    vector<TreeNode*> dfs(int start, int end) {
+        if (start>end) return {NULL};
         vector<TreeNode*> res;
-        if (start>end) {
-            res.push_back(NULL);
-            return res;
-        }
-        for (int i=start; i<=end; i++) {
-            vector<TreeNode*> left=generateTrees(start, i-1);
-            vector<TreeNode*> right=generateTrees(i+1, end);
-            for (int j=0; j<left.size(); j++) {
-                for (int k=0; k<right.size(); k++) {
+        for (int i=start; i<=end; ++i) {
+            vector<TreeNode*> l=dfs(start, i-1);
+            vector<TreeNode*> r=dfs(i+1, end);
+            for (int j=0; j<l.size(); ++j) {
+                for (int k=0; k<r.size(); ++k) {
                     TreeNode *n=new TreeNode(i);
-                    n->left=left[j];
-                    n->right=right[k];
+                    n->left=l[j];
+                    n->right=r[k];
                     res.push_back(n);
                 }
             }
         }
-        
         return res;
     }
-    
-    vector<TreeNode*> generateTrees(int n) {
-        if (n==0) return vector<TreeNode*>();
-        return generateTrees(1, n);
-    }
 };
-
