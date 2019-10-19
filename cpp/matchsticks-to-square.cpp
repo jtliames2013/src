@@ -31,39 +31,35 @@ https://en.wikipedia.org/wiki/Partition_problem
 
 class Solution {
 public:
-    bool dfs(vector<int>& nums, vector<int>& sides, int start, int len) {
-        if (start==nums.size()) {
-            return sides[0]==len && sides[1]==len && sides[2]==len && sides[3]==len;
-        }
+    bool makesquare(vector<int>& nums) {
+        int n=nums.size(), sum=0;
+        if (n<4) return false;
+        for (auto& i:nums) sum+=i;
+        if (sum%4!=0) return false;
+        vector<int> sides(4);
 
-        for (int i=0; i<4; i++) {
-            if (sides[i]+nums[start]<=len) {
+        return dfs(nums, sides, 0, sum/4);
+    }
+private:
+    bool dfs(vector<int>& nums, vector<int>& sides, int start, int len) {
+        if (start==nums.size()) return true;
+
+        for (int i=0; i<4; ++i) {
+            if (nums[start]+sides[i]<=len) {
                 bool cont=false;
-                for (int j=0; j<i; j++) {
-                    if (sides[i]==sides[j]) { 
+                for (int j=0; j<i; ++j) {
+                    if (sides[j]==sides[i]) {
                         cont=true;
                         break;
                     }
                 }
                 if (cont) continue;
+
                 sides[i]+=nums[start];
-                if (dfs(nums, sides, start+1, len)) return true;
+                if (dfs(nums, sides, start+1, len)==true) return true;
                 sides[i]-=nums[start];
             }
-        }        
+        }
         return false;
     }
-    
-    bool makesquare(vector<int>& nums) {
-        int n=nums.size();
-        if (n<4) return false;
-        int sum=0;
-        for (auto i:nums) sum+=i;
-        if (sum%4!=0) return false;
-        sort(nums.begin(), nums.end(), [](int a, int b) { return a>b; });
-        vector<int> sides(4);
-
-        return dfs(nums, sides, 0, sum/4);        
-    }
 };
-
