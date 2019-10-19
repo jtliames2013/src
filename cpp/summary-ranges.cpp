@@ -15,34 +15,21 @@ class Solution {
 public:
     vector<string> summaryRanges(vector<int>& nums) {
         vector<string> res;
-        int n=nums.size();
+        int l=0, r=0, n=nums.size();
         if (n==0) return res;
-        int start=0;
-        for (int i=1; i<n; i++) {
-            if ((long long)nums[i]-(long long)nums[i-1]>1) {
-                res.push_back(i-1==start?to_string(nums[start]):to_string(nums[start])+"->"+to_string(nums[i-1]));
-                start=i;
-            }
-        }
-        res.push_back(n-1==start?to_string(nums[start]):to_string(nums[start])+"->"+to_string(nums[n-1]));
-        return res;
-    }
-};
 
-2.
-class Solution {
-public:
-    vector<string> summaryRanges(vector<int>& nums) {
-        vector<string> res;
-        int n=nums.size();
-        if (n==0) return res;
-        int start;
-        for (int i=0; i<n; i++) {
-            start=i;
-            while (i+1<n && nums[i+1]-nums[i]==1) i++;
-            res.push_back(i==start?to_string(nums[start]):to_string(nums[start])+"->"+to_string(nums[i]));
+        for (; r<n; ++r) {
+            if (r==n-1 || nums[r]+1<nums[r+1]) {
+                res.push_back(convert(nums[l], nums[r]));
+                l=r+1;
+            }
         }
         
         return res;
+    }
+private:
+    string convert(int left, int right) {
+        if (left==right) return to_string(left);
+        else return to_string(left)+"->"+to_string(right);
     }
 };
