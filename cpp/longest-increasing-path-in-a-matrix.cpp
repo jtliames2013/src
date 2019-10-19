@@ -32,36 +32,35 @@ Hide Tags Depth-first Search Topological Sort Memoization
 
 class Solution {
 public:
-    int longestIncreasingPath(vector<vector<int>>& matrix, vector<vector<int>>& dp, int row, int col, int m, int n) {
-        if (dp[row][col]>0) return dp[row][col];
-        
-        for (int k=0; k<4; k++) {
-            int nr=row+delta[k][0];
-            int nc=col+delta[k][1];
-            if (nr>=0 && nr<m && nc>=0 && nc<n && matrix[row][col]<matrix[nr][nc]) {
-                dp[row][col]=max(dp[row][col], longestIncreasingPath(matrix, dp, nr, nc, m, n));
-            }
-        }
-        dp[row][col]++;
-        return dp[row][col];
-    }
-    
     int longestIncreasingPath(vector<vector<int>>& matrix) {
         int m=matrix.size();
         if (m==0) return 0;
         int n=matrix[0].size();
         if (n==0) return 0;
-        vector<vector<int>> dp(m, vector<int>(n,0));
+        int res=0;
+        vector<vector<int>> dp(m, vector<int>(n));
         
-        int len=0;
-        for (int i=0; i<m; i++) {
-            for (int j=0; j<n; j++) {
-                len=max(len, longestIncreasingPath(matrix, dp, i, j, m, n));
+        for (int i=0; i<m; ++i) {
+            for (int j=0; j<n; ++j) {
+                res=max(res, dfs(matrix, dp, i, j, m, n));
             }
         }
-        return len;
+        return res;
     }
 private:
+    int dfs(vector<vector<int>>& matrix, vector<vector<int>>& dp, int row, int col, int m, int n) {
+        if (dp[row][col]>0) return dp[row][col];
+
+        dp[row][col]=1;
+        for (int k=0; k<4; ++k) {
+            int nr=row+delta[k][0];
+            int nc=col+delta[k][1];
+            if (nr>=0 && nr<m && nc>=0 && nc<n && matrix[nr][nc]>matrix[row][col]) {
+                dp[row][col]=max(dp[row][col], dfs(matrix, dp, nr, nc, m, n)+1);
+            }
+        }
+        return dp[row][col];
+    }
+
     const int delta[4][2]={{0,1},{0,-1},{1,0},{-1,0}};
 };
-
