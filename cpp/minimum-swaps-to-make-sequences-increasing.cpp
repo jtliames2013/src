@@ -20,24 +20,27 @@ Note:
 A, B are arrays with the same length, and that length will be in the range [1, 1000].
 A[i], B[i] are integer values in the range [0, 2000].
 
+swap means for the ith element in A and B, the minimum swaps if we swap A[i] and B[i]
+nowap means for the ith element in A and B, the minimum swaps if we DONOT swap A[i] and B[i]
+
 class Solution {
 public:
     int minSwap(vector<int>& A, vector<int>& B) {
-        int n=A.size();
-        vector<int> swap(n,1), noswap(n);
-        for (int i=1; i<n; ++i) {
-            swap[i]=noswap[i]=INT_MAX;
-            if (A[i]>A[i-1] && B[i]>B[i-1]) {
-                noswap[i]=noswap[i-1];
-                swap[i]=swap[i-1]+1;
-            }
-            
-            if (A[i]>B[i-1] && B[i]>A[i-1]) {
-                noswap[i]=min(noswap[i], swap[i-1]);
-                swap[i]=min(swap[i], noswap[i-1]+1);
+        int swap=1, noswap=0;
+        for (int i=1; i<A.size(); ++i) {
+            if (A[i-1]>=B[i] || B[i-1]>=A[i]) {
+                swap++;
+            } else if (A[i-1]>=A[i] || B[i-1]>=B[i]) {
+                int tmp=swap;
+                swap=noswap+1;
+                noswap=tmp;
+            } else {
+                int mn=min(swap, noswap);
+                swap=mn+1;
+                noswap=mn;
             }
         }
         
-        return min(swap[n-1], noswap[n-1]);
+        return min(swap, noswap);
     }
 };
