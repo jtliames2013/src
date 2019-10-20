@@ -30,6 +30,8 @@ If you were to list out all the permutations you have
 
 4 + (permutations of 1, 2, 3)
 
+The logic is as follows: for n numbers the permutations can be divided to (n-1)! groups, for n-1 numbers can be divided to (n-2)! groups, and so on. Thus k/(n-1)! indicates the index of current number, and k%(n-1)! denotes remaining index for the remaining n-1 numbers.
+
 class Solution {
 public:
     string getPermutation(int n, int k) {
