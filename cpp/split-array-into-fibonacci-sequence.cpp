@@ -41,14 +41,22 @@ S contains only digits.
 
 class Solution {
 public:
+    vector<int> splitIntoFibonacci(string S) {
+        vector<int> res;
+        dfs(res, S, 0);
+        return res;
+    }
+private:
     bool dfs(vector<int>& res, string& S, int start) {
         if (start==S.size()) return res.size()>2;
         for (int i=start; i<S.size() && i-start+1<=maxLen; ++i) {
-            if (S[start]=='0' && i>start) break;
+            if (S[start]=='0' && i>start) continue;
             unsigned long long num=stoull(S.substr(start, i-start+1));
             if (num>INT_MAX) break;
-            int len=res.size(), sum;
-            if (len>=2) sum=res[len-1]+res[len-2];
+
+            int len=res.size();
+            unsigned long long sum;
+            if (len>=2) sum=(unsigned long long)res[len-1]+res[len-2];
             if (len<2 || num==sum) {
                 res.push_back(num);
                 if (dfs(res, S, i+1)) return true;
@@ -57,14 +65,9 @@ public:
                 break;
             }
         }
+
         return false;
     }
-    
-    vector<int> splitIntoFibonacci(string S) {
-        vector<int> res;
-        dfs(res, S, 0);
-        return res;
-    }
-private:
-    int maxLen=10;
+
+    const int maxLen=10;
 };
