@@ -28,24 +28,24 @@ Return: [1,3],[2,3]
 All possible pairs are returned from the sequence:
 [1,3],[2,3]
 
+1.
 class Solution {
 public:
-    vector<pair<int, int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
-        vector<pair<int,int>> res;
-        if (nums1.empty() || nums2.empty() || k <= 0) return res;
-        auto comp = [&nums1, &nums2](pair<int, int> a, pair<int, int> b) {
-            return nums1[a.first] + nums2[a.second] > nums1[b.first] + nums2[b.second];};
-        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(comp)> pq(comp);
+    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+        vector<vector<int>> res;
+        int m=nums1.size(), n=nums2.size();
+        if (m==0 || n==0 || k<=0) return res;
+        auto comp=[&](vector<int>& a, vector<int>& b){ return nums1[a[0]]+nums2[a[1]]>nums1[b[0]]+nums2[b[1]]; };
+        priority_queue<vector<int>, vector<vector<int>>, decltype(comp)> pq(comp);
         pq.push({0, 0});
-        while(k-- > 0 && pq.size())
-        {
-            auto idx_pair = pq.top(); 
+
+        while (k-- > 0 && !pq.empty()) {
+            auto t=pq.top();
             pq.pop();
-            res.push_back({nums1[idx_pair.first], nums2[idx_pair.second]});
-            if (idx_pair.first + 1 < nums1.size())
-                pq.push({idx_pair.first + 1, idx_pair.second});
-            if (idx_pair.first == 0 && idx_pair.second + 1 < nums2.size())
-                pq.push({idx_pair.first, idx_pair.second + 1});
+            res.push_back({nums1[t[0]], nums2[t[1]]});
+
+            if (t[0]==0 && t[1]<n-1) pq.push({t[0], t[1]+1});
+            if (t[0]<m-1) pq.push({t[0]+1, t[1]});
         }
         return res;
     }
