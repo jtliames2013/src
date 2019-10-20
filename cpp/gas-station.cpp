@@ -18,18 +18,18 @@ public:
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
         int n=gas.size();
         if (n==0) return -1;
-        vector<int> diff(n, 0);
+        vector<int> diff(n);
         for (int i=0; i<n; i++) {
             diff[i]=gas[i]-cost[i];
         }
         
-        int total=0, sum=0, start=0;
+        int total=0, curr=0, start=0;
         for (int i=0; i<n; i++) {
             total+=diff[i];
-            sum+=diff[i];
-            if (sum<0) { 
+            curr+=diff[i];
+            if (curr<0) {
                 start=i+1;
-                sum=0;
+                curr=0;
             }
         }
         
@@ -37,4 +37,3 @@ public:
         else return start;
     }
 };
-
