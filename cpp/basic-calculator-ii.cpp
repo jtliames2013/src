@@ -15,27 +15,15 @@ Note: Do not use the eval built-in library function.
 
 class Solution {
 public:
-    void process(vector<int>& nums, int num, char op) {
-        if (op=='+') nums.push_back(num);
-        else if (op=='-') nums.push_back(-num);
-        else {
-            nums.back()=op=='*'?nums.back()*num:nums.back()/num;
-        }
-    }
-    
-    bool isop(char c) {
-        return c=='+' || c=='-' || c=='*' || c=='/';
-    }
-    
     int calculate(string s) {
         vector<int> nums;
         char op='+';
-        int num;
+        int res=0, num;
         for (int i=0; i<s.size();) {
             if (isdigit(s[i])) {
                 num=0;
                 while (i<s.size() && isdigit(s[i])) {
-                    num=num*10+s[i]-'0';
+                    num=num*10+(s[i]-'0');
                     i++;
                 }
                 process(nums, num, op);
@@ -46,10 +34,20 @@ public:
                 i++;
             }
         }
-        
-        int res=0;
-        for (auto n:nums) res+=n;
+        for (auto i:nums) res+=i;
         return res;
+    }
+private:
+    void process(vector<int>& nums, int num, char op) {
+        if (op=='+') nums.push_back(num);
+        else if (op=='-') nums.push_back(-num);
+        else {
+            nums.back()=op=='*'?nums.back()*num:nums.back()/num;
+        }
+    }
+
+    bool isop(char c) {
+        return c=='+' || c=='-' || c=='*' || c=='/';
     }
 };
 
@@ -69,7 +67,7 @@ public:
         while (iss>>op) {
             if (op=='+' || op=='-') {
                 res+=sign*num;
-				// save sign for next time
+		// save sign for next time
                 sign=(op=='+'?1:-1);
                 iss>>num;
             } else {
