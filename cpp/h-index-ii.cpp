@@ -6,6 +6,7 @@ Hint:
 Expected runtime complexity is in O(log n) and the input is sorted.
 Subscribe to see which companies asked this question
 
+1.
 class Solution {
 public:
     int hIndex(vector<int>& citations) {
@@ -21,3 +22,18 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        int n=citations.size();
+        if (n==0) return 0;
+        int l=0, r=n, mid;
+        while (l<r) {
+            mid=l+(r-l)/2;
+            if (citations[mid]<n-mid) l=mid+1;
+            else r=mid;
+        }
+        return n-r;
+    }
+};
