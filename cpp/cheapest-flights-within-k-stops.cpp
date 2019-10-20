@@ -33,19 +33,43 @@ The price of each flight will be in the range [1, 10000].
 k is in the range of [0, n - 1].
 There will not be any duplicated flights or self cycles.
 
+1. bellman ford
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int K) {
-        K++; // number of hops = number of stops + 1
-        vector<vector<long>> dp(n, vector<long>(K+1, INT_MAX));
-        dp[src][0]=0;
+        K++;
+        vector<long> dp(n, INT_MAX);
+        dp[src]=0;
         
-        for (int i=1; i<=K; i++) {
-            for (int j=0; j<n; j++) dp[j][i]=dp[j][i-1];
+        for (int i=1; i<=K; ++i) {
+            vector<long> next=dp;
             for (auto& f:flights) {
-                dp[f[1]][i]=min(dp[f[1]][i], dp[f[0]][i-1]+f[2]);
-            }            
+                next[f[1]]=min(next[f[1]], dp[f[0]]+f[2]);
+            }
+            dp=next;
         }
-        return dp[dst][K]==INT_MAX?-1:dp[dst][K];
+        return dp[dst]==INT_MAX?-1:dp[dst];
+    }
+};
+
+2. Dijkstra
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int K) {
+        vector<vector<pair<int,int>>> graph(n);
+        for (auto& f:flights) graph[f[0]].push_back({f[1], f[2]});
+        auto comp=[](vector<int>& a, vector<int>& b){ return a[0]>b[0]; };
+        priority_queue<vector<int>, vector<vector<int>>, decltype(comp)> pq(comp);
+        pq.push({0, src, K+1}); //{cost, dest, stops}
+        while (!pq.empty()) {
+            auto t=pq.top();
+            pq.pop();
+            if (t[1]==dst) return t[0];
+            if (t[2]==0) continue;
+            for (auto neighbor:graph[t[1]]) {
+                pq.push({t[0]+neighbor.second, neighbor.first, t[2]-1});
+            }
+        }
+        return -1;
     }
 };
