@@ -15,18 +15,26 @@ Subscribe to see which companies asked this question
 
 Hide Tags Linked List Two Pointers
 
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
         if (head==NULL) return NULL;
         ListNode dummy(0);
         dummy.next=head;
-        ListNode *prev=&dummy, *curr=head, *tail=head;
-        while (n>0) {
+        ListNode *curr=head, *prev=&dummy, *tail=head;
+        while (n-- > 0) {
             tail=tail->next;
-            n--;
         }
-        while (tail!=NULL) {
+
+        while (tail) {
             prev=curr;
             curr=curr->next;
             tail=tail->next;
@@ -37,4 +45,3 @@ public:
         return dummy.next;
     }
 };
-
