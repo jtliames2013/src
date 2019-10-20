@@ -32,6 +32,7 @@ Note:
 0 <= B <= 100
 It is guaranteed such an S exists for the given A and B.
 
+1.
 class Solution {
 public:
     string strWithout3a3b(int A, int B, char a='a', char b='b') {
@@ -48,3 +49,23 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    string strWithout3a3b(int A, int B, char a='a', char b='b') {
+        if (A<B) return strWithout3a3b(B, A, 'b', 'a');
+        string res;
+        while (A-- > 0) {
+            res+=a;
+            if (A>B) {
+                res+=a;
+                A--;
+            }
+            if (B>0) {
+                res+=b;
+                B--;
+            }
+        }
+        return res;
+    }
+};
