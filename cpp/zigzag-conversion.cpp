@@ -1,84 +1,52 @@
-NOTE:
-abcdefghijk  n=4
+6. ZigZag Conversion
+Medium
 
-a g
-bfh
-ceik
-d j
+1229
 
+3711
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
+Favorite
 
-using namespace std;
+Share
+The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+P   A   H   N
+A P L S I I G
+Y   I   R
+And then read line by line: "PAHNAPLSIIGYIR"
 
-/**
- * Definition for singly-linked list.
- */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
+Write the code that will take a string and make this conversion given a number of rows:
+
+string convert(string s, int numRows);
+Example 1:
+
+Input: s = "PAYPALISHIRING", numRows = 3
+Output: "PAHNAPLSIIGYIR"
+Example 2:
+
+Input: s = "PAYPALISHIRING", numRows = 4
+Output: "PINALSIGYAHRPI"
+Explanation:
+
+P     I    N
+A   L S  I G
+Y A   H R
+P     I
 
 class Solution {
 public:
-    string convert(string s, int nRows) {
-    	if (nRows == 0) return s;
-    	string res;
-    	int l = s.size();
-    	int m = 0;
-		if (nRows >= 3)
-		{
-			m = nRows - 2;
-		}
-
-    	for (int i = 0; i < nRows; i++)
-    	{
-    		int j = i;
-    		int k = 0;
-    		if (i > 0 && i < nRows - 1)
-    		{
-    			k = nRows + nRows - 2 - i;
-    		}
-
-    		while (j < l)
-    		{
-    			res.push_back(s[j]);
-
-    			if (i > 0 && i < nRows - 1)
-    			{
-       				if (k < l)
-    				{
-    					res.push_back(s[k]);
-    				}
-    			}
-
-    			j += nRows + m;
-    			k += nRows + m;
-    		}
-    	}
-
-    	return res;
+    string convert(string s, int numRows) {
+        string res;
+        if (numRows==1) return s;
+        vector<string> rows(numRows);
+        int index=0, step=1;
+        for (auto c:s) {
+            rows[index]+=c;
+            if (index==0) step=1;
+            else if (index==numRows-1) step=-1;
+            index+=step;
+        }
+        for (auto& r:rows) res+=r;
+        return res;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
