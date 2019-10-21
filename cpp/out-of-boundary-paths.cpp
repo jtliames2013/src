@@ -28,25 +28,25 @@ Hide Tags Dynamic Programming Depth-first Search
 class Solution {
 public:
     int findPaths(int m, int n, int N, int i, int j) {
-        unsigned int dp[2][50][50]={};
-        while (N>0) {
-            for (int k=0; k<m; k++) {
-                for (int l=0, curr=(N+1)%2, prev=N%2; l<n; l++) {
-                    dp[curr][k][l]=0;
-                    for (int d=0; d<4; d++) {
+        vector<vector<unsigned int>> dp(m, vector<unsigned int>(n));
+        while (N-- > 0) {
+            vector<vector<unsigned int>> next(m, vector<unsigned int>(n));
+            for (int k=0; k<m; ++k) {
+                for (int l=0; l<n; ++l) {
+                    for (int d=0; d<4; ++d) {
                         int nr=k+delta[d][0];
                         int nc=l+delta[d][1];
-                        dp[curr][k][l]+=(nr<0||nr>=m||nc<0||nc>=n)?1:dp[prev][nr][nc];
+                        if (nr>=0 && nr<m && nc>=0 && nc<n) next[k][l]+=dp[nr][nc];
+                        else next[k][l]+=1;
                     }
-                    dp[curr][k][l]%=mod;
+                    next[k][l]%=mod;
                 }
             }
-            N--;
+            dp=next;
         }
-        return dp[0][i][j];
+        return dp[i][j];
     }
 private:
-    const int mod=1000000007;
+    const int mod=1e9+7;
     const int delta[4][2]={{-1,0}, {1,0}, {0,-1}, {0,1}};
 };
-
