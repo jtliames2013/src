@@ -32,16 +32,23 @@ Let lo, hi respectively be the smallest and largest possible number of open left
 
 If we encounter a left bracket (c == '('), then lo++, otherwise we could write a right bracket, so lo--. If we encounter what can be a left bracket (c != ')'), then hi++, otherwise we must write a right bracket, so hi--. If hi < 0, then the current prefix can't be made valid no matter what our choices are. Also, we can never have less than 0 open left brackets. At the end, we should check that we can have exactly 0 open left brackets.
 
+1.
 class Solution {
 public:
     bool checkValidString(string s) {
         int low=0, high=0;
         for (auto c:s) {
-            if (c=='(') low++;
-            else low--;
-            if (c!=')') high++;
-            else high--;
-            if (high<0) break;
+            if (c=='(') {
+                low++;
+                high++;
+            } else if (c==')') {
+                low--;
+                high--;
+            } else {
+                low--;
+                high++;
+            }   
+            if (high<0) return false;
             low=max(low, 0);
         }
         return low==0;
@@ -66,7 +73,8 @@ public:
             }
         }
         if (count>star) return false;
-        
+
+        // for cases like "*((*"        
         count=0, star=0;
         for (int i=s.size()-1; i>=0; i--) {
             if (s[i]=='*') star++;
