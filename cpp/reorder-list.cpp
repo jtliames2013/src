@@ -27,34 +27,34 @@ Hide Tags Linked List
 class Solution {
 public:
     void reorderList(ListNode* head) {
-        if (head==NULL||head->next==NULL) return;
-        ListNode *one=head, *two=head, *prev=NULL;
-        while (two) {
-            two=two->next?two->next->next:NULL;
-            prev=one;
+        if (head==NULL || head->next==NULL) return;
+        ListNode *one=head, *two=head, *curr, *prev=NULL, *next;
+        while (two && two->next) {
             one=one->next;
-        }
-        prev->next=NULL;
-        
-        // reverse second half
-        prev=NULL;
-        ListNode *next;
-        while (one) {
-            next=one->next;
-            one->next=prev;
-            prev=one;
-            one=next;
+            two=two->next->next;
         }
         
-        ListNode *l1=head, *l2=prev, *l1next, *l2next;
+        // reverse the second half
+        curr=one->next;
+        one->next=NULL;
+        while (curr) {
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+        }
+        
+        ListNode dummy(0);
+        ListNode *l1=head, *l2=prev, *tail=&dummy;        
         while (l2) {
-            l1next=l1->next;
-            l2next=l2->next;
-            l1->next=l2;
-            l2->next=l1next;
-            l1=l1next;
-            l2=l2next;
+            tail->next=l1;
+            tail=l1;
+            l1=l1->next;            
+            tail->next=l2;
+            tail=l2;
+            l2=l2->next;            
         }
+        tail->next=l1;
+        dummy.next=NULL;
     }
 };
-
