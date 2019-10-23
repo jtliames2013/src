@@ -74,31 +74,21 @@ public:
         string str;
         for (auto& line:source) {
             int n=line.size();
-            for (int i=0; i<n;) {
-                if (hasBlock) {
-                    if (i<n-1 && line[i]=='*' && line[i+1]=='/') {
-                        hasBlock=false;
-                        i+=2;                        
-                    } else {
-                        i++;
-                    }
+            for (int i=0; i<n; ) {
+                if (!hasBlock) {
+                    if (i<n-1 && line[i]=='/' && line[i+1]=='*') { hasBlock=true; i+=2; }
+                    else if (i<n-1 && line[i]=='/' && line[i+1]=='/') break;
+                    else str+=line[i++];
                 } else {
-                    if (i<n-1 && line[i]=='/' && line[i+1]=='*') {
-                        hasBlock=true;
-                        i+=2;
-                    } else if (i<n-1 && line[i]=='/' && line[i+1]=='/') {
-                        break;
-                    } else {
-                        str+=line[i++];
-                    }
+                    if (i<n-1 && line[i]=='*' && line[i+1]=='/') { hasBlock=false; i+=2; } 
+                    else i++;
                 }
             }
             if (!hasBlock && !str.empty()) {
                 res.push_back(str);
-                str="";
+                str.clear();
             }
         }
         return res;
     }
 };
-
