@@ -20,14 +20,14 @@ public:
         int n=nums.size();
         if (n==0) return 0;
         int maxLocal=1, minLocal=1, global=INT_MIN;
-        
-        for (int i=0; i<n; i++) {
+
+        for (int i=0; i<n; ++i) {
             int tmp=maxLocal;
-            maxLocal=max(max(maxLocal*nums[i], minLocal*nums[i]), nums[i]);
-            minLocal=min(min(tmp*nums[i], minLocal*nums[i]), nums[i]);
+            maxLocal=max({maxLocal*nums[i], minLocal*nums[i], nums[i]});
+            minLocal=min({tmp*nums[i], minLocal*nums[i], nums[i]});
             global=max(global, maxLocal);
         }
+
         return global;
     }
 };
-
