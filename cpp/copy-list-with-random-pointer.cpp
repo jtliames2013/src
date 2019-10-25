@@ -7,24 +7,33 @@ Hide Company Tags Amazon Microsoft Bloomberg Uber
 Hide Tags Hash Table Linked List
 Hide Similar Problems (M) Clone Graph
 
-/**
- * Definition for singly-linked list with a random pointer.
- * struct RandomListNode {
- *     int label;
- *     RandomListNode *next, *random;
- *     RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
- * };
- */
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+
+    Node() {}
+
+    Node(int _val, Node* _next, Node* _random) {
+        val = _val;
+        next = _next;
+        random = _random;
+    }
+};
+*/
 class Solution {
 public:
-    RandomListNode *copyRandomList(RandomListNode *head) {
+    Node* copyRandomList(Node* head) {
         if (head==NULL) return NULL;
-        RandomListNode *newHead;
-        RandomListNode *curr=head, *next;
+        Node *newHead, *curr=head, *next;
+
         // duplicate node
         while (curr) {
             next=curr->next;
-            RandomListNode *n=new RandomListNode(curr->label);
+            Node *n=new Node(curr->val);
             curr->next=n;
             n->next=next;
             curr=next;
@@ -49,4 +58,3 @@ public:
         return newHead;
     }
 };
-
