@@ -13,20 +13,16 @@ Hide Similar Problems (E) Sqrt(x) (M) Super Pow
 
 class Solution {
 public:
-	double powPositive(double x, long long n) {
-		if (n==0) return 1;
-		double res=powPositive(x, n/2);
-		res *= res;
-		if (n%2==1) res *= x;
-		return res;
-	}
-
-	double myPow(double x, int n) {
-		if (n>=0) {
-			return powPositive(x, (long long)n);
-		} else {
-			return 1/powPositive(x,-(long long)n);
-		}
+    double myPow(double x, int n) {
+        if (n>=0) return powPositive(x, (long)n);
+        else return 1/powPositive(x, -(long)n);
+    }
+private:
+    double powPositive(double x, long n) {
+        if (n==0) return 1;
+        double res=powPositive(x, n/2);
+        res*=res;
+        if (n%2==1) res*=x;
+        return res;
     }
 };
-
