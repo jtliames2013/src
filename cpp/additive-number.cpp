@@ -26,33 +26,34 @@ Special thanks to @jeantimex for adding this problem and creating all test cases
 
 class Solution {
 public:
-    bool isValid(string s) {
-        return s.size()==1 || s[0]!='0';
-    }
-    
     bool isAdditiveNumber(string num) {
         int n=num.size();
-        for (int i=0; i<(n+1)/2; i++) {
-            for (int j=i+1; j<n && j-i<=n/2; j++) {
-                string s1=num.substr(0,i+1);
+        if (n==0) return false;
+        for (int i=0; i<(n+1)/2; ++i) {
+            string s1=num.substr(0, i+1);
+            if (!isValid(s1)) break;
+
+            for (int j=i+1; j-i<=n/2; ++j) {
                 string s2=num.substr(i+1, j-i);
-                if (!isValid(s1) || !isValid(s2)) continue;
+                if (!isValid(s2)) break;
                 
-                unsigned long long a=stoull(s1), b=stoull(s2), c;
                 int start=j+1;
-                while (1) {
+                unsigned long long a=stoull(s1), b=stoull(s2), c;
+                while (start<n) {
                     c=a+b;
                     string s3=to_string(c);
-                    int len=s3.size();
-                    if (start+len>n || s3!=num.substr(start, len)) break;
+                    if (start+s3.size()>n || num.substr(start, s3.size())!=s3) break;
                     a=b;
                     b=c;
-                    start+=len;
+                    start+=s3.size();
                     if (start==n) return true;
                 }
             }
         }
         return false;
     }
+private:
+    bool isValid(string s) {
+        return s.size()==1 || (s.size()>1 && s[0]!='0');
+    }
 };
-
