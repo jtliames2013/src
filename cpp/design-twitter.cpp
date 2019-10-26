@@ -34,13 +34,6 @@ twitter.getNewsFeed(1);
 Hide Company Tags Amazon Twitter
 Hide Tags Hash Table Heap Design
 
-class Compare {
-public:
-    bool operator()(pair<list<pair<int,int>>::iterator,int> a, pair<list<pair<int,int>>::iterator,int> b) {
-        return a.first->first < b.first->first;
-    }
-};
-
 class Twitter {
 public:
     /** Initialize your data structure here. */
@@ -57,50 +50,45 @@ public:
     /** Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. */
     vector<int> getNewsFeed(int userId) {
         vector<int> res;
-        priority_queue<pair<list<pair<int,int>>::iterator,int>, vector<pair<list<pair<int,int>>::iterator,int>>, Compare> pq;
+        auto comp=[](pair<list<pair<int,int>>::iterator, int>& a, pair<list<pair<int,int>>::iterator, int>& b){ return a.first->first < b.first->first; };
+        priority_queue<pair<list<pair<int,int>>::iterator, int>, vector<pair<list<pair<int,int>>::iterator, int>>, decltype(comp)> pq(comp);
+
         if (!feeds[userId].empty()) pq.push({feeds[userId].begin(), userId});
-        for (auto f:followees[userId]) {
-            if (!feeds[f].empty()) pq.push({feeds[f].begin(), f});
+        for (auto& followerId:followees[userId]) {
+            if (!feeds[followerId].empty()) pq.push({feeds[followerId].begin(), followerId});
         }
         
-        int count=0;
-        while (!pq.empty() && count<10) {
-            pair<list<pair<int,int>>::iterator,int> t=pq.top();
+        int count=10;
+        while (!pq.empty() & count-- > 0) {
+            auto t=pq.top();
             pq.pop();
-            count++;
             res.push_back(t.first->second);
             t.first++;
-            if (t.first!=feeds[t.second].end()) pq.push({t.first, t.second});
+            if (t.first!=feeds[t.second].end()) pq.push(t);
         }
-        
         return res;
     }
     
     /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
     void follow(int followerId, int followeeId) {
-        if (followerId!=followeeId) {
-            followees[followerId].insert(followeeId);
-        }
+        if (followerId!=followeeId) followees[followerId].insert(followeeId);
     }
-    
+
     /** Follower unfollows a followee. If the operation is invalid, it should be a no-op. */
     void unfollow(int followerId, int followeeId) {
-        if (followerId!=followeeId) {
-            followees[followerId].erase(followeeId);
-        }
+        if (followerId!=followeeId) followees[followerId].erase(followeeId);
     }
 private:
     unordered_map<int, unordered_set<int>> followees;
-    unordered_map<int, list<pair<int,int>>> feeds;
+    unordered_map<int, list<pair<int, int>>> feeds;
     int time;
 };
 
 /**
  * Your Twitter object will be instantiated and called as such:
- * Twitter obj = new Twitter();
- * obj.postTweet(userId,tweetId);
- * vector<int> param_2 = obj.getNewsFeed(userId);
- * obj.follow(followerId,followeeId);
- * obj.unfollow(followerId,followeeId);
+ * Twitter* obj = new Twitter();
+ * obj->postTweet(userId,tweetId);
+ * vector<int> param_2 = obj->getNewsFeed(userId);
+ * obj->follow(followerId,followeeId);
+ * obj->unfollow(followerId,followeeId);
  */
-
