@@ -13,23 +13,19 @@ Hide Company Tags Amazon Adobe Bloomberg Yelp
 Hide Tags Hash Table Two Pointers String
 Hide Similar Problems (H) Longest Substring with At Most Two Distinct Characters
 
+1.
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int res=0;
-        int n=s.size();
-        if (n==0) return 0;
+        int res=0, n=s.size(), l=0, r=0;
         unordered_map<char,int> mp;
-        int l=0, r=0;
         for (; r<n; ++r) {
             if (mp.find(s[r])!=mp.end()) {
                 res=max(res, r-l);
-                for (int i=l; i<mp[s[r]]; ++i) mp.erase(s[i]);
-                l=mp[s[r]]+1;
+                for (; l<=mp[s[r]]; ++l) mp.erase(s[l]);
             }
             mp[s[r]]=r;
         }
-        
         res=max(res, r-l);
         return res;
     }
