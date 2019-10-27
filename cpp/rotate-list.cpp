@@ -1,90 +1,64 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <vector>
-#include <queue>
-#include <stack>
-#include <unordered_set>
-#include <map>
-#include <algorithm>
-#include <limits.h>
+61. Rotate List
+Medium
 
-using namespace std;
+752
 
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-     int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
+905
+
+Favorite
+
+Share
+Given a linked list, rotate the list to the right by k places, where k is non-negative.
+
+Example 1:
+
+Input: 1->2->3->4->5->NULL, k = 2
+Output: 4->5->1->2->3->NULL
+Explanation:
+rotate 1 steps to the right: 5->1->2->3->4->NULL
+rotate 2 steps to the right: 4->5->1->2->3->NULL
+Example 2:
+
+Input: 0->1->2->NULL, k = 4
+Output: 2->0->1->NULL
+Explanation:
+rotate 1 steps to the right: 2->0->1->NULL
+rotate 2 steps to the right: 1->2->0->NULL
+rotate 3 steps to the right: 0->1->2->NULL
+rotate 4 steps to the right: 2->0->1->NULL
 
 /**
  * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
  */
-struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode(int x) : val(x), next(NULL) {}
- };
-
-/**
- * Definition for undirected graph.
- * */
-struct UndirectedGraphNode {
-    int label;
-    vector<UndirectedGraphNode *> neighbors;
-    UndirectedGraphNode(int x) : label(x) {};
-};
-
-/**
- * Definition for binary tree with next pointer.
- */
-struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
-};
-
 class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
-    	if (head==NULL) return NULL;
+        if (head==NULL) return head;
+        ListNode *curr=head, *prev=NULL, *tail=NULL;
+        int len=0;
+        while (curr) {
+            len++;
+            tail=curr;
+            curr=curr->next;
+        }
 
-    	int size=0;
-    	ListNode* curr=head;
-    	ListNode* tail=NULL;
-    	while (curr!=NULL) {
-    		size++;
-    		tail=curr;
-    		curr=curr->next;
-    	}
+        k%=len;
+        if (k==0) return head;
 
-    	k=k%size;
-    	int n=size-k;
-    	ListNode* prev=NULL;
-    	curr=head;
-		if (k>0) {
-			while (n>0) {
-				prev=curr;
-				curr=curr->next;
-				n--;
-			}
+        curr=head;
+        int n=len-k;
+        while (n-- > 0) {
+            prev=curr;
+            curr=curr->next;
+        }
 
-			prev->next=NULL;
-			tail->next=head;
-    	}
-
-    	return curr;
+        prev->next=NULL;
+        tail->next=head;
+        return curr;
     }
 };
-
-int main()
-{
-	return 0;
-}
-
-
