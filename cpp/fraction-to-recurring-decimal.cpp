@@ -48,12 +48,12 @@ public:
         remain *= 10;
         unordered_map<long, long> mp; 
         while (remain) {
-            long quotient = remain / denom;
             if (mp.find(remain) != mp.end()) { 
                 res.insert(mp[remain], 1, '(');
                 res += ')';
                 break;
             }
+            long quotient = remain / denom;
             mp[remain] = res.size();
             res += to_string(quotient);
             remain = (remain % denom) * 10;
@@ -61,5 +61,3 @@ public:
         return res;
     }
 };
-
-
