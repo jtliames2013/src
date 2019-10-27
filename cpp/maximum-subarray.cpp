@@ -16,6 +16,7 @@ Subscribe to see which companies asked this question.
 Hide Tags Array Dynamic Programming Divide and Conquer
 Hide Similar Problems (E) Best Time to Buy and Sell Stock (M) Maximum Product Subarray
 
+1.
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
@@ -24,6 +25,19 @@ public:
             local+=n;
             global=max(global, local);
             if (local<0) local=0;
+        }
+        return global;
+    }
+};
+
+2.
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int global=INT_MIN, local=0;
+        for (auto n:nums) {
+            local=max(n, local+n);
+            global=max(global, local);            
         }
         return global;
     }
