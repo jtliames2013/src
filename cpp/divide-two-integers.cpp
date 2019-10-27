@@ -7,14 +7,14 @@ class Solution {
 public:
     int divide(int dividend, int divisor) {
         if (divisor==0) {
-            if (dividend==0) return INT_MIN;
+            if (dividend==0) return INT_MAX;
             else return INT_MAX;
         }
         if (dividend==INT_MIN && divisor==-1) return INT_MAX;
-        int res=0;
-        bool neg=(dividend>0&&divisor<0) || (dividend<0&&divisor>0);
-        unsigned long long dd=abs((long long)dividend);
-        unsigned long long dr=abs((long long)divisor);
+        long res=0;
+        bool neg=(dividend<0 ^ divisor<0);
+        long dd=abs((long)dividend);
+        long dr=abs((long)divisor);
         
         while (dd>=dr) {
             int i=0;
@@ -26,4 +26,3 @@ public:
         return neg?-res:res;
     }
 };
-
