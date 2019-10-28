@@ -35,4 +35,26 @@ Note:
 -1000 <= matrix[i] <= 1000
 -10^8 <= target <= 10^8
 
-
+class Solution {
+public:
+    int numSubmatrixSumTarget(vector<vector<int>>& matrix, int target) {
+        int res=0, m=matrix.size(), n=matrix[0].size();
+        for (int i=0; i<m; ++i) {
+            for (int j=1; j<n; ++j) matrix[i][j]+=matrix[i][j-1];
+        }
+        
+        for (int i=0; i<n; ++i) {
+            for (int j=0; j<=i; ++j) {
+                unordered_map<int,int> mp;
+                mp[0]=1;
+                int sum=0;
+                for (int k=0; k<m; ++k) {
+                    sum+=matrix[k][i]-(j>0?matrix[k][j-1]:0);
+                    res+=mp[sum-target];
+                    mp[sum]++;
+                }
+            }
+        }
+        return res;
+    }
+};
