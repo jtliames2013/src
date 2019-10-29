@@ -37,20 +37,19 @@ board[i][j] will be a permutation of [0, 1, 2, 3, 4, 5].
 class Solution {
 public:
     int slidingPuzzle(vector<vector<int>>& board) {
+        int res=0;
         string begin, end="123450";
         for (int i=0; i<2; i++) {
             for (int j=0; j<3; j++) begin+=board[i][j]+'0';
         }
-        
-        int res=0;
+
         if (begin==end) return res;
-        unordered_set<string> visited;
         queue<pair<string,int>> q;
+        unordered_set<string> visited;
         q.push({begin, begin.find('0')});
         visited.insert(begin);
         
         while (!q.empty()) {
-            res++;
             int size=q.size();
             for (int i=0; i<size; i++) {
                 auto t=q.front();
@@ -58,13 +57,13 @@ public:
                 for (auto neighbor:delta[t.second]) {                    
                     string str=t.first;
                     swap(str[t.second], str[neighbor]);
-                    if (str==end) return res;
-                    if (visited.find(str)==visited.end()) {                                                
+                    if (visited.find(str)==visited.end()) {                                                                     if (str==end) return res+1;
                         q.push({str, neighbor});
                         visited.insert(str);
                     }
                 }
             }
+            res++;
         }
         return -1;
     }
