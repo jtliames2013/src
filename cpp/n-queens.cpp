@@ -24,48 +24,47 @@ Hide Similar Problems (H) N-Queens II
 
 class Solution {
 public:
-    vector<string> getConfig(int n, vector<int>& pos) {
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> res;
+        vector<int> pos;
+        dfs(res, pos, n, 0);
+
+        return res;
+    }
+private:
+    void dfs(vector<vector<string>>& res, vector<int>& pos, int n, int start) {
+        if (start==n) {
+            res.push_back(convert(pos, n));
+            return;
+        }
+        
+        for (int col=0; col<n; ++col) {
+            if (isValid(pos, col)) {
+                pos.push_back(col);
+                dfs(res, pos, n, start+1);
+                pos.pop_back();
+            }
+        }
+    }
+
+    bool isValid(vector<int>& pos, int col) {
+        int row=pos.size();
+        for (int i=0; i<pos.size(); ++i) {
+            if (pos[i]==col || abs(pos[i]-col)==row-i) return false;
+        }
+        return true;
+    }
+    
+    vector<string> convert(vector<int>& pos, int n) {
         vector<string> res;
-        for (int i=0; i<n; i++) {
+        for (auto p:pos) {
             string line;
-            for (int j=0; j<n; j++) {
-                if (j==pos[i]) line+="Q";
-                else line+=".";
+            for (int i=0; i<n; ++i) {
+                if (i==p) line+='Q';
+                else line+='.';
             }
             res.push_back(line);
         }
         return res;
     }
-    
-    bool isValid(int row, int col, vector<int>& pos) {
-        for (int i=0; i<pos.size(); i++) {
-            if (pos[i]==col || abs(pos[i]-col)==row-i) return false;
-        }   
-        return true;
-    }
-    
-    void solve(vector<vector<string>>& res, int n, vector<int>& pos, int row) {
-        if (row==n) {
-            vector<string> config=getConfig(n, pos);
-            res.push_back(config);
-            return;
-        }    
-        
-        for (int col=0; col<n; col++) {
-            if (isValid(row, col, pos)) {
-                pos.push_back(col);
-                solve(res, n, pos, row+1);
-                pos.pop_back();
-            }
-        }
-    }
-    
-    vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string>> res;
-        vector<int> pos;
-        solve(res, n, pos, 0);
-        
-        return res;
-    }
 };
-
