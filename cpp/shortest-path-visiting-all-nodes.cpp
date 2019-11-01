@@ -25,3 +25,37 @@ Note:
 1 <= graph.length <= 12
 0 <= graph[i].length < graph.length
 
+struct Path {
+    int visited;
+    int curr;
+    int length;
+    Path(int v,  int c, int l):visited(v), curr(c), length(l) {}
+};
+
+class Solution {
+public:
+    int shortestPathLength(vector<vector<int>>& graph) {
+        int n=graph.size();
+        queue<Path> q;
+        set<pair<int,int>> st;
+        for (int i=0; i<n; ++i) {
+            q.push(Path(1<<i, i, 0));
+            st.insert({1<<i, i});
+        }
+        
+        while (!q.empty()) {
+            auto f=q.front();
+            q.pop();
+            if (f.visited==(1<<n)-1) return f.length;
+            
+            for (auto neighbor:graph[f.curr]) {
+                int v=(1<<neighbor)|f.visited;
+                if (st.find({v, neighbor})==st.end()) {
+                    q.push(Path(v, neighbor, f.length+1));
+                    st.insert({v, neighbor});
+                }
+            }
+        }
+        return -1;
+    }
+};
