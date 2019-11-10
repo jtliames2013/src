@@ -40,47 +40,47 @@ formula will only consist of letters, digits, and round parentheses, and is a va
 class Solution {
 public:
     string countOfAtoms(string formula) {
+        string res, atom;
+        int n=formula.size(), num;
         stack<map<string,int>> stk;
-        map<string,int> mp;
-        int num;
-        string atom;
-        for (int i=0; i<formula.size(); ) {
+        stk.push({});
+        for (int i=0, j=0; i<n; ) {
             if (isalpha(formula[i])) {
                 num=0;
-                int j=i+1;
-                while (j<formula.size() && isalpha(formula[j]) && islower(formula[j])) j++;
-                atom=formula.substr(i,j-i);
-                while (j<formula.size() && isdigit(formula[j])) {
+                j=i+1;
+                while (j<n && isalpha(formula[j]) && islower(formula[j])) j++;
+                atom=formula.substr(i, j-i);
+                while (j<n && isdigit(formula[j])) {
                     num=num*10+formula[j]-'0';
                     j++;
                 }
-                mp[atom]+=num==0?1:num;
+                stk.top()[atom]+=num==0?1:num;
                 i=j;
             } else if (formula[i]=='(') {
-                stk.push(mp);
-                mp.clear();
+                stk.push({});
                 i++;
             } else if (formula[i]==')') {
                 num=0;
-                int j=i+1;
-                while (j<formula.size() && isdigit(formula[j])) {
+                j=i+1;
+                while (j<n && isdigit(formula[j])) {
                     num=num*10+formula[j]-'0';
                     j++;
                 }
                 if (num==0) num=1;
-                for (auto iter:mp) {
+                auto t=stk.top();
+                stk.pop();
+                for (auto iter:t) {
                     stk.top()[iter.first]+=num*iter.second;
                 }
-                mp=stk.top();
-                stk.pop();
                 i=j;
             } else {
                 i++;
             }
         }
-        string res;
-        for (auto iter:mp) res+=iter.first+(iter.second>1?to_string(iter.second):"");
+
+        for (auto iter:stk.top()) {
+            res+=iter.first+(iter.second>1?to_string(iter.second):"");
+        }
         return res;
     }
 };
-
