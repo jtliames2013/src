@@ -44,11 +44,9 @@ private:
         int res=0;
         unordered_map<int,int> mp;
         for (int l=0, r=0; r<A.size(); ++r) {
-            if (mp[A[r]]==0) K--;
-            mp[A[r]]++;
+            if (mp[A[r]]++==0) K--;
             while (K<0) {
-                if (mp[A[l]]==1) K++;
-                mp[A[l]]--;
+                if (mp[A[l]]--==1) K++;
                 l++;
             }
             res+=r-l+1;            
