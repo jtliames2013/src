@@ -51,6 +51,17 @@ Similarly, if there are an odd number of elements, then Bob always faces an even
 
 Those that are familiar with the Sprague-Grundy theorem may know that this game is a misère-form game, meaning the theorem does not apply, and giving a big hint that there may exist a simpler solution.
 
+
+If xor == 0, Alice win directly.
+If xor != 0 and length of numbers is even, Alice will win.
+
+Beacause:
+All numbers won't be the same. Otherwise xor will be equal to 0
+If all numbers are not the same, It means there are at least 2 different numbers.
+Alice can always erase a number different from current xor.
+So Alice won't never lose this turn at this situation.
+
+
 class Solution {
 public:
     bool xorGame(vector<int>& nums) {
