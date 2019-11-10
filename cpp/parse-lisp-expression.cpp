@@ -79,7 +79,11 @@ private:
                 return dfs(parse(str,start), mp) + dfs(parse(str,start), mp);
             } else if (op=="mult") {
                 return dfs(parse(str,start), mp) * dfs(parse(str,start), mp);
+            } else {
+                return 0;
             }
+        } else {
+            return 0;
         }
     }
                    
@@ -100,4 +104,3 @@ private:
         return res;
     }
 };
-
