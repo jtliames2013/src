@@ -69,16 +69,16 @@ class SummaryRanges {
 public:
     /** Initialize your data structure here. */
     SummaryRanges() {
-        
+
     }
-    
+
     void addNum(int val) {
         Interval curr(val,val);
         auto comp=[](Interval a, Interval b) { return a.start<b.start; };
         auto iter=lower_bound(intervals.begin(), intervals.end(), curr, comp);
         if (iter!=intervals.begin()) iter--;
         if (iter!=intervals.end() && iter->end+1<curr.start) iter++;
-        for (; iter!=intervals.end() && iter->end>=curr.start-1 && iter->start<=curr.end+1; ) {
+        for (; iter!=intervals.end() && iter->start<=curr.end+1; ) {
             curr.start=min(curr.start, iter->start);
             curr.end=max(curr.end, iter->end);
             iter=intervals.erase(iter);
@@ -91,5 +91,34 @@ public:
     }
 private:
     vector<Interval> intervals;
+};
+
+3. vector as Interval
+class SummaryRanges {
+public:
+    /** Initialize your data structure here. */
+    SummaryRanges() {
+
+    }
+
+    void addNum(int val) {
+        vector<int> curr={val, val};
+        auto comp=[](vector<int> a, vector<int> b){ return a[0]<b[0]; };
+        auto iter=lower_bound(intervals.begin(), intervals.end(), curr, comp);
+        if (iter!=intervals.begin()) iter--;
+        if (iter!=intervals.end() && (*iter)[1]+1<curr[0]) iter++;
+        for (; iter!=intervals.end() && (*iter)[0]<=curr[1]+1; ) {
+            curr[0]=min(curr[0], (*iter)[0]);
+            curr[1]=max(curr[1], (*iter)[1]);
+            iter=intervals.erase(iter);
+        }
+        intervals.insert(iter, curr);
+    }
+
+    vector<vector<int>> getIntervals() {
+        return intervals;
+    }
+private:
+    vector<vector<int>> intervals;
 };
 
