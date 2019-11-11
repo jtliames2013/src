@@ -29,7 +29,7 @@ public:
                 sum+=nums[j];                
                 if (j>=(i+1)*k-1) {
                     if (j>=(i+1)*k) sum-=nums[j-k];
-                    dp[i][j]=max(dp[i][j-1], (i>0?dp[i-1][j-k]:0)+sum);
+                    dp[i][j]=max(j>0?dp[i][j-1]:0, (i>0?dp[i-1][j-k]:0)+sum);
                 }
             }
         }
