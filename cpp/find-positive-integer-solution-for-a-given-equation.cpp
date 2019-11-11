@@ -58,6 +58,7 @@ It's also guaranteed that f(x, y) will fit in 32 bit signed integer if 1 <= x, y
  * };
  */
 
+1.
 class Solution {
 public:
     vector<vector<int>> findSolution(CustomFunction& customfunction, int z) {
@@ -66,6 +67,25 @@ public:
         for (; x<=1000; ++x) {
             while (y>1 && customfunction.f(x, y)>z) y--;
             if (customfunction.f(x, y)==z) res.push_back({x, y});
+        }
+        
+        return res;
+    }
+};
+
+2.
+class Solution {
+public:
+    vector<vector<int>> findSolution(CustomFunction& customfunction, int z) {
+        vector<vector<int>> res;
+        int x=1, y=1000;
+        while (x<=1000 && y>=1) {
+            int val=customfunction.f(x, y);
+            if (val<z) x++;
+            else if (val>z) y--;
+            else {
+                res.push_back({x++, y--});
+            }
         }
         
         return res;
