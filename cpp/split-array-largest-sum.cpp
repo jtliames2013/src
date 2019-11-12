@@ -40,23 +40,10 @@ If we can't, it is either we successfully divide the array into m parts and the 
 
 class Solution {
 public:
-    bool canCut(vector<int>& nums, int m, int bound) {
-        int sum=0;
-        for (int i=0; i<nums.size(); i++) {
-            sum+=nums[i];
-            if (sum>bound) {
-                m--;
-                if (m<1) return false;
-                sum=nums[i];
-            }
-        }
-        return true;
-    }
-    
     int splitArray(vector<int>& nums, int m) {
-        long long l=0, r=0, mid;
+        long l=0, r=0, mid;
         for (auto n:nums) {
-            l=max(l, (long long)n);
+            l=max(l, (long)n);
             r+=n;
         }
         
@@ -65,8 +52,20 @@ public:
             if (canCut(nums, m, mid)) r=mid;
             else l=mid+1;
         }
-        
         return r;
+    }
+private:
+    bool canCut(vector<int>& nums, int m, int bound) {
+        long sum=0;
+        for (int i=0; i<nums.size(); ++i) {
+            if (sum+nums[i]>bound) {
+                sum=0;
+                m--;
+                if (m<1) return false;
+            }
+            sum+=nums[i];
+        }
+        return true;
     }
 };
 
