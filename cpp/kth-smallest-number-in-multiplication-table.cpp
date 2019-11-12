@@ -30,22 +30,21 @@ The k will be in the range [1, m * n]
 
 class Solution {
 public:
-    int count (int val, int m, int n) {
-        int cnt=0;
-        for (int i=1; i<=m; i++) {
-            cnt+=min(val/i, n);
-        }
-        return cnt;
-    }
     int findKthNumber(int m, int n, int k) {
-        int l=1, r=m*n+1;
+        int l=1, r=m*n, mid;
         while (l<r) {
-            int mid=l+(r-l)/2;
-            int c=count(mid, m, n);
-            if (c>=k) r=mid;
+            mid=l+(r-l)/2;
+            int cnt=count(mid, m, n);
+            if (cnt>=k) r=mid;
             else l=mid+1;
         }
         return r;
+    }
+private:
+    int count(int val, int m, int n) {
+        int res=0;
+        for (int i=1; i<=m; ++i) res+=min(val/i, n);
+        return res;
     }
 };
 
