@@ -21,6 +21,7 @@ Note:
 class Solution {
 public:
     int numBusesToDestination(vector<vector<int>>& routes, int S, int T) {
+        if (S==T) return 0;
         unordered_map<int, unordered_set<int>> mp;
         for (int i=0; i<routes.size(); ++i) {
             for (auto stop:routes[i]) mp[stop].insert(i);
@@ -36,11 +37,11 @@ public:
             for (int i=0; i<n; ++i) {
                 auto f=q.front();
                 q.pop();
-                if (f==T) return level;
-                
+
                 for (auto route:mp[f]) {
                     for (auto stop:routes[route]) {
                         if (visited.find(stop)==visited.end()) {
+                            if (stop==T) return level+1;
                             q.push(stop);
                             visited.insert(stop);
                         }
@@ -54,3 +55,4 @@ public:
         return -1;
     }
 };
+
