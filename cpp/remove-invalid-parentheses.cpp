@@ -13,52 +13,51 @@ Examples:
 1. BFS
 class Solution {
 public:
-    bool isValid(string& s) {
-        int count=0;
-        for (int i=0; i<s.size(); i++) {
-            if (s[i]=='(') count++;
-            else if (s[i]==')') {
-                count--;
-                if (count<0) return false;
-            }
-        }
-        return count==0;
-    }
-    
     vector<string> removeInvalidParentheses(string s) {
+        if (isValid(s)) return { s };
         vector<string> res;
-        deque<string> q;
+        queue<string> q;
         unordered_set<string> visited;
-        q.push_back(s);
+        q.push(s);
+        visited.insert(s);
         
         while (!q.empty()) {
-            int n=q.size();
+            int size=q.size();
             bool found=false;
-            for (int i=0; i<n; i++) {
-                string f=q.front();
-                q.pop_front();
-                if (isValid(f)) {
-                    res.push_back(f);
-                    found=true;
-                }
-                
-                if (!found) {
-                    for (int j=0; j<f.size(); j++) {
-                        if (f[j]=='(' || f[j]==')') {
-                            string next=f.substr(0, j)+f.substr(j+1);
-                            if (visited.find(next)==visited.end()) {
-                                q.push_back(next);
-                                visited.insert(next);
+            for (int i=0; i<size; ++i) {
+                auto f=q.front();
+                q.pop();
+                for (int j=0; j<f.size(); ++j) {
+                    if (f[j]=='(' || f[j]==')') {
+                        string next=f.substr(0,j)+f.substr(j+1);
+                        if (visited.find(next)==visited.end()) {
+                            if (isValid(next)) {
+                                res.push_back(next);
+                                found=true;
+                            } else {
+                                q.push(next);
                             }
+                            visited.insert(next);
                         }
                     }
                 }
             }
-            
-            if (found) q.clear();
+            if (found) break;
         }
         
         return res;
+    }
+private:
+    bool isValid(string& s) {
+        int count=0;
+        for (auto c:s) {
+            if (c=='(') count++;
+            else if (c==')') {
+                if (count==0) return false;
+                count--;
+            }
+        }
+        return count==0;
     }
 };
 
