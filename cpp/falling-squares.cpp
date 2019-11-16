@@ -69,31 +69,30 @@ public:
         int start;
         int end;
         int height;
-        Interval(int s, int e, int h): start(s), end(e), height(h) {}
+        Interval(int s, int e, int h):start(s), end(e), height(h) {}
     };
     
-    int getHeight(vector<Interval>& intervals, Interval curr) {
-        int maxHeight=0;
-        for (auto& i:intervals) {
-            if (i.end<curr.start) continue;
-            if (i.start>curr.end) continue;
-            maxHeight=max(maxHeight, i.height);            
-        }
-        curr.height+=maxHeight;
-        intervals.push_back(curr);
-        return curr.height;
-    }
-    
-    vector<int> fallingSquares(vector<pair<int, int>>& positions) {
+    vector<int> fallingSquares(vector<vector<int>>& positions) {
         vector<int> res;
         vector<Interval> intervals;
         int h=0;
         for (auto& p:positions) {
-            Interval curr(p.first, p.first+p.second-1, p.second);
-            h=max(h, getHeight(intervals, curr));
+            Interval curr(p[0], p[0]+p[1], p[1]);
+            h=max(h, getHeight(intervals,curr));
             res.push_back(h);
         }
         return res;
+    }
+private:
+    int getHeight(vector<Interval>& intervals, Interval& curr) {
+        int maxHeight=0;
+        for (auto& i:intervals) {
+            if (i.end<=curr.start || i.start>=curr.end) continue;
+            maxHeight=max(maxHeight, i.height);
+        }
+        curr.height+=maxHeight;
+        intervals.push_back(curr);
+        return curr.height;
     }
 };
 
