@@ -39,13 +39,6 @@ public:
         Point(int r, int c, int h):row(r), col(c), height(h) {}
     };
     
-    class Compare {
-    public:
-        bool operator()(Point& a, Point& b) {
-            return a.height>b.height;
-        }  
-    };
-    
     int trapRainWater(vector<vector<int>>& heightMap) {
         int m=heightMap.size();
         if (m<=2) return 0;
@@ -53,33 +46,34 @@ public:
         if (n<=2) return 0;
         int res=0, currmax=INT_MIN;
         
-        vector<vector<bool>> visited(m, vector<bool>(n,false));
-        priority_queue<Point, vector<Point>, Compare> pq;
-        for (int i=0; i<m; i++) {
+        auto comp=[](Point& a, Point& b){ return a.height>b.height; };
+        priority_queue<Point, vector<Point>, decltype(comp)> pq(comp);
+        vector<vector<bool>> visited(m, vector<bool>(n));
+        for (int i=0; i<m; ++i) {
             pq.push(Point(i, 0, heightMap[i][0]));
             visited[i][0]=true;
             pq.push(Point(i, n-1, heightMap[i][n-1]));
             visited[i][n-1]=true;
         }
-        for (int i=1; i<n-1; i++) {
-            pq.push(Point(0, i, heightMap[0][i]));
-            visited[0][i]=true;
-            pq.push(Point(m-1, i, heightMap[m-1][i]));
-            visited[m-1][i]=true;
+        for (int j=1; j<n-1; ++j) {
+            pq.push(Point(0, j, heightMap[0][j]));
+            visited[0][j]=true;
+            pq.push(Point(m-1, j, heightMap[m-1][j]));
+            visited[m-1][j]=true;
         }
         
         while (!pq.empty()) {
-            Point t=pq.top();
+            auto t=pq.top();
             pq.pop();
             currmax=max(currmax, t.height);
             
-            for (int k=0; k<4; k++) {
+            for (int k=0; k<4; ++k) {
                 int nr=t.row+delta[k][0];
                 int nc=t.col+delta[k][1];
                 if (nr>=0 && nr<m && nc>=0 && nc<n && visited[nr][nc]==false) {
-                    visited[nr][nc]=true;
                     res+=max(0, currmax-heightMap[nr][nc]);
-                    pq.push(Point(nr,nc,heightMap[nr][nc]));
+                    pq.push(Point(nr, nc, heightMap[nr][nc]));
+                    visited[nr][nc]=true;
                 }
             }
         }
