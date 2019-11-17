@@ -37,6 +37,35 @@ Note:
 board will have the same number of rows and columns, a number in the range [2, 30].
 board[i][j] will be only 0s or 1s.
 
+
+Intuition:
+Two conditions to help solve this problem:
+
+In a valid chess board, there are 2 and only 2 kinds of rows and one is inverse to the other.
+For example if there is a row 01010011 in the board, any other row must be either 01010011 or 10101100.
+The same for columns
+A corollary is that, any rectangle inside the board with corners top left, top right, bottom left, bottom right must be 4 zeros or 2 ones 2 zeros or 4 zeros.
+
+Another important property is that every row and column has half ones. Assume the board is N * N:
+If N = 2*K, every row and every column has K ones and K zeros.
+If N = 2*K + 1, every row and every column has K ones and K + 1 zeros or K + 1 ones and K zeros.
+
+
+Explanation:
+Since the swap process does not break this property, for a given board to be valid, this property must hold.
+These two conditions are necessary and sufficient condition for a valid chessboard.
+
+Once we know it is a valid cheese board, we start to count swaps.
+Basic on the property above, when we arange the first row, we are actually moving all columns.
+
+I try to arrange one row into 01010 and 10101 and I count the number of swaps.
+
+In case of N even, I take the minimum swaps, because both are possible.
+In case of N odd, I take the even swaps.
+Because when we make a swap, we move 2 columns or 2 rows at the same time.
+So col swaps and row swaps should be same here.
+
+
 An observation is that, in a valid ChessBoard, any rectangle inside the board with corner NW, NE, SW, SE (NW here means north-west) must satisfy (NW xor NE) == (SW xor SE), where xor is exclusive or. Here we call it validness property.
 
 Since the swap process does not break this property, for a given board to be valid, this property must hold. A corollary is that given a row, any other row must be identical to it or be its inverse. For example if there is a row 01010011 in the board, any other row must be either 01010011 or 10101100.
