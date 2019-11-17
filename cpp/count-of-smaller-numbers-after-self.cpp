@@ -60,3 +60,21 @@ public:
         return res;
     }
 };
+
+3.
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        int n=nums.size();
+        if (n==0) return vector<int>();
+        vector<int> res(n), sorted;
+        
+        for (int i=n-1; i>=0; --i) {
+            auto iter=lower_bound(sorted.begin(), sorted.end(), nums[i]);            
+            res[i]=iter==sorted.begin()?0:distance(sorted.begin(), iter);
+            sorted.insert(iter, nums[i]); 
+        }
+        return res;
+    }
+};
+
