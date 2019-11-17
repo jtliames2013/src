@@ -28,11 +28,11 @@ public:
         return res;
     }
     
-    int binarySearch(int K) {
-        int l=0, r=5*(K+1), mid;        
+    int binarySearch(long K) {
+        long l=0, r=5*(K+1), mid;
         while (l<=r) {
             mid=l+(r-l)/2;
-            int num=numOfTrailingZeros(mid);            
+            int num=numOfTrailingZeros(mid);
             if (num<=K) l=mid+1;
             else r=mid-1;
         }
