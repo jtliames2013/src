@@ -43,7 +43,7 @@ public:
         vector<int> res;
         deque<int> idx;
         for (int i=0; i<nums.size(); i++) {
-            while (!idx.empty() && nums[idx.back()]<nums[i]) idx.pop_back();
+            while (!idx.empty() && nums[idx.back()]<=nums[i]) idx.pop_back();
             idx.push_back(i);
             if (i-idx.front()==k) idx.pop_front();
             if (i>=k-1) res.push_back(nums[idx.front()]);
