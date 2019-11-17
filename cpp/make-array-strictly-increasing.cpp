@@ -38,7 +38,17 @@ Constraints:
 1 <= arr1.length, arr2.length <= 2000
 0 <= arr1[i], arr2[i] <= 10^9
 
-In the above code. dp is the data structure storing all promising current states. A state here refers to a key-value pair, whose first element is the number we choose for current position. This can be either chosen from the original arr1 or from a replacement action from arr2. The second element is how many times we change the number. In the outer iteration, each time we first pick up the original element in arr1 as i. Then we look up in dp, trying to prolong each valid state we generated from the previous iteration. For example, we have state (5,0), and now i=7, we say um, it looks good so far we can generate a new state (7,0) because 7>5 it is increasing. No need to pick up a number from arr2. Meanwhile, another road is to choose a number from arr2 to replace 7. This number should be slightly bigger than 5. We choose the minimum number in arr2 that is bigger than 5, say 6. We can also add state (6,1) to dp. When both roads die, we can claim that the previous state can not be extended in this round. After we finish the final round, we look up into dp to see who survived the procedure and choose the minimum change one
+In the above code. dp is the data structure storing all promising current states. 
+A state here refers to a key-value pair, whose first element is the number we choose for current position. 
+This can be either chosen from the original arr1 or from a replacement action from arr2. 
+The second element is how many times we change the number. 
+In the outer iteration, each time we first pick up the original element in arr1 as i. 
+Then we look up in dp, trying to prolong each valid state we generated from the previous iteration. 
+For example, we have state (5,0), and now i=7, we say um, it looks good so far we can generate a new state (7,0) because 7>5 it is increasing. 
+No need to pick up a number from arr2. Meanwhile, another road is to choose a number from arr2 to replace 7. 
+This number should be slightly bigger than 5. We choose the minimum number in arr2 that is bigger than 5, say 6. 
+We can also add state (6,1) to dp. When both roads die, we can claim that the previous state can not be extended in this round. 
+After we finish the final round, we look up into dp to see who survived the procedure and choose the minimum change one
 
 class Solution {
 public:
