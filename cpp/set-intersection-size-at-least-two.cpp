@@ -43,14 +43,14 @@ class Solution {
 public:
     int intersectionSizeTwo(vector<vector<int>>& intervals) {
         sort(intervals.begin(), intervals.end(), [](vector<int>& a, vector<int>& b){ return a[0]<b[0] || (a[0]==b[0] && a[1]>b[1]); });
-        vector<int> todo(intervals.size(), 2);        
-        int res=0, t=intervals.size();
-        while (--t >= 0) {
-            int s = intervals[t][0];
-            int e = intervals[t][1];
-            int m = todo[t];
-            for (int p=s; p<s+m; p++) {
-                for (int i=0; i<=t; i++) {
+        int res=0, n=intervals.size();
+        vector<int> todo(n, 2);
+        while (n-- > 0) {
+            int s = intervals[n][0];
+            int e = intervals[n][1];
+            int m = todo[n];
+            for (int p=s; p<s+m; ++p) {
+                for (int i=0; i<=n; ++i) {
                     if (todo[i]>0 && p<=intervals[i][1]) todo[i]--;
                 }
                 res++;
@@ -59,4 +59,3 @@ public:
         return res;        
     }
 };
-

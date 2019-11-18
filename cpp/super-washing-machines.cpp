@@ -48,6 +48,7 @@ Hide Tags Dynamic Programming Math
 avg [-4, 4, 6, -2, -4]
 avg [-3, 4, 6, -3, -4]
 
+
 class Solution {
 public:
     int findMinMoves(vector<int>& machines) {
@@ -59,9 +60,8 @@ public:
         int avg=sum/n, balance=0;
         for (auto m:machines) {
             balance+=m-avg;
-            res=max(max(res, abs(balance)), m-avg);
+            res=max({res, abs(balance), m-avg});
         }
-      
         return res;
     }
 };
