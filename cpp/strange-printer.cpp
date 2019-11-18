@@ -27,6 +27,24 @@ Then, when trying to complete the printing of interval [i, k] (with S[i] == S[k]
 
 Also, we would need to complete [k+1, j]. So in total, our candidate answer is dp(i, k-1) + dp(k+1, j). Of course, when k == i, our candidate is 1 + dp(i+1, j): we paint S[i] in one turn, then paint the rest in dp(i+1, j) turns.
 
+
+dp[i][j] stands for the minimal turns we need for string from index i to index j.
+So we have
+
+dp[i][i] = 1: we need 1 turn to paint a single character.
+dp[i][i + 1]
+dp[i][i + 1] = 1 if s.chartAt(i) == s.charAt(i + 1)
+dp[i][i + 1] = 2 if s.chartAt(i) != s.charAt(i + 1)
+Then we can iteration len from 2 to possibly n. For each iteration, we iteration start index from 0 to the farthest possible.
+
+The maximum turns for dp[start][start + len] is len + 1, i.e. print one character each time.
+We can further divide the substring to two parts: start -> start+k and start+k+1 -> start+len. It is something as following:
+index |start  ...  start + k| |start + k + 1 ... start + len|
+char  |  a    ...       b   | |      c       ...      b     |
+As shown above, if we have s.charAt(start + k) == s.charAt(start + len), we can make it in one turn when we print this character (i.e. b here)
+This case we can reduce our turns to dp[start][start + k] + dp[start + k + 1][start + len] - 1
+
+
 class Solution {
 public:
     int strangePrinter(string s) {
