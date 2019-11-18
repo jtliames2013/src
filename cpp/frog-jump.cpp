@@ -90,15 +90,13 @@ public:
         unordered_map<int, unordered_set<int>> mp;
         mp[0].insert(1);
         
-        for (int i=0; i<stones.size()-1; i++) {
+        for (int i=0; i<stones.size()-1; ++i) {
             for (auto step:mp[stones[i]]) {
                 int reach=stones[i]+step;
-                if (reach==stones[stones.size()-1]) return true;
-                if (reach<stones[stones.size()-1]) {
-                    if (step>1) mp[reach].insert(step-1);
-                    mp[reach].insert(step);
-                    mp[reach].insert(step+1);
-                }
+                if (reach==stones.back()) return true;
+                if (step>1) mp[reach].insert(step-1);
+                mp[reach].insert(step);
+                mp[reach].insert(step+1);
             }
         }
         return false;
