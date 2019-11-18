@@ -50,7 +50,7 @@ public:
             int e = intervals[n][1];
             int m = todo[n];
             for (int p=s; p<s+m; ++p) {
-                for (int i=0; i<=n; ++i) {
+                for (int i=0; i<n; ++i) {
                     if (todo[i]>0 && p<=intervals[i][1]) todo[i]--;
                 }
                 res++;
@@ -59,3 +59,4 @@ public:
         return res;        
     }
 };
+
