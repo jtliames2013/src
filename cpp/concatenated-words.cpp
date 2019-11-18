@@ -40,7 +40,7 @@ public:
             for (int i=0; i<n; i++) {
                 if (dp[i]) {
                     for (int j=i+1; j<=n; j++) {
-                        if (j-i<n && st.find(w.substr(i, j-i))!=st.end()) dp[j]=1;
+                        if (j-i<n && st.find(w.substr(i, j-i))!=st.end()) dp[j]=true;
                     }
                     if (dp[n]) {
                         res.push_back(w);
