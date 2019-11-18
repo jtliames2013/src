@@ -47,7 +47,6 @@ public:
         vector<int> todo(n, 2);
         while (n-- > 0) {
             int s = intervals[n][0];
-            int e = intervals[n][1];
             int m = todo[n];
             for (int p=s; p<s+m; ++p) {
                 for (int i=0; i<n; ++i) {
