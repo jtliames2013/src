@@ -102,15 +102,15 @@ public:
         }
         if (l!=r) {
             left=min(left, l->first);            
-            right=max(right, (--r)->second);
-            intervals.erase(l, ++r);
+            right=max(right, prev(r)->second);
+            intervals.erase(l, r);
         }
         intervals[left]=right;
     }
     
     bool queryRange(int left, int right) {
         auto iter=intervals.upper_bound(left);
-        if (iter==intervals.begin() || (--iter)->second<right) return false;
+        if (iter==intervals.begin() || prev(iter)->second<right) return false;
         return true;
     }
     
@@ -121,8 +121,8 @@ public:
             if (l->second<left) l++;
         }
         if (l==r) return;
-        int l1=min(l->first, left), r1=max((--r)->second, right);
-        intervals.erase(l, ++r);
+        int l1=min(l->first, left), r1=max(prev(r)->second, right);
+        intervals.erase(l, r);
         if (l1<left) intervals[l1]=left;
         if (r1>right) intervals[right]=r1;
     }
@@ -130,10 +130,3 @@ private:
     map<int,int> intervals;
 };
 
-/**
- * Your RangeModule object will be instantiated and called as such:
- * RangeModule obj = new RangeModule();
- * obj.addRange(left,right);
- * bool param_2 = obj.queryRange(left,right);
- * obj.removeRange(left,right);
- */
