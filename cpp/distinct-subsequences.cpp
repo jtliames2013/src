@@ -25,17 +25,16 @@ class Solution {
 public:
     int numDistinct(string s, string t) {
         int m=s.size(), n=t.size();
-        vector<int> dp(n+1);
+        vector<long> dp(n+1);
         dp[0]=1;
-        for (int i=1; i<=m; i++) {
+        for (int i=1; i<=m; ++i) {
             int prev=1;
-            for (int j=1; j<=n && j<=i; j++) {
+            for (int j=1; j<=n && j<=i; ++j) {
                 int tmp=dp[j];
-                dp[j]=dp[j]+(t[j-1]==s[i-1]?prev:0);
+                dp[j]=dp[j]+(s[i-1]==t[j-1]?prev:0);
                 prev=tmp;
             }
         }
-        
         return dp[n];
     }
 };
