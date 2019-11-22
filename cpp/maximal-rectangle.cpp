@@ -33,31 +33,31 @@ public:
         int n=matrix[0].size();
         if (n==0) return 0;
         int res=0;
-        vector<int> left(n), right(n, n), height(n);
+        vector<int> left(n), right(n, n-1), height(n);
         
         for (int i=0; i<m; ++i) {
             for (int j=0; j<n; ++j) {
                 if (matrix[i][j]=='1') height[j]++;
                 else height[j]=0;
             }
-            int curr=0;
+            int lb=0;
             for (int j=0; j<n; ++j) {
-                if (matrix[i][j]=='1') left[j]=max(left[j], curr);
+                if (matrix[i][j]=='1') left[j]=max(left[j], lb);
                 else {
                     left[j]=0;
-                    curr=j+1;
+                    lb=j+1;
                 }
             }
-            curr=n;
+            int rb=n-1;
             for (int j=n-1; j>=0; --j) {
-                if (matrix[i][j]=='1') right[j]=min(right[j], curr);
+                if (matrix[i][j]=='1') right[j]=min(right[j], rb);
                 else {
-                    right[j]=n;
-                    curr=j;
+                    right[j]=n-1;
+                    rb=j-1;
                 }
             }
             
-            for (int j=0; j<n; ++j) res=max(res, (right[j]-left[j])*height[j]);
+            for (int j=0; j<n; ++j) res=max(res, (right[j]-left[j]+1)*height[j]);
         }
         return res;
     }
