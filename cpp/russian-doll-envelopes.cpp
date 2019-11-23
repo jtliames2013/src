@@ -10,24 +10,24 @@ Hide Company Tags Google
 Hide Tags Binary Search Dynamic Programming
 Hide Similar Problems (M) Longest Increasing Subsequence
 
+1.
 class Solution {
 public:
-    int maxEnvelopes(vector<pair<int, int>>& envelopes) {
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
         int n=envelopes.size();
         if (n==0) return 0;
-        vector<int> dp(n,1);
+        vector<int> dp(n, 1);
+        int res=1;
         sort(envelopes.begin(), envelopes.end());
         
-        int res=1;
-        for (int i=1; i<n; i++) {
-            for (int j=0; j<i; j++) {
-                if (envelopes[j].first<envelopes[i].first && envelopes[j].second<envelopes[i].second) {
+        for (int i=1; i<n; ++i) {
+            for (int j=0; j<i; ++j) {
+                if (envelopes[j][0]<envelopes[i][0] && envelopes[j][1]<envelopes[i][1]) {
                     dp[i]=max(dp[i], dp[j]+1);
                 }
             }
             res=max(res, dp[i]);
         }
-        
         return res;
     }
 };
