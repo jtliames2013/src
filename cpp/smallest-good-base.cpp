@@ -37,12 +37,14 @@ class Solution {
 public:
     string smallestGoodBase(string n) {
         unsigned long long num=stoull(n);
-        unsigned long long bound=log2(num);
-        for (unsigned long long m=bound; m>=1; m--) {
-            unsigned long long k=pow(num, 1.0/m);
-            if ((((unsigned long long)pow(k, m+1)-1)/(k-1))==num) {
-                return to_string(k);
+        for (unsigned long long m=log2(num); m>=1; --m) {
+            int k=pow(num, 1.0/m);
+            unsigned long long sum=1, prod=1;
+            for (int i=0; i<m; ++i) {
+                prod*=k;
+                sum+=prod;
             }
+            if (sum==num) return to_string(k);
         }
 
         return to_string(num-1);
