@@ -20,10 +20,12 @@ digit: it should be one digit from the current number
 '(': push the previous result and the sign into the stack, set result to 0, just calculate the new result within the parenthesis.
 ')': pop out the top two numbers from stack, first one is the sign before this pair of parenthesis, second is the temporary result before this pair of parenthesis. We add them together.
 Finally if there is only one number, from the above solution, we haven't add the number to the result, so we do a check see if the number is zero.
+
+1.
 class Solution {
 public:
     int calculate(string s) {       
-        int res=0, num=0, sign=1;
+        long res=0, num=0, sign=1;
         stack<int> results, signs; 
         for (int i=0; i<s.size(); i++) {
             if (isdigit(s[i])) {
