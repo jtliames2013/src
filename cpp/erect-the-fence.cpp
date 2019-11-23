@@ -119,46 +119,39 @@ public:
 
 2.
 http://www.algorithmist.com/index.php/Monotone_Chain_Convex_Hull.cpp
-/**
- * Definition for a point.
- * struct Point {
- *     int x;
- *     int y;
- *     Point() : x(0), y(0) {}
- *     Point(int a, int b) : x(a), y(b) {}
- * };
- */
+
 class Solution {
 public:
-    long long cross(const Point &O, const Point &A, const Point &B) {
-        return (A.x - O.x) * (long long)(B.y - O.y) -
-               (A.y - O.y) * (long long)(B.x - O.x);
-    }    
-    
-    vector<Point> outerTrees(vector<Point>& points) {
-        int n = points.size(), k = 0;
-        vector<Point> res(2*n);
+    vector<vector<int>> outerTrees(vector<vector<int>>& points) {
+        int n=points.size(), k=0;
+        vector<vector<int>> res(2*n);
 
         // Sort points lexicographically
-        sort(points.begin(), points.end(), [](Point& a, Point& b) { return a.x<b.x || (a.x==b.x && a.y<b.y); });
+        sort(points.begin(), points.end(), [](vector<int>& a, vector<int>& b){ return a[0]<b[0] || (a[0]==b[0] && a[1]<b[1]); });
 
         // Build lower hull
-        for (int i=0; i<n; i++) {
-            while (k >= 2 && cross(res[k-2], res[k-1], points[i])<0) k--;
+        for (int i=0; i<n; ++i) {
+            while (k>=2 && cross(res[k-2], res[k-1], points[i])<0) k--;
             res[k++]=points[i];
         }
 
         // Build upper hull
-        for (int i=n-2, t=k+1; i>=0; i--) {
+        for (int i=n-2, t=k+1; i>=0; --i) {
             while (k>=t && cross(res[k-2], res[k-1], points[i])<0) k--;
             res[k++]=points[i];
         }
 
         // Remove duplicates
         res.resize(k);
-        sort(res.begin(), res.end(), [](Point& a, Point& b) { return a.x<b.x || (a.x==b.x && a.y<b.y); });
-        res.erase(unique(res.begin(), res.end(), [](Point& a, Point& b) { return a.x==b.x && a.y==b.y; } ), res.end());
+        sort(res.begin(), res.end(), [](vector<int>& a, vector<int>& b) { return a[0]<b[0] || (a[0]==b[0] && a[1]<b[1]); });
+        res.erase(unique(res.begin(), res.end(), [](vector<int>& a, vector<int>& b) { return a[0]==b[0] && a[1]==b[1]; } ), res.end());
+
         return res;
     }
-};  
+private:
+    long cross(const vector<int>& O, const vector<int>& A, const vector<int>& B) {
+        return (A[0]-O[0]) * (long)(B[1]-O[1])-
+               (A[1]-O[1]) * (long)(B[0]-O[0]);
+    }
+};
 
