@@ -36,32 +36,47 @@ Despite the nested loops, the time complexity of the "merge & count" stage is st
 
 One other concern is that the sums may overflow integer. So we use long instead.
 
+
+First of all, we get the sum array. Then, we divide the array by halves. The range can exist inside the first and second half, 
+it can also exist across the first and second half. Then for a range [start, end], the recursion becomes:
+
+in the first half + # in the second half + # across the first and second half.
+How to get the # in the first and second half? The above recursion still applies!
+
+Then, the question becomes how to count the # across the first and second half. What happens the first half and second half 
+are sorted after we count the # inside them? It becomes quite simple to get the cross result. It becomes a two pointer question.
+
+The use a low pointer to get the first index that satisfies sum[low] - sum[i] >= lower, and get the last index 
+that satisfies sum[high] - sum[i] >= upper. The # of cross result that can be formed with i as the left index is upper - lower. 
+Since the first half is sorted, sum[i + 1] >= sum[i], then, low and high do not need to go back. Therefore, it is O(N) operation.
+
+
 class Solution {
 public:
+    int countRangeSum(vector<int>& nums, int lower, int upper) {
+        int n=nums.size();
+        if (n==0) return 0;
+        vector<long> sums(n+1);
+        for (int i=1; i<=n; ++i) sums[i]=sums[i-1]+nums[i-1];
+        return mergeSortCount(sums, 0, n, lower, upper);
+    }
+private:
     int mergeSortCount(vector<long>& sums, int start, int end, int lower, int upper) {
         if (start>=end) return 0;
         int mid=start+(end-start)/2;
         int count=mergeSortCount(sums, start, mid, lower, upper) + mergeSortCount(sums, mid+1, end, lower, upper);
         vector<long> tmp(end-start+1);
-        int k=mid+1, j=mid+1, t=0, s=mid+1;
-        for (int i=start; i<=mid; i++, t++) {
-            while (k<=end && sums[k]-sums[i]<lower) k++;
-            while (j<=end && sums[j]-sums[i]<=upper) j++;
-            while (s<=end && sums[s]<sums[i]) tmp[t++]=sums[s++];
-            tmp[t]=sums[i];
+        int k=mid+1, j=mid+1, i1=start, i2=mid+1, t=0;
+        for (; i1<=mid; ++i1) {
+            while (k<=end && sums[k]-sums[i1]<lower) k++;
+            while (j<=end && sums[j]-sums[i1]<=upper) j++;
+            while (i2<=end && sums[i2]<sums[i1]) tmp[t++]=sums[i2++];
+            tmp[t++]=sums[i1];
             count+=j-k;
-        }                    
-        copy(tmp.begin(), tmp.begin()+s-start, sums.begin()+start);   
+        }
+        copy(tmp.begin(), tmp.begin()+i2-start, sums.begin()+start);
         return count;
     }
-    
-    int countRangeSum(vector<int>& nums, int lower, int upper) {        
-        int n=nums.size();
-        if (n==0) return 0;
-        vector<long> sums(n+1);        
-        for (int i=1; i<=n; i++) sums[i]=sums[i-1]+nums[i-1];
-        
-        return mergeSortCount(sums, 0, n, lower, upper);
-    }
 };
+
 
