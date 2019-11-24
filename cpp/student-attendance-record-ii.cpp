@@ -28,10 +28,10 @@ Subscribe to see which companies asked this question.
 Hide Tags Dynamic Programming
 Hide Similar Problems (E) Student Attendance Record I
 
+
 class Solution {
 public:
     int checkRecord(int n) {
-        const int mod = 1000000007;
         int dp[n+1][2][3];
     
         for (int i=0; i<=n; i++) {
@@ -52,7 +52,10 @@ public:
         }
         return dp[n][1][2];        
     }
+private:
+    const int mod=1e9+7;
 };
+
 
 Let f[i][j][k] denote the # of valid sequences of length i where:
 
