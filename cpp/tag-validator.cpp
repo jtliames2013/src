@@ -79,6 +79,18 @@ Subscribe to see which companies asked this question.
 
 Hide Tags String
 
+tag :
+    <tagname> + content + </tagname>
+tagname : 
+    [A-Z]{1, 9}                 # 1 ~ 9 uppercase chars
+content : 
+    (tag|cdata|text)*           # 0 or more of : tag, cdata, text
+cdata : 
+    "<![CDATA[" + .* + "]]>"
+text :
+    [^<]+                       # non '<' chars
+
+
 class Solution {
 public:
     bool isValid(string code) {
