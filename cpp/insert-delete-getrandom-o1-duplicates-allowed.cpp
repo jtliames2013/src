@@ -38,6 +38,7 @@ Subscribe to see which companies asked this question.
 Hide Tags Array Hash Table Design
 Hide Similar Problems (M) Insert Delete GetRandom O(1)
 
+
 class RandomizedCollection {
 public:
     /** Initialize your data structure here. */
@@ -48,7 +49,7 @@ public:
     /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
     bool insert(int val) {
         bool res=false;
-        if (mp.find(val)==mp.end() || mp[val].empty()) res=true;
+        if (mp.find(val)==mp.end()) res=true;
         mp[val].insert(data.size());
         data.push_back(val);
         return res;
@@ -56,14 +57,15 @@ public:
     
     /** Removes a value from the collection. Returns true if the collection contained the specified element. */
     bool remove(int val) {
-        if (mp.find(val)==mp.end() || mp[val].empty()) return false;
-        if (data.back()!=val) {
-            int idx=*mp[val].begin();
-            mp[val].erase(idx);
+        if (mp.find(val)==mp.end()) return false;
+        int idx=*mp[val].begin();
+        mp[val].erase(idx);
+        if (mp[val].empty()) mp.erase(val);
+        if (idx!=data.size()-1) {
+            mp[data.back()].erase(data.size()-1);
             mp[data.back()].insert(idx);
             data[idx]=data.back();
         }
-        mp[data.back()].erase(data.size()-1);
         data.pop_back();
         return true;
     }
