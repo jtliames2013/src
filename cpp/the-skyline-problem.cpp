@@ -28,8 +28,7 @@ Subscribe to see which companies asked this question.
 
 Hide Tags Binary Indexed Tree Segment Tree Heap Divide and Conquer
 
-https://briangordon.github.io/2014/08/the-skyline-problem.html
-
+https://www.youtube.com/watch?v=GSBLe8cKu0s
 http://www.cnblogs.com/easonliu/p/4531020.html
 分别将每个线段的左边节点与右边节点存到新的vector height中，根据x坐标值排序，然后遍历求拐点。求拐点的时候用一个最大化heap来保存
 当前的楼顶高度，遇到左边节点，就在heap中插入高度信息，遇到右边节点就从heap中删除高度。分别用pre与cur来表示之前的高度与当前的
@@ -44,34 +43,30 @@ http://www.cnblogs.com/easonliu/p/4531020.html
 右边节点的高度值是正数，这样我们就不用额外的属性，直接用pair<int, int>就可以保存了。而且对其排序，发现pair默认的排序规则就已经
 满足要求了。
 
-  class Solution {
-  public:
-      vector<pair<int, int>> getSkyline(vector<vector<int>>& buildings) {
-    	  vector<pair<int, int> > res;
-    	  vector<pair<int, int> > lines;
-    	  for (auto b : buildings) {
-    		  // left has negative height
-    		  lines.push_back({b[0], -b[2]});
-    		  lines.push_back({b[1], b[2]});
-    	  }
-    	  sort(lines.begin(), lines.end());
-    	  multiset<int> height;
-    	  // insert the base line, to be used when no line
-    	  height.insert(0);
+class Solution {
+public:
+    vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+        vector<vector<int>> res, lines;
+        for (auto& b:buildings) {
+            lines.push_back({b[0], -b[2]}); // start of building
+            lines.push_back({b[1], b[2]}); // end of building
+        }
+        sort(lines.begin(), lines.end());
+        multiset<int> height;
+        // insert the base line, to be used when no line
+        height.insert(0);
+        int mx=0, curr=0;
 
-    	  int prev=0, curr=0;
-    	  for (auto l : lines) {
-    		  if (l.second < 0) height.insert(-l.second);
-    		  else height.erase(height.find(l.second));
+        for (auto& l:lines) {
+            if (l[1]<0) height.insert(-l[1]);
+            else height.erase(height.find(l[1]));
 
-    		  curr=*(height.rbegin());
-    		  if (curr!=prev) {
-    			  res.push_back({l.first, curr});
-    			  prev=curr;
-    		  }
-    	  }
-
-    	  return res;
-      }
-  };
-
+            curr=*(height.rbegin());
+            if (curr!=mx) {
+                res.push_back({l[0], curr});
+                mx=curr;
+            }
+        }
+        return res;
+    }
+};
