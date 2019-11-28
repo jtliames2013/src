@@ -33,7 +33,9 @@ public:
             while (!idx.empty() && heights[idx.top()]>=heights[i]) {
                 int curr=idx.top();
                 idx.pop();
-                res=max(res, heights[curr]*(idx.empty()?i:(i-idx.top()-1)));
+                // idx.top() - left where height <= heights[curr]
+                // i - right where height <= heights[curr]
+                res=max(res, heights[curr]*(idx.empty()?i:(i-1-idx.top())));
             }
             idx.push(i);
         }
