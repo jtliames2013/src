@@ -36,7 +36,8 @@ public:
         // the most number of cherries obtained by two people
         vector<vector<int>> dp(n, vector<int>(n, INT_MIN));
         dp[0][0]=grid[0][0];
-        
+
+        // t=r+c        
         for (int t=1; t<=2*n-2; t++) {
             // each move step from top-left to bottom-right
             vector<vector<int>> next(n, vector<int>(n, INT_MIN));
