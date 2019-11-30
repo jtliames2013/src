@@ -18,6 +18,7 @@ Hide Similar Problems (M) Longest Palindromic Substring (H) Shortest Palindrome
 
 use set to avoid the case where two words are revert of each other.
 
+1. map
 class Solution {
 public:
     bool isPalin(string& s) {
@@ -70,6 +71,70 @@ public:
             }
         }
         return res;
+    }
+};
+
+2. trie
+struct TrieNode {
+    int index;
+    vector<int> idx;
+    unordered_map<char, TrieNode*> children;
+    TrieNode(): index(-1) {}
+};
+
+class Solution {
+public:
+    vector<vector<int>> palindromePairs(vector<string>& words) {
+        vector<vector<int>> res;
+        int n=words.size();
+        TrieNode* root=new TrieNode();
+
+        for (int i=0; i<n; ++i) {
+            add(root, words[i], i);
+        }
+
+        for (int i=0; i<n; ++i) {
+            search(res, root, words[i], i);
+        }
+
+        return res;
+    }
+private:
+    void add(TrieNode* node, string& word, int index) {
+        for (int i=word.size()-1; i>=0; --i) {
+            if (node->children.find(word[i])==node->children.end()) node->children[word[i]]=new TrieNode();
+            // word index can be a candidate pair if another word
+            // reversely match word index suffix
+            if (isPalin(word, 0, i)) node->idx.push_back(index);
+            node=node->children[word[i]];
+        }
+        node->idx.push_back(index);
+        node->index=index;
+    }
+
+    void search(vector<vector<int>>& res, TrieNode* node, string& word, int index) {
+        for (int i=0; i<word.size(); ++i) {
+            if (node->index>=0 && node->index!=index && isPalin(word, i, word.size()-1)) {
+                // word node->index reversely match word index prefix
+                res.push_back({index, node->index});
+            }
+            if (node->children.find(word[i])==node->children.end()) return;
+            node=node->children[word[i]];
+        }
+
+        for (auto i:node->idx) {
+            // word index reversely match word i suffix
+            if (i!=index) res.push_back({index, i});
+        }
+    }
+
+    bool isPalin(string& s, int l, int r) {
+        while (l<r) {
+            if (s[l]!=s[r]) return false;
+            l++;
+            r--;
+        }
+        return true;
     }
 };
 
