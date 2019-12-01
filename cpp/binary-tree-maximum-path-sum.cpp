@@ -27,20 +27,20 @@ Hide Similar Problems (E) Path Sum (M) Sum Root to Leaf Numbers
  */
 class Solution {
 public:
+    int maxPathSum(TreeNode* root) {
+        if (root==NULL) return 0;
+        int sum=INT_MIN;
+        dfs(root, sum);
+        return sum;
+    }
+private:
     int dfs(TreeNode* root, int& sum) {
         if (root==NULL) return 0;
         int l=dfs(root->left, sum);
         int r=dfs(root->right, sum);
         sum=max(sum, max(l, 0)+max(r, 0)+root->val);
         
-        return max(0, max(l, r))+root->val;
-    }
-    
-    int maxPathSum(TreeNode* root) {
-        if (root==NULL) return 0;
-        int sum=INT_MIN;
-        dfs(root, sum);
-        return sum;
+        return max({0, l, r})+root->val;
     }
 };
 
