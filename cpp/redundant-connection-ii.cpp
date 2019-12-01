@@ -49,6 +49,7 @@ public:
                 cand1={parent[e[1]], e[1]};
                 cand2=e;
                 e[1]=0;
+                break;
             }
         }
         
@@ -58,7 +59,7 @@ public:
             int p1=find(parent, e[0]);
             if (p1==e[1]) {
                 if (cand1.empty()) return e;
-                else return cand1;
+                else return cand1; // both cand1 and e are in the circle, must remove cand1
             }
             parent[e[1]]=p1;
         }
