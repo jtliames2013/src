@@ -29,3 +29,56 @@ The number of erasures will not exceed the area of the grid.
 It is guaranteed that each erasure will be different from any other erasure, and located inside the grid.
 An erasure may refer to a location with no brick - if it does, no bricks drop.
 
+
+Reversely add hit bricks back. The size of the component added back in each step is the number of bricks dropped in
+the original order.
+
+class Solution {
+public:
+    vector<int> hitBricks(vector<vector<int>>& grid, vector<vector<int>>& hits) {
+        int m=grid.size(), n=grid[0].size(), h=hits.size();
+        vector<int> res(h);
+        
+        for (auto& hit:hits) grid[hit[0]][hit[1]]--;
+        
+        for (int j=0; j<n; ++j) {
+            if (grid[0][j]==1) dfs(grid, 0, j, m, n);
+        }
+        
+        for (int i=h-1; i>=0; --i) {
+            grid[hits[i][0]][hits[i][1]]++;
+            if (grid[hits[i][0]][hits[i][1]]==1 && 
+                isConnected(grid, hits[i][0], hits[i][1], m, n)) {
+                res[i]=dfs(grid, hits[i][0], hits[i][1], m, n)-1;
+            }
+        }
+        return res;
+    }
+private:
+    int dfs(vector<vector<int>>& grid, int row, int col, int m, int n) {
+        int res=1;
+        grid[row][col]=2;
+        
+        for (int k=0; k<4; ++k) {
+            int nr=row+delta[k][0];
+            int nc=col+delta[k][1];
+            if (nr>=0 && nr<m && nc>=0 && nc<n && grid[nr][nc]==1) {
+                res+=dfs(grid, nr, nc, m, n);
+            }
+        }
+        return res;
+    }
+    
+    bool isConnected(vector<vector<int>>& grid, int row, int col, int m, int n) {
+        if (row==0) return true;
+        for (int k=0; k<4; ++k) {
+            int nr=row+delta[k][0];
+            int nc=col+delta[k][1];
+            if (nr>=0 && nr<m && nc>=0 && nc<n && grid[nr][nc]==2) return true;    
+        }
+        return false;
+    }
+    
+    const int delta[4][2]={{-1,0}, {1,0}, {0,-1}, {0,1}};
+};
+
