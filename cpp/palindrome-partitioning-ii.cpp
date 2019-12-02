@@ -24,8 +24,8 @@ public:
                 else isPalin[i][j]=(s[i]==s[j]&&isPalin[i+1][j-1]);
             }
         }
-        
-    	// if it is palindrome from begining, cut is 0        
+
+	// if it is palindrome from begining, cut is 0
         dp[0]=-1;
         for (int i=1; i<=n; i++) {
             for (int j=0; j<i; j++) {
@@ -38,3 +38,31 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    int minCut(string s) {
+        int n=s.size();
+        if (n==0) return 0;
+        vector<int> dp(n+1, INT_MAX);
+        vector<vector<bool>> isPalin(n, vector<bool>(n));
+        for (int len=1; len<=n; ++len) {
+            for (int l=0, r=l+len-1; r<n; ++l, ++r) {
+                if (l==r) isPalin[l][r]=true;
+                else if (r==l+1) isPalin[l][r]=s[l]==s[r];
+                else isPalin[l][r]=(s[l]==s[r] && isPalin[l+1][r-1]);
+            }
+        }
+
+        // if it is palindrome from begining, cut is 0
+        dp[0]=-1;
+        for (int i=1; i<=n; ++i) {
+            for (int j=0; j<i; ++j) {
+                if (isPalin[j][i-1]) {
+                    dp[i]=min(dp[i], dp[j]+1);
+                }
+            }
+        }
+        return dp[n];
+    }
+};
