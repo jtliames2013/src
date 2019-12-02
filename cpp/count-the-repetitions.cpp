@@ -64,6 +64,7 @@ the repetitive part
 the suffix part after repetitive pattern (incomplete repetitive pattern remnant)
 All you have to do is add up the repeat counts of the 3 parts.
 
+
 class Solution {
 public:
     int getMaxRepetitions(string s1, int n1, string s2, int n2) {
@@ -83,8 +84,9 @@ public:
             nextIndex[k]=j;
             for (int start=0; start<k; start++) {
                 if (nextIndex[start]==j) {
+                    // found the repetition
                     int prefixCount=repeatCount[start];
-                    int patternCount=(repeatCount[k]-repeatCount[start])*(n1-start)/(k-start);
+                    int patternCount=(repeatCount[k]-repeatCount[start])*((n1-start)/(k-start));
                     int suffixCount=repeatCount[start+(n1-start)%(k-start)]-repeatCount[start];
                     return (prefixCount+patternCount+suffixCount)/n2;
                 }
