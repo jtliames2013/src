@@ -24,14 +24,16 @@ Initially, image you are at node 1 (variable: curr),
 the goal is move (k - 1) steps to the target node x. (substract steps from k after moving)
 when k is down to 0, curr will be finally at node x, there you get the result.
 
-we don't really need to do a exact k steps preorder traverse of the denary tree, the idea is to calculate the steps between curr and curr + 1 (neighbor nodes in same level), in order to skip some unnecessary moves.
+we don't really need to do a exact k steps preorder traverse of the denary tree, the idea is to calculate the steps 
+between curr and curr + 1 (neighbor nodes in same level), in order to skip some unnecessary moves.
 
 Main function
 Firstly, calculate how many steps curr need to move to curr + 1.
 
 if the steps <= k, we know we can move to curr + 1, and narrow down k to k - steps.
 
-else if the steps > k, that means the curr + 1 is actually behind the target node x in the preorder path, we can't jump to curr + 1. What we have to do is to move forward only 1 step (curr * 10 is always next preorder node) and repeat the iteration.
+else if the steps > k, that means the curr + 1 is actually behind the target node x in the preorder path, we can't jump 
+to curr + 1. What we have to do is to move forward only 1 step (curr * 10 is always next preorder node) and repeat the iteration.
 
 calSteps function
 
