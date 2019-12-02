@@ -59,9 +59,7 @@ bool isMatch(const char *s, const char *p) {
 - 返回调用递归函数匹配s和去掉前两个字符的p的结果
 
 class Solution {
-
 public:
-
     bool isMatch(string s, string p) {
         return isMatch(s, 0, p, 0);
     }
@@ -82,30 +80,7 @@ public:
     }
 };
 
-class Solution {
-public:
-    bool isMatch(string& s, int i, string& p, int j) {
-        if (j==p.size()) {
-            return i==s.size();
-        } else {
-            if (p[j+1]!='*') {
-                return (((p[j]=='.' &&  s[i]!='\0') || s[i]==p[j]) && isMatch(s, i+1, p, j+1));
-            } else {
-                while ((p[j]=='.' && s[i]!='\0') || s[i]==p[j]) {
-                    if (isMatch(s, i, p, j+2)==true) return true;
-                    else i++;
-                }
-                return isMatch(s, i, p, j+2);
-            }
-        }
-    }
-    
-    bool isMatch(string s, string p) {
-        return isMatch(s, 0, p, 0);
-    }
-};
-
-3.
+2.
 思路1: DP
 
 关键在于如何处理这个'*'号。
