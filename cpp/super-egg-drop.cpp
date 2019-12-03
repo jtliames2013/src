@@ -47,6 +47,8 @@ Note:
 1 <= N <= 10000
 
 
+http://spencermortensen.com/articles/egg-problem/
+
 dp[M][K]means that, given K eggs and M moves,
 what is the maximum number of floor that we can check.
 
