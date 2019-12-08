@@ -43,9 +43,33 @@ ip will be a valid IPv4 address.
 Every implied address ip + x (for x < n) will be a valid IPv4 address.
 n will be an integer in the range [1, 1000].
 
+Airbnb
+|
+2
+
+
+You should know about one’s complement(反码) and two's complement(补码)
+https://stackoverflow.com/questions/2604296/twos-complement-why-the-name-two
+(-x) is the two’s complement of x. (-x) will be equal to one’s complement of x plus 1.
+for example:
+
+7  in binary              :  00000111
+one’s complement of 7     :  11111000
+two's complement of 7     :  11111001
+x & (-x) of 7             :  00000001
+So the value of x & (-x) can mean for 255.0.0.7, how many more ips we can represent in CIDR. In this case it's only 1.(because x & (-x) of 7 is 1)
+for example, 255.0.0.8, x & (-x) of it is 00001000, it's 8, we can represent 8 more ips which start from it.
+for 255.0.0.9, x & (-x) of it is 00000001, 1 again.
+So for input: 255.0.0.7 and 10 ips, we should have results:
+
+255.0.0.7:1
+255.0.0.8:8
+255.0.0.9:1
+
+
 class Solution {
 public:
-    vector<string> ipToCIDR(string ip, int range) {
+    vector<string> ipToCIDR(string ip, int n) {
         vector<string> res;
         long ipnum=0;
         istringstream iss(ip);
@@ -55,31 +79,32 @@ public:
             ipnum|=stoi(val);
         }
         
-        while (range>0) {
+        while (n>0) {
             long step=ipnum & -ipnum;
-            while (step>range) step/=2;
+            while (step>n) step/=2;
             res.push_back(convert(ipnum, step));
             ipnum+=step;
-            range-=step;
+            n-=step;
         }
+
         return res;
     }
 private:
-    string convert(long ipnum, long step) {        
+    string convert(long ipnum, long step) {
         string res;
         int len=33;
         while (step>0) {
-            step/=2;
             len--;
+            step/=2;
         }
         vector<int> ip(4);
-        for (int i=0; i<4; i++) {
+        for (int i=3; i>=0; --i) {
             ip[i]=ipnum & 0xff;
             ipnum>>=8;
         }
-        for (int i=3; i>=0; i--) {
-            res+=to_string(ip[i]);
+        for (int i=0; i<4; ++i) {
             if (i>0) res+=".";
+            res+=to_string(ip[i]);
         }
         return res+"/"+to_string(len);
     }
