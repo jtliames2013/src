@@ -31,8 +31,6 @@ Constraints:
 1 <= arr.length <= 10^3
 1 <= arr[i] <= 10^3
 
-0 ~ 6 months6 months ~ 1 year1 year ~ 2 years
-
 Virtu Financial
 |
 LeetCode

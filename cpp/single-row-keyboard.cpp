@@ -35,8 +35,6 @@ keyboard contains each English lowercase letter exactly once in some order.
 1 <= word.length <= 10^4
 word[i] is an English lowercase letter.
 
-0 ~ 6 months6 months ~ 1 year1 year ~ 2 years
-
 Google
 |
 3

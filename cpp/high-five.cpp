@@ -31,8 +31,6 @@ The IDs of the students is between 1 to 1000
 The score of the students is between 1 to 100
 For each student, there are at least 5 scores
 
-0 ~ 6 months6 months ~ 1 year1 year ~ 2 years
-
 Goldman Sachs
 |
 8

@@ -29,8 +29,6 @@ logger.shouldPrintMessage(11,"foo"); returns true;
 Credits:
 Special thanks to @memoryless for adding this problem and creating all test cases.
 
-0 ~ 6 months6 months ~ 1 year1 year ~ 2 years
-
 Google
 |
 14

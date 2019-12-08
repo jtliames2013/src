@@ -24,8 +24,6 @@ Constraints:
 1 <= arr1.length, arr2.length, arr3.length <= 1000
 1 <= arr1[i], arr2[i], arr3[i] <= 2000
 
-0 ~ 6 months6 months ~ 1 year1 year ~ 2 years
-
 Facebook
 |
 3

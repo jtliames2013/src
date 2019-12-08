@@ -18,8 +18,6 @@ m.next(10) = (1 + 10) / 2
 m.next(3) = (1 + 10 + 3) / 3
 m.next(5) = (10 + 3 + 5) / 3
 
-0 ~ 6 months6 months ~ 1 year1 year ~ 2 years
-
 Amazon
 |
 4

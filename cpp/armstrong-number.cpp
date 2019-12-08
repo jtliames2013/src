@@ -32,8 +32,6 @@ Note:
 
 1 <= N <= 10^8
 
-0 ~ 6 months6 months ~ 1 year1 year ~ 2 years
-
 Amazon
 |
 LeetCode

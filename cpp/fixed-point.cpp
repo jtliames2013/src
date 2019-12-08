@@ -37,8 +37,6 @@ Note:
 1 <= A.length < 10^4
 -10^9 <= A[i] <= 10^9
 
-0 ~ 6 months6 months ~ 1 year1 year ~ 2 years
-
 Uber
 |
 LeetCode

@@ -33,8 +33,6 @@ Note:
 1 <= A.length <= 100
 1 <= A[i].length <= 100
 
-0 ~ 6 months6 months ~ 1 year1 year ~ 2 years
-
 Amazon
 |
 LeetCode

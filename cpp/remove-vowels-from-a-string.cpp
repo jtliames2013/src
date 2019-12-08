@@ -27,8 +27,6 @@ Note:
 S consists of lowercase English letters only.
 1 <= S.length <= 1000
 
-0 ~ 6 months6 months ~ 1 year1 year ~ 2 years
-
 Amazon
 |
 LeetCode
