@@ -50,6 +50,7 @@ All characters of products[i] are lower-case English letters.
 1 <= searchWord.length <= 1000
 All characters of searchWord are lower-case English letters.
 
+1. binary search
 class Solution {
 public:
     vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) {
@@ -69,6 +70,57 @@ public:
             res.push_back(v);
         }
         
+        return res;
+    }
+};
+
+2. Trie
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    vector<string> suggested;
+};
+
+class Trie {
+public:
+    Trie() {
+        root=new TrieNode();
+    }
+
+    void insert(string word) {
+        TrieNode* n=root;
+        for (int i=0; i<word.size(); ++i) {
+            if (n->children.find(word[i])==n->children.end()) n->children[word[i]]=new TrieNode();
+            n=n->children[word[i]];
+            n->suggested.push_back(word);
+            sort(n->suggested.begin(), n->suggested.end());
+            if (n->suggested.size()>3) n->suggested.pop_back();
+        }
+    }
+
+    vector<string> search(string prefix) {
+        TrieNode* n=root;
+        for (int i=0; i<prefix.size(); ++i) {
+            if (n->children.find(prefix[i])==n->children.end()) return vector<string>();
+            n=n->children[prefix[i]];
+        }
+        return n->suggested;
+    }
+
+private:
+    TrieNode* root;
+};
+
+class Solution {
+public:
+    vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) {
+        vector<vector<string>> res;
+        Trie trie;
+        for (auto& p:products) trie.insert(p);
+        string curr;
+        for (auto c:searchWord) {
+            curr+=c;
+            res.push_back(trie.search(curr));
+        }
         return res;
     }
 };
