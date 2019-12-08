@@ -9,17 +9,39 @@ Given the list [[1,1],2,[1,1]], return 10. (four 1's at depth 2, one 2 at depth 
 Example 2:
 Given the list [1,[4,[6]]], return 27. (one 1 at depth 1, one 4 at depth 2, and one 6 at depth 3; 1 + 4*2 + 6*3 = 27) 
 
+0 ~ 6 months6 months ~ 1 year1 year ~ 2 years
+
+Facebook
+|
+5
+
+LinkedIn
+|
+4
+
 /**
  * // This is the interface that allows for creating nested lists.
  * // You should not implement it, or speculate about its implementation
  * class NestedInteger {
  *   public:
+ *     // Constructor initializes an empty nested list.
+ *     NestedInteger();
+ *
+ *     // Constructor initializes a single integer.
+ *     NestedInteger(int value);
+ *
  *     // Return true if this NestedInteger holds a single integer, rather than a nested list.
  *     bool isInteger() const;
  *
  *     // Return the single integer that this NestedInteger holds, if it holds a single integer
  *     // The result is undefined if this NestedInteger holds a nested list
  *     int getInteger() const;
+ *
+ *     // Set this NestedInteger to hold a single integer.
+ *     void setInteger(int value);
+ *
+ *     // Set this NestedInteger to hold a nested list and adds a nested integer to it.
+ *     void add(const NestedInteger &ni);
  *
  *     // Return the nested list that this NestedInteger holds, if it holds a nested list
  *     // The result is undefined if this NestedInteger holds a single integer
@@ -28,17 +50,18 @@ Given the list [1,[4,[6]]], return 27. (one 1 at depth 1, one 4 at depth 2, and 
  */
 class Solution {
 public:
-    int depthSum(vector<NestedInteger>& nestedList, int level) {
-        int sum=0;
-        for (auto& n:nestedList) {
-            if (n.isInteger()) sum+=n.getInteger()*level;
-            else sum+=depthSum(n.getList(), level+1);
-        }
-        return sum;
-    }
-    
     int depthSum(vector<NestedInteger>& nestedList) {
-        return depthSum(nestedList, 1);
+        return dfs(nestedList, 1);
+    }
+private:
+    int dfs(vector<NestedInteger>& nestedList, int depth) {
+        int res=0;
+        for (auto& ni:nestedList) {
+            if (ni.isInteger()) res+=depth*ni.getInteger();
+            else res+=dfs(ni.getList(), depth+1);
+        }
+        return res;
     }
 };
+
 
