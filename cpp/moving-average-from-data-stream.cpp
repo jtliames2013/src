@@ -78,7 +78,7 @@ public:
 
     double next(int val) {
         if (count<size) count++;
-        sum-=data[tail];
+        if (count==size) sum-=data[tail];
         sum+=val;
         data[tail]=val;
         tail=(tail+1)%size;
