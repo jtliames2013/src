@@ -29,9 +29,15 @@ logger.shouldPrintMessage(11,"foo"); returns true;
 Credits:
 Special thanks to @memoryless for adding this problem and creating all test cases.
 
-Hide Company Tags Google
-Hide Tags Hash Table Design
-Hide Similar Problems (M) Design Hit Counter
+0 ~ 6 months6 months ~ 1 year1 year ~ 2 years
+
+Google
+|
+14
+
+Uber
+|
+2
 
 class Logger {
 public:
