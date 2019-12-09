@@ -10,6 +10,10 @@ Return the total number of ways you can paint the fence.
 Note:
 n and k are non-negative integers.
 
+Google
+|
+2
+
 If n == 1, there would be k-ways to paint.
 
 if n == 2, there would be two situations:
@@ -23,9 +27,12 @@ Since there is a rule: "no more than two adjacent fence posts have the same colo
 
 We can further analyze:
 
-from 2.1, since previous two are in the same color, next one you could only paint differently, and it would form one part of "paint differently" case in the n == 3 level, and the number of ways to paint this way would equal to same*(k-1).
-from 2.2, since previous two are not the same, you can either paint the same color this time (dif*1) ways to do so, or stick to paint differently (dif*(k-1)) times.
-Here you can conclude, when seeing back from the next level, ways to paint the same, or variable same would equal to dif*1 = dif, and ways to paint differently, variable dif, would equal to same*(k-1)+dif*(k-1) = (same + dif)*(k-1)
+from 2.1, since previous two are in the same color, next one you could only paint differently, and it would form one part of 
+"paint differently" case in the n == 3 level, and the number of ways to paint this way would equal to same*(k-1).
+from 2.2, since previous two are not the same, you can either paint the same color this time (dif*1) ways to do so, or stick 
+to paint differently (dif*(k-1)) times.
+Here you can conclude, when seeing back from the next level, ways to paint the same, or variable same would equal to 
+dif*1 = dif, and ways to paint differently, variable dif, would equal to same*(k-1)+dif*(k-1) = (same + dif)*(k-1)
 
 class Solution {
 public:
