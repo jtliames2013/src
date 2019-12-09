@@ -1,29 +1,50 @@
 252. Meeting Rooms
-DescriptionHintsSubmissionsSolutions
-Discuss   Editorial Solution Pick One
+Easy
+
+434
+
+30
+
+Favorite
+
+Share
 Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), determine if a person could attend all meetings.
 
-For example,
-Given [[0, 30],[5, 10],[15, 20]],
-return false.
+Example 1:
 
-/**
- * Definition for an interval.
- * struct Interval {
- *     int start;
- *     int end;
- *     Interval() : start(0), end(0) {}
- *     Interval(int s, int e) : start(s), end(e) {}
- * };
- */
+Input: [[0,30],[5,10],[15,20]]
+Output: false
+Example 2:
+
+Input: [[7,10],[2,4]]
+Output: true
+NOTE: input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
+
+Amazon
+|
+4
+
+Google
+|
+2
+
+Microsoft
+|
+2
+
+Bloomberg
+|
+2
+
 class Solution {
 public:
-    bool canAttendMeetings(vector<Interval>& intervals) {
-        if (intervals.empty()) return true;
-        sort(intervals.begin(), intervals.end(), [](Interval& a, Interval& b) { return a.start<b.start; });
-        
-        for (int i=1; i<intervals.size(); i++) {
-            if (intervals[i].start<intervals[i-1].end) return false;
+    bool canAttendMeetings(vector<vector<int>>& intervals) {
+        int n=intervals.size();
+        if (n==0) return true;
+        sort(intervals.begin(), intervals.end(), [](vector<int>& a, vector<int>& b){ return a[0]<b[0]; });
+
+        for (int i=0; i<n-1; ++i) {
+            if (intervals[i][1]>intervals[i+1][0]) return false;
         }
         return true;
     }
