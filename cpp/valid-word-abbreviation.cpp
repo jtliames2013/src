@@ -20,25 +20,29 @@ Given s = "apple", abbr = "a2e":
 
 Return false.
 
+Facebook
+|
+2
+
 class Solution {
 public:
     bool validWordAbbreviation(string word, string abbr) {
-        int m=word.size(), n=abbr.size();
-        int i=0, j=0;
+        int m=word.size(), n=abbr.size(), i=0, j=0;
         for (; i<m && j<n; ) {
-            if (isalpha(abbr[j])) {
-                if (abbr[j]!=word[i]) return false;
+            if (isdigit(abbr[j])) {
+                if (abbr[j]=='0') return false;
+                int num=0;
+                while (j<n && isdigit(abbr[j])) {
+                    num=num*10+abbr[j]-'0';
+                    j++;
+                }
+                i+=num;
+            } else {
+                if (word[i]!=abbr[j]) return false;
                 i++;
                 j++;
-            } else if (isdigit(abbr[j])) {
-                int k=j;
-                while (k<n && isdigit(abbr[k])) k++;
-                if (abbr[j]=='0') return false;
-                i+=stoi(abbr.substr(j, k-j));
-                j=k;
             }
         }
-        
         return i==m && j==n;
     }
 };
