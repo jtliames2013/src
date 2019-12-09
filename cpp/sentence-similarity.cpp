@@ -20,3 +20,27 @@ The length of pairs will not exceed 2000.
 The length of each pairs[i] will be 2.
 The length of each words[i] and pairs[i][j] will be in the range [1, 20].
 
+Google
+|
+6
+
+class Solution {
+public:
+    bool areSentencesSimilar(vector<string>& words1, vector<string>& words2, vector<vector<string>>& pairs) {
+        int n1=words1.size(), n2=words2.size();
+        if (n1!=n2) return false;
+        unordered_map<string, unordered_set<string>> mp;
+        for (auto& p:pairs) {
+            mp[p[0]].insert(p[1]);
+            mp[p[1]].insert(p[0]);
+        }
+        
+        for (int i=0; i<n1; ++i) {
+            if (words1[i]==words2[i]) continue;
+            if (mp.find(words1[i])==mp.end() ||
+                mp[words1[i]].find(words2[i])==mp[words1[i]].end()) return false;
+        }
+        return true;
+    }
+};
+
