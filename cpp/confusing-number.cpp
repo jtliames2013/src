@@ -53,6 +53,10 @@ Note:
 0 <= N <= 10^9
 After the rotation we can ignore leading zeros, for example if after rotation we have 0008 then this number is considered as just 8.
 
+Google
+|
+3
+
 class Solution {
 public:
     bool confusingNumber(int N) {
