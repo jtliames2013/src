@@ -24,6 +24,22 @@ Note:
 Number of operations won't exceed 10000.
 The last four operations won't be called when stack is empty.
 
+LinkedIn
+|
+13
+
+Lyft
+|
+6
+
+Bloomberg
+|
+2
+
+Amazon
+|
+2
+
 class MaxStack {
 public:
     /** initialize your data structure here. */
