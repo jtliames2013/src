@@ -12,6 +12,18 @@ Given word1 = "makes", word2 = "coding", return 1.
 Note:
 You may assume that word1 does not equal to word2, and word1 and word2 are both in the list.
 
+LinkedIn
+|
+6
+
+Paypal
+|
+2
+
+Oracle
+|
+2
+
 class Solution {
 public:
     int shortestDistance(vector<string>& words, string word1, string word2) {
