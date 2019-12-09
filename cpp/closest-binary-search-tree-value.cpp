@@ -1,10 +1,38 @@
-270. Closest Binary Search Tree Value 
+270. Closest Binary Search Tree Value
+Easy
+
+513
+
+38
+
+Favorite
+
+Share
 Given a non-empty binary search tree and a target value, find the value in the BST that is closest to the target.
 
 Note:
 
-    Given target value is a floating point.
-    You are guaranteed to have only one unique value in the BST that is closest to the target.
+Given target value is a floating point.
+You are guaranteed to have only one unique value in the BST that is closest to the target.
+Example:
+
+Input: root = [4,2,5,1,3], target = 3.714286
+
+    4
+   / \
+  2   5
+ / \
+1   3
+
+Output: 4
+
+Facebook
+|
+10
+
+Amazon
+|
+4
 
 1. Iterative
 /**
@@ -19,15 +47,14 @@ Note:
 class Solution {
 public:
     int closestValue(TreeNode* root, double target) {
-        if (root==NULL) return INT_MAX;
         long lower=LONG_MIN, upper=LONG_MAX;
         while (root) {
-            if (root->val<target) {
-                lower=root->val;
-                root=root->right;
-            } else {
+            if (target<root->val) {
                 upper=root->val;
                 root=root->left;
+            } else {
+                lower=root->val;
+                root=root->right;
             }
         }
         return abs(lower-target)<abs(upper-target)?lower:upper;
@@ -38,11 +65,10 @@ public:
 class Solution {
 public:
     int closestValue(TreeNode* root, double target) {
-        if (root==NULL) return INT_MAX;
-        TreeNode *n=root->val<target?root->right:root->left;
+        TreeNode* n=(target<root->val)?root->left:root->right;
         if (n==NULL) return root->val;
         int val=closestValue(n, target);
-        return abs(root->val-target)<abs(val-target)?root->val:val;
+        return abs(val-target)<abs(root->val-target)?val:root->val;
     }
 };
 
