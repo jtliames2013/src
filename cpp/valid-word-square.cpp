@@ -67,6 +67,10 @@ The third row reads "read" while the third column reads "lead".
 
 Therefore, it is NOT a valid word square.
 
+Google
+|
+LeetCode
+
 class Solution {
 public:
     bool validWordSquare(vector<string>& words) {
