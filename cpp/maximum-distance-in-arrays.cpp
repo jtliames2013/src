@@ -23,18 +23,19 @@ Subscribe to see which companies asked this question.
 
 Hide Tags Array Hash Table
 
-class Solution {
+Yahoo
+|
+LeetCode
+
+ass Solution {
 public:
     int maxDistance(vector<vector<int>>& arrays) {
-        int res=INT_MIN, minVal=arrays[0][0], maxVal=arrays[0].back();
-        
-        for (int i=1; i<arrays.size(); i++) {
-            res=max(res, abs(maxVal-arrays[i][0]));
-            res=max(res, abs(arrays[i].back()-minVal));
-            minVal=min(minVal, arrays[i][0]);
-            maxVal=max(maxVal, arrays[i].back());
+        int res=INT_MIN, m=arrays.size(), mn=arrays[0][0], mx=arrays[0].back();
+        for (int i=1; i<m; ++i) {
+            res=max({res, abs(mn-arrays[i].back()), abs(mx-arrays[i][0])});
+            mn=min(mn, arrays[i][0]);
+            mx=max(mx, arrays[i].back());
         }
-        
         return res;
     }
 };
