@@ -27,6 +27,10 @@ iterator.next(); // return 'e'
 iterator.hasNext(); // return false
 iterator.next(); // return ' '
 
+Google
+|
+LeetCode
+
 class StringIterator {
 public:
     void tryAdvance() {
