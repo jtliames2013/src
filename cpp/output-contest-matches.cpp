@@ -31,17 +31,19 @@ Note:
 The n is in range [2, 212].
 We ensure that the input n can be converted into the form 2k, where k is a positive integer.
 
+Google
+|
+5
+
 class Solution {
 public:
     string findContestMatch(int n) {
         vector<string> res(n);
-        for (int i=1; i<=n; i++) res[i-1]=to_string(i);
+        for (int i=0; i<n; ++i) res[i]=to_string(i+1);
         
-        while (n>1) {                        
-            for (int i=0; i<n; i++) res[i]="("+res[i]+","+res[n-i-1]+")";                
-            n/=2;
+        for (; n>1; n/=2) {
+            for (int i=0; i<n/2; ++i) res[i]="(" + res[i]+ "," + res[n-1-i] + ")";
         }
         return res[0];
     }
 };
-
