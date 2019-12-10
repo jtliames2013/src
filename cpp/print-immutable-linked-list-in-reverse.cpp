@@ -46,6 +46,7 @@ Constraints:
 The length of the linked list is between [1, 1000].
 The value of each node in the linked list is between [-1000, 1000].
 
+1.
 /**
  * // This is the ImmutableListNode's API interface.
  * // You should not implement it, or speculate about its implementation.
@@ -65,3 +66,28 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    void printLinkedListInReverse(ImmutableListNode* head) {
+        int count=0;
+        ImmutableListNode* n=head;
+        while (n) {
+            count++;
+            n=n->getNext();
+        }
+        print(head, count);
+    }
+private:
+    void print(ImmutableListNode* head, int count) {
+        if (count==0) return;
+        if (count==1) {
+            head->printValue();
+            return;
+        }
+        ImmutableListNode* mid=head;
+        for (int i=0; i<count/2; ++i) mid=mid->getNext();
+        print(mid, count-count/2);
+        print(head, count/2);
+    }
+};
