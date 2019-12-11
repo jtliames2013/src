@@ -1,4 +1,13 @@
-362. Design Hit Counter 
+362. Design Hit Counter
+Medium
+
+467
+
+47
+
+Favorite
+
+Share
 Design a hit counter which counts the number of hits received in the past 5 minutes.
 
 Each function accepts a timestamp parameter (in seconds granularity) and you may assume that calls are being made to the system in chronological order (ie, the timestamp is monotonically increasing). You may assume that the earliest timestamp starts at 1.
@@ -6,6 +15,7 @@ Each function accepts a timestamp parameter (in seconds granularity) and you may
 It is possible that several hits arrive roughly at the same time.
 
 Example:
+
 HitCounter counter = new HitCounter();
 
 // hit at timestamp 1.
@@ -31,13 +41,39 @@ counter.getHits(301);
 Follow up:
 What if the number of hits per second could be very large? Does your design scale?
 
-Credits:
-Special thanks to @elmirap for adding this problem and creating all test cases.
+Amazon
+|
+6
 
-Hide Company Tags Dropbox Google
-Hide Tags Design
-Hide Similar Problems (E) Logger Rate Limiter
+Google
+|
+3
 
+Oracle
+|
+3
+
+Microsoft
+|
+3
+
+Quip (Salesforce)
+|
+2
+
+Apple
+|
+2
+
+Booking.com
+|
+2
+
+Visa
+|
+2
+
+1. deque
 class HitCounter {
 public:
     /** Initialize your data structure here. */
@@ -123,9 +159,3 @@ private:
     int lastPos;
 };
 
-/**
- * Your HitCounter object will be instantiated and called as such:
- * HitCounter obj = new HitCounter();
- * obj.hit(timestamp);
- * int param_2 = obj.getHits(timestamp);
- */
