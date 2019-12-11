@@ -22,6 +22,10 @@ The length of input string is a positive integer and will not exceed 10,000
 For example, given IDIIDD we start with sorted sequence 1234567
 Then for each k continuous D starting at index i we need to reverse [i, i+k] portion of the sorted sequence.
 
+Google
+|
+2
+
 class Solution {
 public:
     vector<int> findPermutation(string s) {
