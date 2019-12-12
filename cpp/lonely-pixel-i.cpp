@@ -18,6 +18,10 @@ Explanation: All the three 'B's are black lonely pixels.
 Note:
 The range of width and height of the input 2D array is [1,500].
 
+Google
+|
+LeetCode
+
 class Solution {
 public:
     int findLonelyPixel(vector<vector<char>>& picture) {
