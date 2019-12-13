@@ -21,6 +21,11 @@ There will be at most 300 operations of Put or Retrieve.
 Year ranges from [2000,2017]. Hour ranges from [00,23].
 Output for Retrieve has no order required.
 
+Twitter
+|
+7
+
+1. list
 class LogSystem {
 public:
     LogSystem() {
@@ -60,4 +65,39 @@ private:
  * obj.put(id,timestamp);
  * vector<int> param_2 = obj.retrieve(s,e,gra);
  */
+
+2. map
+class LogSystem {
+public:
+    LogSystem() {
+        levels["Year"] = 0;
+        levels["Month"] = 1;
+        levels["Day"] = 2;
+        levels["Hour"] = 3;
+        levels["Minute"] = 4;
+        levels["Second"] = 5;
+    }
+
+    void put(int id, string timestamp) {
+        logs[timestamp].push_back(id);
+    }
+
+    vector<int> retrieve(string s, string e, string gra) {
+        vector<int> res;
+        int i=index[levels[gra]];
+        auto lower=logs.lower_bound(s.substr(0, i)+mn.substr(i));
+        if (lower==logs.end()) return res;
+        auto upper=logs.upper_bound(e.substr(0, i)+mx.substr(i));
+        for (auto iter=lower; iter!=upper; ++iter) {
+            for (auto i:iter->second) res.push_back(i);
+        }
+        return res;
+    }
+private:
+    map<string, vector<int>> logs;
+    unordered_map<string, int> levels;
+    const int index[6]={4,7,10,13,16,19};
+    string mn = "2000:01:01:00:00:00";
+    string mx = "2017:12:31:23:59:59";
+};
 
