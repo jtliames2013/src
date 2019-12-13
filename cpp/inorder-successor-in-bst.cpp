@@ -5,6 +5,14 @@ Note: If the given node has no in-order successor in the tree, return null.
 
 NOTE: when curr node value is greater than p's value, mark curr node as potential successor and go left. Otherwise go right.
 
+Google
+|
+2
+
+Quip (Salesforce)
+|
+2
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
