@@ -16,6 +16,14 @@ Given word1 = "makes", word2 = "makes", return 3.
 Note:
 You may assume word1 and word2 are both in the list.
 
+LinkedIn
+|
+2
+
+Microsoft
+|
+2
+
 NOTE: consider word1==word2 or not separately.
 
 class Solution {
