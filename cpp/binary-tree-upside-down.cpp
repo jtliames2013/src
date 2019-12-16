@@ -20,6 +20,10 @@ return the root of the binary tree [4,5,2,#,#,3,1].
 
 NOTE: Tree has only left depth, the right depth is at most 1.
 
+LinkedIn
+|
+3
+
 1. Recursive
 /**
  * Definition for a binary tree node.
