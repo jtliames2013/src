@@ -50,6 +50,7 @@ Amazon
 |
 3
 
+1. priority queue
 class Solution {
 public:
     int assignBikes(vector<vector<int>>& workers, vector<vector<int>>& bikes) {
@@ -73,6 +74,41 @@ public:
             }
         }
         return 0;
+    }
+};
+
+2. DP
+class Solution {
+public:
+    int assignBikes(vector<vector<int>>& workers, vector<vector<int>>& bikes) {
+        int res=INT_MAX, m=workers.size(), n=bikes.size();
+        vector<vector<int>> dp(m+1, vector<int>(1<<n, INT_MAX));
+        dp[0][0]=0;
+        for (int i=1; i<=m; ++i) {
+            for (int state=1; state<(1<<n); ++state) {
+                if (bitCount(state)!=i) continue;
+                for (int j=0; j<n; ++j) {
+                    if ((state & (1<<j))!=0) {
+                        int prev=state ^ (1<<j);
+                        int dist=abs(workers[i-1][0]-bikes[j][0])+abs(workers[i-1][1]-bikes[j][1]);
+                        dp[i][state]=min(dp[i][state], dp[i-1][prev]+dist);
+
+                        if (i==m) res=min(res, dp[i][state]);
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+private:
+    int bitCount(int n) {
+        int res=0;
+        while (n>0) {
+            n&=(n-1);
+            res++;
+        }
+        return res;
     }
 };
 
