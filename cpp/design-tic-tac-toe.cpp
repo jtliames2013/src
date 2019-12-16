@@ -47,6 +47,26 @@ toe.move(2, 1, 1); -> Returns 1 (player 1 wins)
 Follow up:
 Could you do better than O(n2) per move() operation?
 
+Amazon
+|
+14
+
+Microsoft
+|
+9
+
+TripleByte
+|
+9
+
+Facebook
+|
+3
+
+Uber
+|
+2
+
 class TicTacToe {
 public:
     /** Initialize your data structure here. */
