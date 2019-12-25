@@ -29,14 +29,23 @@ Note:
 1 <= N <= 50
 Answers will be in the range of 32-bit signed integer.
 
+Google
+|
+LeetCode
+
+Microsoft
+|
+LeetCode
+
 class Solution {
 public:
     int maxA(int N) {
         vector<int> dp(N+1);
-        for (int i=1; i<=N; i++) {
+        for (int i=1; i<=N; ++i) {
             dp[i]=i;
-            for (int j=3; j<i; j++) {
-                dp[i]=max(dp[i], dp[i-j]*(j-1));
+            for (int j=1; j<=i-3; ++j) {
+                // i-j=3, 2 times, i-j=4, 3 times, etc.
+                dp[i]=max(dp[i], dp[j]*(i-j-1));
             }
         }
         return dp[N];
