@@ -36,6 +36,10 @@ The function is monotonically increasing or decreasing. you can start with eithe
 
 当a=0，函数是单调递增或递减的，那么从前往后填和从后往前填都可以，我们可以将这种情况和a>0合并。
 
+Google
+|
+2
+
 class Solution {
 public:
     int calc(int num, int a, int b, int c) {
