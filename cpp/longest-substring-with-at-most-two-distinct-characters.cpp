@@ -1,13 +1,41 @@
-159. Longest Substring with At Most Two Distinct Characters  
-Given a string, find the length of the longest substring T that contains at most 2 distinct characters.
+159. Longest Substring with At Most Two Distinct Characters
+Medium
 
-For example, Given s = “eceba”,
+695
 
-T is "ece" which its length is 3.
+14
 
-Hide Company Tags Google
-Hide Tags Hash Table Two Pointers String
-Hide Similar Problems (M) Longest Substring Without Repeating Characters (H) Sliding Window Maximum (H) Longest Substring with At Most K Distinct Characters
+Add to List
+
+Share
+Given a string s , find the length of the longest substring t  that contains at most 2 distinct characters.
+
+Example 1:
+
+Input: "eceba"
+Output: 3
+Explanation: t is "ece" which its length is 3.
+Example 2:
+
+Input: "ccaabbb"
+Output: 5
+Explanation: t is "aabbb" which its length is 5.
+
+Google
+|
+7
+
+Amazon
+|
+3
+
+Microsoft
+|
+2
+
+Adobe
+|
+2
 
 class Solution {
 public:
