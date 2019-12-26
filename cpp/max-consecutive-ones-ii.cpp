@@ -15,6 +15,10 @@ The length of input array is a positive integer and will not exceed 10,000
 Follow up:
 What if the input numbers come in one by one as an infinite stream? In other words, you can't store all numbers coming from the stream as it's too large to hold in memory. Could you solve it efficiently?
 
+Google
+|
+2
+
 class Solution {
 public:
     int findMaxConsecutiveOnes(vector<int>& nums) {
