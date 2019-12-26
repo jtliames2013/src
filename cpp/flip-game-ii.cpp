@@ -8,6 +8,10 @@ For example, given s = "++++", return true. The starting player can guarantee a 
 Follow up:
 Derive your algorithm's runtime complexity. 
 
+Google
+|
+LeetCode
+
 class Solution {
 public:
     bool canWin(string s) {
