@@ -31,6 +31,10 @@ Rule 2, the rows have black pixel at column C = 1 are row 0, row 1 and row 2. Th
 Note:
 The range of width and height of the input 2D array is [1,200].
 
+Google
+|
+LeetCode
+
 class Solution {
 public:
     int findBlackPixel(vector<vector<char>>& picture, int N) {
