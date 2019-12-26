@@ -16,6 +16,10 @@ A solution is:
   ["a","z"]
 ]
 
+Facebook
+|
+3
+
 class Solution {
 public:
     string convert(string& str) {
