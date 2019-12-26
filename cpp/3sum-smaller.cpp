@@ -11,6 +11,10 @@ Return 2. Because there are two triplets which sums are less than 2:
 Follow up:
 Could you solve it in O(n2) runtime? 
 
+IBM
+|
+2
+
 class Solution {
 public:
     int threeSumSmaller(vector<int>& nums, int target) {
