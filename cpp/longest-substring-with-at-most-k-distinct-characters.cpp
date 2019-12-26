@@ -1,13 +1,45 @@
-340. Longest Substring with At Most K Distinct Characters  
+340. Longest Substring with At Most K Distinct Characters
+Hard
+
+762
+
+25
+
+Add to List
+
+Share
 Given a string, find the length of the longest substring T that contains at most k distinct characters.
 
-For example, Given s = “eceba” and k = 2,
+Example 1:
 
-T is "ece" which its length is 3.
+Input: s = "eceba", k = 2
+Output: 3
+Explanation: T is "ece" which its length is 3.
+Example 2:
 
-Hide Company Tags Google
-Hide Tags Hash Table String
-Hide Similar Problems (H) Longest Substring with At Most Two Distinct Characters
+Input: s = "aa", k = 1
+Output: 2
+Explanation: T is "aa" which its length is 2.
+
+Facebook
+|
+15
+
+Amazon
+|
+7
+
+Google
+|
+5
+
+Uber
+|
+4
+
+Microsoft
+|
+4
 
 1. use map
 class Solution {
