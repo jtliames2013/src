@@ -45,6 +45,18 @@ Both the ball and the destination exist on an empty space, and they will not be 
 The given maze does not contain border (like the red rectangle in the example pictures), but you could assume the border of the maze are all walls.
 The maze contains at least 2 empty spaces, and both the width and height of the maze won't exceed 100.
 
+Amazon
+|
+5
+
+Facebook
+|
+4
+
+Google
+|
+2
+
 1. BFS
 class Solution {
 public:
