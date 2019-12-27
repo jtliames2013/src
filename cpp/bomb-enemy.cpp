@@ -14,8 +14,17 @@ return 3. (Placing a bomb at (1,1) kills 3 enemies)
 Credits:
 Special thanks to @memoryless for adding this problem and creating all test cases.
 
-Hide Company Tags Google
-Hide Tags Dynamic Programming
+Uber
+|
+2
+
+Amazon
+|
+3
+
+Google
+|
+2
 
 Create a 2D array count, where count[i][j] indicates how many enemies can be bombed if placing a bomb here. For each row/column, use head to keep track of how many enemies can be bombed from the beginning to current position, use tail to record how many enemies can be bombed from the end to current position. Then update count[i][j].
 
