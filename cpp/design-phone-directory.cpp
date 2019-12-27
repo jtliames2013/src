@@ -33,6 +33,14 @@ directory.check(2);
 Hide Company Tags Google
 Hide Tags Linked List Design
 
+Dropbox
+|
+9
+
+Google
+|
+4
+
 class PhoneDirectory {
 public:
     /** Initialize your data structure here
