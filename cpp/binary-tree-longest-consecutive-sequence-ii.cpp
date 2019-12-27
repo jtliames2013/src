@@ -21,6 +21,10 @@ Output: 3
 Explanation: The longest consecutive path is [1, 2, 3] or [3, 2, 1].
 Note: All the values of tree nodes are in the range of [-1e7, 1e7].
 
+Facebook
+|
+2
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -32,33 +36,37 @@ Note: All the values of tree nodes are in the range of [-1e7, 1e7].
  */
 class Solution {
 public:
-    pair<int,int> getLongest(TreeNode* root) {
-        if (root==NULL) return {0,0};
-        int inc=1, dec=1;
-        if (root->left) {
-            pair<int,int> l=getLongest(root->left);
-            if (root->val==root->left->val-1) inc+=l.first;
-            else if (root->val==root->left->val+1) dec+=l.second;
-        }
-        
-        if (root->right) {
-            pair<int,int> r=getLongest(root->right);
-            if (root->val==root->right->val-1) inc=max(inc, r.first+1);
-            else if (root->val==root->right->val+1) dec=max(dec, r.second+1);
-        }
-        
-        len=max(len, inc+dec-1);
-            
-        return {inc, dec};
-    }
-    
-    
     int longestConsecutive(TreeNode* root) {
         len=0;
-        getLongest(root);
+        dfs(root);
         return len;
     }
 private:
+    vector<int> dfs(TreeNode* root) {
+        if (root==NULL) return {0, 0};
+        int inc=1, dec=1;
+        if (root->left) {
+            vector<int> l=dfs(root->left);
+            if (root->left->val==root->val+1) {
+                inc=1+l[0];
+            } else if (root->left->val==root->val-1) {
+                dec=1+l[1];
+            }
+        }
+        
+        if (root->right) {
+            vector<int> r=dfs(root->right);
+            if (root->right->val==root->val+1) {
+                inc=max(inc, 1+r[0]);
+            } else if (root->right->val==root->val-1) {
+                dec=max(dec, 1+r[1]);
+            }
+        }
+        
+        len=max(len, inc+dec-1);
+
+        return {inc, dec};
+    }
     int len;
 };
 
