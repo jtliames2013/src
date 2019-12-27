@@ -46,35 +46,38 @@ Both the ball and the destination exist on an empty space, and they will not be 
 The given maze does not contain border (like the red rectangle in the example pictures), but you could assume the border of the maze are all walls.
 The maze contains at least 2 empty spaces, and both the width and height of the maze won't exceed 100.
 
+Facebook
+|
+2
+
+struct Point {
+    int row;
+    int col;
+    int len;
+    Point(int r, int c, int l):row(r), col(c), len(l) {}
+};
+
 class Solution {
-public:    
-    struct Point {
-     	int row;
-        int col;
-        int len;
-        Point(int r, int c, int l):row(r), col(c), len(l) {}
-    };
-    
-    class Compare {
-    public:
-        bool operator()(Point& a, Point& b) {
-            return a.len>b.len;
-        }
-    };
-    
-    int bfs(vector<vector<int>>& maze, vector<int> start, vector<int>& destination, int m, int n) {
-        priority_queue<Point, vector<Point>, Compare> pq;
-        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));        
-        pq.push(Point(start[0], start[1], 0));
+public:
+    int shortestDistance(vector<vector<int>>& maze, vector<int>& start, vector<int>& destination) {
+        int m=maze.size(), n=maze[0].size();
+        return bfs(maze, start, destination, m, n);
+    }
+private:
+    int bfs(vector<vector<int>>& maze, vector<int>& start, vector<int>& destination, int m, int n) {
+        auto comp=[](Point& a, Point& b){ return a.len>b.len; };
+        priority_queue<Point, vector<Point>, decltype(comp)> pq(comp);
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+        pq.push({start[0], start[1], 0});
         
         while (!pq.empty()) {
-			Point f=pq.top();
+            auto t=pq.top();
             pq.pop();
-            if (dist[f.row][f.col]<=f.len) continue;
-            dist[f.row][f.col]=f.len;
+            if (dist[t.row][t.col]<=t.len) continue;
+            dist[t.row][t.col]=t.len;
             
-            for (int k=0; k<4; k++) {
-                Point np=f;
+            for (int k=0; k<4; ++k) {
+                Point np=t;
                 while (np.row>=0 && np.row<m && np.col>=0 && np.col<n && maze[np.row][np.col]!=1) {
                     np.row+=delta[k][0];
                     np.col+=delta[k][1];
@@ -85,23 +88,12 @@ public:
                 np.len--;
                 pq.push(np);
             }
-        }        
-
-        if (dist[destination[0]][destination[1]]==INT_MAX) {
-            return -1;
         }
+
+        if (dist[destination[0]][destination[1]]==INT_MAX) return -1;
         return dist[destination[0]][destination[1]];
     }
-    
-    int shortestDistance(vector<vector<int>>& maze, vector<int>& start, vector<int>& destination) {
-        int m=maze.size();
-        if (m==0) return false;
-        int n=maze[0].size();
-        if (n==0) return false;
-                
-        return bfs(maze, start, destination, m, n);
-    }
-private:
-    const int delta[4][2]={{-1,0}, {1,0}, {0,-1}, {0,1}};            
+
+    const int delta[4][2]={{-1,0}, {1,0}, {0,-1}, {0,1}};
 };
 
