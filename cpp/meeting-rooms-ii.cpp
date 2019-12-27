@@ -1,43 +1,134 @@
-253. Meeting Rooms II 
+253. Meeting Rooms II
+Medium
+
+1968
+
+32
+
+Add to List
+
+Share
 Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), find the minimum number of conference rooms required.
 
-For example,
-Given [[0, 30],[5, 10],[15, 20]],
-return 2.
+Example 1:
 
-Hide Company Tags Google Facebook
-Hide Tags Heap Greedy Sort
-Hide Similar Problems (H) Merge Intervals (E) Meeting Rooms
+Input: [[0, 30],[5, 10],[15, 20]]
+Output: 2
+Example 2:
 
-NOTE: sort an array of both start and end points. if start of point 1 equals end of point 2, then point 2 comes first.
+Input: [[7,10],[2,4]]
+Output: 1
+NOTE: input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
 
-/**
- * Definition for an interval.
- * struct Interval {
- *     int start;
- *     int end;
- *     Interval() : start(0), end(0) {}
- *     Interval(int s, int e) : start(s), end(e) {}
- * };
- */
+Facebook
+|
+21
+
+Amazon
+|
+20
+
+Microsoft
+|
+10
+
+Bloomberg
+|
+10
+
+Uber
+|
+9
+
+Google
+|
+7
+
+Oracle
+|
+7
+
+Lyft
+|
+3
+
+Quora
+|
+2
+
+Postmates
+|
+2
+
+Citrix
+|
+2
+
+Apple
+|
+3
+
+Atlassian
+|
+3
+
+Yelp
+|
+2
+
+Booking.com
+|
+2
+
+Paypal
+|
+2
+
+Drawbridge
+|
+2
+
+Visa
+|
+2
+
+GoDaddy
+|
+2
+
+Snapchat
+|
+3
+
+Cisco
+|
+3
+
+Baidu
+|
+2
+
+Walmart Labs
+|
+2
+
 class Solution {
 public:
-    int minMeetingRooms(vector<Interval>& intervals) {
+    int minMeetingRooms(vector<vector<int>>& intervals) {
         if (intervals.empty()) return 0;
-        vector<pair<int,bool>> points;
-        for (auto& i:intervals) {
-            points.push_back({i.start, true});
-            points.push_back({i.end, false});
-        }
-        sort(points.begin(), points.end(), [](pair<int,bool>& a, pair<int,bool>& b) { return a.first<b.first || (a.first==b.first && a.second==false); } );
-        
         int res=0, count=0;
+        vector<pair<int, bool>> points;
+        for (auto& i:intervals) {
+            points.push_back({i[0], true});
+            points.push_back({i[1], false});
+        }
+        sort(points.begin(), points.end(), [](pair<int, bool>& a, pair<int, bool>& b){ return a.first<b.first || (a.first==b.first && a.second==false); });
+        
         for (auto& p:points) {
             if (p.second) count++;
             else count--;
             res=max(res, count);
         }
-        
         return res;
     }
 };
