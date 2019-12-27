@@ -8,6 +8,14 @@ Find all strobogrammatic numbers that are of length = n.
 For example,
 Given n = 2, return ["11","69","88","96"].
 
+Facebook
+|
+6
+
+Google
+|
+2
+
 class Solution {
 public:
     void dfs(vector<string>& res, string& str, int start, int end) {
