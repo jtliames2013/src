@@ -11,6 +11,10 @@ Input:
 Output: 3
 Hint: The number of elements in the given matrix will not exceed 10,000.
 
+Google
+|
+2
+
 class Solution {
 public:
     int longestLine(vector<vector<int>>& M) {
