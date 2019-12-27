@@ -31,6 +31,14 @@ maximize j - i
 subject to sums[j] - sums[i] = k
 This is only a variant of the famous problem two sum. The solution is almost the same
 
+Facebook
+|
+3
+
+Google
+|
+3
+
 class Solution {
 public:
     int maxSubArrayLen(vector<int>& nums, int k) {
