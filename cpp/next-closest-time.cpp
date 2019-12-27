@@ -16,45 +16,51 @@ Input: "23:59"
 Output: "22:22"
 Explanation: The next closest time choosing from digits 2, 3, 5, 9, is 22:22. It may be assumed that the returned time is next day's time since it is smaller than the input time numerically.
 
+Google
+|
+2
+
+Facebook
+|
+3
+
+Uber
+|
+2
+
 class Solution {
 public:
-    void dfs(string& res, vector<int>& digits, string output, int start, int curr, int& diff) {
-        if (start==4) {
-            int val=stoi(output.substr(0,2))*60+stoi(output.substr(2,2));
-            if (val==curr) return;
-            int d=val>curr?(val-curr):(val+1440-curr);
-            if (d<diff) {
-                diff=d;
-                res=output.substr(0,2)+":"+output.substr(2,2);
-            }
-            return;
+    string nextClosestTime(string time) {
+        vector<char> digits;
+        for (int i=0; i<time.size(); ++i) {
+            if (time[i]!=':') digits.push_back(time[i]);
         }
+        vector<char> curr=digits, next=digits;
+        vector<char> limit={'2', curr[0]=='2'?'3':'9', '5', '9'};
         
-        for (int i=0; i<digits.size(); i++) {
-            string str=output;
-            str.push_back(digits[i]+'0');
-            if (start==0 && digits[i]>2) continue;
-            if (start==1 && stoi(str.substr(0,2))>23) continue;
-            if (start==2 && digits[i]>5) continue;
-            if (start==3 && stoi(str.substr(2,2))>59) continue;
-            dfs(res, digits, str, start+1, curr, diff);
+        sort(digits.begin(), digits.end());
+        for (int i=digits.size()-1; i>=0; --i) {
+            next[i]=getNext(digits, curr[i], limit[i]);
+            if (next[i]>curr[i]) return convert(next);
         }
+        return convert(next);
+    }
+private:
+    char getNext(vector<char> digits, char curr, char limit) {
+        for (auto d:digits) {
+            if (d>curr && d<=limit) return d;
+        }
+        return digits[0];
     }
     
-    string nextClosestTime(string time) {
+    string convert(vector<char>& v) {
         string res;
-        unordered_set<int> st;
-        for (int i=0; i<time.size(); i++) {
-            if (time[i]!=':') st.insert(time[i]-'0');
-        }
-        if (st.size()==1) return time;
-        
-        vector<int> digits(st.begin(), st.end());
-        int curr=stoi(time.substr(0,2))*60+stoi(time.substr(3,2));
-        string output;
-        int diff=INT_MAX;
-        dfs(res, digits, output, 0, curr, diff);
-        
+        res+=v[0];
+        res+=v[1];
+        res+=":";
+        res+=v[2];
+        res+=v[3];
         return res;
     }
 };
+
