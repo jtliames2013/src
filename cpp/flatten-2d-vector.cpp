@@ -23,9 +23,9 @@ Common logic in two different places should be refactored into a common method.
 Follow up:
 As an added challenge, try to code it using only iterators in C++ or iterators in Java.
 
-Hide Company Tags Google Airbnb Twitter Zenefits
-Hide Tags Design
-Hide Similar Problems (M) Binary Search Tree Iterator (M) Zigzag Iterator (M) Peeking Iterator (M) Flatten Nested List Iterator
+Airbnb
+|
+6
 
 1. Use index
 class Vector2D {
