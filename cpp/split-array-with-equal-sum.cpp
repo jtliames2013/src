@@ -19,6 +19,10 @@ Note:
 1 <= n <= 2000.
 Elements in the given array will be in range [-1,000,000, 1,000,000].
 
+Alibaba
+|
+LeetCode
+
 class Solution {
 public:
     bool splitArray(vector<int>& nums) {
@@ -34,7 +38,7 @@ public:
                 if (sums[i-1]==sums[j-1]-sums[i]) st.insert(sums[i-1]);
             }
             
-            for (int k=j+2; k<n; k++) {
+            for (int k=j+2; k<n-1; k++) {
                 if (sums[n-1]-sums[k]==sums[k-1]-sums[j] && st.find(sums[k-1]-sums[j])!=st.end()) return true;
             }
         }
