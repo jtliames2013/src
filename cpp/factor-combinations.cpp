@@ -35,6 +35,10 @@ output:
   [4, 8]
 ]
 
+LinkedIn
+|
+4
+
 class Solution {
 public:
     void dfs(vector<vector<int>>& res, vector<int>& output, int n, int start) {
