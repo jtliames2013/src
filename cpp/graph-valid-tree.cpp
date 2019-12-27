@@ -14,9 +14,13 @@ According to the definition of tree on Wikipedia: “a tree is an undirected gra
 
 Note: you can assume that no duplicate edges will appear in edges. Since all edges are undirected, [0, 1] is the same as [1, 0] and thus will not appear together in edges.
 
-Hide Company Tags Google Facebook Zenefits
-Hide Tags Depth-first Search Breadth-first Search Graph Union Find
-Hide Similar Problems (M) Course Schedule (M) Number of Connected Components in an Undirected Graph
+LinkedIn
+|
+2
+
+Amazon
+|
+2
 
 // NOTE: visited has 3 states, white, gray, and black
 
