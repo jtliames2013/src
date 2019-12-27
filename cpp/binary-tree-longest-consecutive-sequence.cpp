@@ -25,6 +25,14 @@ Longest consecutive sequence path is 3-4-5, so return 3.
 
 Longest consecutive sequence path is 2-3,not3-2-1, so return 2. 
 
+Google
+|
+4
+
+Facebook
+|
+2
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -36,15 +44,15 @@ Longest consecutive sequence path is 2-3,not3-2-1, so return 2.
  */
 class Solution {
 public:
-    int dfs(TreeNode* curr, TreeNode* prev, int len) {
-        if (curr==NULL) return len;
-        if (prev && prev->val==curr->val-1) len++;
-        else len=1;
-        return max(len, max(dfs(curr->left, curr, len), dfs(curr->right, curr, len)));
-    }
-    
     int longestConsecutive(TreeNode* root) {
         return dfs(root, NULL, 0);
+    }
+private:
+    int dfs(TreeNode* root, TreeNode* parent, int len) {
+        if (root==NULL) return 0;
+        if (parent && parent->val==root->val-1) len++;
+        else len=1;
+        return max({len, dfs(root->left, root, len), dfs(root->right, root, len)});
     }
 };
 
