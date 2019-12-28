@@ -57,9 +57,46 @@ return its vertical order traversal as:
   [8,2],
   [7]
 ]
-Hide Company Tags Google Snapchat Facebook
-Hide Tags Hash Table
-Hide Similar Problems (E) Binary Tree Level Order Traversal
+
+Facebook
+|
+8
+
+Amazon
+|
+5
+
+Databricks
+|
+5
+
+Oracle
+|
+2
+
+ByteDance
+|
+2
+
+Mathworks
+|
+2
+
+Microsoft
+|
+5
+
+Bloomberg
+|
+3
+
+Google
+|
+LeetCode
+
+Snapchat
+|
+LeetCode
 
 /**
  * Definition for a binary tree node.
