@@ -7,6 +7,38 @@ You are given a helper function bool knows(a, b) which tells you whether A knows
 
 Note: There will be exactly one celebrity if he/she is in the party. Return the celebrity's label if there is a celebrity in the party. If there is no celebrity, return -1. 
 
+Microsoft
+|
+5
+
+Amazon
+|
+5
+
+Pinterest
+|
+4
+
+Facebook
+|
+4
+
+LinkedIn
+|
+3
+
+Apple
+|
+2
+
+Palantir Technologies
+|
+2
+
+Google
+|
+3
+
 // Forward declaration of the knows API.
 bool knows(int a, int b);
 
@@ -18,8 +50,10 @@ public:
             if (knows(l, r)) l++;
             else r--;
         }
-        
-    	// now l is a candidate because everyone else know another person        
+
+        // now l is a candidate because
+        // 1. everyone before l knows someone so can't be celebrity
+        // 2. l does not know everyone after l so can't be celerity too
         for (int i=0; i<n; i++) {
             if (i!=l) {
                 if (knows(l, i) || !knows(i, l)) return -1;
@@ -41,7 +75,9 @@ public:
             if (knows(c, i)) c=i;
         }
 
-    	// now c is a candidate because everyone else know another person        
+        // now c is a candidate because
+        // 1. everyone before c knows someone so can't be celebrity
+        // 2. c does not know everyone after c so can't be celerity too
         for (int i=0; i<n; i++) {
             if (i!=c) {
                 if (knows(c, i) || !knows(i, c)) return -1;
