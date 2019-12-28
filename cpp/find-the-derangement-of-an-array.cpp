@@ -14,6 +14,14 @@ Explanation: The original array is [1,2,3]. The two derangements are [2,3,1] and
 Note:
 n is in the range of [1, 106].
 
+Amazon
+|
+2
+
+IXL
+|
+LeetCode
+
 https://en.wikipedia.org/wiki/Derangement#Counting_derangements
 
 class Solution {
