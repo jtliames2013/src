@@ -13,6 +13,22 @@ Could you do it in-place without allocating extra space?
 
 Related problem: Rotate Array
 
+Microsoft
+|
+3
+
+Facebook
+|
+2
+
+Amazon
+|
+LeetCode
+
+Uber
+|
+LeetCode
+
 class Solution {
 public:
     void reverseWords(string &s) {
