@@ -49,8 +49,29 @@ snake.move("U"); -> Returns -1 (Game over because snake collides with border)
 Credits:
 Special thanks to @elmirap for adding this problem and creating all test cases.
 
-Hide Company Tags Google
-Hide Tags Design Queue
+Amazon
+|
+4
+
+Google
+|
+3
+
+Uber
+|
+2
+
+Facebook
+|
+2
+
+Salesforce
+|
+2
+
+Zillow
+|
+2
 
 class SnakeGame {
 public:
@@ -59,12 +80,12 @@ public:
         @param height - screen height 
         @param food - A list of food positions
         E.g food = [[1,1], [1,0]] means the first food is positioned at [1,1], the second is at [1,0]. */
-    SnakeGame(int width, int height, vector<pair<int, int>> food) {
+    SnakeGame(int width, int height, vector<vector<int>>& food) {
         this->width=width;
         this->height=height;
-        snake.push_front({0,0});
-        st.insert({0,0});
         this->food=food;
+        snake.push_back({0, 0});
+        st.insert({0, 0});
         idx=0;
     }
     
@@ -73,16 +94,15 @@ public:
         @return The game's score after the move. Return -1 if game over. 
         Game over when snake crosses the screen boundary or bites its body. */
     int move(string direction) {
-        pair<int,int> delta;
-        if (direction=="U") delta={-1,0};
-        else if (direction=="L") delta={0,-1};
-        else if (direction=="R") delta={0,1};
-        else delta={1,0};
-        pair<int,int> next;
-        next.first=snake.front().first+delta.first;
-        next.second=snake.front().second+delta.second;
-        if (next.first<0 || next.first>=height || next.second<0 || next.second>=width) return -1;
+        vector<int> delta(2), next(2);
+        if (direction=="U") delta={-1, 0};
+        else if (direction=="L") delta={0, -1};
+        else if (direction=="R") delta={0, 1};
+        else delta={1, 0};
         
+        next[0]=snake.front()[0]+delta[0];
+        next[1]=snake.front()[1]+delta[1];
+        if (next[0]<0 || next[0]>=height || next[1]<0 || next[1]>=width) return -1;
         if (idx<food.size() && next==food[idx]) {
             idx++;
         } else {
@@ -90,23 +110,24 @@ public:
             snake.pop_back();
             if (st.find(next)!=st.end()) return -1;
         }
-        snake.push_front(next);
         st.insert(next);
+        snake.push_front(next);
         
         return idx;
     }
 private:
     int width;
     int height;
-    deque<pair<int,int>> snake;
-    vector<pair<int,int>> food;
-    set<pair<int,int>> st;
+    vector<vector<int>> food;
+    deque<vector<int>> snake;
+    set<vector<int>> st;
     int idx;
 };
 
 /**
  * Your SnakeGame object will be instantiated and called as such:
- * SnakeGame obj = new SnakeGame(width, height, food);
- * int param_1 = obj.move(direction);
+ * SnakeGame* obj = new SnakeGame(width, height, food);
+ * int param_1 = obj->move(direction);
  */
+
 
