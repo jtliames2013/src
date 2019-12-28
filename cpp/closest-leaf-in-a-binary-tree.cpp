@@ -48,4 +48,73 @@ root represents a binary tree with at least 1 node and at most 1000 nodes.
 Every node has a unique node.val in range [1, 1000].
 There exists some node in the given binary tree for which node.val == k.
 
+Databricks
+|
+3
+
+Google
+|
+4
+
+Amazon
+|
+2
+
+Facebook
+|
+2
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int findClosestLeaf(TreeNode* root, int k) {
+        unordered_map<TreeNode*, TreeNode*> edges;
+        TreeNode* target=dfs(root, k, edges);
+        queue<TreeNode*> q;
+        unordered_set<TreeNode*> visited;
+        q.push(target);
+        visited.insert(target);
+        
+        while (!q.empty()) {
+            auto f=q.front();
+            q.pop();
+            if (f->left==NULL && f->right==NULL) return f->val;
+            
+            vector<TreeNode*> v;
+            if (f->left && visited.find(f->left)==visited.end()) v.push_back(f->left);
+            if (f->right && visited.find(f->right)==visited.end()) v.push_back(f->right);
+            if (edges.find(f)!=edges.end() && visited.find(edges[f])==visited.end()) v.push_back(edges[f]);
+            
+            for (auto& n:v) {
+                q.push(n);
+                visited.insert(n);
+            }
+        }
+        return 0;
+    }
+private:
+    TreeNode* dfs(TreeNode* root, int k, unordered_map<TreeNode*, TreeNode*>& edges) {
+        if (root==NULL) return NULL;
+        if (root->val==k) return root;
+        TreeNode* l=dfs(root->left, k, edges);
+        if (l) {
+            edges[root->left]=root;
+            return l;
+        }
+        TreeNode* r=dfs(root->right, k, edges);
+        if (r) {
+            edges[root->right]=root;
+            return r;
+        }
+        return NULL;
+    }
+};
 
