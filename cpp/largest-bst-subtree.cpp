@@ -17,8 +17,25 @@ You can recursively use algorithm similar to 98. Validate Binary Search Tree at 
 Follow up:
 Can you figure out ways to solve it with O(n) time complexity?
 
-Hide Company Tags Microsoft
-Hide Tags Tree
+Lyft
+|
+3
+
+Apple
+|
+2
+
+Amazon
+|
+5
+
+Microsoft
+|
+2
+
+Google
+|
+3
 
 /**
  * Definition for a binary tree node.
@@ -29,33 +46,41 @@ Hide Tags Tree
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+struct Element {
+    int lower;
+    int upper;
+    int count;
+    bool isBST;
+    Element(int l, int u, int c, bool b):lower(l), upper(u), count(c), isBST(b) {}
+};
+
 class Solution {
 public:
-    struct Element {
-        int count;
-        int lower;
-        int upper;
-        bool isBST;
-        Element(int c, int l, int u, bool b):count(c), lower(l), upper(u), isBST(b) {}
-    };
-    
-    Element dfs(TreeNode* node) {
-        // NULL node has lower as INT_MAX and upper as INT_MIN so that a single node can have the right min and max.
-        if (node==NULL) return Element(0, INT_MAX, INT_MIN, true);
-        Element l=dfs(node->left);
-        Element r=dfs(node->right);
-        
-        if (l.isBST==false || r.isBST==false || node->val<=l.upper || node->val>=r.lower) {
-            return Element(max(l.count, r.count), 0, 0, false);
-        }
-        
-        // NULL node has lower as INT_MAX and upper as INT_MIN
-        return Element(l.count+r.count+1, min(l.lower, node->val), max(r.upper, node->val), true);
-    }
-    
     int largestBSTSubtree(TreeNode* root) {
-        Element e=dfs(root);
-        return e.count;
+        res=0;
+        dfs(root);
+        return res;
     }
+private:
+     Element dfs(TreeNode* root) {
+         if (root==NULL) return Element(0, 0, 0, true);
+         int lower=0, upper=0, count=0;
+         bool isBST=false;
+         Element l=dfs(root->left), r=dfs(root->right);
+         if (l.isBST && r.isBST) {
+             if ((l.count==0 || root->val>l.upper) &&
+                 (r.count==0 || root->val<r.lower)) {
+                 lower=l.count==0?root->val:l.lower;
+                 upper=r.count==0?root->val:r.upper;
+                 count=1+l.count+r.count;
+                 isBST=true;
+             }
+         }
+
+         if (isBST) res=max(res, count);
+         return Element(lower, upper, count, isBST);
+     }
+
+    int res;
 };
 
