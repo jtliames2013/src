@@ -19,6 +19,14 @@ Note:
 The given dict won't contain duplicates, and its length won't exceed 100.
 All the strings in input have length in range [1, 1000].
 
+Facebook
+|
+2
+
+Google
+|
+5
+
 class Solution {
 public:
     string addBoldTag(string s, vector<string>& dict) {
