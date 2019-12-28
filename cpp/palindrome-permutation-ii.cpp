@@ -14,6 +14,14 @@ To generate all distinct permutations of a (half of) string, use a similar appro
 Hide Tags Backtracking
 Hide Similar Problems (M) Next Permutation (M) Permutations II (E) Palindrome Permutation
 
+Uber
+|
+4
+
+Amazon
+|
+2
+
 1. map
 class Solution {
 public:
