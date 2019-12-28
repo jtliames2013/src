@@ -31,18 +31,16 @@ LeetCode
 
 class Solution {
 public:
-    void reverseWords(string &s) {
-        if (s.empty()) return;
+    void reverseWords(vector<char>& s) {
+        int n=s.size();
         reverse(s.begin(), s.end());
-        
-        for (int i=0; i<s.size();) {
-            if (s[i]!=' ') {
-                int j=i;
-                while (j<s.size() && s[j]!=' ') j++;
+        for (int i=0; i<n; ) {
+            if (s[i]==' ') i++;
+            else {
+                int j=i+1;
+                while (j<n && s[j]!=' ') j++;
                 reverse(s.begin()+i, s.begin()+j);
                 i=j;
-            } else {
-                i++;
             }
         }
     }
