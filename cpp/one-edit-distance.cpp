@@ -64,7 +64,7 @@ Snapchat
 class Solution {
 public:
     bool isOneEditDistance(string s, string t) {
-        int m=s.size(),  n=t.size(), delta=abs(m-n), len=min(m, n);
+        int m=s.size(), n=t.size(), delta=abs(m-n), len=min(m, n);
         if (delta>1) return false;
         if (delta==1) {
             for (int i=0; i<len; ++i) {
