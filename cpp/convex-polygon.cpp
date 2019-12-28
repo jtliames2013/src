@@ -23,6 +23,10 @@ Answer: False
 
 Explanation:
 
+Google
+|
+LeetCode
+
 class Solution {
 public:
     long det2(const vector<vector<int>>& A) {
