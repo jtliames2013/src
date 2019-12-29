@@ -28,9 +28,26 @@ Note:
 The string may contain any possible characters out of 256 valid ascii characters. Your algorithm should be generalized enough to work on any possible characters.
 Do not use class member/global/static variables to store states. Your encode and decode algorithms should be stateless.
 Do not rely on any library method such as eval or serialize methods. You should implement your own encode/decode algorithm.
-Hide Company Tags Google
-Hide Tags String
-Hide Similar Problems (E) Count and Say (H) Serialize and Deserialize Binary Tree
+
+Google
+|
+6
+
+Square
+|
+3
+
+Microsoft
+|
+2
+
+Bloomberg
+|
+2
+
+Twitter
+|
+2
 
 class Codec {
 public:
@@ -39,22 +56,21 @@ public:
     string encode(vector<string>& strs) {
         string res;
         for (auto& s:strs) {
-            res+=s+'\0';
+            res+=to_string(s.size())+"@"+s;
         }
-        
         return res;
     }
 
     // Decodes a single string to a list of strings.
     vector<string> decode(string s) {
         vector<string> res;
-        for (int i=0, start=0; i<s.size(); i++) {
-            if (s[i]=='\0') {
-                res.push_back(s.substr(start, i-start));
-                start=i+1;
-            }
+        int pos=0, start=0;
+        while (start<s.size()) {
+            pos=s.find_first_of('@', start);
+            int len=stoi(s.substr(start, pos-start));
+            res.push_back(s.substr(pos+1, len));
+            start=pos+len+1;
         }
-        
         return res;
     }
 };
