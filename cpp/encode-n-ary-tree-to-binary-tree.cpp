@@ -98,7 +98,7 @@ public:
     Node* decode(TreeNode* root) {
         if (root==NULL) return NULL;
         Node* n=new Node(root->val);
-        TreeNode *t=root->left;
+        TreeNode* t=root->left;
         while (t) {
             n->children.push_back(decode(t));
             t=t->right;
