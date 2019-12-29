@@ -36,9 +36,9 @@ public:
             l=min(l, p[0]);
             r=max(r, p[0]);
         }
-        double mid=(l+r)/2.0;
+
         for (auto& iter:st) {
-            if (st.find({2*mid-iter[0], iter[1]})==st.end()) return false;
+            if (st.find({l+r-iter[0], iter[1]})==st.end()) return false;
         }
         return true;
     }
