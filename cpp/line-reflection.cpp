@@ -18,25 +18,28 @@ For each point, make sure that it has a reflected point in the opposite side.
 Credits:
 Special thanks to @memoryless for adding this problem and creating all test cases.
 
-Hide Company Tags Google
-Hide Tags Hash Table Math
-Hide Similar Problems (H) Max Points on a Line
+Amazon
+|
+2
+
+Google
+|
+LeetCode
 
 class Solution {
 public:
-    bool isReflected(vector<pair<int, int>>& points) {
-        set<pair<int, int>> st;
+    bool isReflected(vector<vector<int>>& points) {
+        set<vector<int>> st;
         int l=INT_MAX, r=INT_MIN;
         for (auto& p:points) {
             st.insert(p);
-            l=min(l, p.first);
-            r=max(r, p.first);
+            l=min(l, p[0]);
+            r=max(r, p[0]);
         }
         double mid=(l+r)/2.0;
-        for (auto& p:st) {
-            if (st.find({2*mid-p.first, p.second})==st.end()) return false;
+        for (auto& iter:st) {
+            if (st.find({2*mid-iter[0], iter[1]})==st.end()) return false;
         }
-        
         return true;
     }
 };
