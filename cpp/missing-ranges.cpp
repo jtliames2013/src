@@ -4,9 +4,21 @@ Given a sorted integer array where the range of elements are [lower, upper] incl
 
 For example, given [0, 1, 3, 50, 75], lower = 0 and upper = 99, return ["2", "4->49", "51->74", "76->99"].
 
-Hide Company Tags Google
-Hide Tags Array
-Hide Similar Problems (M) Summary Ranges
+Google
+|
+5
+
+Amazon
+|
+2
+
+Facebook
+|
+2
+
+Oracle
+|
+2
 
 class Solution {
 public:
