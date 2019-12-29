@@ -54,6 +54,18 @@ had--
 
 The character '-' signifies an empty space on the screen.
 
+Robinhood
+|
+4
+
+Google
+|
+8
+
+Uber
+|
+2
+
 Explanation:
 
 Say sentence=["abc", "de", "f], rows=4, and cols=6.
