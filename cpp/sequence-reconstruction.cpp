@@ -45,6 +45,10 @@ The seqs parameter had been changed to a list of list of strings (instead of a 2
 
 It is sufficient to just check if every two adjacent elements also appears adjacently in the sub-sequences.
 
+Google
+|
+2
+
 class Solution {
 public:
     bool sequenceReconstruction(vector<int>& org, vector<vector<int>>& seqs) {
