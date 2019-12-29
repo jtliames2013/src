@@ -35,6 +35,10 @@ Hide Similar Problems (E) Two Sum III - Data structure design (M) Generalized Ab
 3) [“dog”, “dig”]; isUnique(“dog”);   
 //False, because if we have more than one word match to the same abbreviation, this abbreviation will never be unique.
 
+Google
+|
+2
+
 class ValidWordAbbr {
 public:
     string getAbbr(string& s) {
