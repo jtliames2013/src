@@ -9,12 +9,22 @@ For example, given three people living at (0,0), (0,4), and (2,2):
 The point (0,2) is an ideal meeting point, as the total travel distance of 2+2+2=6 is minimal. So return 6.
 Hint:
 1. Try to solve it in one dimension first. How can this solution apply to the two dimension case?
-Hide Company Tags
- Twitter
-Hide Tags
- Math Sort
-Hide Similar Problems
- (H) Shortest Distance from All Buildings
+
+Snapchat
+|
+4
+
+Google
+|
+2
+
+Facebook
+|
+2
+
+Twitter
+|
+LeetCode
 
 //Finding the best meeting point in a 2D grid seems difficult. Let us take a step back and solve the 1D case which is much simpler. Notice that the Manhattan distance is the sum of two independent variables. Therefore, once we solve the 1D case, we can solve the 2D case as two independent 1D problems.
 //
