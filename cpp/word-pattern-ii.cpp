@@ -1,18 +1,47 @@
-291. Word Pattern II  
+291. Word Pattern II
+Hard
+
+363
+
+24
+
+Add to List
+
+Share
 Given a pattern and a string str, find if str follows the same pattern.
 
 Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty substring in str.
 
-Examples:
-pattern = "abab", str = "redblueredblue" should return true.
-pattern = "aaaa", str = "asdasdasdasd" should return true.
-pattern = "aabb", str = "xyzabcxzyabc" should return false.
+Example 1:
+
+Input: pattern = "abab", str = "redblueredblue"
+Output: true
+Example 2:
+
+Input: pattern = pattern = "aaaa", str = "asdasdasdasd"
+Output: true
+Example 3:
+
+Input: pattern = "aabb", str = "xyzabcxzyabc"
+Output: false
 Notes:
 You may assume both pattern and str contains only lowercase letters.
 
-Hide Company Tags Dropbox Uber
-Hide Tags Backtracking
-Hide Similar Problems (E) Word Pattern
+Uber
+|
+4
+
+Pony.ai
+|
+2
+
+Dropbox
+|
+2
+
+Facebook
+|
+2
 
 //We can solve this problem using backtracking, we just have to keep trying to use a character in the pattern to match different length of substrings in the input string, keep trying till we go through the input string and the pattern.
 //
@@ -32,33 +61,32 @@ Hide Similar Problems (E) Word Pattern
 
 class Solution {
 public:
-    bool findMatch(unordered_map<char,string>& mp, unordered_set<string>& st, string& pattern, int pIdx, string& str, int sIdx) {
+    bool wordPatternMatch(string pattern, string str) {
+        unordered_map<char, string> mp;
+        unordered_set<string> st;
+        return dfs(mp, st, pattern, 0, str, 0);
+    }
+private:
+    bool dfs(unordered_map<char, string>& mp, unordered_set<string>& st, string& pattern, int pIdx, string& str, int sIdx) {
         if (pIdx==pattern.size() && sIdx==str.size()) return true;
         else if (pIdx==pattern.size() || sIdx==str.size()) return false;
         
         if (mp.find(pattern[pIdx])!=mp.end()) {
             string w=mp[pattern[pIdx]];
             if (str.substr(sIdx, w.size())!=w) return false;
-            return findMatch(mp, st, pattern, pIdx+1, str, sIdx+w.size());
+            return dfs(mp, st, pattern, pIdx+1, str, sIdx+w.size());
         } else {
-            for (int i=sIdx; i<str.size(); i++) {
+            for (int i=sIdx; i<str.size(); ++i) {
                 string w=str.substr(sIdx, i-sIdx+1);
                 if (st.find(w)!=st.end()) continue;
                 mp[pattern[pIdx]]=w;
                 st.insert(w);
-                bool b=findMatch(mp, st, pattern, pIdx+1, str, i+1);
+                if (dfs(mp, st, pattern, pIdx+1, str, sIdx+w.size())) return true;
                 mp.erase(pattern[pIdx]);
                 st.erase(w);
-                if (b) return true;
             }
             return false;
         }
-    }
-    
-    bool wordPatternMatch(string pattern, string str) {
-        unordered_map<char,string> mp;
-        unordered_set<string> st;
-        return findMatch(mp, st, pattern, 0, str, 0);
     }
 };
 
