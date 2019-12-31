@@ -59,46 +59,65 @@ Output:
 Explanation:
 The output consists of two word squares. The order of output does not matter (just the order of words in each word square matters).
 
+Oracle
+|
+4
+
+Google
+|
+2
+
 1. Trie
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    vector<string> prefixes;
+    TrieNode() {}
+};
+
+class Trie {
+public:
+    Trie() {
+        root=new TrieNode();
+    }
+    
+    void insert(string word) {
+        TrieNode* n=root;
+        for (int i=0; i<word.size(); ++i) {
+            if (n->children.find(word[i])==n->children.end()) {
+                n->children[word[i]]=new TrieNode();
+            }
+            n->prefixes.push_back(word);
+            n=n->children[word[i]];
+        }
+    }
+
+    vector<string> findPrefix(string prefix) {
+        TrieNode* n=root;
+        for (int i=0; i<prefix.size(); ++i) {
+            if (n->children.find(prefix[i])==n->children.end()) return vector<string>();
+            n=n->children[prefix[i]];
+        }
+        return n->prefixes;
+    }
+    
+private:
+    TrieNode* root;
+};
+
 class Solution {
 public:
-    struct TrieNode {
-        unordered_map<char, TrieNode*> children;
-        vector<string> prefixes;
-        TrieNode() { }
-    };
-    
-    class Trie {
-    public:
-        Trie() {
-            root=new TrieNode();
-        }
-        
-        void insert(string word) {
-            TrieNode *n=root;
-            for (int i=0; i<word.size(); i++) {
-                if (n->children.find(word[i])==n->children.end()) {
-                    TrieNode *c=new TrieNode();
-                    n->children[word[i]]=c;
-                }
-                n->prefixes.push_back(word);
-                n=n->children[word[i]];
-            }   
-        }
-      
-        vector<string> findPrefix(string prefix) {
-            TrieNode* n=root;
-            for (int i=0; i<prefix.size(); i++) {
-                if (n->children.find(prefix[i])==n->children.end()) return vector<string>();
-                n=n->children[prefix[i]];
-            }
-            return n->prefixes;
-        }
-    private:
-        TrieNode* root;
-    };
-    
-    void dfs(vector<vector<string>>& res, Trie& trie, vector<string>& output, int len) {
+    vector<vector<string>> wordSquares(vector<string>& words) {
+        vector<vector<string>> res;
+        vector<string> output;
+        int len=words[0].size();
+        Trie trie;
+        for (auto& w:words) trie.insert(w);
+
+        dfs(res, output, trie, len);
+        return res;
+    }
+private:
+    void dfs(vector<vector<string>>& res, vector<string>& output, Trie& trie, int len) {
         if (output.size()==len) {
             res.push_back(output);
             return;
@@ -106,28 +125,14 @@ public:
         
         string prefix;
         int n=output.size();
-        for (int i=0; i<n; i++) prefix+=output[i][n];
-        
+        for (int i=0; i<n; ++i) prefix+=output[i][n];
+
         vector<string> prefixes=trie.findPrefix(prefix);
         for (auto& p:prefixes) {
             output.push_back(p);
-            dfs(res, trie, output, len);
+            dfs(res, output, trie, len);
             output.pop_back();
         }
-    }
-    
-    vector<vector<string>> wordSquares(vector<string>& words) {
-        vector<vector<string>> res;
-        if (words.empty()) return res;
-        int len=words[0].size();
-        Trie trie;
-        for (auto& w:words) {
-            trie.insert(w);
-        }
-        vector<string> output;
-        dfs(res, trie, output, len);    
-
-        return res;
     }
 };
 
