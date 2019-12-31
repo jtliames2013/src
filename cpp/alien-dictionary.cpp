@@ -1,7 +1,18 @@
 269. Alien Dictionary
-There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of words from the dictionary, wherewords are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.
-For example,
-Given the following words in dictionary,
+Hard
+
+1255
+
+243
+
+Add to List
+
+Share
+There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of non-empty words from the dictionary, where words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.
+
+Example 1:
+
+Input:
 [
   "wrt",
   "wrf",
@@ -9,17 +20,91 @@ Given the following words in dictionary,
   "ett",
   "rftt"
 ]
-The correct order is: "wertf".
+
+Output: "wertf"
+Example 2:
+
+Input:
+[
+  "z",
+  "x"
+]
+
+Output: "zx"
+Example 3:
+
+Input:
+[
+  "z",
+  "x",
+  "z"
+] 
+
+Output: "" 
+
+Explanation: The order is invalid, so return "".
 Note:
-1. You may assume all letters are in lowercase.
-2. If the order is invalid, return an empty string.
-3. There may be multiple valid order of letters, return any one of them is fine.
-Hide Company Tags
- Google Airbnb Facebook Twitter Snapchat Pocket Gems
-Hide Tags
- Graph Topological Sort
-Hide Similar Problems
- (M) Course Schedule II
+
+You may assume all letters are in lowercase.
+You may assume that if a is a prefix of b, then a must appear before b in the given dictionary.
+If the order is invalid, return an empty string.
+There may be multiple valid order of letters, return any one of them is fine.
+
+Facebook
+|
+21
+
+Airbnb
+|
+15
+
+Amazon
+|
+8
+
+Microsoft
+|
+4
+
+Google
+|
+3
+
+Pinterest
+|
+2
+
+Uber
+|
+2
+
+Bloomberg
+|
+2
+
+Oracle
+|
+2
+
+Square
+|
+2
+
+Cohesity
+|
+2
+
+Twitter
+|
+LeetCode
+
+Snapchat
+|
+LeetCode
+
+Pocket Gems
+|
+LeetCode
 
 class Solution {
 public:
@@ -31,7 +116,7 @@ public:
         
         for (auto& w:words) {
             for (auto& l:w) {
-                outgoingGraph[l];
+                // makes sure to count vertex that does not have edge
                 incomingCnt[l];
             }
         }
