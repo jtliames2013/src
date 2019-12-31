@@ -15,41 +15,50 @@ The length of each word is greater than 1.
 The words consist of lowercase English letters only.
 The return answers should be in the same order as the original array.
 
+Grab
+|
+2
+
+Google
+|
+5
+
+Snapchat
+|
+2
+
 1.
 class Solution {
-public:    
-    string getAbbr(string& s, int p) {
-        int n=s.size();
-        if (n-p<=2) return s;
-        return s.substr(0,p)+to_string(n-p-1)+s.substr(n-1);        
-    }
-    
+public:
     vector<string> wordsAbbreviation(vector<string>& dict) {
         vector<string> res;
         int n=dict.size();
         if (n==0) return res;
         res.resize(n);
-        vector<int> prefix(n);
-        for (int i=0; i<n; i++) {
-            prefix[i]=1;
-            res[i]=getAbbr(dict[i], 1);
-        }
+        vector<int> prefix(n,1);
+        for (int i=0; i<n; ++i) res[i]=getAbbr(dict[i], 1);
 
-        for (int i=0; i<n; i++) {
+        for (int i=0; i<n; ++i) {
             while (1) {
                 unordered_set<int> st;
-                for (int j=i+1; j<n; j++) {
+                for (int j=i+1; j<n; ++j) {
                     if (res[i]==res[j]) st.insert(j);
                 }
                 if (st.empty()) break;
                 st.insert(i);
                 for (auto k:st) {
-                    res[k]=getAbbr(dict[k], prefix[k]);
                     prefix[k]++;
+                    res[k]=getAbbr(dict[k], prefix[k]);
                 }
             }
         }
         return res;
+    }
+private:
+    string getAbbr(string&s, int p) {
+        int n=s.size();
+        if (n-p<=2) return s;
+        return s.substr(0, p)+to_string(s.size()-p-1)+s.substr(n-1);
     }
 };
 
