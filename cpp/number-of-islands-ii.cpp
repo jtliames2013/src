@@ -37,9 +37,25 @@ Challenge:
 
 Can you do it in time complexity O(k log mn), where k is the length of the positions?
 
-Hide Company Tags Google
-Hide Tags Union Find
-Hide Similar Problems (M) Number of Islands
+Uber
+|
+2
+
+Facebook
+|
+2
+
+Google
+|
+5
+
+Amazon
+|
+3
+
+Snapchat
+|
+2
 
 // https://en.wikipedia.org/wiki/Disjoint-set_data_structure
 //This is a basic union-find problem. Given a graph with points being added, we can at least solve:
@@ -89,29 +105,25 @@ reduced.
 
 class Solution {
 public:
-    int find(vector<int>& root, int i) {
-        while (i!=root[i]) i=root[i];
-        /*while (i!=root[i]) {
-            root[i]=root[root[i]];
-            i=root[i];
-        } */
-        return i;
-    }
-    
-    vector<int> numIslands2(int m, int n, vector<pair<int, int>>& positions) {
+    vector<int> numIslands2(int m, int n, vector<vector<int>>& positions) {
         vector<int> res;
         if (m==0 || n==0) return res;
         vector<int> root(m*n, -1);
         int num=0;
         
         for (auto& p:positions) {
-            int i=p.first*n+p.second;
+            int i=p[0]*n+p[1];
+            if (root[i]!=-1) {
+                res.push_back(num);
+                continue;
+            }
+
             root[i]=i;
             num++;
             
-            for (int k=0; k<4; k++) {
-                int nr=p.first+delta[k][0];
-                int nc=p.second+delta[k][1];
+            for (int k=0; k<4; ++k) {
+                int nr=p[0]+delta[k][0];
+                int nc=p[1]+delta[k][1];
                 int ni=nr*n+nc;
                 if (nr>=0 && nr<m && nc>=0 && nc<n && root[ni]!=-1) {
                     int nroot=find(root, ni);
@@ -124,10 +136,19 @@ public:
             
             res.push_back(num);
         }
-        
         return res;
     }
 private:
+    int find(vector<int>& root, int i) {
+        while (i!=root[i]) i=root[i];
+        /*while (i!=root[i]) {
+            root[i]=root[root[i]];
+            i=root[i];
+        } */
+        return i;
+    }
+
     const int delta[4][2]={{-1,0}, {1,0}, {0,-1}, {0,1}};
 };
+
 
