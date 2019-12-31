@@ -10,9 +10,21 @@ All costs are positive integers.
 Follow up:
 Could you solve it in O(nk) runtime?
 
-Hide Company Tags Facebook
-Show Tags
-Show Similar Problems
+LinkedIn
+|
+2
+
+Google
+|
+3
+
+Uber
+|
+2
+
+Facebook
+|
+LeetCode
 
 class Solution {
 public:
