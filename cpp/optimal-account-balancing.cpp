@@ -38,6 +38,14 @@ Person #2 gave person #0 $5.
 
 Therefore, person #1 only need to give person #0 $4, and all debt is settled.
 
+Google
+|
+10
+
+Uber
+|
+2
+
 With all the given transactions, in the end, each person with ID = id will have an overall balance bal[id]. Note that the id value or any person coincidentally with 0 balance is irrelevant to debt settling count, so we can simply use an array debt[] to store all non-zero balances, where
 
 debt[i] > 0 means a person needs to pay $ debt[i] to other person(s);
