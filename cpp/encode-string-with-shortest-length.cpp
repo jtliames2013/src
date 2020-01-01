@@ -35,6 +35,10 @@ Input: "abbbabbbcabbbabbbc"
 Output: "2[2[abbb]c]"
 Explanation: "abbbabbbc" occurs twice, but "abbbabbbc" can also be encoded to "2[abbb]c", so one answer can be "2[2[abbb]c]".
 
+Google
+|
+2
+
 class Solution {
 public:
     string encode(string s) {
@@ -55,14 +59,14 @@ public:
                     }
                     
                     for (int k=1; k<=len/2; k++) {
-                        string pattern=str.substr(0, k);
                         if (len%k!=0) continue;
-                        int idx=pattern.size();
-                        for (; idx<str.size(); idx++) {
-                            if (str[idx]!=pattern[idx%pattern.size()]) break;
+                        string pattern=str.substr(0, k);
+                        int idx=k;
+                        for (; idx<len; idx++) {
+                            if (str[idx]!=pattern[idx%k]) break;
                         }
-                        if (idx==str.size()) {
-                            string res=to_string(str.size()/pattern.size())+"["+dp[i][i+k-1]+"]";
+                        if (idx==len) {
+                            string res=to_string(len/k)+"["+dp[i][i+k-1]+"]";
                             if (res.size()<dp[i][j].size()) dp[i][j]=res;
                         }
                     }
