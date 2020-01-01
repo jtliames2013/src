@@ -16,9 +16,45 @@ The point (1,2) is an ideal empty land to build a house, as the total travel dis
 Note:
 There will be at least one building. If it is not possible to build such house according to the above rules, return -1.
 
-Hide Company Tags Google Zenefits
-Hide Tags Breadth-first Search
-Hide Similar Problems (M) Walls and Gates (H) Best Meeting Point
+Google
+|
+4
+
+Mathworks
+|
+4
+
+Facebook
+|
+3
+
+Snapchat
+|
+2
+
+Amazon
+|
+2
+
+Uber
+|
+2
+
+Microsoft
+|
+3
+
+Splunk
+|
+2
+
+ByteDance
+|
+2
+
+Zenefits
+|
+LeetCode
 
 // NOTE: 0 may not connect to all 1s, such as
 // 1 1
