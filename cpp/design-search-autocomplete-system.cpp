@@ -53,52 +53,99 @@ The number of complete sentences that to be searched won't exceed 100. The lengt
 Please use double-quote instead of single-quote when you write test cases even for a character input.
 Please remember to RESET your class variables declared in class AutocompleteSystem, as static/class variables are persisted across multiple test cases. Please see here for more details.
 
-class AutocompleteSystem {
+Amazon
+|
+14
+
+Google
+|
+9
+
+Dropbox
+|
+7
+
+Facebook
+|
+3
+
+Uber
+|
+3
+
+Microsoft
+|
+3
+
+Snapchat
+|
+2
+
+Lyft
+|
+5
+
+Salesforce
+|
+2
+
+Bloomberg
+|
+2
+
+Apple
+|
+2
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    int count;
+    TrieNode(): count(0) {}
+};
+
+class Trie {
 public:
-    struct TrieNode {    
-        unordered_map<char,TrieNode*> children;
-        int count;
-        TrieNode():count(0) {}
-    };
-    
-    class Trie {
-    public:
-        Trie() {
-            root=new TrieNode();
-        }
-        
-        void insert(string word, int cnt) {
-            TrieNode *n=root;
-            for (int i=0; i<word.size(); i++) {
-                if (n->children.find(word[i])==n->children.end()) {
-                    n->children[word[i]]=new TrieNode();
-                }                
-                n=n->children[word[i]];                
-            }
-            n->count+=cnt;
-        }        
-        
-        TrieNode *root;
-    };
-    
-    void getWords(vector<pair<string,int>>& res, TrieNode* n, string word) {
-        if (n==NULL) return;
-        if (n->count>0) res.push_back({word, n->count});
-        for (auto& iter:n->children) {
-            getWords(res, iter.second, word+iter.first);
-        }        
+    Trie() {
+        root=new TrieNode();
     }
     
-    class Compare {
-    public:
-        bool operator()(pair<string,int>& a, pair<string,int>& b) {
-            return a.second>b.second || (a.second==b.second && a.first<b.first);
+    void insert(string word, int cnt) {
+        TrieNode* n=root;
+        for (int i=0; i<word.size(); ++i) {
+            if (n->children.find(word[i])==n->children.end()) {
+                n->children[word[i]]=new TrieNode();
+            }
+            n=n->children[word[i]];
         }
-    };
+        n->count+=cnt;
+    }
     
-    AutocompleteSystem(vector<string> sentences, vector<int> times) {        
+    vector<pair<string, int>> getWords(string prefix) {
+        vector<pair<string, int>> res;
+        TrieNode* n=root;
+        for (int i=0; i<prefix.size(); ++i) {
+            if (n->children.find(prefix[i])==n->children.end()) return res;
+            n=n->children[prefix[i]];
+        }
+
+        dfs(res, n, prefix);
+        return res;
+    }
+private:
+    void dfs(vector<pair<string, int>>& res, TrieNode* n, string word) {
+        if (n==NULL) return;
+        if (n->count>0) res.push_back({word, n->count});
+        for (auto& iter:n->children) dfs(res, iter.second, word+iter.first);
+    }
+
+    TrieNode* root;
+};
+
+class AutocompleteSystem {
+public:
+    AutocompleteSystem(vector<string>& sentences, vector<int>& times) {
         K=3;
-        for (int i=0; i<sentences.size(); i++) {
+        for (int i=0; i<sentences.size(); ++i) {
             trie.insert(sentences[i], times[i]);
         }
     }
@@ -112,42 +159,36 @@ public:
         }
         
         prefix+=c;
-        priority_queue<pair<string,int>, vector<pair<string,int>>, Compare> pq;
-        TrieNode *n=trie.root;
-        for (int i=0; i<prefix.size(); i++) {
-            if (n->children.find(prefix[i])==n->children.end()) return res;
-            n=n->children[prefix[i]];
-        }
-        
-        vector<pair<string,int>> words;
-        getWords(words, n, prefix);
-        
-        for (auto& iter:words) {
-            if (pq.size()<K) pq.push({iter.first, iter.second});
-            else {
-                if (iter.second>pq.top().second || (iter.second==pq.top().second && iter.first<pq.top().first)) {
+        vector<pair<string, int>> words=trie.getWords(prefix);
+        auto comp=[](pair<string, int>& a, pair<string, int>& b){ return a.second>b.second || (a.second==b.second && a.first<b.first); };
+        priority_queue<pair<string, int>, vector<pair<string, int>>, decltype(comp)> pq(comp);
+        for (auto& w:words) {
+            if (pq.size()<K) pq.push(w);
+            else{
+                if (w.second>pq.top().second || (w.second==pq.top().second && w.first<pq.top().first)) {
                     pq.pop();
-                    pq.push({iter.first, iter.second});
+                    pq.push(w);
                 }
             }
         }
         
-        for (int i=0; i<K && !pq.empty(); i++) {
+        while (!pq.empty()) {
             res.push_back(pq.top().first);
             pq.pop();
         }
+
         reverse(res.begin(), res.end());
         return res;
     }
 private:
-    Trie trie; 
     int K;
+    Trie trie;
     string prefix;
 };
 
 /**
  * Your AutocompleteSystem object will be instantiated and called as such:
- * AutocompleteSystem obj = new AutocompleteSystem(sentences, times);
- * vector<string> param_1 = obj.input(c);
+ * AutocompleteSystem* obj = new AutocompleteSystem(sentences, times);
+ * vector<string> param_1 = obj->input(c);
  */
 
