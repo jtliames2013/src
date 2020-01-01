@@ -11,6 +11,14 @@ Given low = "50", high = "100", return 3. Because 69, 88, and 96 are three strob
 Note:
 Because the range might be a large number, the low and high numbers are represented as string.
 
+Google
+|
+2
+
+Facebook
+|
+3
+
 class Solution {
 public:
     void dfs(long low, long high, string& str, int start, int end) {
