@@ -11,8 +11,9 @@ For example, given the following image:
 and x = 0, y = 2,
 Return 6.
 
-Hide Company Tags Google
-Hide Tags Binary Search
+Google
+|
+2
 
 // NOTE: binary search row and column separately to find the boundary row/column with black pixel
 // Search dereasingly and increasingly are different. In decrease case, search the line with black pixel.
@@ -21,77 +22,63 @@ Hide Tags Binary Search
 
 class Solution {
 public:
-    int searchRow(vector<vector<char>>& image, int rowmin, int rowmax, int colmin, int colmax, bool decrease) {
-        int l=rowmin, r=rowmax, mid;
+    int minArea(vector<vector<char>>& image, int x, int y) {
+        int m=image.size();
+        if (m==0) return 0;
+        int n=image[0].size();
+        if (n==0) return 0;
+
+        int top=searchRow(image, 0, x, 0, n-1, true);
+        int bottom=searchRow(image, x, m-1, 0, n-1, false);
+        int left=searchCol(image, 0, m-1, 0, y, true);
+        int right=searchCol(image, 0, m-1, y, n-1, false);
+        return (bottom-top+1)*(right-left+1);
+    }
+private:
+    int searchRow(vector<vector<char>>& image, int rowMin, int rowMax, int colMin, int colMax, bool blackOnRight) {
+        int l=rowMin, r=rowMax, mid;
         while (l<r) {
-            mid=l+(r-l)/2;
+            mid=l+(r-l)/2+(blackOnRight?0:1);
             bool hasBlack=false;
-            for (int i=colmin; i<=colmax; i++) {
+            for (int i=colMin; i<=colMax; ++i) {
                 if (image[mid][i]=='1') {
                     hasBlack=true;
                     break;
                 }
             }
             
-            if (decrease) {
-                if (hasBlack) {
-                    r=mid;
-                } else {
-                    l=mid+1;
-                }
+            if (blackOnRight) {
+                if (hasBlack) r=mid;
+                else l=mid+1;
             } else {
-                if (hasBlack) {
-                    l=mid+1;
-                } else {
-                    r=mid;
-                }
-            }                        
+                if (hasBlack) l=mid;
+                else r=mid-1;
+            }
         }
-        
         return l;
     }
     
-    int searchCol(vector<vector<char>>& image, int rowmin, int rowmax, int colmin, int colmax, bool decrease) {
-        int l=colmin, r=colmax, mid;
+    int searchCol(vector<vector<char>>& image, int rowMin, int rowMax, int colMin, int colMax, bool blackOnRight) {
+        int l=colMin, r=colMax, mid;
         while (l<r) {
-            mid=l+(r-l)/2;
+            mid=l+(r-l)/2+(blackOnRight?0:1);
             bool hasBlack=false;
-            for (int i=rowmin; i<=rowmax; i++) {
+            for (int i=rowMin; i<=rowMax; ++i) {
                 if (image[i][mid]=='1') {
                     hasBlack=true;
                     break;
                 }
             }
             
-            if (decrease) {
-                if (hasBlack) {
-                    r=mid;
-                } else {
-                    l=mid+1;
-                }
+            if (blackOnRight) {
+                if (hasBlack) r=mid;
+                else l=mid+1;
             } else {
-                if (hasBlack) {
-                    l=mid+1;
-                } else {
-                    r=mid;
-                }
-            }                        
+                if (hasBlack) l=mid;
+                else r=mid-1;
+            }
         }
-        
-        return l;        
-    }
-    
-    int minArea(vector<vector<char>>& image, int x, int y) {
-        int m=image.size();
-        if (m==0) return 0;
-        int n=image[0].size();
-        if (n==0) return 0;
-        
-        int left=searchRow(image, 0, x, 0, n-1, true);
-        int right=searchRow(image, x+1, m, 0, n-1, false);
-        int top=searchCol(image, left, right-1, 0, y, true);
-        int bottom=searchCol(image, left, right-1, y+1, n, false);
-        return (right-left)*(bottom-top);
+        return l;
     }
 };
 
