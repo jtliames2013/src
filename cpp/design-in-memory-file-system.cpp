@@ -27,17 +27,24 @@ Note:
 You can assume all file or directory paths are absolute paths which begin with / and do not end with / except that the path is just "/".
 You can assume that all operations will be passed valid parameters and users will not attempt to retrieve file content or list a directory or file that does not exist.
 You can assume that all directory names and file names only contain lower-case letters, and same names won't exist in the same directory.
-Subscribe to see which companies asked this question.
 
-Hide Tags Design
-Hide Similar Problems (H) LRU Cache (H) LFU Cache
+Amazon
+|
+3
 
-class Node {
-public:
-    map<string,Node*> children;
-    string content;
+Airbnb
+|
+2
+
+Baidu
+|
+LeetCode
+
+struct Node {
+    map<string, Node*> children;
     bool isDir;
-    Node(bool d): isDir(d) {}
+    string content;
+    Node(bool d):isDir(d) {}
 };
 
 class FileSystem {
@@ -48,13 +55,11 @@ public:
     
     vector<string> ls(string path) {
         vector<string> res;
-        Node *n=root;
+        Node* n=root;
         vector<string> paths=getPaths(path);
-        for (int i=0; i<paths.size(); i++) {
-            n=n->children[paths[i]];
-        }
+        for (int i=0; i<paths.size(); ++i) n=n->children[paths[i]];
         if (n->isDir) {
-            for (auto k:n->children) res.push_back(k.first);
+            for (auto& iter:n->children) res.push_back(iter.first);
         } else {
             res.push_back(paths.back());
         }
@@ -62,69 +67,54 @@ public:
     }
     
     void mkdir(string path) {
-        Node *n=root;
+        Node* n=root;
         vector<string> paths=getPaths(path);
-        int i=0;
-        for (; i<paths.size(); i++) {
-            auto iter=n->children.find(paths[i]);
-            if (iter==n->children.end()) break;
-            n=iter->second;
-        }
-        
-        for (; i<paths.size(); i++) {
-            Node *c=new Node(true);
-            n->children[paths[i]]=c;
-            n=c;
+        for (int i=0; i<paths.size(); ++i) {
+            if (n->children.find(paths[i])==n->children.end()) {
+                n->children[paths[i]]=new Node(true);
+            }
+            n=n->children[paths[i]];
         }
     }
     
     void addContentToFile(string filePath, string content) {
-        Node *n=root;
+        Node* n=root;
         vector<string> paths=getPaths(filePath);
-        int i=0;
-        for (; i<paths.size(); i++) {
-            auto iter=n->children.find(paths[i]);
-            if (iter==n->children.end()) break;
-            n=iter->second;
-        }
-        
-        for (; i<paths.size(); i++) {
-            Node *c=new Node(true);
-            n->children[paths[i]]=c;
-            n=c;
+        for (int i=0; i<paths.size(); ++i) {
+            if (n->children.find(paths[i])==n->children.end()) {
+                n->children[paths[i]]=new Node(true);
+            }
+            n=n->children[paths[i]];
         }
         n->isDir=false;
         n->content+=content;
     }
     
     string readContentFromFile(string filePath) {
-        Node *n=root;
+        Node* n=root;
         vector<string> paths=getPaths(filePath);
-        for (int i=0; i<paths.size(); i++) {
-            n=n->children[paths[i]];
-        }
+        for (int i=0; i<paths.size(); ++i) n=n->children[paths[i]];
         return n->content;
     }
 private:
-    Node *root;
-    
     vector<string> getPaths(string& path) {
         vector<string> res;
         path.erase(path.begin());
-        string val;
         istringstream iss(path);
+        string val;
         while (getline(iss, val, '/')) res.push_back(val);
-        
-        return res;        
+        return res;
     }
+
+    Node* root;
 };
 
 /**
  * Your FileSystem object will be instantiated and called as such:
- * FileSystem obj = new FileSystem();
- * vector<string> param_1 = obj.ls(path);
- * obj.mkdir(path);
- * obj.addContentToFile(filePath,content);
- * string param_4 = obj.readContentFromFile(filePath);
+ * FileSystem* obj = new FileSystem();
+ * vector<string> param_1 = obj->ls(path);
+ * obj->mkdir(path);
+ * obj->addContentToFile(filePath,content);
+ * string param_4 = obj->readContentFromFile(filePath);
  */
 
