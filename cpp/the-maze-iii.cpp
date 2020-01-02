@@ -47,41 +47,44 @@ Both the ball and hole exist on an empty space, and they will not be at the same
 The given maze does not contain border (like the red rectangle in the example pictures), but you could assume the border of the maze are all walls.
 The maze contains at least 2 empty spaces, and the width and the height of the maze won't exceed 30.
 
+Google
+|
+2
+
+struct Point {
+    int row;
+    int col;
+    int len;
+    string directions;
+    Point():row(0), col(0), len(INT_MAX) {}
+    Point(int r, int c, int l, string d):row(r), col(c), len(l), directions(d) {}
+    bool LessOrEqualTo(Point& p) {
+        return this->len<p.len || (this->len==p.len && this->directions<=p.directions);
+    }
+};
+
 class Solution {
 public:
-    struct Point {
-     	int row;
-        int col;
-        int len;
-        string directions;
-        Point():row(0), col(0), len(INT_MAX) {}
-        Point(int r, int c, int l, string d):row(r), col(c), len(l), directions(d) {}
-        bool LessorEqualTo(Point& p) {
-            return this->len<p.len || (this->len==p.len && this->directions<=p.directions);
-        }
-    };
-    
-    class Compare {
-    public:
-        bool operator()(Point& a, Point& b) {
-            return a.len>b.len || (a.len==b.len && a.directions>b.directions);
-        }
-    };
-    
-    string bfs(vector<vector<int>>& maze, vector<int> start, vector<int>& hole, int m, int n) {
-        priority_queue<Point, vector<Point>, Compare> pq;
-        vector<vector<Point>> Points(m, vector<Point>(n));        
-        pq.push(Point(start[0], start[1], 0, ""));
+    string findShortestWay(vector<vector<int>>& maze, vector<int>& ball, vector<int>& hole) {
+        int m=maze.size(), n=maze[0].size();
+        return bfs(maze, ball, hole, m, n);
+    }
+private:
+    string bfs(vector<vector<int>>& maze, vector<int>& ball, vector<int>& hole, int m, int n) {
+        auto comp=[](Point& a, Point& b){ return a.len>b.len || (a.len==b.len && a.directions>b.directions); };
+        priority_queue<Point, vector<Point>, decltype(comp)> pq(comp);
+        vector<vector<Point>> Points(m, vector<Point>(n));
+        pq.push(Point(ball[0], ball[1], 0, ""));
         
         while (!pq.empty()) {
-			Point f=pq.top();
+            auto t=pq.top();
             pq.pop();
-            if (Points[f.row][f.col].LessorEqualTo(f)) continue;
-            Points[f.row][f.col]=f;
-            if (f.row==hole[0] && f.col==hole[1]) break;
+            if (Points[t.row][t.col].LessOrEqualTo(t)) continue;
+            Points[t.row][t.col]=t;
+            if (t.row==hole[0] && t.col==hole[1]) break;
             
-            for (int k=0; k<4; k++) {
-                Point np=f;
+            for (int k=0; k<4; ++k) {
+                Point np=t;
                 while (np.row>=0 && np.row<m && np.col>=0 && np.col<n && maze[np.row][np.col]!=1 && 
                        (np.row!=hole[0] || np.col!=hole[1])) {
                     np.row+=delta[k][0];
@@ -96,23 +99,12 @@ public:
                 np.directions+=direction[k];
                 pq.push(np);
             }
-        }        
-
-        if (Points[hole[0]][hole[1]].len==INT_MAX) {
-            return "impossible";
         }
+        
+        if (Points[hole[0]][hole[1]].len==INT_MAX) return "impossible";
         return Points[hole[0]][hole[1]].directions;
     }
-        
-    string findShortestWay(vector<vector<int>>& maze, vector<int>& ball, vector<int>& hole) {
-        int m=maze.size();
-        if (m==0) return "";
-        int n=maze[0].size();
-        if (n==0) return "";
-                
-        return bfs(maze, ball, hole, m, n);        
-    }
-private:
+
     const int delta[4][2]={{-1,0}, {1,0}, {0,-1}, {0,1}};
     const char direction[4]={'u', 'd', 'l', 'r'};
 };
