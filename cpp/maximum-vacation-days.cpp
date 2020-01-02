@@ -48,6 +48,22 @@ You could stay at a city beyond the number of vacation days, but you should work
 If you fly from the city A to the city B and take the vacation on that day, the deduction towards vacation days will count towards the vacation days of city B in that week.
 We don't consider the impact of flight hours towards the calculation of vacation days.
 
+Facebook
+|
+2
+
+Google
+|
+2
+
+Uber
+|
+2
+
+Microsoft
+|
+2
+
 1. DP
 class Solution {
 public:
