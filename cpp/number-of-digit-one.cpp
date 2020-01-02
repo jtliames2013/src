@@ -45,3 +45,15 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    int countDigitOne(int n) {
+        int res=0;
+        for (long i=1; i<=n; i*=10) {
+            long div = i * 10;
+            res+=(n/div)*i+min(max(n%div-i+1, 0L), i);
+        }
+        return res;
+    }
+};
