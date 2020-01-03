@@ -16,6 +16,10 @@ Examples:
 
 "apple", ["plain", "amber", "blade"] -> "1p3" (other valid answers include "ap3", "a3e", "2p2", "3le", "3l1").
 
+Google
+|
+LeetCode
+
 The key idea of my solution is to preprocess the dictionary to transfer all the words to bit sequences (int):
 Pick the words with same length as target string from the dictionary and compare the characters with target. If the characters are different, set the corresponding bit to 1, otherwise, set to 0.
 Ex: "abcde", ["abxdx", "xbcdx"] => [00101, 10001]
@@ -28,51 +32,16 @@ Ex: 00101 | 10001 = 10101, so we only need to take care of the 1st, 3rd, and 5th
 
 class Solution {
 public:
-    int getLen(int mask, int n) {
-        int count=0;
-        for (int i=0; i<n;) {
-            if ((mask & (1<<i)) == 0) {
-                while (i<n && (mask & (1<<i))==0) i++;
-            } else {
-                i++;
-            }
-            count++;
-        }
-        
-        return count;
-    }
-
-    void dfs(int start, int mask, int n) {
-        int len=getLen(mask, n);
-        if (len>=minLen) return;
-        bool match=true;
-        for (auto& b:bits) {
-            if ((b & mask) == 0) {
-                match=false;
-                break;
-            }
-        }
-        if (match) {
-            minLen=len;
-            minMask=mask;
-        } else {
-            for (int i=start; i<n; i++) {
-                if (candidate & (1<<i)) dfs(i+1, mask | (1<<i), n);
-            }
-        }
-    }
-    
     string minAbbreviation(string target, vector<string>& dictionary) {
         string res;
         int n=target.size();
-        candidate=0;
-        minLen=INT_MAX;
         minMask=0;
-        
+        minLen=INT_MAX;
+        candidate=0;
         for (auto& w:dictionary) {
             if (w.size()!=n) continue;
             int b=0;
-            for (int i=0; i<n; i++) {
+            for (int i=0; i<n; ++i) {
                 if (w[i]!=target[i]) b |= (1<<(n-i-1));
             }
             bits.push_back(b);
@@ -95,9 +64,45 @@ public:
         return res;
     }
 private:
+    void dfs(int start, int mask, int n) {
+        int len=getLen(mask, n);
+        if (len>=minLen) return;
+        bool match=true;
+        for (auto b:bits) {
+            if ((b & mask)==0) {
+                match=false;
+                break;
+            }
+        }
+
+        if (match) {
+            minLen=len;
+            minMask=mask;
+        } else {
+            for (int i=start; i<n; ++i) {
+                if ((candidate & (1<<i))) dfs(i+1, mask | (1<<i), n);
+            }
+        }
+    }
+
+    int getLen(int mask, int n) {
+        int res=0;
+        // Note in problem statement
+        // Each number or letter in the abbreviation is considered length = 1.
+        for (int i=0; i<n; ) {
+            if ((mask & (1<<i))==0) {
+                while (i<n && ((mask & (1<<i))==0)) i++;
+            } else {
+                i++;
+            }
+            res++;
+        }
+        return res;
+    }
+
     vector<int> bits;
-    int candidate;
-    int minLen;
     int minMask;
+    int minLen;
+    int candidate;
 };
 
