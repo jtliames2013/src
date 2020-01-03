@@ -25,21 +25,30 @@ Output: -1
 Note:
 The given array will be in the range [1, 20000].
 
+Google
+|
+2
+
+Amazon
+|
+2
+
 The idea is to use an array days[] to record each position's flower's blooming day. That means days[i] is the blooming day of the flower in position i+1. We just need to find a subarray days[left, left+1,..., left+k-1, right] which satisfies: for any i = left+1,..., left+k-1, we can have days[left] < days[i] && days[right] < days[i]. Then, the result is max(days[left], days[right]).
 
 1.
 class Solution {
 public:
-    int kEmptySlots(vector<int>& flowers, int k) {
-        int n=flowers.size();
+    int kEmptySlots(vector<int>& bulbs, int K) {
+        int n=bulbs.size();
         vector<int> days(n);
-        for (int i=0; i<n; i++) days[flowers[i]-1]=i+1;
-        int l=0, r=k+1, res=INT_MAX;
-        for (int i=0; r<n; i++) {
+        for (int i=0; i<n; ++i) days[bulbs[i]-1]=i+1;
+
+        int res=INT_MAX;
+        for (int i=0, l=0, r=K+1; r<n; ++i) {
             if (days[i]<days[l] || days[i]<=days[r]) {
                 if (i==r) res=min(res, max(days[l], days[r]));
                 l=i;
-                r=l+k+1;
+                r=l+K+1;
             }
         }
         return res==INT_MAX?-1:res;
