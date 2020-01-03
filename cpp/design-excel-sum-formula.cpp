@@ -52,6 +52,14 @@ You could assume that there won't be any circular sum reference. For example, A1
 The test cases are using double-quotes to represent a character.
 Please remember to RESET your class variables declared in class Excel, as static/class variables are persisted across multiple test cases. Please see here for more details.
 
+Amazon
+|
+2
+
+Microsoft
+|
+LeetCode
+
 1. update on the fly
 class Excel {
 public:
