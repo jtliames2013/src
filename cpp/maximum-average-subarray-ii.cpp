@@ -15,41 +15,39 @@ Note:
 Elements of the given array will be in range [-10,000, 10,000].
 The answer with the calculation error less than 10-5 will be accepted.
 
+Google
+|
+LeetCode
+
 class Solution {
 public:
-    bool isSmaller(vector<int>& nums, double mid, int k) {
-        double sum=0, pre=0, minPre=0;
-        int i=0;
-        for (; i<k; i++) sum+=nums[i]-mid;
-        if (sum>=0) return true;
-        
-        for (; i<nums.size(); i++) {
-            sum+=nums[i]-mid;
-            pre+=nums[i-k]-mid;
-            minPre=min(minPre, pre);
-            if (sum>=minPre) return true;
-        }
-        
-        return false;
-    }
-    
     double findMaxAverage(vector<int>& nums, int k) {
-        double minVal=INT_MAX, maxVal=INT_MIN;
-        for (auto n:nums) {
-            minVal=min(minVal, (double)n);
-            maxVal=max(maxVal, (double)n);
+        double l=INT_MAX, r=INT_MIN, mid;
+        for (auto& n:nums) {
+            l=min(l, (double)n);
+            r=max(r, (double)n);
         }
-        double prev=minVal, mid;
-        while (1) {
-            mid=(maxVal+minVal)*0.5;            
-            if (abs(mid-prev)<=0.00001) break;
-            
-            if (isSmaller(nums, mid, k)) minVal=mid;
-            else maxVal=mid;            
-            prev=mid;
+        
+        while (r-l>1e-5) {
+            mid=(r+l)/2;
+            if (GreaterOrEqualAllAverage(nums, mid, k)) r=mid;
+            else l=mid;
         }
-                    
-        return mid;
+        return l;
+    }
+private:
+    bool GreaterOrEqualAllAverage(vector<int>& nums, double mid, int k) {
+        double sum=0, prev=0, minPrev=0;
+        for (int i=0; i<nums.size(); ++i) {
+            sum+=nums[i]-mid;
+            if (i>=k) {
+                prev+=nums[i-k]-mid;
+                minPrev=min(minPrev, prev);
+            }
+            if (i>=k-1 && sum-minPrev>0) return false;
+        }
+
+        return true;
     }
 };
 
