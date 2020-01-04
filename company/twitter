@@ -1,0 +1,175 @@
+    #	Title	Acceptance  Difficulty	Frequency
+1   
+Two Sum	44.9%	Easy	
+10  
+Regular Expression Matching 26.0%   Hard    
+12  
+Integer to Roman    53.1%   Medium  
+14  
+Longest Common Prefix	34.5%	Easy	
+20  
+Valid Parentheses   37.8%   Easy    
+23  
+Merge k Sorted Lists	37.5%	Hard	
+36  
+Valid Sudoku	46.0%	Medium	
+42  
+Trapping Rain Water 46.2%   Hard    
+43  
+Multiply Strings    32.3%   Medium  
+44  
+Wildcard Matching   23.8%   Hard    
+56  
+Merge Intervals	37.5%	Medium	
+57  
+Insert Interval	32.3%	Hard	
+60  
+Permutation Sequence	34.9%	Medium	
+62  
+Unique Paths	50.6%	Medium	
+68  
+Text Justification  25.3%   Hard    
+76  
+Minimum Window Substring    32.9%   Hard    
+84  
+Largest Rectangle in Histogram	33.0%	Hard	
+91  
+Decode Ways 23.4%   Medium  
+101 
+Symmetric Tree	45.2%	Easy	
+106 
+Construct Binary Tree from Inorder and Postorder Traversal  42.4%   Medium  
+118 
+Pascal's Triangle   49.3%   Easy    
+124 
+Binary Tree Maximum Path Sum	31.9%	Hard	
+133 
+Clone Graph 30.5%   Medium  
+140 
+Word Break II	29.2%	Hard	
+146 
+LRU Cache   29.1%   Medium  
+149 
+Max Points on a Line	16.4%	Hard	
+161 
+One Edit Distance
+32.1%	Medium	
+169 
+Majority Element    55.3%   Easy    
+200 
+Number of Islands   44.2%   Medium  
+202 
+Happy Number	47.9%	Easy	
+206 
+Reverse Linked List 58.7%   Easy    
+208 
+Implement Trie (Prefix Tree)	42.7%	Medium	
+215 
+Kth Largest Element in an Array	51.5%	Medium	
+218 
+The Skyline Problem 33.1%   Hard    
+234 
+Palindrome Linked List	37.6%	Easy	
+235 
+Lowest Common Ancestor of a Binary Search Tree	47.4%	Easy	
+239 
+Sliding Window Maximum	40.3%	Hard	
+251 
+Flatten 2D Vector
+44.9%	Medium	
+252 
+Meeting Rooms
+53.5%	Easy	
+256 
+Paint House
+50.8%	Easy	
+269 
+Alien Dictionary
+33.5%	Hard	
+271 
+Encode and Decode Strings
+29.4%	Medium	
+295 
+Find Median from Data Stream	40.4%	Hard	
+296 
+Best Meeting Point
+56.6%	Hard	
+307 
+Range Sum Query - Mutable   31.5%   Medium  
+323 
+Number of Connected Components in an Undirected Graph
+53.8%	Medium	
+341 
+Flatten Nested List Iterator	50.7%	Medium	
+346 
+Moving Average from Data Stream
+68.5%	Easy	
+355 
+Design Twitter	28.8%	Medium	
+378 
+Kth Smallest Element in a Sorted Matrix	51.7%	Medium	
+380 
+Insert Delete GetRandom O(1)	44.8%	Medium	
+407 
+Trapping Rain Water II	40.5%	Hard	
+433 
+Minimum Genetic Mutation    40.0%   Medium  
+468 
+Validate IP Address 22.0%   Medium  
+482 
+License Key Formatting	42.4%	Easy	
+490 
+The Maze
+49.7%	Medium	
+496 
+Next Greater Element I	61.6%	Easy	
+528 
+Random Pick with Weight	43.3%	Medium	
+532 
+K-diff Pairs in an Array    30.7%   Easy    
+547 
+Friend Circles	56.2%	Medium	
+580 
+Count Student Number in Departments
+45.4%	Medium	
+585 
+Investments in 2016
+50.9%	Medium	
+586 
+Customer Placing the Largest Number of Orders
+69.4%	Easy	
+608 
+Tree Node
+61.8%	Medium	
+609 
+Find Duplicate File in System	57.6%	Medium	
+635 
+Design Log Storage System
+56.9%	Medium	
+647 
+Palindromic Substrings	58.8%	Medium	
+679 
+24 Game	44.6%	Hard	
+706 
+Design HashMap	58.2%	Easy	
+767 
+Reorganize String   45.6%   Medium  
+780 
+Reaching Points	28.7%	Hard	
+814 
+Binary Tree Pruning 72.6%   Medium  
+831 
+Masking Personal Information	42.9%	Medium	
+868 
+Binary Gap  60.1%   Easy    
+920 
+Number of Music Playlists   45.0%   Hard    
+945 
+Minimum Increment to Make Array Unique	44.6%	Medium	
+981 
+Time Based Key-Value Store  51.9%   Medium  
+1041	
+Robot Bounded In Circle	47.3%	Medium	
+1206	
+Design Skiplist	58.6%	Hard	
+
