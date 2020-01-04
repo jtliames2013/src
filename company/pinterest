@@ -1,0 +1,80 @@
+    #	Title	Acceptance  Difficulty	Frequency
+14  
+Longest Common Prefix	34.5%	Easy	
+17  
+Letter Combinations of a Phone Number	44.2%	Medium	
+36  
+Valid Sudoku	46.0%	Medium	
+56  
+Merge Intervals	37.5%	Medium	
+79  
+Word Search 33.2%   Medium  
+85  
+Maximal Rectangle   35.5%   Hard    
+91  
+Decode Ways 23.4%   Medium  
+126 
+Word Ladder II	20.0%	Hard	
+139 
+Word Break  37.7%   Medium  
+140 
+Word Break II	29.2%	Hard	
+146 
+LRU Cache   29.1%   Medium  
+158 
+Read N Characters Given Read4 II - Call multiple times
+29.8%	Hard	
+202 
+Happy Number	47.9%	Easy	
+210 
+Course Schedule II  37.5%   Medium  
+224 
+Basic Calculator    35.0%   Hard    
+236 
+Lowest Common Ancestor of a Binary Tree	41.6%	Medium	
+239 
+Sliding Window Maximum	40.3%	Hard	
+269 
+Alien Dictionary
+33.5%	Hard	
+277 
+Find the Celebrity
+39.5%	Medium	
+295 
+Find Median from Data Stream	40.4%	Hard	
+362 
+Design Hit Counter
+61.5%	Medium	
+380 
+Insert Delete GetRandom O(1)	44.8%	Medium	
+392 
+Is Subsequence	47.8%	Easy	
+428 
+Serialize and Deserialize N-ary Tree
+56.9%	Hard	
+460 
+LFU Cache   31.8%   Hard    
+564 
+Find the Closest Palindrome 19.2%   Hard    
+571 
+Find Median Given Frequency of Numbers
+45.2%	Hard	
+632 
+Smallest Range Covering Elements from K Lists	50.2%	Hard	
+718 
+Maximum Length of Repeated Subarray 48.2%   Medium  
+720 
+Longest Word in Dictionary  46.6%   Easy    
+726 
+Number of Atoms	46.6%	Hard	
+759 
+Employee Free Time
+63.9%	Hard	
+770 
+Basic Calculator IV 46.5%   Hard    
+772 
+Basic Calculator III
+40.9%	Hard	
+811 
+Subdomain Visit Count	67.3%	Easy	
+
