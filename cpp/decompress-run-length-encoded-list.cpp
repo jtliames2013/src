@@ -28,6 +28,8 @@ Constraints:
 nums.length % 2 == 0
 1 <= nums[i] <= 100
 
+https://en.wikipedia.org/wiki/Run-length_encoding
+
 class Solution {
 public:
     vector<int> decompressRLElist(vector<int>& nums) {
