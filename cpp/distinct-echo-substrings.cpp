@@ -30,6 +30,7 @@ Constraints:
 text has only lowercase English letters.
 
 https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_algorithm
+https://people.csail.mit.edu/alinush/6.006-spring-2014/rec06-rabin-karp-spring2011.pdf
 
 class Solution {
 public:
