@@ -75,3 +75,20 @@ public:
     }
 };
 
+2. DP
+class Solution {
+public:
+    int minTaps(int n, vector<int>& ranges) {
+        vector<long> dp(n+1, INT_MAX);
+        dp[0]=0;
+        for (int i=0; i<=n; ++i) {
+            if (ranges[i]==0) continue;
+            int lower=max(0, i-ranges[i]), upper=min(n, i+ranges[i]);
+            for (int j=lower+1; j<=upper; ++j) {
+                dp[j]=min(dp[j], dp[lower]+1);
+            }
+        }
+        return dp[n]>=INT_MAX?-1:dp[n];
+    }
+};
+
