@@ -41,45 +41,34 @@ public:
         unordered_set<string> st(deadends.begin(), deadends.end());
         unordered_set<string> visited;
         queue<string> q;
+        int res=0;
         string start="0000";
         if (st.find(start)!=st.end() || st.find(target)!=st.end()) return -1;
-        if (start==target) return 0;
+        if (start==target) return res;
         
         q.push(start);
         visited.insert(start);
-        int res=1;
         while (!q.empty()) {
             int n=q.size();
-            for (int i=0; i<n; i++) {
+            for (int i=0; i<n; ++i) {
                 string f=q.front();
                 q.pop();
-                vector<string> neighbors=getNeighbors(f);
-                for (auto neighbor:neighbors) {
-                    if (neighbor==target) return res;
-                    if (visited.find(neighbor)==visited.end() && st.find(neighbor)==st.end()) {
-                        q.push(neighbor);
-                        visited.insert(neighbor);
+
+		for (int j=0; j<f.size(); ++j) {
+                    for (int k=-1; k<=1; k+=2) {
+                        string neighbor=f;
+                        neighbor[j]=(neighbor[j]-'0'+k+10)%10+'0';
+                        if (visited.find(neighbor)==visited.end() && st.find(neighbor)==st.end()) {
+                            if (neighbor==target) return res+1;
+                            q.push(neighbor);
+                            visited.insert(neighbor);
+                        }
                     }
                 }
             }
             res++;
         }
         return -1;
-    }
-private:
-    vector<string> getNeighbors(string& s) {
-        vector<string> res;
-        for (int i=0; i<s.size(); i++) {
-            string str=s;
-            str[i]=(str[i]-'0'+1)%10+'0';
-            res.push_back(str);
-        }
-        for (int i=0; i<s.size(); i++) {
-            string str=s;
-            str[i]=(str[i]-'0'-1+10)%10+'0';
-            res.push_back(str);
-        }
-        return res;
     }
 };
 
