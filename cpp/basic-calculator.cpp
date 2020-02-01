@@ -24,32 +24,35 @@ Finally if there is only one number, from the above solution, we haven't add the
 1.
 class Solution {
 public:
-    int calculate(string s) {       
-        long res=0, num=0, sign=1;
-        stack<int> results, signs; 
-        for (int i=0; i<s.size(); i++) {
+    int calculate(string s) {
+        stack<vector<int>> stk; // {res, sign}
+        int res=0, sign=1, n=s.size();
+        for (int i=0; i<n; ) {
             if (isdigit(s[i])) {
-                num=num*10+s[i]-'0';
+                int num=0;
+                while (i<n && isdigit(s[i])) {
+                    num=num*10+(s[i]-'0');
+                    i++;
+                }
+                res+=num*sign;
             } else if (s[i]=='+' || s[i]=='-') {
-                res+=sign*num;
-                num=0;
                 sign=s[i]=='+'?1:-1;
+                i++;
             } else if (s[i]=='(') {
-                results.push(res);
-                signs.push(sign);
+                stk.push({res, sign});
                 res=0;
                 sign=1;
+                i++;
             } else if (s[i]==')') {
-                res+=sign*num;
-                num=0;
-                res*=signs.top();
-                signs.pop();
-                res+=results.top();
-                results.pop();
+                auto t=stk.top();
+                stk.pop();
+                res=t[0]+t[1]*res;
+                i++;
+            } else {
+                i++;
             }
         }
         
-        if (num!=0) res+=sign*num;
         return res;
     }
 };
