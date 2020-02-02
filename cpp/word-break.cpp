@@ -20,14 +20,14 @@ Subscribe to see which companies asked this question.
 Hide Tags Dynamic Programming
 Hide Similar Problems (H) Word Break II
 
+1.
 class Solution {
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
         int n=s.size();
         if (n==0) return false;
-        unordered_set<string> dict;
-        for (auto w:wordDict) dict.insert(w);
-        
+        unordered_set<string> dict(wordDict.begin(), wordDict.end());
+
         vector<bool> dp(n+1, false);
         dp[0]=true;
         for (int i=1; i<=n; i++) {
@@ -38,7 +38,7 @@ public:
                 }
             }
         }
-        
+
         return dp[n];
     }
 };
