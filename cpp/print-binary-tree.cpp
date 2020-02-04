@@ -59,20 +59,21 @@ public:
         int height=getHeight(root);
         int m=height, n=(1<<height)-1;
         vector<vector<string>> res(m, vector<string>(n, ""));
-        dfs(root, res, 0, 0, n);
+        dfs(res, root, 0, 0, n-1);
         return res;
     }
 private:
+    void dfs(vector<vector<string>>& res, TreeNode* root, int row, int left, int right) {
+        if (root==NULL) return;
+        int mid=left+(right-left)/2;
+        res[row][mid]=to_string(root->val);
+        dfs(res, root->left, row+1, left, mid-1);
+        dfs(res, root->right, row+1, mid+1, right);
+    }
+
     int getHeight(TreeNode* root) {
         if (root==NULL) return 0;
         return 1+max(getHeight(root->left), getHeight(root->right));
     }
-
-    void dfs(TreeNode* root, vector<vector<string>>& res, int row, int l, int r) {
-        if (root==NULL) return;
-        int mid=l+(r-l)/2;
-        res[row][mid]=to_string(root->val);
-        dfs(root->left, res, row+1, l, mid-1);
-        dfs(root->right, res, row+1, mid+1, r);
-    }
 };
+
