@@ -69,12 +69,12 @@ private:
         priority_queue<Point, vector<Point>, decltype(comp)> pq(comp);
         vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
         pq.push({start[0], start[1], 0});
+        dist[start[0]][start[1]]=0;
         
         while (!pq.empty()) {
             auto t=pq.top();
             pq.pop();
-            if (dist[t.row][t.col]<=t.len) continue;
-            dist[t.row][t.col]=t.len;
+            if (dist[t.row][t.col]<t.len) continue;
             
             for (int k=0; k<4; ++k) {
                 Point np=t;
@@ -86,7 +86,10 @@ private:
                 np.row-=delta[k][0];
                 np.col-=delta[k][1];
                 np.len--;
-                pq.push(np);
+                if (dist[np.row][np.col]>np.len) {
+                    dist[np.row][np.col]=np.len;
+                    pq.push(np);
+                }
             }
         }
 
