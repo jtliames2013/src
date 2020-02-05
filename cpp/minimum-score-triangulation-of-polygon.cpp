@@ -56,3 +56,22 @@ public:
         return dp[0][n-1];
     }
 };
+
+2.
+class Solution {
+public:
+    int minScoreTriangulation(vector<int>& A) {
+        int n=A.size();
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (int len=3; len<=n; ++len) {
+            for (int l=0, r=len-1; r<n; ++l, ++r) {
+                dp[l][r]=INT_MAX;
+                for (int k=l+1; k<r; ++k) {
+                    dp[l][r]=min(dp[l][r], dp[l][k]+dp[k][r]+A[l]*A[k]*A[r]);
+                }
+            }
+        }
+        return dp[0][n-1];
+    }
+};
+
