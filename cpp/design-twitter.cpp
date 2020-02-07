@@ -54,8 +54,8 @@ public:
         priority_queue<pair<list<pair<int,int>>::iterator, int>, vector<pair<list<pair<int,int>>::iterator, int>>, decltype(comp)> pq(comp);
 
         if (!feeds[userId].empty()) pq.push({feeds[userId].begin(), userId});
-        for (auto& followerId:followees[userId]) {
-            if (!feeds[followerId].empty()) pq.push({feeds[followerId].begin(), followerId});
+        for (auto& followeeId:followees[userId]) {
+            if (!feeds[followeeId].empty()) pq.push({feeds[followeeId].begin(), followeeId});
         }
         
         int count=10;
@@ -92,3 +92,4 @@ private:
  * obj->follow(followerId,followeeId);
  * obj->unfollow(followerId,followeeId);
  */
+
