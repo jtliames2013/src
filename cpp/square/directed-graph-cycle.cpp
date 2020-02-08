@@ -6,7 +6,7 @@ public:
 	vector<int> dfs(vector<unordered_set<int>>& graph, vector<int>& visited, vector<int>& parent, int vertex) {
         visited[vertex]=1;
 
-		for (auto neighbor:graph[vertex]) {
+        for (auto neighbor:graph[vertex]) {
             if (visited[neighbor]==1) {
                 return getPath(parent, vertex);
             }
@@ -16,10 +16,10 @@ public:
                 parent[neighbor]=-1;
                 if (!res.empty()) return res;
             }
-		}
+        }
 
         visited[vertex]=2;
-		return vector<int>();
+        return vector<int>();
 	}
 
     vector<int> getPath(vector<int>& parent, int vertex) {
