@@ -62,30 +62,30 @@ public:
 };
 
 int main(int argc, char** argv) {
-	Solution s;
+    Solution s;
     int n;
-	vector<pair<int,int> > edges;
+    vector<pair<int,int> > edges;
     n=5;
     edges={{1,2},{2,3},{3,4},{4,2}};
-	cout << s.hasCycle(n, edges) << endl << endl;
+    cout << s.hasCycle(n, edges) << endl << endl;
 
     n=6;
-	edges={{1,2},{2,3},{3,4},{4,5}};
-	cout << s.hasCycle(n, edges) << endl << endl;
+    edges={{1,2},{2,3},{3,4},{4,5}};
+    cout << s.hasCycle(n, edges) << endl << endl;
 
     n=6;
-	edges={{1,2},{2,3},{3,1},{4,5}};
-	cout << s.hasCycle(n, edges) << endl << endl;
+    edges={{1,2},{2,3},{3,1},{4,5}};
+    cout << s.hasCycle(n, edges) << endl << endl;
 
     n=8;
-	edges={{1,2},{2,3},{3,4},{5,6},{6,7},{7,5}};
-	cout << s.hasCycle(n, edges) << endl << endl;
+    edges={{1,2},{2,3},{3,4},{5,6},{6,7},{7,5}};
+    cout << s.hasCycle(n, edges) << endl << endl;
 
     n=8;
-	edges={{1,2},{3,7},{7,6},{6,5},{5,4}, {4,3}};
-	cout << s.hasCycle(n, edges) << endl << endl;
+    edges={{1,2},{3,7},{7,6},{6,5},{5,4}, {4,3}};
+    cout << s.hasCycle(n, edges) << endl << endl;
 
-	return 0;
+    return 0;
 }
 
 2. Topological sort
