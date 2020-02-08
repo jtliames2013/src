@@ -3,7 +3,7 @@
 1. DFS
 class Solution {
 public:
-	vector<int> dfs(vector<unordered_set<int>>& graph, vector<int>& visited, vector<int>& parent, int vertex) {
+    vector<int> dfs(vector<unordered_set<int>>& graph, vector<int>& visited, vector<int>& parent, int vertex) {
         visited[vertex]=1;
 
         for (auto neighbor:graph[vertex]) {
@@ -20,7 +20,7 @@ public:
 
         visited[vertex]=2;
         return vector<int>();
-	}
+    }
 
     vector<int> getPath(vector<int>& parent, int vertex) {
         vector<int> res;
