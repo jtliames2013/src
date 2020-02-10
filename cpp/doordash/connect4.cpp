@@ -8,7 +8,7 @@ public:
     }
 
     int move(int col, int player) {
-        if (col<0 || col>=numCols || rowIndex[col]==0) return -1;
+        if (col<0 || col>=numCols || rowIndex[col]<0) return -1;
         int row=rowIndex[col];
         mat[row][col]=player;
         rowIndex[col]--;
@@ -55,11 +55,16 @@ public:
         return false;
     }
 
-    int getInput(int player) {
-        int col;
-        cout << "Please input the column for player " << player << ": " << endl;
-        cin >> col;
-        return col;
+    int findBestCol(int player) {
+        // find if there is col that current player can win
+        // find if there is col that next player can win
+        // choose the center of the board
+
+        // naive, find the first valid col
+        for (int i=0; i<numCols; ++i) {
+            if (rowIndex[i]>=0) return i;
+        }
+        return 0;
     }
 
     void print() {
@@ -86,13 +91,47 @@ private:
     vector<vector<int>> mat;
 };
 
+class IRobot {
+public:
+	virtual ~IRobot() {}
+	virtual int move(Connect4& c, int player) = 0;
+};
+
+class ManualRobot: public IRobot {
+public:
+    int move(Connect4& c, int player) {
+        int col=getInput(player);
+        return c.move(col, player);
+    }
+
+private:
+    int getInput(int player) {
+        int col;
+        cout << "Please input the column for player " << player << ": " << endl;
+        cin >> col;
+        return col;
+    }
+};
+
+class SmartRobot: public IRobot {
+public:
+    int move(Connect4& c, int player) {
+        int col=findBestCol(c, player);
+        return c.move(col, player);
+    }
+private:
+    int findBestCol(Connect4& c, int player) {
+        return c.findBestCol(player);
+    }
+};
+
 int main(int argc, char** argv) {
     Connect4 c;
     int player=1;
+    ManualRobot mr;
+    SmartRobot sr;
     while (1) {
-        int col=c.getInput(player);
-
-        int res=c.move(col, player);
+        int res=sr.move(c, player);
         if (res>0) {
             cout << "Player "<< res << " wins!" << endl;
             break;
