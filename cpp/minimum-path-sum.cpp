@@ -34,24 +34,7 @@ public:
     }
 };
 
-2.
-class Solution {
-public:
-    int minPathSum(vector<vector<int>>& grid) {
-        int m=grid.size(), n=grid[0].size();
-        vector<vector<int>> dp(m+1, vector<int>(n+1, INT_MAX));
-        for (int i=1; i<=m; ++i) {
-            for (int j=1; j<=n; ++j) {                
-                dp[i][j]=min(dp[i-1][j], dp[i][j-1]);
-                if (dp[i][j]==INT_MAX) dp[i][j]=0;
-                dp[i][j]+=grid[i-1][j-1];
-            }
-        }
-        return dp[m][n];
-    }
-};
-
-3. Use 1D dp array
+2. Use 1D dp array
 class Solution {
 public:
     int minPathSum(vector<vector<int>>& grid) {
@@ -68,5 +51,39 @@ public:
             }
         }
         return dp[n-1];
+    }
+};
+
+3.
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int m=grid.size(), n=grid[0].size();
+        vector<vector<int>> dp(m+1, vector<int>(n+1, INT_MAX));
+        for (int i=1; i<=m; ++i) {
+            for (int j=1; j<=n; ++j) {
+                dp[i][j]=min(dp[i-1][j], dp[i][j-1]);
+                if (dp[i][j]==INT_MAX) dp[i][j]=0;
+                dp[i][j]+=grid[i-1][j-1];
+            }
+        }
+        return dp[m][n];
+    }
+};
+
+4. 1D dp
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int m=grid.size(), n=grid[0].size();
+        vector<int> dp(n+1, INT_MAX);
+        for (int i=1; i<=m; ++i) {
+            for (int j=1; j<=n; ++j) {
+                dp[j]=min(dp[j-1], dp[j]);
+                if (dp[j]==INT_MAX) dp[j]=0;
+                dp[j]+=grid[i-1][j-1];
+            }
+        }
+        return dp[n];
     }
 };
