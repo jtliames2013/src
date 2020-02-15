@@ -46,26 +46,26 @@ public:
             l=max(l, (long)n);
             r+=n;
         }
-        
+
         while (l<r) {
             mid=l+(r-l)/2;
-            if (canCut(nums, m, mid)) r=mid;
-            else l=mid+1;
+            if (getCounts(nums, m, mid)>m) l=mid+1;
+            else r=mid;
         }
         return r;
     }
 private:
-    bool canCut(vector<int>& nums, int m, int bound) {
+    int getCounts(vector<int>& nums, int m, int maxBound) {
+        int res=1;
         long sum=0;
-        for (int i=0; i<nums.size(); ++i) {
-            if (sum+nums[i]>bound) {
+        for (auto& i:nums) {
+            if (sum+i>maxBound) {
                 sum=0;
-                m--;
-                if (m<1) return false;
+                res++;
             }
-            sum+=nums[i];
+            sum+=i;
         }
-        return true;
+        return res;
     }
 };
 
