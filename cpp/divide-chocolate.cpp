@@ -61,11 +61,11 @@ public:
         return l;
     }
 private:
-    int getCounts(vector<int>& sweetness, int total) {
+    int getCounts(vector<int>& sweetness, int minBound) {
         int res=0, sum=0;
         for (auto& s:sweetness) {
             sum+=s;
-            if (sum>=total) {
+            if (sum>=minBound) {
                 sum=0;
                 res++;
             }
