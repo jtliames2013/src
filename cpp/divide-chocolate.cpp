@@ -55,7 +55,7 @@ public:
 
         while (l<r) {
             mid=l+(r-l)/2+1;
-            if (getCounts(sweetness, mid)<=K) r=mid-1;
+            if (getCounts(sweetness, mid)<K+1) r=mid-1;
             else l=mid;
         }
         return l;
