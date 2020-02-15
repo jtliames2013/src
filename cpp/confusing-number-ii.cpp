@@ -49,14 +49,15 @@ public:
     int confusingNumberII(int N) {
         count=0;
         upper=N;
-        if (N>=1) dfs(1, 1, 10);
-        if (N>=6) dfs(6, 9, 10);
-        if (N>=8) dfs(8, 8, 10);
-        if (N>=9) dfs(9, 6, 10);
+        dfs(1, 1, 10);
+        dfs(6, 9, 10);
+        dfs(8, 8, 10);
+        dfs(9, 6, 10);
         return count;
     }
 private:
     void dfs(long num, long rotation, long base) {
+        if (num>upper) return;
         if (num!=rotation) count++;
         for (auto d:digits) {
             if (num*10+d<=upper) dfs(num*10+d, mp[d]*base+rotation, base*10);
