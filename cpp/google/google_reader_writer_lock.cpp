@@ -5,42 +5,32 @@ class RWLock {
 	}
 
 	void ReaderLock() {
-		mx.lock();
-		while (count<0) {
-			unique_lock<mutex> lk(mx);
-			cv.wait(lk);
-		}
+		unique_lock<mutex> lock(mtx);
+		while (count<0) cv.wait(lock);
 		count++;
-		mx.unlock();
 	}
 
 	void ReaderUnlock() {
-		mx.lock();
+		unique_lock<mutex> lock(mtx);
 		count--;
 		if (count==0) cv.notify_all();
-		mx.unlock();
 	}
 
 	void WriterLock() {
-		mx.lock();
-		while (count!=0) {
-			unique_lock<mutex> lk(mx);
-			cv.wait(lk);
-		}
+                unique_lock<mutex> lock(mtx);
+		while (count!=0) cv.wait(lock);
 		count--;
-		mx.unlock();
 	}
 
 	void WriteUnlock() {
-		mx.lock();
+                unique_lock<mutex> lock(mtx);
 		count++;
 		cv.notify_all();
-		mx.unlock();
 	}
 
 private:
 	int count;
-	mutex mx;
+	mutex mtx;
 	condition_variable cv;
 };
 
@@ -52,45 +42,37 @@ class RWLock {
 	}
 
 	void ReaderLock() {
-		mx.lock();
+                unique_lock<mutex> lock(mtx);
 		while (count<0 || writerRequests>0) {
-			unique_lock<mutex> lk(mx);
-			cv.wait(lk);
+			cv.wait(lock);
 		}
 		count++;
-		mx.unlock();
 	}
 
 	void ReaderUnlock() {
-		mx.lock();
+                unique_lock<mutex> lock(mtx);
 		count--;
 		if (count==0) cv.notify_all();
-		mx.unlock();
 	}
 
 	void WriterLock() {
-		mx.lock();
+                unique_lock<mutex> lock(mtx);
 		writerRequests++;
-		while (count!=0) {
-			unique_lock<mutex> lk(mx);
-			cv.wait(lk);
-		}
+		while (count!=0) cv.wait(lock);
 		count--;
 		writerRequests--;
-		mx.unlock();
 	}
 
 	void WriteUnlock() {
-		mx.lock();
+                unique_lock<mutex> lock(mtx);
 		count++;
 		cv.notify_all();
-		mx.unlock();
 	}
 
 private:
 	int count;
 	int writerRequests;
-	mutex mx;
+	mutex mtx;
 	condition_variable cv;
 };
 
@@ -104,47 +86,41 @@ class RWLock {
 	}
 
 	void ReaderLock() {
-		mx.lock();
+                unique_lock<mutex> lock(mtx);
 		int i=index;
 		while (count<0 || i>curr) {
-			unique_lock<mutex> lk(mx);
-			cv.wait(lk);
+			cv.wait(lock);
 		}
 		count++;
-		mx.unlock();
 	}
 
 	void ReaderUnlock() {
-		mx.lock();
+                unique_lock<mutex> lock(mtx);
 		count--;
 		if (count==0) cv.notify_all();
-		mx.unlock();
 	}
 
 	void WriterLock() {
-		mx.lock();
+                unique_lock<mutex> lock(mtx);
 		int i=index++;
 		while (count!=0 || i>curr) {
-			unique_lock<mutex> lk(mx);
-			cv.wait(lk);
+			cv.wait(lock);
 		}
 		count--;
-		mx.unlock();
 	}
 
 	void WriteUnlock() {
-		mx.lock();
+                unique_lock<mutex> lock(mtx);
 		count++;
 		curr++;
 		cv.notify_all();
-		mx.unlock();
 	}
 
 private:
 	int count;
 	int curr;
 	int index;
-	mutex mx;
+	mutex mtx;
 	condition_variable cv;
 };
 
