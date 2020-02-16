@@ -40,26 +40,24 @@ At most 50000 calls will be made to set, snap, and get.
 class SnapshotArray {
 public:
     SnapshotArray(int length) {
-        this->length=length;
         snap_id=0;
         data.resize(length);
         for (auto& d:data) d[0]=0;
     }
-    
+
     void set(int index, int val) {
         data[index][snap_id]=val;
     }
-    
+
     int snap() {
-        return snap_id++;        
+        return snap_id++;
     }
-    
+
     int get(int index, int snap_id) {
-        auto iter=data[index].upper_bound(snap_id);        
+        auto iter=data[index].upper_bound(snap_id);
         return prev(iter)->second;
     }
 private:
-    int length;
     int snap_id;
     vector<map<int,int>> data;
 };
@@ -71,3 +69,4 @@ private:
  * int param_2 = obj->snap();
  * int param_3 = obj->get(index,snap_id);
  */
+
