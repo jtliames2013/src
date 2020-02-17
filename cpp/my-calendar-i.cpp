@@ -45,3 +45,21 @@ private:
  * MyCalendar* obj = new MyCalendar();
  * bool param_1 = obj->book(start,end);
  */
+
+2.
+class MyCalendar {
+public:
+    MyCalendar() {
+
+    }
+
+    bool book(int start, int end) {
+        auto iter=mp.upper_bound(start);
+        if (iter!=mp.end() && end>iter->first) return false;
+        if (iter!=mp.begin() && prev(iter)->second>start) return false;
+        mp[start]=end;
+        return true;
+    }
+private:
+    map<int, int> mp;
+};
