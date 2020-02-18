@@ -38,6 +38,7 @@ Google
 |
 6
 
+1. Bottom-up dfs
 class Solution {
 public:
     vector<string> expand(string S) {
@@ -64,6 +65,48 @@ private:
         }
         
         return vector<string>(st.begin(), st.end());
+    }
+};
+
+2. Top-down dfs
+class Solution {
+public:
+    vector<string> expand(string S) {
+        vector<string> res;
+        string output;
+        int n=S.size();
+        vector<set<char>> letters;
+        for (int i=0; i<n; ) {
+            if (S[i]=='{') {
+                i++; //'{'
+                letters.push_back({});
+                while (i<n-1) {
+                    letters.back().insert(S[i]);
+                    i++;
+                    if (S[i]=='}') break;
+                    else i++;
+                }
+                i++; // '}'
+            } else {
+                letters.push_back({S[i]});
+                i++;
+            }
+        }
+        dfs(res, output, letters, 0);
+        return res;
+    }
+private:
+    void dfs(vector<string>& res, string& output, vector<set<char>>& letters, int start) {
+        if (start==letters.size()) {
+            res.push_back(output);
+            return;
+        }
+
+        for (auto c:letters[start]) {
+            output.push_back(c);
+            dfs(res, output, letters, start+1);
+            output.pop_back();
+        }
     }
 };
 
