@@ -40,6 +40,7 @@ public:
     int removeStones(vector<vector<int>>& stones) {
         islands=0;
         for (int i=0; i<stones.size(); ++i) {
+	    // row and col are connected by this stone
             uni(stones[i][0], ~stones[i][1]);
         }
         return stones.size()-islands;
