@@ -65,6 +65,7 @@ public:
                 return true;
             }
         }
+        mp[{pos, lastJump}]=false;
         return false;
     } 
     
