@@ -119,3 +119,42 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    Node* insert(Node* head, int insertVal) {
+        if (head==NULL) {
+            Node* n=new Node(insertVal);
+            n->next=n;
+            return n;
+        } else if (head->next==head) {
+            Node* n=new Node(insertVal);
+            head->next=n;
+            n->next=head;
+            return head;
+        } else {
+            Node *curr=head, *next=curr->next, *maxNode=NULL;
+            int maxVal=INT_MIN;
+            do {
+                if (curr->val>=maxVal) {
+                    maxVal=curr->val;
+                    maxNode=curr;
+                }
+                if (curr->val<=insertVal && next->val>insertVal) {
+                    Node* n=new Node(insertVal);
+                    curr->next=n;
+                    n->next=next;
+                    return head;
+                }
+                curr=next;
+                next=next->next;
+            } while (curr!=head);
+
+            Node *n=new Node(insertVal);
+            Node *maxNext=maxNode->next;
+            maxNode->next=n;
+            n->next=maxNext;
+            return head;
+        }
+    }
+};
