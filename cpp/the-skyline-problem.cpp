@@ -46,27 +46,26 @@ http://www.cnblogs.com/easonliu/p/4531020.html
 class Solution {
 public:
     vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
-        vector<vector<int>> res, lines;
+        vector<vector<int>> res, points;
         for (auto& b:buildings) {
-            lines.push_back({b[0], -b[2]}); // start of building
-            lines.push_back({b[1], b[2]}); // end of building
+            points.push_back({b[0], -b[2]}); // start of building
+            points.push_back({b[1], b[2]}); // end of building
         }
-        sort(lines.begin(), lines.end());
+        sort(points.begin(), points.end());
         multiset<int> height;
         // insert the base line, to be used when no line
         height.insert(0);
-        int mx=0, curr=0;
+        int mx=0;
+        for (auto& p:points) {
+            if (p[1]<0) height.insert(-p[1]);
+            else height.erase(height.find(p[1]));
 
-        for (auto& l:lines) {
-            if (l[1]<0) height.insert(-l[1]);
-            else height.erase(height.find(l[1]));
-
-            curr=*(height.rbegin());
-            if (curr!=mx) {
-                res.push_back({l[0], curr});
-                mx=curr;
+            if (mx!=*height.rbegin()) {
+                mx=*height.rbegin();
+                res.push_back({p[0], mx});
             }
         }
         return res;
     }
 };
+
