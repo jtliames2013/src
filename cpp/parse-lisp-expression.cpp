@@ -71,7 +71,7 @@ private:
             if (op=="let") {
                 while (1) {
                     string var=parse(str, start);
-                    if (start>str.size()) return dfs(var, mp);
+                    if (start>=str.size()) return dfs(var, mp);
                     string expr=parse(str, start);
                     mp[var]=dfs(expr, mp);
                 }
@@ -88,13 +88,13 @@ private:
     }
                    
     string parse(string& str, int& start) {
-        int end=start+1, count=0;
+        int end=start, count=0;
         if (str[start]=='(') {
-            count++;
-            while (count>0) {
+            while (end<str.size()) {
                 if (str[end]=='(') count++;
                 else if (str[end]==')') count--;
                 end++;
+                if (count==0) break;
             }
         } else {
             while (end<str.size() && str[end]!=' ') end++;
@@ -104,3 +104,4 @@ private:
         return res;
     }
 };
+
