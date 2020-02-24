@@ -38,7 +38,6 @@ Subscribe to see which companies asked this question.
 Hide Tags Array Hash Table Design
 Hide Similar Problems (M) Insert Delete GetRandom O(1)
 
-
 class RandomizedCollection {
 public:
     /** Initialize your data structure here. */
@@ -58,33 +57,36 @@ public:
     /** Removes a value from the collection. Returns true if the collection contained the specified element. */
     bool remove(int val) {
         if (mp.find(val)==mp.end()) return false;
-        int idx=*mp[val].begin();
-        mp[val].erase(idx);
-        if (mp[val].empty()) mp.erase(val);
-        if (idx!=data.size()-1) {
+        int idx=data.size()-1;
+        if (val!=data.back()) {
+            idx=*mp[val].begin();
+            data[idx]=data.back();
             mp[data.back()].erase(data.size()-1);
             mp[data.back()].insert(idx);
-            data[idx]=data.back();
         }
+        mp[val].erase(idx);
+        if (mp[val].empty()) mp.erase(val);
         data.pop_back();
-        return true;
+
+	return true;
     }
     
     /** Get a random element from the collection. */
     int getRandom() {
-        if (data.empty()) return -1;
-        return data[rand()%data.size()];
+        int n=data.size();
+        if (n==0) return -1;
+        return data[rand()%n];
     }
 private:
     vector<int> data;
-    unordered_map<int,set<int>> mp;
+    unordered_map<int, unordered_set<int>> mp;
 };
 
 /**
  * Your RandomizedCollection object will be instantiated and called as such:
- * RandomizedCollection obj = new RandomizedCollection();
- * bool param_1 = obj.insert(val);
- * bool param_2 = obj.remove(val);
- * int param_3 = obj.getRandom();
+ * RandomizedCollection* obj = new RandomizedCollection();
+ * bool param_1 = obj->insert(val);
+ * bool param_2 = obj->remove(val);
+ * int param_3 = obj->getRandom();
  */
 
