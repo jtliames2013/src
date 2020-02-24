@@ -56,29 +56,30 @@ public:
 https://leetcode.com/discuss/76432/fast-python-bfs-solution
 class Solution {
 public:
-    int coinChange(vector<int>& coins, int amount) {
+    int coinChange(vector<int>& coins, int amount) {        
         if (amount<=0) return 0;
-        int step=0;
-        vector<bool> visited(amount+1, false);
+        int res=0;
         queue<int> q;
+        vector<bool> visited(amount+1);
         q.push(0);
         visited[0]=true;
         
         while (!q.empty()) {
-            int n=q.size();
-            step++;
-            for (int i=0; i<n; i++) {
-                int f=q.front();
+            int size=q.size();
+            for (int i=0; i<size; ++i) {
+                auto f=q.front();
                 q.pop();
-                for (int j=0; j<coins.size(); j++) {
-                    int k=f+coins[j];
-                    if (k==amount) return step;
-                    if (k<amount && visited[k]==false) {
-                        q.push(k);
-                        visited[k]=true;
+                
+                for (auto c:coins) {
+                    int next=f+c;
+                    if (next<=amount && visited[next]==false) {
+                        if (next==amount) return res+1;
+                        q.push(next);
+                        visited[next]=true;
                     }
                 }
             }
+            res++;
         }
         return -1;
     }
