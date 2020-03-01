@@ -34,17 +34,18 @@ Hide Tags Tree
 class Solution {
 public:
     int diameterOfBinaryTree(TreeNode* root) {
-        if (root==NULL) return 0;
-        int len=0;
-        dfs(root, len);
-        return len-1;
+        res=0;
+        dfs(root);
+        return res;
     }
 private:
-    int dfs(TreeNode* root, int& len) {
+    int dfs(TreeNode* root) {
         if (root==NULL) return 0;
-        int l=dfs(root->left, len);
-        int r=dfs(root->right, len);
-        len=max(len, l+r+1);
-        return max(l, r)+1;
+        auto l=dfs(root->left), r=dfs(root->right);
+        res=max(res, l+r);  // number of edges = number of nodes - 1
+        return max(l, r)+1; // number of nodes
     }
+
+    int res;
 };
+
