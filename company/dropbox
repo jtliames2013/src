@@ -1,54 +1,54 @@
-    #	Title	Acceptance  Difficulty	Frequency
-1   
-Two Sum	44.9%	Easy	
-4   
-Median of Two Sorted Arrays 28.0%   Hard    
-17  
-Letter Combinations of a Phone Number	44.2%	Medium	
-23  
-Merge k Sorted Lists	37.5%	Hard	
-28  
-Implement strStr()  33.5%   Easy    
-64  
-Minimum Path Sum    50.1%   Medium  
-140 
-Word Break II	29.2%	Hard	
-146 
-LRU Cache   29.1%   Medium  
-289 
-Game of Life	50.1%	Medium	
-290 
-Word Pattern	36.1%	Easy	
-291 
+ 	#	Title	Acceptance	Difficulty	Frequency
+1	
+Two Sum	45.1%	Easy	
+4	
+Median of Two Sorted Arrays	28.4%	Hard	
+17	
+Letter Combinations of a Phone Number	44.9%	Medium	
+23	
+Merge k Sorted Lists	38.3%	Hard	
+28	
+Implement strStr()	33.8%	Easy	
+64	
+Minimum Path Sum	50.9%	Medium	
+140	
+Word Break II	29.8%	Hard	
+146	
+LRU Cache	30.0%	Medium	
+289	
+Game of Life	51.4%	Medium	
+290	
+Word Pattern	36.3%	Easy	
+291	
 Word Pattern II
-42.5%	Hard	
-362 
+42.7%	Hard	
+362	
 Design Hit Counter
-61.5%	Medium	
-379 
+62.1%	Medium	
+379	
 Design Phone Directory
-44.8%	Medium	
-609 
-Find Duplicate File in System	57.6%	Medium	
-642 
+45.4%	Medium	
+609	
+Find Duplicate File in System	58.0%	Medium	
+642	
 Design Search Autocomplete System
-41.7%	Hard	
-924 
-Minimize Malware Spread	41.3%	Hard	
-928 
-Minimize Malware Spread II  39.7%   Hard    
+42.5%	Hard	
+924	
+Minimize Malware Spread	41.6%	Hard	
+928	
+Minimize Malware Spread II	40.1%	Hard	
 1001	
-Grid Illumination   35.0%   Hard    
+Grid Illumination	35.1%	Hard	
 1010	
-Pairs of Songs With Total Durations Divisible by 60 46.7%   Easy    
+Pairs of Songs With Total Durations Divisible by 60	47.1%	Easy	
 1178	
 Number of Valid Words for Each Puzzle	37.2%	Hard	
 1236	
 Web Crawler
-64.4%	Medium	
+63.4%	Medium	
 1242	
 Web Crawler Multithreaded
-45.6%	Medium	
+43.8%	Medium	
 1250	
-Check If It Is a Good Array 52.0%   Hard    
+Check If It Is a Good Array	52.2%	Hard	
 

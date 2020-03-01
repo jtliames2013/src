@@ -1,178 +1,184 @@
-    #	Title	Acceptance  Difficulty	Frequency
-1   
-Two Sum	44.9%	Easy	
-3   
-Longest Substring Without Repeating Characters	29.3%	Medium	
-14  
-Longest Common Prefix	34.5%	Easy	
-15  
-3Sum	25.5%	Medium	
-17  
-Letter Combinations of a Phone Number	44.2%	Medium	
-22  
-Generate Parentheses	58.8%	Medium	
-23  
-Merge k Sorted Lists	37.5%	Hard	
-33  
-Search in Rotated Sorted Array	33.5%	Medium	
-36  
-Valid Sudoku	46.0%	Medium	
-37  
-Sudoku Solver	40.2%	Hard	
-39  
-Combination Sum	52.4%	Medium	
-40  
-Combination Sum II  44.9%   Medium  
-42  
-Trapping Rain Water 46.2%   Hard    
-44  
-Wildcard Matching   23.8%   Hard    
-49  
-Group Anagrams	51.6%	Medium	
-54  
-Spiral Matrix	32.3%	Medium	
-56  
-Merge Intervals	37.5%	Medium	
-59  
-Spiral Matrix II    50.5%   Medium  
-62  
-Unique Paths	50.6%	Medium	
-63  
-Unique Paths II	33.8%	Medium	
-68  
-Text Justification  25.3%   Hard    
-76  
-Minimum Window Substring    32.9%   Hard    
-79  
-Word Search 33.2%   Medium  
-91  
-Decode Ways 23.4%   Medium  
-96  
-Unique Binary Search Trees  49.0%   Medium  
-121 
-Best Time to Buy and Sell Stock	49.0%	Easy	
-127 
-Word Ladder 26.9%   Medium  
-139 
-Word Break  37.7%   Medium  
-140 
-Word Break II	29.2%	Hard	
-146 
-LRU Cache   29.1%   Medium  
-151 
-Reverse Words in a String   18.8%   Medium  
-155 
-Min Stack   40.2%   Easy    
-161 
+ 	#	Title	Acceptance	Difficulty	Frequency
+1	
+Two Sum	45.1%	Easy	
+3	
+Longest Substring Without Repeating Characters	29.6%	Medium	
+14	
+Longest Common Prefix	34.7%	Easy	
+15	
+3Sum	25.7%	Medium	
+22	
+Generate Parentheses	59.8%	Medium	
+33	
+Search in Rotated Sorted Array	33.6%	Medium	
+36	
+Valid Sudoku	46.7%	Medium	
+37	
+Sudoku Solver	41.0%	Hard	
+39	
+Combination Sum	53.3%	Medium	
+40	
+Combination Sum II	45.7%	Medium	
+42	
+Trapping Rain Water	46.9%	Hard	
+44	
+Wildcard Matching	24.0%	Hard	
+49	
+Group Anagrams	52.7%	Medium	
+54	
+Spiral Matrix	32.8%	Medium	
+56	
+Merge Intervals	38.0%	Medium	
+59	
+Spiral Matrix II	51.3%	Medium	
+62	
+Unique Paths	51.4%	Medium	
+63	
+Unique Paths II	33.9%	Medium	
+68	
+Text Justification	26.0%	Hard	
+76	
+Minimum Window Substring	33.4%	Hard	
+79	
+Word Search	33.7%	Medium	
+91	
+Decode Ways	23.7%	Medium	
+96	
+Unique Binary Search Trees	49.7%	Medium	
+121	
+Best Time to Buy and Sell Stock	49.4%	Easy	
+127	
+Word Ladder	27.6%	Medium	
+139	
+Word Break	38.3%	Medium	
+140	
+Word Break II	29.8%	Hard	
+146	
+LRU Cache	30.0%	Medium	
+151	
+Reverse Words in a String	19.4%	Medium	
+155	
+Min Stack	41.0%	Easy	
+161	
 One Edit Distance
-32.1%	Medium	
-169 
-Majority Element    55.3%   Easy    
-189 
-Rotate Array	32.5%	Easy	
-200 
-Number of Islands   44.2%   Medium  
-206 
-Reverse Linked List 58.7%   Easy    
-215 
-Kth Largest Element in an Array	51.5%	Medium	
-224 
-Basic Calculator    35.0%   Hard    
-227 
-Basic Calculator II 35.4%   Medium  
-236 
-Lowest Common Ancestor of a Binary Tree	41.6%	Medium	
-253 
+32.2%	Medium	
+169	
+Majority Element	55.9%	Easy	
+189	
+Rotate Array	33.0%	Easy	
+200	
+Number of Islands	44.8%	Medium	
+206	
+Reverse Linked List	59.7%	Easy	
+212	
+Word Search II	32.1%	Hard	
+215	
+Kth Largest Element in an Array	52.5%	Medium	
+224	
+Basic Calculator	35.5%	Hard	
+227	
+Basic Calculator II	35.7%	Medium	
+236	
+Lowest Common Ancestor of a Binary Tree	42.6%	Medium	
+238	
+Product of Array Except Self	58.6%	Medium	
+242	
+Valid Anagram	55.2%	Easy	
+253	
 Meeting Rooms II
-44.3%	Medium	
-269 
+44.7%	Medium	
+269	
 Alien Dictionary
-33.5%	Hard	
-270 
+34.0%	Hard	
+270	
 Closest Binary Search Tree Value
-45.7%	Easy	
-282 
-Expression Add Operators    34.4%   Hard    
-289 
-Game of Life	50.1%	Medium	
-295 
-Find Median from Data Stream	40.4%	Hard	
-296 
+46.2%	Easy	
+282	
+Expression Add Operators	34.7%	Hard	
+289	
+Game of Life	51.4%	Medium	
+295	
+Find Median from Data Stream	41.3%	Hard	
+296	
 Best Meeting Point
-56.6%	Hard	
-305 
+56.9%	Hard	
+305	
 Number of Islands II
-40.6%	Hard	
-311 
+40.4%	Hard	
+311	
 Sparse Matrix Multiplication
-58.6%	Medium	
-312 
-Burst Balloons	49.5%	Hard	
-314 
+59.2%	Medium	
+312	
+Burst Balloons	50.0%	Hard	
+314	
 Binary Tree Vertical Order Traversal
-42.8%	Medium	
-317 
+43.3%	Medium	
+317	
 Shortest Distance from All Buildings
-39.7%	Hard	
-332 
-Reconstruct Itinerary	33.6%	Medium	
-344 
-Reverse String	65.1%	Easy	
-347 
-Top K Frequent Elements	58.2%	Medium	
-362 
+40.1%	Hard	
+332	
+Reconstruct Itinerary	34.0%	Medium	
+344	
+Reverse String	65.7%	Easy	
+347	
+Top K Frequent Elements	59.0%	Medium	
+362	
 Design Hit Counter
-61.5%	Medium	
-377 
-Combination Sum IV  44.2%   Medium  
-402 
-Remove K Digits	27.4%	Medium	
-403 
-Frog Jump   37.8%   Hard    
-415 
-Add Strings 45.5%   Easy    
-439 
+62.1%	Medium	
+377	
+Combination Sum IV	44.5%	Medium	
+394	
+Decode String	48.1%	Medium	
+402	
+Remove K Digits	27.5%	Medium	
+403	
+Frog Jump	38.4%	Hard	
+415	
+Add Strings	46.0%	Easy	
+439	
 Ternary Expression Parser
-54.8%	Medium	
-443 
-String Compression  39.3%   Easy    
-460 
-LFU Cache   31.8%   Hard    
-480 
-Sliding Window Median	34.8%	Hard	
-505 
+55.1%	Medium	
+443	
+String Compression	39.8%	Easy	
+460	
+LFU Cache	32.4%	Hard	
+480	
+Sliding Window Median	35.3%	Hard	
+505	
 The Maze II
-46.1%	Medium	
-527 
+46.5%	Medium	
+527	
 Word Abbreviation
-52.5%	Hard	
-557 
-Reverse Words in a String III	66.8%	Easy	
-560 
-Subarray Sum Equals K	43.3%	Medium	
-632 
-Smallest Range Covering Elements from K Lists	50.2%	Hard	
-635 
+52.9%	Hard	
+557	
+Reverse Words in a String III	67.7%	Easy	
+560	
+Subarray Sum Equals K	43.4%	Medium	
+632	
+Smallest Range Covering Elements from K Lists	50.7%	Hard	
+635	
 Design Log Storage System
-56.9%	Medium	
-642 
+57.2%	Medium	
+642	
 Design Search Autocomplete System
-41.7%	Hard	
-653 
-Two Sum IV - Input is a BST 54.0%   Easy    
-658 
-Find K Closest Elements	39.4%	Medium	
-733 
-Flood Fill  52.6%   Easy    
-772 
+42.5%	Hard	
+653	
+Two Sum IV - Input is a BST	54.3%	Easy	
+658	
+Find K Closest Elements	39.6%	Medium	
+733	
+Flood Fill	53.1%	Easy	
+772	
 Basic Calculator III
-40.9%	Hard	
-839 
-Similar String Groups	36.6%	Hard	
-964 
-Least Operators to Express Number   43.2%   Hard    
-986 
-Interval List Intersections 64.7%   Medium  
+40.8%	Hard	
+839	
+Similar String Groups	36.8%	Hard	
+964	
+Least Operators to Express Number	43.4%	Hard	
+986	
+Interval List Intersections	65.3%	Medium	
 1031	
-Maximum Sum of Two Non-Overlapping Subarrays	55.4%	Medium	
+Maximum Sum of Two Non-Overlapping Subarrays	56.2%	Medium	
+1146	
+Snapshot Array	35.9%	Medium	
 

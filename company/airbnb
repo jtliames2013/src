@@ -1,140 +1,140 @@
-    #	Title	Acceptance  Difficulty	Frequency
-1   
-Two Sum	44.9%	Easy	
-2   
-Add Two Numbers	32.5%	Medium	
-3   
-Longest Substring Without Repeating Characters	29.3%	Medium	
-4   
-Median of Two Sorted Arrays 28.0%   Hard    
-5   
-Longest Palindromic Substring	28.5%	Medium	
-7   
+ 	#	Title	Acceptance	Difficulty	Frequency
+1	
+Two Sum	45.1%	Easy	
+2	
+Add Two Numbers	32.8%	Medium	
+4	
+Median of Two Sorted Arrays	28.4%	Hard	
+5	
+Longest Palindromic Substring	28.8%	Medium	
+7	
 Reverse Integer	25.6%	Easy	
-10  
-Regular Expression Matching 26.0%   Hard    
-11  
-Container With Most Water   48.2%   Medium  
-17  
-Letter Combinations of a Phone Number	44.2%	Medium	
-20  
-Valid Parentheses   37.8%   Easy    
-21  
-Merge Two Sorted Lists	50.6%	Easy	
-23  
-Merge k Sorted Lists	37.5%	Hard	
-31  
-Next Permutation    31.5%   Medium  
-39  
-Combination Sum	52.4%	Medium	
-41  
-First Missing Positive	30.4%	Hard	
-42  
-Trapping Rain Water 46.2%   Hard    
-68  
-Text Justification  25.3%   Hard    
-76  
-Minimum Window Substring    32.9%   Hard    
-108 
-Convert Sorted Array to Binary Search Tree  54.2%   Easy    
-127 
-Word Ladder 26.9%   Medium  
-136 
-Single Number	62.4%	Easy	
-160 
-Intersection of Two Linked Lists    37.1%   Easy    
-166 
-Fraction to Recurring Decimal	20.5%	Medium	
-190 
-Reverse Bits	34.2%	Easy	
-198 
-House Robber	41.5%	Easy	
-202 
-Happy Number	47.9%	Easy	
-211 
-Add and Search Word - Data structure design 33.3%   Medium  
-212 
-Word Search II	31.4%	Hard	
-215 
-Kth Largest Element in an Array	51.5%	Medium	
-217 
-Contains Duplicate  54.4%   Easy    
-219 
-Contains Duplicate II	36.5%	Easy	
-220 
-Contains Duplicate III	20.4%	Medium	
-221 
-Maximal Square	34.9%	Medium	
-227 
-Basic Calculator II 35.4%   Medium  
-236 
-Lowest Common Ancestor of a Binary Tree	41.6%	Medium	
-251 
+10	
+Regular Expression Matching	26.2%	Hard	
+11	
+Container With Most Water	49.0%	Medium	
+17	
+Letter Combinations of a Phone Number	44.9%	Medium	
+20	
+Valid Parentheses	38.1%	Easy	
+21	
+Merge Two Sorted Lists	51.4%	Easy	
+23	
+Merge k Sorted Lists	38.3%	Hard	
+39	
+Combination Sum	53.3%	Medium	
+41	
+First Missing Positive	30.8%	Hard	
+42	
+Trapping Rain Water	46.9%	Hard	
+68	
+Text Justification	26.0%	Hard	
+76	
+Minimum Window Substring	33.4%	Hard	
+108	
+Convert Sorted Array to Binary Search Tree	55.2%	Easy	
+127	
+Word Ladder	27.6%	Medium	
+136	
+Single Number	63.0%	Easy	
+160	
+Intersection of Two Linked Lists	37.9%	Easy	
+166	
+Fraction to Recurring Decimal	20.8%	Medium	
+190	
+Reverse Bits	35.1%	Easy	
+198	
+House Robber	41.6%	Easy	
+202	
+Happy Number	48.6%	Easy	
+211	
+Add and Search Word - Data structure design	34.1%	Medium	
+212	
+Word Search II	32.1%	Hard	
+215	
+Kth Largest Element in an Array	52.5%	Medium	
+217	
+Contains Duplicate	54.9%	Easy	
+219	
+Contains Duplicate II	36.8%	Easy	
+220	
+Contains Duplicate III	20.5%	Medium	
+221	
+Maximal Square	35.4%	Medium	
+227	
+Basic Calculator II	35.7%	Medium	
+236	
+Lowest Common Ancestor of a Binary Tree	42.6%	Medium	
+251	
 Flatten 2D Vector
-44.9%	Medium	
-269 
+45.0%	Medium	
+269	
 Alien Dictionary
-33.5%	Hard	
-280 
+34.0%	Hard	
+280	
 Wiggle Sort
-62.3%	Medium	
-299 
-Bulls and Cows	41.1%	Easy	
-322 
-Coin Change 33.0%   Medium  
-324 
-Wiggle Sort II	29.0%	Medium	
-336 
-Palindrome Pairs    32.5%   Hard    
-341 
-Flatten Nested List Iterator	50.7%	Medium	
-385 
-Mini Parser 32.8%   Medium  
-415 
-Add Strings 45.5%   Easy    
-588 
+62.6%	Medium	
+299	
+Bulls and Cows	41.4%	Easy	
+322	
+Coin Change	33.6%	Medium	
+324	
+Wiggle Sort II	29.2%	Medium	
+336	
+Palindrome Pairs	32.8%	Hard	
+341	
+Flatten Nested List Iterator	51.2%	Medium	
+385	
+Mini Parser	33.0%	Medium	
+415	
+Add Strings	46.0%	Easy	
+588	
 Design In-Memory File System
-43.0%	Hard	
-622 
-Design Circular Queue	41.7%	Medium	
-751 
+43.3%	Hard	
+622	
+Design Circular Queue	42.1%	Medium	
+751	
 IP to CIDR
-61.6%	Easy	
-755 
+61.9%	Easy	
+755	
 Pour Water
-42.7%	Medium	
-756 
-Pyramid Transition Matrix   53.2%   Medium  
-759 
+43.0%	Medium	
+756	
+Pyramid Transition Matrix	53.6%	Medium	
+759	
 Employee Free Time
-63.9%	Hard	
-773 
-Sliding Puzzle	56.0%	Hard	
-787 
-Cheapest Flights Within K Stops	36.9%	Medium	
-829 
-Consecutive Numbers Sum	35.7%	Hard	
-843 
+64.3%	Hard	
+773	
+Sliding Puzzle	57.1%	Hard	
+787	
+Cheapest Flights Within K Stops	37.2%	Medium	
+829	
+Consecutive Numbers Sum	36.0%	Hard	
+843	
 Guess the Word	45.4%	Hard	
-875 
-Koko Eating Bananas 48.9%   Medium  
-953 
-Verifying an Alien Dictionary	55.3%	Easy	
+864	
+Shortest Path to Get All Keys	39.3%	Hard	
+875	
+Koko Eating Bananas	49.6%	Medium	
+953	
+Verifying an Alien Dictionary	55.0%	Easy	
 1017	
-Convert to Base -2  57.5%   Medium  
+Convert to Base -2	58.0%	Medium	
 1041	
-Robot Bounded In Circle	47.3%	Medium	
+Robot Bounded In Circle	47.6%	Medium	
 1058	
 Minimize Rounding Error to Meet Target
-40.5%	Medium	
+41.6%	Medium	
 1166	
 Design File System
-57.0%	Medium	
+56.8%	Medium	
+1235	
+Maximum Profit in Job Scheduling	43.8%	Hard	
 1257	
 Smallest Common Region
-54.9%	Medium	
+56.2%	Medium	
 1284	
-Minimum Number of Flips to Convert Binary Matrix to Zero Matrix	69.8%	Hard	
+Minimum Number of Flips to Convert Binary Matrix to Zero Matrix	69.3%	Hard	
 1298	
-Maximum Candies You Can Get from Boxes	58.2%	Hard	
+Maximum Candies You Can Get from Boxes	58.0%	Hard	
 

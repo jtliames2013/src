@@ -1,114 +1,114 @@
-    #	Title	Acceptance  Difficulty	Frequency
-1   
-Two Sum	44.9%	Easy	
-2   
-Add Two Numbers	32.5%	Medium	
-7   
+ 	#	Title	Acceptance	Difficulty	Frequency
+1	
+Two Sum	45.1%	Easy	
+2	
+Add Two Numbers	32.8%	Medium	
+7	
 Reverse Integer	25.6%	Easy	
-10  
-Regular Expression Matching 26.0%   Hard    
-11  
-Container With Most Water   48.2%   Medium  
-17  
-Letter Combinations of a Phone Number	44.2%	Medium	
-20  
-Valid Parentheses   37.8%   Easy    
-21  
-Merge Two Sorted Lists	50.6%	Easy	
-22  
-Generate Parentheses	58.8%	Medium	
-23  
-Merge k Sorted Lists	37.5%	Hard	
-24  
-Swap Nodes in Pairs 47.6%   Medium  
-42  
-Trapping Rain Water 46.2%   Hard    
-48  
-Rotate Image	52.4%	Medium	
-68  
-Text Justification  25.3%   Hard    
-69  
-Sqrt(x)	32.6%	Easy	
-76  
-Minimum Window Substring    32.9%   Hard    
-78  
-Subsets	57.0%	Medium	
-79  
-Word Search 33.2%   Medium  
-91  
-Decode Ways 23.4%   Medium  
-109 
-Convert Sorted List to Binary Search Tree   44.1%   Medium  
-121 
-Best Time to Buy and Sell Stock	49.0%	Easy	
-126 
-Word Ladder II	20.0%	Hard	
-127 
-Word Ladder 26.9%   Medium  
-139 
-Word Break  37.7%   Medium  
-146 
-LRU Cache   29.1%   Medium  
-149 
-Max Points on a Line	16.4%	Hard	
-155 
-Min Stack   40.2%   Easy    
-158 
+10	
+Regular Expression Matching	26.2%	Hard	
+11	
+Container With Most Water	49.0%	Medium	
+17	
+Letter Combinations of a Phone Number	44.9%	Medium	
+20	
+Valid Parentheses	38.1%	Easy	
+21	
+Merge Two Sorted Lists	51.4%	Easy	
+22	
+Generate Parentheses	59.8%	Medium	
+23	
+Merge k Sorted Lists	38.3%	Hard	
+24	
+Swap Nodes in Pairs	48.3%	Medium	
+42	
+Trapping Rain Water	46.9%	Hard	
+48	
+Rotate Image	53.5%	Medium	
+68	
+Text Justification	26.0%	Hard	
+69	
+Sqrt(x)	32.9%	Easy	
+76	
+Minimum Window Substring	33.4%	Hard	
+78	
+Subsets	58.0%	Medium	
+79	
+Word Search	33.7%	Medium	
+91	
+Decode Ways	23.7%	Medium	
+109	
+Convert Sorted List to Binary Search Tree	45.0%	Medium	
+121	
+Best Time to Buy and Sell Stock	49.4%	Easy	
+126	
+Word Ladder II	20.5%	Hard	
+127	
+Word Ladder	27.6%	Medium	
+139	
+Word Break	38.3%	Medium	
+146	
+LRU Cache	30.0%	Medium	
+149	
+Max Points on a Line	16.6%	Hard	
+155	
+Min Stack	41.0%	Easy	
+158	
 Read N Characters Given Read4 II - Call multiple times
-29.8%	Hard	
-162 
-Find Peak Element   42.3%   Medium  
-200 
-Number of Islands   44.2%   Medium  
-238 
-Product of Array Except Self	57.9%	Medium	
-239 
-Sliding Window Maximum	40.3%	Hard	
-251 
+30.7%	Hard	
+162	
+Find Peak Element	42.6%	Medium	
+200	
+Number of Islands	44.8%	Medium	
+238	
+Product of Array Except Self	58.6%	Medium	
+239	
+Sliding Window Maximum	40.8%	Hard	
+251	
 Flatten 2D Vector
-44.9%	Medium	
-253 
+45.0%	Medium	
+253	
 Meeting Rooms II
-44.3%	Medium	
-279 
-Perfect Squares	43.9%	Medium	
-283 
-Move Zeroes 55.9%   Easy    
-304 
-Range Sum Query 2D - Immutable	35.5%	Medium	
-333 
+44.7%	Medium	
+279	
+Perfect Squares	44.6%	Medium	
+283	
+Move Zeroes	56.3%	Easy	
+304	
+Range Sum Query 2D - Immutable	36.2%	Medium	
+333	
 Largest BST Subtree
-34.5%	Medium	
-341 
-Flatten Nested List Iterator	50.7%	Medium	
-349 
-Intersection of Two Arrays  58.5%   Easy    
-365 
-Water and Jug Problem	29.9%	Medium	
-426 
+34.7%	Medium	
+341	
+Flatten Nested List Iterator	51.2%	Medium	
+349	
+Intersection of Two Arrays	59.5%	Easy	
+365	
+Water and Jug Problem	30.0%	Medium	
+426	
 Convert Binary Search Tree to Sorted Doubly Linked List
-56.0%	Medium	
-442 
-Find All Duplicates in an Array	63.3%	Medium	
-443 
-String Compression  39.3%   Easy    
-632 
-Smallest Range Covering Elements from K Lists	50.2%	Hard	
-642 
+56.9%	Medium	
+442	
+Find All Duplicates in an Array	64.0%	Medium	
+443	
+String Compression	39.8%	Easy	
+632	
+Smallest Range Covering Elements from K Lists	50.7%	Hard	
+642	
 Design Search Autocomplete System
-41.7%	Hard	
-652 
-Find Duplicate Subtrees	48.1%	Medium	
-694 
+42.5%	Hard	
+652	
+Find Duplicate Subtrees	48.8%	Medium	
+694	
 Number of Distinct Islands
-53.6%	Medium	
-716 
+54.4%	Medium	
+716	
 Max Stack
-41.8%	Easy	
-735 
-Asteroid Collision  39.7%   Medium  
-981 
-Time Based Key-Value Store  51.9%   Medium  
+42.0%	Easy	
+735	
+Asteroid Collision	39.9%	Medium	
+981	
+Time Based Key-Value Store	51.9%	Medium	
 1094	
-Car Pooling 56.7%   Medium  
+Car Pooling	56.8%	Medium	
 

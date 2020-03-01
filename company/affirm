@@ -1,0 +1,26 @@
+ 	#	Title	Acceptance	Difficulty	Frequency
+1	
+Two Sum	45.1%	Easy	
+42	
+Trapping Rain Water	46.9%	Hard	
+49	
+Group Anagrams	52.7%	Medium	
+127	
+Word Ladder	27.6%	Medium	
+146	
+LRU Cache	30.0%	Medium	
+200	
+Number of Islands	44.8%	Medium	
+230	
+Kth Smallest Element in a BST	56.0%	Medium	
+322	
+Coin Change	33.6%	Medium	
+380	
+Insert Delete GetRandom O(1)	45.4%	Medium	
+381	
+Insert Delete GetRandom O(1) - Duplicates allowed	33.4%	Hard	
+695	
+Max Area of Island	60.5%	Medium	
+736	
+Parse Lisp Expression	46.1%	Hard	
+

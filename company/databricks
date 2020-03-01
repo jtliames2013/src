@@ -1,29 +1,33 @@
-    #	Title	Acceptance  Difficulty	Frequency
-41  
-First Missing Positive	30.4%	Hard	
-42  
-Trapping Rain Water 46.2%   Hard    
-91  
-Decode Ways 23.4%   Medium  
-218 
-The Skyline Problem 33.1%   Hard    
-239 
-Sliding Window Maximum	40.3%	Hard	
-314 
+ 	#	Title	Acceptance	Difficulty	Frequency
+41	
+First Missing Positive	30.8%	Hard	
+42	
+Trapping Rain Water	46.9%	Hard	
+91	
+Decode Ways	23.7%	Medium	
+114	
+Flatten Binary Tree to Linked List	46.5%	Medium	
+218	
+The Skyline Problem	33.4%	Hard	
+239	
+Sliding Window Maximum	40.8%	Hard	
+314	
 Binary Tree Vertical Order Traversal
-42.8%	Medium	
-350 
-Intersection of Two Arrays II	50.0%	Easy	
-380 
-Insert Delete GetRandom O(1)	44.8%	Medium	
-381 
-Insert Delete GetRandom O(1) - Duplicates allowed   33.1%   Hard    
-426 
+43.3%	Medium	
+350	
+Intersection of Two Arrays II	50.3%	Easy	
+380	
+Insert Delete GetRandom O(1)	45.4%	Medium	
+381	
+Insert Delete GetRandom O(1) - Duplicates allowed	33.4%	Hard	
+426	
 Convert Binary Search Tree to Sorted Doubly Linked List
-56.0%	Medium	
-742 
+56.9%	Medium	
+742	
 Closest Leaf in a Binary Tree
-41.8%	Medium	
-981 
-Time Based Key-Value Store  51.9%   Medium  
+42.0%	Medium	
+981	
+Time Based Key-Value Store	51.9%	Medium	
+987	
+Vertical Order Traversal of a Binary Tree	34.1%	Medium	
 
