@@ -88,22 +88,17 @@ class Solution {
 public:
     /**
      * @param buf Destination buffer
-     * @param n   Maximum number of characters to read
-     * @return    The number of characters read
+     * @param n   Number of characters to read
+     * @return    The number of actual characters read
      */
-    Solution() {
-        idx=cnt=0;
-    }
-    
     int read(char *buf, int n) {
         int i=0;
         while (i<n) {
+            idx=0;
             cnt=read4(b);
             if (cnt==0) break;
             while (i<n && idx<cnt) buf[i++]=b[idx++];
-            if (idx==cnt) idx=0;
         }
-        
         return i;
     }
 private:
