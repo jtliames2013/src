@@ -17,6 +17,7 @@ Note:
 
 S will consist of lowercase letters and have length in range [1, 500].
 
+1. priority queue
 class Solution {
 public:
     string reorganizeString(string S) {
@@ -48,3 +49,44 @@ public:
     }
 
 };
+
+2.
+class Solution {
+public:
+    string reorganizeString(string S) {
+        int n=S.size();
+        string res;
+        unordered_map<char,int> mp;
+        for (auto c:S) mp[c]++;
+
+        for (auto iter:mp) {
+            if (iter.second>(S.size()+1)/2) return res;
+        }
+
+        res.resize(n);
+        int maxCnt=0, maxChar;
+        for (auto iter:mp) {
+            if (iter.second>maxCnt) {
+                maxCnt=iter.second;
+                maxChar=iter.first;
+            }
+        }
+
+        int i=0;
+        for (; i<n && mp[maxChar]>0; i+=2, mp[maxChar]--) {
+            res[i]=maxChar;
+        }
+
+        for (auto iter:mp) {
+            while (iter.second>0) {
+                if (i>=n) i=1;
+                res[i]=iter.first;
+                iter.second--;
+                i+=2;
+            }
+        }
+
+        return res;
+    }
+};
+
