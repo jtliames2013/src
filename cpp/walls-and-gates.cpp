@@ -40,33 +40,29 @@ Microsoft
 1. DFS
 class Solution {
 public:
-    void dfs(vector<vector<int>>& rooms, int row, int col, int m, int n) {
-        for (int k=0; k<4; k++) {
-            int nr=row+delta[k][0];
-            int nc=col+delta[k][1];
-            
-            if (nr>=0 && nr<m && nc>=0 && nc<n && rooms[nr][nc]>rooms[row][col]) {
-                rooms[nr][nc]=rooms[row][col]+1;
-                dfs(rooms, nr, nc, m, n);
-            }
-        }    
-    }
-    
     void wallsAndGates(vector<vector<int>>& rooms) {
         int m=rooms.size();
         if (m==0) return;
         int n=rooms[0].size();
         if (n==0) return;
-        
-        for (int i=0; i<m; i++) {
-            for (int j=0; j<n; j++) {
-                if (rooms[i][j]==0) {
-                    dfs(rooms, i, j, m, n);
-                }
+        for (int i=0; i<m; ++i) {
+            for (int j=0; j<n; ++j) {
+                if (rooms[i][j]==0) dfs(rooms, i, j, m, n);
             }
         }
     }
 private:
+    void dfs(vector<vector<int>>& rooms, int row, int col, int m, int n) {
+        for (int k=0; k<4; ++k) {
+            int nr=row+delta[k][0];
+            int nc=col+delta[k][1];
+            if (nr>=0 && nr<m && nc>=0 && nc<n && rooms[nr][nc]>rooms[row][col]+1) {
+                rooms[nr][nc]=rooms[row][col]+1;
+                dfs(rooms, nr, nc, m, n);
+            }
+        }
+    }
+
     const int delta[4][2]={{-1,0}, {1,0}, {0,-1}, {0,1}};
 };
 
@@ -85,7 +81,7 @@ public:
                 int nr=f.first+delta[k][0];
                 int nc=f.second+delta[k][1];
                 
-                if (nr>=0 && nr<m && nc>=0 && nc<n && rooms[nr][nc]>rooms[f.first][f.second]) {
+                if (nr>=0 && nr<m && nc>=0 && nc<n && rooms[nr][nc]>rooms[f.first][f.second]+1) {
                     rooms[nr][nc]=rooms[f.first][f.second]+1;
                     q.push({nr,nc});
                 }
@@ -137,7 +133,7 @@ public:
                 int nr=f.first+delta[k][0];
                 int nc=f.second+delta[k][1];
                 
-                if (nr>=0 && nr<m && nc>=0 && nc<n && rooms[nr][nc]>rooms[f.first][f.second]) {
+                if (nr>=0 && nr<m && nc>=0 && nc<n && rooms[nr][nc]>rooms[f.first][f.second]+1) {
                     rooms[nr][nc]=rooms[f.first][f.second]+1;
                     q.push({nr,nc});
                 }
