@@ -57,3 +57,27 @@ public:
         return newHead;
     }
 };
+
+2.
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        if (head==NULL || m==n) return head;
+        ListNode dummy(0);
+        dummy.next=head;
+        ListNode *prev=&dummy, *tail, *curr, *next;
+        for (int i=0; i<m-1; ++i) prev=prev->next;
+        tail=prev->next;
+
+        for (int i=0; i<n-m; ++i) {
+            // 1   ->   3    ->   2    ->   4 -> 5
+            // prev    curr      tail
+            curr=prev->next;
+            prev->next=tail->next;
+            tail->next=tail->next->next;
+            prev->next->next=curr;
+        }
+
+        return dummy.next;
+    }
+};
