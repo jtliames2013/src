@@ -37,3 +37,28 @@ public:
     }
 };
 
+2.
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> res(n, vector<int>(n));
+        int rb=0, re=n-1, cb=0, ce=n-1, num=1;
+        while (rb<=re && cb<=ce) {
+            for (int i=cb; i<=ce; ++i) res[rb][i]=num++;
+            rb++;
+            for (int i=rb; i<=re; ++i) res[i][ce]=num++;
+            ce--;
+            if (rb<=re) {
+                for (int i=ce; i>=cb; --i) res[re][i]=num++;
+                re--;
+            }
+            if (cb<=ce) {
+                for (int i=re; i>=rb; --i) res[i][cb]=num++;
+                cb++;
+            }
+        }
+
+        return res;
+    }
+};
+
