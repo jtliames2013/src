@@ -41,6 +41,8 @@ Constraints:
 1 <= s.length <= 10^5
 s contains only lowercase English letters.
 
+Rolling hash
+
 class Solution {
 public:
     string longestPrefix(string s) {
