@@ -62,3 +62,22 @@ private:
     const long mod=1e9+7;
 };
 
+2.
+KMP
+
+https://www.youtube.com/watch?v=GTJr8OvyEVQ
+https://web.stanford.edu/class/cs97si/10-string-algorithms.pdf
+class Solution {
+public:
+    string longestPrefix(string s) {
+        int n=s.size();
+        vector<int> p(n);
+        for (int j=0, i=1; i<n; ++i) {
+            while (j>0 && s[i]!=s[j]) j=p[j-1];
+            if (s[i]==s[j]) p[i]=++j;
+        }
+        return s.substr(0, p[n-1]);
+    }
+};
+
+
