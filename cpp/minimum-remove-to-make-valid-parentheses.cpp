@@ -44,7 +44,6 @@ Constraints:
 1 <= s.length <= 10^5
 s[i] is one of  '(' , ')' and lowercase English letters.
 
-
 class Solution {
 public:
     string minRemoveToMakeValid(string s) {
@@ -54,8 +53,8 @@ public:
         for (int i=0; i<n; ++i) {
             if (s[i]=='(') stk.push_back(i);
             else if (s[i]==')') {
-                if (stk.empty() || s[stk.back()]!='(') stk.push_back(i);
-                else stk.pop_back();
+                if (!stk.empty() && s[stk.back()]=='(') stk.pop_back();
+                else stk.push_back(i);
             }
         }
         
@@ -66,4 +65,5 @@ public:
         return res;
     }
 };
+
 
