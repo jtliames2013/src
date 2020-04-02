@@ -54,17 +54,14 @@ public:
         for (int i=0; i<n; ++i) {
             if (s[i]=='(') stk.push_back(i);
             else if (s[i]==')') {
-                if (!stk.empty() && s[stk.back()]=='(') stk.pop_back();
-                else stk.push_back(i);
+                if (stk.empty() || s[stk.back()]!='(') stk.push_back(i);
+                else stk.pop_back();
             }
         }
         
         for (int i=0, j=0; i<n; ++i) {
-            if (j<stk.size() && i==stk[j]) {
-                j++;
-                continue;
-            }
-            res+=s[i];
+            if (j<stk.size() && i==stk[j]) j++;
+            else res+=s[i];
         }
         return res;
     }
