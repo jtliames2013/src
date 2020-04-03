@@ -27,30 +27,25 @@ Hide Similar Problems (H) Rearrange String k Distance Apart
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
-        int res=0;
-        int count[26]={0};
-        for (auto t:tasks) count[t-'A']++;
+        unordered_map<char, int> mp;
+        for (auto t:tasks) mp[t]++;
         priority_queue<int> pq;
-        for (int i=0; i<26; i++) {
-            if (count[i]>0) pq.push(count[i]);
-        }
-        
-        int cycle=n+1;
+        for(auto iter:mp) pq.push(iter.second);
+        int cycle=n+1, res=0;
         while (!pq.empty()) {
             vector<int> cnt;
-            int t=0;
-            for (int i=0; i<cycle; i++) {
+            for (int i=0; i<cycle; ++i) {
                 if (pq.empty()) break;
                 cnt.push_back(pq.top());
                 pq.pop();
-                t++;
             }
+            
             for (auto c:cnt) {
                 if (c>1) pq.push(c-1);
             }
-            res+=pq.empty()?t:cycle;
+            
+            res+=pq.empty()?cnt.size():cycle;
         }
-        
         return res;
     }
 };
