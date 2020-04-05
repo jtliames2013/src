@@ -39,25 +39,25 @@ public:
     int slidingPuzzle(vector<vector<int>>& board) {
         int res=0;
         string begin, end="123450";
-        for (int i=0; i<2; i++) {
-            for (int j=0; j<3; j++) begin+=board[i][j]+'0';
+        for (int i=0; i<2; ++i) {
+            for (int j=0; j<3; ++j) begin+=board[i][j]+'0';
         }
-
         if (begin==end) return res;
-        queue<pair<string,int>> q;
+        queue<pair<string, int>> q;
         unordered_set<string> visited;
         q.push({begin, begin.find('0')});
         visited.insert(begin);
-        
         while (!q.empty()) {
             int size=q.size();
-            for (int i=0; i<size; i++) {
-                auto t=q.front();
+            for (int i=0; i<size; ++i) {
+                auto f=q.front();
                 q.pop();
-                for (auto neighbor:delta[t.second]) {                    
-                    string str=t.first;
-                    swap(str[t.second], str[neighbor]);
-                    if (visited.find(str)==visited.end()) {                                                                     if (str==end) return res+1;
+
+                for (auto& neighbor:mp[f.second]) {
+                    string str=f.first;
+                    swap(str[f.second], str[neighbor]);
+                    if (visited.find(str)==visited.end()) {
+                        if (str==end) return res+1;
                         q.push({str, neighbor});
                         visited.insert(str);
                     }
@@ -65,8 +65,17 @@ public:
             }
             res++;
         }
+
         return -1;
     }
 private:
-    unordered_map<int, vector<int>> delta{{0,{1,3}},{1,{0,2,4}},{2,{1,5}},{3,{0,4}},{4,{3,5,1}},{5,{4,2}}};
+    unordered_map<int, unordered_set<int>> mp={
+        {0, {1, 3}},
+        {1, {0, 2, 4}},
+        {2, {1, 5}},
+        {3, {0, 4}},
+        {4, {1, 3, 5}},
+        {5, {2, 4}}
+    };
 };
+
