@@ -80,3 +80,58 @@ private:
         build(node->right, node, graph);
     }
 };
+
+2.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int K) {
+        vector<int> res;
+        unordered_map<int, set<int>> graph;
+        build(root, NULL, graph);
+        queue<int> q;
+        unordered_set<int> visited;
+        q.push(target->val);
+        visited.insert(target->val);
+        if (K==0) res.push_back(target->val);
+
+        while (!q.empty()) {
+            if (K==0) break;
+            int n=q.size();
+            for (int i=0; i<n; ++i) {
+                int f=q.front();
+                q.pop();
+
+                for (auto neighbor:graph[f])  {
+                    if (visited.find(neighbor)==visited.end()) {
+                        if (K==1) res.push_back(neighbor);
+                        q.push(neighbor);
+                        visited.insert(neighbor);
+                    }
+                }
+            }
+            K--;
+        }
+
+        return res;
+    }
+private:
+    void build(TreeNode* node, TreeNode* parent, unordered_map<int, set<int>>& graph) {
+        if (!node) return;
+        if (parent) {
+            graph[parent->val].insert(node->val);
+            graph[node->val].insert(parent->val);
+        }
+        build(node->left, node, graph);
+        build(node->right, node, graph);
+    }
+};
+
