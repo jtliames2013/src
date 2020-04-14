@@ -61,7 +61,7 @@ public:
         while (l<r) {
             mid=l+(r-l)/2;
             if (mountainArr.get(mid)>mountainArr.get(mid+1)) {
-                r=peak=mid;                
+                r=peak=mid;
             } else {
                 l=mid+1;
             }
@@ -73,7 +73,7 @@ public:
             else if (mountainArr.get(mid)<target) l=mid+1;
             else r=mid-1;
         }
-        l=peak, r=n-1;
+        l=peak+1, r=n-1;
         while (l<=r) {
             mid=l+(r-l)/2;
             if (mountainArr.get(mid)==target) return mid;
