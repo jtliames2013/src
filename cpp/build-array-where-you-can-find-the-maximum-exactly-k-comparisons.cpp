@@ -52,4 +52,30 @@ Constraints:
 1 <= m <= 100
 0 <= k <= n
 
+class Solution {
+public:
+    int numOfArrays(int n, int m, int k) {
+        long res=0;
+        vector<vector<vector<long>>> dp(n+1, vector<vector<long>>(m+1, vector<long>(k+1)));
+        for (int i=1; i<=m; ++i) dp[1][i][1]=1;
+        
+        for (int i=1; i<=n; ++i) {
+            for (int j=1; j<=m; ++j) {
+                for (int l=1; l<=k; ++l) {
+                    // we can append 1 - j to the array and get the same cost
+                    dp[i][j][l]=(dp[i][j][l]+j*dp[i-1][j][l])%mod;
+                    for (int x=1; x<j; ++x) {
+                        // we can append j to the array and get one more cost
+                        dp[i][j][l]=(dp[i][j][l]+dp[i-1][x][l-1])%mod;
+                    }
+                }
+            }
+        }
+        
+        for (int i=1; i<=m; ++i) res=(res+dp[n][i][k])%mod;
+        return res;
+    }
+private:
+    const int mod=1e9+7;
+};
 
