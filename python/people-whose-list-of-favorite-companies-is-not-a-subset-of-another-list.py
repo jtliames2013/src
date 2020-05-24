@@ -7,7 +7,7 @@ class Solution:
             for j in range(len(favoriteCompanies)):
                 if i==j: continue
                     
-                if len(d[i]-d[j])==0:
+                if not d[i]-d[j]:
                     subset=True
                     break
             
