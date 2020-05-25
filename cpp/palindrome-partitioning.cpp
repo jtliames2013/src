@@ -65,8 +65,9 @@ public:
 private:
     void buildIsPalin(string& s, vector<vector<bool>>& isPalin) {
         int n=s.size();
-        for (int i=n-1; i>=0; --i) {
-            for (int j=i; j<n; ++j) {
+        for (int len=1; len<=n; ++len) {
+            for (int i=0; i<n-len+1; ++i) {
+                int j=i+len-1;
                 if (i==j) isPalin[i][j]=true;
                 else if (i+1==j) isPalin[i][j]=s[i]==s[j];
                 else isPalin[i][j]=(s[i]==s[j] && isPalin[i+1][j-1]);
