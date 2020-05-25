@@ -48,28 +48,25 @@ public:
     Node* cloneGraph(Node* node) {
         if (node==NULL) return NULL;
         unordered_map<Node*, Node*> mp;
-        unordered_set<Node*> visited;
         queue<Node*> q;
         q.push(node);
-        visited.insert(node);
         Node* newNode=new Node(node->val);
         mp[node]=newNode;
-        
+
         while (!q.empty()) {
             auto f=q.front();
             q.pop();
-            
+
             for (auto neighbor:f->neighbors) {
-                if (visited.find(neighbor)==visited.end()) {
+                if (mp.find(neighbor)==mp.end()) {
                     q.push(neighbor);
-                    visited.insert(neighbor);
                     Node* n=new Node(neighbor->val);
                     mp[neighbor]=n;
                 }
                 mp[f]->neighbors.push_back(mp[neighbor]);
             }
         }
-        
+
         return newNode;
     }
 };
