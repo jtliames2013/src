@@ -80,21 +80,20 @@ public:
     Node* cloneGraph(Node* node) {
         if (node==NULL) return NULL;
         unordered_map<Node*, Node*> mp;
-        unordered_set<Node*> visited;
-        return dfs(node, mp, visited);
+        return dfs(node, mp);
     }
 private:
-    Node* dfs(Node* node, unordered_map<Node*, Node*>& mp, unordered_set<Node*>& visited) {
+    Node* dfs(Node* node, unordered_map<Node*, Node*>& mp) {
         Node* n=new Node(node->val);
-        visited.insert(node);
         mp[node]=n;
         for (auto neighbor:node->neighbors) {
-            if (visited.find(neighbor)==visited.end()) {
-                dfs(neighbor, mp, visited);
+            if (mp.find(neighbor)==mp.end()) {
+                dfs(neighbor, mp);
             }
             n->neighbors.push_back(mp[neighbor]);
         }
-        
+
         return n;
     }
 };
+
