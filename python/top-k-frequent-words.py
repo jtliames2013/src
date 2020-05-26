@@ -26,3 +26,10 @@ class Solution:
         d=collections.Counter(words)
         return heapq.nsmallest(k, d, lambda w: (-d[w], w))
 
+3.
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        d=collections.Counter(words)
+        res=sorted(d, key=lambda w: (-d[w], w))
+        return res[:k]
+
