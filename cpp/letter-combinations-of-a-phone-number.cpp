@@ -91,26 +91,23 @@ private:
             res.push_back(output);
             return;
         }
-        
-        vector<char> v=getChar(digits[start]);
-        for (auto c:v) {
+
+        for (auto c:mp[digits[start]]) {
             output.push_back(c);
             dfs(digits, res, output, start+1);
             output.pop_back();
         }
     }
-    
-    vector<char> getChar(char digit) {
-        switch (digit) {
-            case '2': return {'a', 'b', 'c'}; 
-            case '3': return {'d', 'e', 'f'}; 
-            case '4': return {'g', 'h', 'i'}; 
-            case '5': return {'j', 'k', 'l'}; 
-            case '6': return {'m', 'n', 'o'}; 
-            case '7': return {'p', 'q', 'r', 's'}; 
-            case '8': return {'t', 'u', 'v'}; 
-            case '9': return {'w', 'x', 'y', 'z'}; 
-            default: return {};
-        }
-    }
+
+    unordered_map<char, vector<char>> mp={
+        {'2', {'a', 'b', 'c'}},
+        {'3', {'d', 'e', 'f'}},
+        {'4', {'g', 'h', 'i'}},
+        {'5', {'j', 'k', 'l'}},
+        {'6', {'m', 'n', 'o'}},
+        {'7', {'p', 'q', 'r', 's'}},
+        {'8', {'t', 'u', 'v'}},
+        {'9', {'w', 'x', 'y', 'z'}}
+    };
 };
+
