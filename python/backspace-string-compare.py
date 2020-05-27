@@ -1,20 +1,8 @@
 1.
 class Solution:
-    def backspaceCompare(self, S, T):
-        """
-        :type S: str
-        :type T: str
-        :rtype: bool
-        """
-        def back(s):
-            res=[]
-            for c in s:
-                if c!='#':res.append(c)
-                elif res: res.pop()
-            return res
-        
-        return back(S)==back(T)
-
+    def backspaceCompare(self, S: str, T: str) -> bool:
+        back = lambda res, c : res[:-1] if c=='#' else res+c
+        return reduce(back, S, "") == reduce(back, T, "")
 2.
 class Solution:
     def backspaceCompare(self, S, T):
