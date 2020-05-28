@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 
 def get_last_n_lines(file_name, N):
     res=[]
