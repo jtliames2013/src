@@ -29,17 +29,18 @@ class Solution {
 public:
     int maxPathSum(TreeNode* root) {
         if (root==NULL) return 0;
-        int sum=INT_MIN;
-        dfs(root, sum);
+        sum=INT_MIN;
+        dfs(root);
         return sum;
     }
 private:
-    int dfs(TreeNode* root, int& sum) {
+    int sum;
+    int dfs(TreeNode* root) {
         if (root==NULL) return 0;
-        int l=dfs(root->left, sum);
-        int r=dfs(root->right, sum);
+        int l=dfs(root->left);
+        int r=dfs(root->right);
         sum=max(sum, max(l, 0)+max(r, 0)+root->val);
-        
+
         return max({0, l, r})+root->val;
     }
 };
