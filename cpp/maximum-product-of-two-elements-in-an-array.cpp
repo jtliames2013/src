@@ -35,15 +35,16 @@ Constraints:
 class Solution {
 public:
     int maxProduct(vector<int>& nums) {
-        int mx1=0, mx2=0, n=nums.size();
-        for (int i=0; i<n; ++i) {
-            if (mx1<nums[i]) {
+        int mx1=0, mx2=0;
+        for (auto& i:nums) {
+            if (mx1<i) {
                 mx2=mx1;
-                mx1=nums[i];
-            } else if (mx2<nums[i]) {
-                mx2=nums[i];
+                mx1=i;
+            } else if (mx2<i) {
+                mx2=i;
             }
         }
         return (mx1-1)*(mx2-1);
     }
 };
+
