@@ -1,8 +1,8 @@
 #!/bin/bash
 
 function usage {
-  echo “\n...USAGE ERROR...\n”
-  echo “\nUSAGE: $SCRIPT_NAME <number_of_lines_to_create>\n”
+  echo "\n...USAGE ERROR...\n"
+  echo "\nUSAGE: $SCRIPT_NAME <number_of_lines_to_create>\n"
 }
 
 ################################################
