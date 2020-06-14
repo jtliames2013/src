@@ -87,3 +87,36 @@ private:
  * TreeAncestor* obj = new TreeAncestor(n, parent);
  * int param_1 = obj->getKthAncestor(node,k);
  */
+
+2.
+class TreeAncestor {
+public:
+    TreeAncestor(int n, vector<int>& parent) {
+        ancestors.resize(maxSteps, vector<int>(n, -1));
+        for (int i=0; i<n; ++i) ancestors[0][i]=parent[i];
+        for (int i=1; i<maxSteps; ++i) {
+            for (int j=0; j<n; ++j) {
+                if (ancestors[i-1][j]!=-1) {
+                    ancestors[i][j]=ancestors[i-1][ancestors[i-1][j]];
+                }
+            }
+        }
+    }
+
+    int getKthAncestor(int node, int k) {
+        int step=maxSteps;
+        while (k>0 && node!=-1) {
+            if (k>=(1<<step)) {
+                node=ancestors[step][node];
+                k-=(1<<step);
+            } else {
+                step--;
+            }
+        }
+        return node;
+    }
+private:
+    int maxSteps=16;
+    vector<vector<int>> ancestors;
+};
+
