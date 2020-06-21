@@ -46,6 +46,9 @@ Amazon
 |
 3
 
+minimum spanning tree
+Kruskal's algorithm
+
 class Solution {
 public:
     int minimumCost(int N, vector<vector<int>>& connections) {
