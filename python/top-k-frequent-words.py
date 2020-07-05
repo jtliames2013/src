@@ -13,11 +13,11 @@ class Solution:
         res, pq=[], []
         d=collections.Counter(words)
         for key, val in d.items():
-            heappush(pq, [Item(key, val), key])
+            heappush(pq, Item(key, val))
             if len(pq)>k: heappop(pq)
         
         while pq:
-            res.append(heappop(pq)[1])
+            res.append(heappop(pq).word)
         return res[::-1]
 
 2.
