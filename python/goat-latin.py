@@ -1,13 +1,10 @@
-class Solution:
-    def toGoatLatin(self, S):
-        """
-        :type S: str
-        :rtype: str
-        """
-        vowel = set('aeiou')
-        def getWord(i, w):
-            if w[0].lower() not in vowel:
-                w=w[1:]+w[0]
-            return w+"ma"+'a'*(i+1)
-        
-        return ' '.join(getWord(i,w) for i, w in enumerate(S.split()))
+class Solution:    
+    def toGoatLatin(self, S: str) -> str:
+        vowels=set('aeiouAEIOU')
+        def latin(word, i):
+            if word[0] not in vowels:
+                word=word[1:]+word[0]
+            return word+"ma"+'a'*(i+1)
+
+        return ' '.join(latin(w, i) for i, w in enumerate(S.split()))
+
