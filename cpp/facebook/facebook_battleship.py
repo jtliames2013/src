@@ -36,7 +36,7 @@ class App:
                 nc+=delta[1]
                 if nr<0 or nr>=m or nc<0 or nc>=n or board[nr][nc]!='X': break
                 count+=1
-                if count==3: return True
+                if count==SIZE: return True
             return False
 
         res=[]
