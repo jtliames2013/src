@@ -15,7 +15,7 @@ def parse_and_sort(file1, file2):
 def find_and_replace(filename):
     # with open(filename, 'r') as fd:
     #     for line in fd:
-    #         emails = re.findall("([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", line)
+    #         emails = re.findall(r'[\w\.-+]+@[\w\.-]+\.\w+', line)
     #         print(emails)
 
     # with fileinput.FileInput(filename, inplace=True) as file:
@@ -25,7 +25,7 @@ def find_and_replace(filename):
     with open(filename, 'r') as fd:
         data=fd.read()
     
-    emails = re.findall("([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", data)
+    emails = re.findall(r'[\w\.-+]+@[\w\.-]+\.\w+', data)
     for email in emails:
         data=data.replace(email, "remove@foo.com")
 
