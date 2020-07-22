@@ -32,7 +32,7 @@ class App:
         if n==0:
             raise ValueError("Invalid args")
 
-        graph=[set() for i in range(n)]
+        graph=collections.defaultdict(set)
         for i in range(n):
             for j in range(i):
                 x1, y1, r1=mines[i]
