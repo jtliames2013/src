@@ -14,9 +14,11 @@ M=20
 N=20
 
 class Rectangle:
-    def __init__(self, ul, br, ch):
-        self.ul=ul
-        self.br=br
+    def __init__(self, upper, left, bottom, right, ch):
+        self.upper=upper
+        self.left=left
+        self.bottom=bottom
+        self.right=right
         self.ch=ch
 
 class Printer():
@@ -31,7 +33,7 @@ class Printer():
 
     def move_to_top(self, pos):
         for k in range(len(self.rects)-1, -1, -1):
-            if self.rects[k].ul[0]<=pos[0]<=self.rects[k].br[0] and self.rects[k].ul[1]<=pos[1]<=self.rects[k].br[1]:
+            if self.rects[k].upper<=pos[0]<=self.rects[k].bottom and self.rects[k].left<=pos[1]<=self.rects[k].right:
                 break
         
         if k==-1: return
@@ -39,37 +41,37 @@ class Printer():
 
     def drag(self, start, end):
         for k in range(len(self.rects)-1, -1, -1):
-            if self.rects[k].ul[0]<=start[0]<=self.rects[k].br[0] and self.rects[k].ul[1]<=start[1]<=self.rects[k].br[1]:
+            if self.rects[k].upper<=start[0]<=self.rects[k].bottom and self.rects[k].left<=start[1]<=self.rects[k].right:
                 break
         
         if k==-1: return
 
         delta=[end[0]-start[0], end[1]-start[1]]
-        if delta[0]<-self.rects[k].ul[0]: delta[0]=-self.rects[k].ul[0]
-        if delta[0]>M-self.rects[k].br[0]-1: delta[0]=M-self.rects[k].br[0]-1
-        if delta[1]<-self.rects[k].ul[1]: delta[1]=-self.rects[k].ul[1]
-        if delta[1]>N-self.rects[k].br[1]-1: delta[1]=N-self.rects[k].br[1]-1
-        self.rects[k].ul[0]+=delta[0]
-        self.rects[k].ul[1]+=delta[1]
-        self.rects[k].br[0]+=delta[0]
-        self.rects[k].br[1]+=delta[1]
+        if delta[0]<-self.rects[k].upper: delta[0]=-self.rects[k].upper
+        if delta[0]>M-self.rects[k].bottom-1: delta[0]=M-self.rects[k].bottom-1
+        if delta[1]<-self.rects[k].left: delta[1]=-self.rects[k].left
+        if delta[1]>N-self.rects[k].right-1: delta[1]=N-self.rects[k].right-1
+        self.rects[k].upper+=delta[0]
+        self.rects[k].left+=delta[1]
+        self.rects[k].bottom+=delta[0]
+        self.rects[k].right+=delta[1]
 
     def delete(self, ul, br):
-        self.removed.append(Rectangle(ul, br, self.origin))
+        self.removed.append(Rectangle(ul[0], ul[1], br[0], br[1], self.origin))
 
     def print(self):
         for i in range(M):
             for j in range(N):
                 ch, rem=self.canvas[i][j], False
                 for k in range(len(self.removed)-1, -1, -1):
-                    if self.removed[k].ul[0]<=i<=self.removed[k].br[0] and self.removed[k].ul[1]<=j<=self.removed[k].br[1]:
+                    if self.removed[k].upper<=i<=self.removed[k].bottom and self.removed[k].left<=j<=self.removed[k].right:
                         ch=self.removed[k].ch
                         rem=True
                         break
                 
                 if not rem:
                     for k in range(len(self.rects)-1, -1, -1):
-                        if self.rects[k].ul[0]<=i<=self.rects[k].br[0] and self.rects[k].ul[1]<=j<=self.rects[k].br[1]:
+                        if self.rects[k].upper<=i<=self.rects[k].bottom and self.rects[k].left<=j<=self.rects[k].right:
                             ch=self.rects[k].ch
                             break
 
@@ -77,9 +79,9 @@ class Printer():
 
 def main():
     printer=Printer()
-    printer.add_rect(Rectangle([1, 1], [5, 5], 'A'))
-    printer.add_rect(Rectangle([2, 2], [6, 6], 'B'))
-    printer.add_rect(Rectangle([3, 3], [7, 7], 'C'))
+    printer.add_rect(Rectangle(1, 1, 5, 5, 'A'))
+    printer.add_rect(Rectangle(2, 2, 6, 6, 'B'))
+    printer.add_rect(Rectangle(3, 3, 7, 7, 'C'))
     printer.print()
     print()
 
