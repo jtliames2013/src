@@ -7,7 +7,7 @@ class Solution:
             for i in range(1, n):
                 if arr[i]<arr[0]: left.append(arr[i])
                 else: right.append(arr[i])
-            l, r=len(left), len(right)
+            l=len(left)
             return comb(n-1, l)*dfs(left)*dfs(right)
                     
         mod=10**9+7

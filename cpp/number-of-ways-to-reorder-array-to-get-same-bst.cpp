@@ -88,7 +88,7 @@ private:
             if (nums[i]<nums[0]) left.push_back(nums[i]);
             else right.push_back(nums[i]);
         }
-        int l=left.size(), r=right.size();
+        int l=left.size();
         return (table[n-1][l]*dfs(left)%mod)*dfs(right)%mod;
     }
     const int mod=1e9+7;
