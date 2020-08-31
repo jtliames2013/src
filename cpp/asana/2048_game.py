@@ -88,12 +88,12 @@ class Board:
         return False
 
     def find_first_avail_pos(self, pos, dir):
-        prev=copy.deepcopy(pos)
         curr=copy.deepcopy(pos)
-        curr.row, curr.col=curr.row+dir[0], curr.col+dir[1]
-        while self.within_bound(curr) and not self.cells[curr.row][curr.col]:
+        while True:
             prev=copy.deepcopy(curr)
             curr.row, curr.col=curr.row+dir[0], curr.col+dir[1]
+            if not self.within_bound(curr) or self.cells[curr.row][curr.col]:
+                break
         return prev, curr
 
     def position_equal(self, pos, tile):
