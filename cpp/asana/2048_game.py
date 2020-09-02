@@ -144,7 +144,7 @@ class Board:
 
         if moved:
             self.add_random_tile()
-            if not self.cells_avail and not self.has_match():
+            if not self.cells_avail() and not self.has_match():
                 self.over=True
 
     def game_over(self):
