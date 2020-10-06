@@ -28,9 +28,9 @@ public:
     /** Inserts a word into the trie. */
     void insert(string word) {
         TrieNode* n=root;
-        for (int i=0; i<word.size(); ++i) {
-            if (n->children.find(word[i])==n->children.end()) n->children[word[i]]=new TrieNode();
-            n=n->children[word[i]];
+        for (auto w:word) {
+            if (n->children.find(w)==n->children.end()) n->children[w]=new TrieNode();
+            n=n->children[w];
         }
         n->isWord=true;
     }
@@ -38,9 +38,9 @@ public:
     /** Returns if the word is in the trie. */
     bool search(string word) {
         TrieNode* n=root;
-        for (int i=0; i<word.size(); ++i) {
-            if (n->children.find(word[i])==n->children.end()) return false;
-            n=n->children[word[i]];
+        for (auto w:word) {
+            if (n->children.find(w)==n->children.end()) return false;
+            n=n->children[w];
         }
         return n->isWord==true;
     }
@@ -48,9 +48,9 @@ public:
     /** Returns if there is any word in the trie that starts with the given prefix. */
     bool startsWith(string prefix) {
         TrieNode* n=root;
-        for (int i=0; i<prefix.size(); ++i) {
-            if (n->children.find(prefix[i])==n->children.end()) return false;
-            n=n->children[prefix[i]];
+        for (auto p:prefix) {
+            if (n->children.find(p)==n->children.end()) return false;
+            n=n->children[p];
         }
         return true;        
     }
