@@ -1,3 +1,4 @@
+1.
 class Solution(object):
     def isMatch(self, s, p):
         """
@@ -46,4 +47,18 @@ class Solution(object):
                 return True
             s = s[1:]
         return self.isMatch(s, p[2:])
-        
+  
+3.
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        def dfs(s, p, sIdx, pIdx):
+            if pIdx==len(p): return sIdx==len(s)
+            if pIdx==len(p)-1 or p[pIdx+1]!='*':
+                return sIdx<len(s) and (p[pIdx]==s[sIdx] or p[pIdx]=='.' ) and dfs(s, p, sIdx+1, pIdx+1)
+            while sIdx<len(s) and (p[pIdx]==s[sIdx] or p[pIdx]=='.' ):
+                if dfs(s, p, sIdx, pIdx+2): return True
+                sIdx+=1
+            return dfs(s, p, sIdx, pIdx+2)
+
+        return dfs(s, p, 0, 0)
+
