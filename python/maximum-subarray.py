@@ -1,12 +1,9 @@
 class Solution:
-    def maxSubArray(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        local, res=0, -sys.maxsize
+    def maxSubArray(self, nums: List[int]) -> int:
+        local, res=0, float('-inf')
         for i in nums:
-            local+=i;
+            local+=i
             res=max(res, local)
             if local<0: local=0
         return res
+
