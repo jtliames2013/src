@@ -20,26 +20,29 @@ Hide Tags Depth-first Search Stack
 1. Use stack
 class Solution {
 public:
-    string decodeString(string s) {        
-        stack<pair<string,int>> stk;
-        stk.push({"", 1});
+    string decodeString(string s) {
+        string res;
         int num=0;
-        for (int i=0; i<s.size(); i++) {
+        stack<pair<string,int>> stk;
+
+	for (int i=0; i<s.size(); i++) {
             if (isdigit(s[i])) {           
                 num=num*10+s[i]-'0';                
             } else if (isalpha(s[i])) {
-                stk.top().first+=s[i];
+                res+=s[i];
             } else if (s[i]=='[') {
-                stk.push({"", num});
+                stk.push({res, num});
+                res="";
                 num=0;
             } else if (s[i]==']') {
                 auto t=stk.top();
                 stk.pop();
-                for (int i=0; i<t.second; i++) stk.top().first+=t.first;
+                for (int i=0; i<t.second; i++) t.first+=res;
+                res=t.first;
             }
         }
         
-        return stk.top().first;
+        return res;
     }
 };
 
@@ -82,8 +85,8 @@ public:
         stack<int> nums;
         int num=0;
         strs.push(res);
-        
-        for (int i=0; i<s.size();) {
+
+	for (int i=0; i<s.size();) {
             if (isdigit(s[i])) {
                 num=0;
                 while (i<s.size() && isdigit(s[i])) {
