@@ -1,22 +1,16 @@
 class Solution:
-    def decodeString(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        stk=[]
-        stk.append(["", 1])
-        num=""
+    def decodeString(self, s: str) -> str:
+        res, num, stk='', '', []
         for c in s:
             if c.isdigit():
                 num+=c
             elif c=='[':
-                stk.append(["", int(num)])
-                num=""
+                stk.append([res, int(num)])
+                res, num='', ''
             elif c==']':
                 st, n=stk.pop()
-                stk[-1][0]+=st*n
+                res=st+res*n
             else:
-                stk[-1][0]+=c
-        return stk[0][0]
+                res+=c
+        return res
 
