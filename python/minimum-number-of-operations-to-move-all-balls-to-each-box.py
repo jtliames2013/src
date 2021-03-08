@@ -5,11 +5,11 @@ class Solution:
         for i in range(n):
             ops+=l
             res[i]+=ops
-            if boxes[i]=='1': l+=1
+            l+=int(boxes[i])
         ops=0
-        for i in range(n-1, -1, -1):
+        for i in reversed(range(n)):
             ops+=r
             res[i]+=ops
-            if boxes[i]=='1': r+=1
+            r+=int(boxes[i])
         return res
 
